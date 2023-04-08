@@ -10,7 +10,7 @@
 
 @section('script')
 <script>
-    window.addEventListener('close-modal', ()) => {
+    window.addEventListener('close-modal', () => {
         $('#editServerModal').modal('hide');
     });
 </script>
