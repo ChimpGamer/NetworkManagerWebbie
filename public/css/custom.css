@@ -1,0 +1,145 @@
+body {
+    background-color: #fbfbfb;
+}
+
+@media (min-width: 991.98px) {
+    main {
+        padding-left: 240px;
+    }
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 58px 0 0;
+    /* Height of navbar */
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+    width: 240px;
+    z-index: 600;
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        width: 100%;
+    }
+}
+
+.sidebar .active {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: 0.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* Scrollable contents if viewport is shorter than content. */
+}
+
+green {
+    color: #55ff55;
+}
+
+dark_red {
+    color: #aa0000;
+}
+
+red {
+    color: #ff5555;
+}
+
+black {
+    color: #000000;
+}
+
+dark_gray {
+    color: #555555;
+}
+
+dark_blue {
+    color: #0000aa;
+}
+
+blue {
+    color: 5555ff;
+}
+
+dark_green {
+    color: #00aa00;
+}
+
+dark_aqua {
+    color: #00aaaa;
+}
+
+aqua {
+    color: #55ffff;
+}
+
+dark_purple {
+    color: #aa00aa;
+}
+
+purple {
+    color: #ff55ff;
+}
+
+gold {
+    color: #ffaa00;
+}
+
+yellow {
+    color: #ffff55;
+}
+
+gray {
+    color: #aaaaaa;
+}
+
+white {
+    color: #ffffff;
+}
+
+reset {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+bold {
+    font-weight: bold;
+}
+
+b {
+    font-weight: bold;
+}
+
+italic {
+    font-style: italic;
+}
+
+i {
+    font-style: italic;
+}
+
+strikethrough {
+    text-decoration: line-through;
+}
+
+st {
+    text-decoration: line-through;
+}
+
+underlined {
+    text-decoration: underline;
+}
+
+u {
+    text-decoration: underline;
+}
