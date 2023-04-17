@@ -32,13 +32,13 @@
                         <td>{{ $announcement->id }}</td>
                         <td>{{ $announcement->type }}</td>
                         <td>{!! $announcement->message !!}</td>
-                        <td>{{ $announcement->expires  }}</td>
+                        <td>{{ $announcement->expires }}</td>
                         <td>
                             <span @class(['label', 'label-success' => $announcement->active, 'label-danger' => ! $announcement->active])>
                                 @if ($announcement->active)
                                     True
                                 @else
-                                    False 
+                                    False
                                 @endif
                             </span>
                         </td>

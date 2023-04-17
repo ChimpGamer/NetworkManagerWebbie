@@ -19,8 +19,11 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
                     id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                    <img src="https://crafatar.com/avatars/{{ Auth::user()->getUUID() }}?defalt=MHF_Steve&overlay" class="rounded-circle"
-                        height="22" alt="Avatar" loading="lazy" />
+                    @if (Auth::check())
+                        <img src="https://crafatar.com/avatars/{{ Auth::user()->getUUID() }}?default=MHF_Steve&overlay" class="rounded-circle" height="22" alt="Avatar" loading="lazy" />
+                     @else
+                        <img src="https://crafatar.com/avatars/null?default=MHF_Steve&overlay" class="rounded-circle" height="22" alt="Avatar" loading="lazy" />
+                    @endif
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                     <li>

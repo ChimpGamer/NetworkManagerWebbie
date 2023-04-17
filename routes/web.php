@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServersController;
 use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\PunishmentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,4 @@ Route::controller(AuthenticationController::class)->group(function() {
 
 Route::resource('servers', ServersController::class);
 Route::resource('announcements', AnnouncementsController::class);
+Route::resource('punishments', PunishmentsController::class);

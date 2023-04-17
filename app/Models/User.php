@@ -135,7 +135,7 @@ class User extends Authenticatable
     public function getUUID() {
         return DB::table('players')
         ->select('uuid')
-        ->where('username', 'ChimpGamer')
+        ->where('username', $this->username)
         ->first()->uuid;
     }
 }
