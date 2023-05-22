@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Services\Login\RememberMeExpiration;
+use Illuminate\Support\Facades\Hash;
+
 
 class AuthenticationController extends Controller {
+    use RememberMeExpiration;
+
     /**
      * Create a new controller instance.
      *
@@ -21,9 +28,8 @@ class AuthenticationController extends Controller {
     /**
      * Display a login form.
      *
-     * @return \Illuminate\Http\Response
      */
-    public function login()
+    public function loginView()
     {
         return view('auth.login');
     }
@@ -31,31 +37,60 @@ class AuthenticationController extends Controller {
     /**
      * Authenticate the user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param LoginRequest $request
+     * @return RedirectResponse|Response
      */
-    public function authenticate(Request $request): RedirectResponse
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->validate([
-            'username' => ['required'],
-            'password' => ['required']
+        $credentials = $request->getCredentials();
+//
+//        if(!Auth::validate($credentials)):
+//            return redirect()->back()->withErrors(['login' => "Invalid login details"]);
+//        endif;
+
+        $remember = $request->get('remember');
+        $user = Auth::getProvider()->retrieveByCredentials($credentials);
+        Auth::login($user, $remember);
+
+        if($remember):
+            $this->setRememberMeExpiration($user);
+        endif;
+
+        return $this->authenticated($request, $user);
+    }
+
+    /**
+     * Handle response after user authenticated
+     *
+     * @param Request $request
+     * @param User $user
+     *
+     * @return Response
+     */
+    protected function authenticated(Request $request, User $user)
+    {
+        return redirect()->intended('/');
+    }
+
+    /*public function logincreatetest(Request $request)
+    {
+        $user = new User();
+
+        $password = Hash::make($request->get("password"));
+
+        $user->fill([
+            'username' => $request->get('username'),
+            'password' => $password,
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return redirect()->intended('/');
-        }
-        return back()->withErrors([
-            'username' => 'The provided credentials do not match our records.',
-        ])->onlyInput('username');
-    }
+        $user->save();
+    }*/
 
     /**
      * Log out the user from application.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function logout(Request $request)
     {

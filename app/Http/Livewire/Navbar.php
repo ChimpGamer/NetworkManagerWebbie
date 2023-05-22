@@ -8,6 +8,6 @@ use Livewire\Component;
 class Navbar extends Component {
     public function render(): View
     {
-        return view('livewire.base.navbar');
+        return view('livewire.app.navbar');
     }
 }

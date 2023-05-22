@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -55,6 +54,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     /**
@@ -80,10 +80,21 @@ class User extends Authenticatable
      *
      * @return string
      */
-    public function getAuthIdentifierName()
+    public function getAuthIdentifierName(): string
     {
         return 'username';
     }
+
+    /**
+     * Get the password of the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword(): string
+    {
+        return $this->getAttribute('password');
+    }
+
 
     /**
      * Set the password attribute.
@@ -133,9 +144,10 @@ class User extends Authenticatable
     }
 
     public function getUUID() {
-        return DB::table('players')
-        ->select('uuid')
-        ->where('username', $this->username)
-        ->first()->uuid;
+        $player = DB::table('players')
+            ->select('uuid')
+            ->where('username', $this->username)
+            ->first();
+        return $player?->uuid;
     }
 }
