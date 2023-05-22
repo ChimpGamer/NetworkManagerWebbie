@@ -24,8 +24,10 @@ use App\Http\Controllers\PunishmentsController;
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::controller(AuthenticationController::class)->group(function() {
-    Route::get('/login', 'login')->name('login');
-    Route::post('/authenticate', 'authenticate')->name('authenticate');
+    Route::get('/login', 'loginView')->name('auth.login');
+    /*Route::get('/logincreatetest', 'logincreatetestView')->name('auth.logincreatetest');
+    Route::post('/logincreatetest', 'logincreatetest')->name('logincreatetest');*/
+    Route::post('/login', 'login')->name('login');
     Route::post('/logout', 'logout')->name('logout');
 });
 

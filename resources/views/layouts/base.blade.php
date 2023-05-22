@@ -18,28 +18,17 @@
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-
     <link href="{{ asset('css/mdb.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/authentication.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/labels.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet" />
 
     <script src="{{ asset('js/mdb.min.js') }}" defer></script>
-
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 </head>
-
 <body>
-    <!--Main Navigation-->
-    <main style="margin-top: 58px;">
-        <div class="container my-5">
-            @yield('content')
-        </div>
-    </main>
-
-    @livewireScripts
-
-    @yield('script')
+<main>
+    <div class="container my-5">
+        @yield('content')
+    </div>
+</main>
 </body>
-
 </html>
