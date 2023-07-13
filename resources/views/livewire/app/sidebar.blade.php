@@ -18,6 +18,9 @@
             <a href="servers" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'servers')) active @endif">
                 <i class="fas fa-lock fa-fw me-3"></i><span>Servers</span>
             </a>
+            <a href="punishment_templates" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'punishment_templates')) active @endif">
+                <i class="fas fa-lock fa-fw me-3"></i><span>Punishment Templates</span>
+            </a>
         </div>
     </div>
 </nav>
