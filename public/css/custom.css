@@ -42,6 +42,10 @@ body {
     /* Scrollable contents if viewport is shorter than content. */
 }
 
+.bold {
+    font-weight: bold;
+}
+
 green {
     color: #55ff55;
 }

@@ -13,6 +13,9 @@
     window.addEventListener('close-modal', () => {
         $('#editServerModal').modal('hide');
     });
+    window.addEventListener('close-modal', () => {
+        $('#addServerModal').modal('hide');
+    });
 </script>
 @endsection
 

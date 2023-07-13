@@ -66,38 +66,40 @@
             <form wire:submit.prevent='updateServer'>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label>Server Name</label>
+                        <label class="bold">Server Name</label>
                         <input type="text" wire:model="servername" class="form-control">
                         @error('servername') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label>Display Name</label>
+                        <label class="bold">Display Name</label>
                         <input type="text" wire:model="displayname" class="form-control">
                         @error('displayname') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label>IP Address</label>
+                        <label class="bold">IP Address</label>
                         <input type="text" wire:model="ip" class="form-control">
                         @error('ip') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label>Port</label>
+                        <label class="bold">Port</label>
                         <input type="text" wire:model="port" class="form-control">
                         @error('port') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label>MOTD</label>
+                        <label class="bold">MOTD</label>
                         <input type="text" wire:model="motd" class="form-control">
                         @error('motd') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label>Allowed Versions</label>
+                        <label class="bold">Allowed Versions</label>
                         <input type="text" wire:model="allowed_versions" class="form-control">
                         @error('allowed_versions') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label>Restricted</label>
-                        <input type="text" wire:model="restricted" class="form-control">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" wire:model="restricted" @checked(old('restricted', $restricted)) />
+                            <label class="form-check-label" style="font-weight: bold;" for="flexSwitchCheckChecked">Restricted</label>
+                        </div>
                         @error('restricted') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
@@ -127,6 +129,64 @@
                 <button type="button" wire:click="closeModal" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
                 <button type="button" wire:click.prevent="delete()" class="btn btn-danger close-modal" data-mdb-dismiss="modal">Yes, Delete</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Server Modal -->
+<div wire:ignore.self class="modal fade" id="addServerModal" tabindex="-1" aria-labelledby="addServerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addServerModalLabel">Add Server</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form wire:submit.prevent='createServer'>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="bold">Server Name</label>
+                        <input type="text" wire:model="servername" class="form-control">
+                        @error('servername') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">Display Name</label>
+                        <input type="text" wire:model="displayname" class="form-control">
+                        @error('displayname') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">IP Address</label>
+                        <input type="text" wire:model="ip" class="form-control">
+                        @error('ip') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">Port</label>
+                        <input type="text" wire:model="port" class="form-control">
+                        @error('port') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">MOTD</label>
+                        <input type="text" wire:model="motd" class="form-control">
+                        @error('motd') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">Allowed Versions</label>
+                        <input type="text" wire:model="allowed_versions" class="form-control">
+                        @error('allowed_versions') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" wire:model="restricted" @checked(old('restricted', $restricted)) />
+                            <label class="form-check-label bold" for="flexSwitchCheckChecked">Restricted</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" wire:click="closeModal"
+                        data-mdb-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

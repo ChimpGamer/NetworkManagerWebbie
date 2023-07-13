@@ -28,7 +28,7 @@ class ShowServers extends Component
             'port' => 'required|int',
             'motd' => '',
             'allowed_versions' => '',
-            'restricted' => '',
+            'restricted' => 'boolean',
         ];
     }
 
@@ -79,7 +79,7 @@ class ShowServers extends Component
             'port' => $validatedData['port'],
             'motd' => $validatedData['motd'],
             'allowed_versions' => $validatedData['allowed_versions'],
-            //'restricted' => $validatedData['restricted'],
+            'restricted' => $validatedData['restricted'],
         ]);
         session()->flash('message', 'Server Updated Successfully');
         $this->resetInput();
@@ -102,16 +102,41 @@ class ShowServers extends Component
         $this->restricted = false;
     }
 
-    public function deleteServer(Server $server) {
+    public function deleteServer(Server $server)
+    {
         $this->deleteId = $server->id;
         $this->servername = $server->servername;
     }
 
-    public function delete() {
+    public function delete()
+    {
         Server::find($this->deleteId)->delete();
         $this->servername = '';
     }
 
+    public function addServer()
+    {
+        $this->resetInput();
+    }
+
+    public function createServer()
+    {
+        $validatedData = $this->validate();
+
+        Server::create([
+            'servername' => $validatedData['servername'],
+            'displayname' => $validatedData['displayname'],
+            'ip' => $validatedData['ip'],
+            'port' => $validatedData['port'],
+            'motd' => $validatedData['motd'],
+            'allowed_versions' => $validatedData['allowed_versions'],
+            'restricted' => $validatedData['restricted'],
+        ]);
+
+        session()->flash('message', 'Successfully Added Server');
+        $this->resetInput();
+        $this->dispatchBrowserEvent('close-modal');
+    }
 
     public function render(): View
     {
