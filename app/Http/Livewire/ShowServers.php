@@ -17,6 +17,7 @@ class ShowServers extends Component
     public ?string $motd, $allowed_versions;
     public bool $restricted, $online;
     public string $search = '';
+    public int $deleteId;
 
     protected function rules()
     {
@@ -99,6 +100,16 @@ class ShowServers extends Component
         $this->motd = '';
         $this->allowed_versions = '';
         $this->restricted = false;
+    }
+
+    public function deleteServer(Server $server) {
+        $this->deleteId = $server->id;
+        $this->servername = $server->servername;
+    }
+
+    public function delete() {
+        Server::find($this->deleteId)->delete();
+        $this->servername = '';
     }
 
 

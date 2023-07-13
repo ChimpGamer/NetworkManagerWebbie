@@ -40,7 +40,7 @@
                                 @if ($server->online)
                                     Online
                                 @else
-                                    Offline 
+                                    Offline
                                 @endif
                             </span>
                         </td>
@@ -53,7 +53,8 @@
                                 wire:click="editServer({{$server->id}})">
                                 <i class="material-icons text-warning">edit</i>
                             </button>
-                            <button type="button" style="background: transparent; border: none;">
+                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#deleteServerModal"
+                            wire:click="deleteServer({{ $server->id }})">
                                 <i class="material-icons text-danger">delete</i>
                             </button>
                         </th>
