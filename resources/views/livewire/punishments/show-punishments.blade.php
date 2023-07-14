@@ -49,7 +49,8 @@
                                     wire:click="editPunishment({{$punishment->id}})">
                                     <i class="material-icons text-warning">edit</i>
                                 </button>-->
-                                <button type="button" style="background: transparent; border: none;">
+                                <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#deletePunishmentModal"
+                                    wire:click="deletePunishment({{ $punishment->id }})">
                                     <i class="material-icons text-danger">delete</i>
                                 </button>
                             </th>

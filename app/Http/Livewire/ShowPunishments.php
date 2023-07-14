@@ -20,6 +20,7 @@ class ShowPunishments extends Component
     public ?string $time, $end;
     public bool $silent, $active;
     public string $search = '';
+    public int $deleteId;
 
     protected function rules()
     {
@@ -98,6 +99,16 @@ class ShowPunishments extends Component
 
         $this->silent = false;
         $this->active = false;
+    }
+
+    public function deletePunishment(Punishment $punishment)
+    {
+        $this->deleteId = $punishment->id;
+    }
+
+    public function delete()
+    {
+        Punishment::find($this->deleteId)->delete();
     }
 
     public function render(): View
