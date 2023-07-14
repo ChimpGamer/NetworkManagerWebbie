@@ -34,13 +34,11 @@
                         <td>{!! $announcement->message !!}</td>
                         <td>{{ $announcement->expires }}</td>
                         <td>
-                            <span @class(['label', 'label-success' => $announcement->active, 'label-danger' => ! $announcement->active])>
-                                @if ($announcement->active)
-                                    True
-                                @else
-                                    False
-                                @endif
-                            </span>
+                            @if ($announcement->active)
+                                <i class="fas fa-check-circle fa-lg" style="color:green"></i>
+                            @else
+                                <i class="fas fa-xmark-circle fa-lg" style="color:red"></i>
+                            @endif
                         </td>
                         <th>
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#showAnnouncementModal"
