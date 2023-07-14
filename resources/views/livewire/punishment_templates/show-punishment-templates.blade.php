@@ -53,7 +53,9 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $punishmentTemplates->links() }}
+            <div class="d-flex justify-content-center">
+                {{ $punishmentTemplates->links() }}
+            </div>
         </div>
     </div>
 

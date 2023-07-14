@@ -12,6 +12,8 @@ class ShowServers extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     public int $serverId;
     public string $servername, $displayname, $ip, $port;
     public ?string $motd, $allowed_versions;

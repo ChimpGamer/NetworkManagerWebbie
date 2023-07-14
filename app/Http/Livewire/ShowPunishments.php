@@ -13,6 +13,8 @@ class ShowPunishments extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     public int $punishmentId, $type;
     public ?string $playerName, $punisherName, $reason, $server;
     public ?string $time, $end;
