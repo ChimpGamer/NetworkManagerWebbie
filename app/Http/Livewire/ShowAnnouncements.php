@@ -18,6 +18,7 @@ class ShowAnnouncements extends Component
     public ?string $expires;
     public bool $permission, $active;
     public string $search = '';
+    public int $deleteId;
 
     protected function rules()
     {
@@ -42,7 +43,7 @@ class ShowAnnouncements extends Component
         $this->server = $announcement->server;
         $this->condition = $announcement->condition;
         $this->expires = $announcement->expires != null ? $announcement->expires->toDateTimeLocalString() : $announcement->expires;
-        
+
         $this->permission = $announcement->permission;
         $this->active = $announcement->active;
     }
@@ -111,6 +112,15 @@ class ShowAnnouncements extends Component
         $this->active = false;
     }
 
+    public function deleteAnnouncement(Announcement $announcement)
+    {
+        $this->deleteId = $announcement->id;
+    }
+
+    public function delete()
+    {
+        Announcement::find($this->deleteId)->delete();
+    }
 
     public function render(): View
     {
