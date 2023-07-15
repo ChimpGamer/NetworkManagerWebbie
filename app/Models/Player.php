@@ -78,11 +78,50 @@ class Player extends Model
 
     public static function getName($uuid) {
         if ($uuid == 'f78a4d8d-d51b-4b39-98a3-230f2de0c670') return 'CONSOLE';
-        $player = DB::table('players')
-        ->select('username')
+        $player = Player::select('username')
         ->where('uuid', $uuid)
         ->first();
         if ($player == null) return $player;
         return $player->username;
+    }
+
+    public static function getMostPlayedVersions() {
+        $total = DB::table('players')
+        ->distinct('uuid')
+        ->count();
+
+        $result = DB::table("players")
+        ->select(DB::raw('DISTINCT(version) as version, count(*) AS count'))
+        ->orderBy("count","desc")
+        ->groupBy("version")
+        ->get();
+
+        return $result->map(function($item) use($total) {
+            return [
+                'version' => $item->version,
+                'players' => $item->count,
+                'percentage' => number_format((($item->count / $total) * 100), 2, '.', ' ')
+            ];
+        });
+    }
+
+    public static function getMostUsedVirtualHosts() {
+        $total = DB::table('logins')
+        ->distinct('uuid')
+        ->count();
+
+        $result = DB::table("logins")
+        ->select(DB::raw('DISTINCT(vhost) as vhost, count(*) AS count'))
+        ->orderBy("count","desc")
+        ->groupBy("vhost")
+        ->get();
+
+        return $result->map(function($item) use($total) {
+            return [
+                'vhost' => ($item->vhost == null ? 'Unknown' : $item->vhost),
+                'players' => $item->count,
+                'percentage' => number_format((($item->count / $total) * 100), 2, '.', ' ')
+            ];
+        });
     }
 }

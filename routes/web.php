@@ -6,6 +6,7 @@ use App\Http\Controllers\AnnouncementsController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\PunishmentsController;
 use App\Http\Controllers\PunishmentTemplatesController;
+use App\Http\Controllers\AnalyticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +37,4 @@ Route::resource('servers', ServersController::class);
 Route::resource('announcements', AnnouncementsController::class);
 Route::resource('punishments', PunishmentsController::class);
 Route::resource('punishment_templates', PunishmentTemplatesController::class);
+Route::resource('analytics', AnalyticsController::class);
