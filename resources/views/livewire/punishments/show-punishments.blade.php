@@ -36,7 +36,7 @@
                                 <i class="fas fa-exclamation-circle fa-lg"></i>
                             @endif {{ $punishment->id }}</td>
                             <td>{{ $punishment->type->name() }}</td>
-                            <td>{{ $punishment->getPlayerName() }}</td>
+                            <td><a href="/players/{{$punishment->uuid}}">{{ $punishment->getPlayerName() }}</a></td>
                             <td>{{ $punishment->getPunisherName() }}</td>
                             <td>{!! $punishment->reason !!}</td>
                             <td>{{ $punishment->getTimeFormatted() }}</td>
