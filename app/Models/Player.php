@@ -97,17 +97,21 @@ class Player extends Model
         ->get();
 
         return $result->map(function($item) use($total) {
+            $percentage = 0;
+            if ($total != 0) {
+                $percentage = $item->count / $total * 100;
+            }
             return [
                 'version' => $item->version,
                 'players' => $item->count,
-                'percentage' => number_format((($item->count / $total) * 100), 2, '.', ' ')
+                'percentage' => number_format($percentage, 2, '.', ' ')
             ];
         });
     }
 
     public static function getMostUsedVirtualHosts() {
         $total = DB::table('logins')
-        ->distinct('uuid')
+        ->distinct()
         ->count();
 
         $result = DB::table("logins")
@@ -117,10 +121,14 @@ class Player extends Model
         ->get();
 
         return $result->map(function($item) use($total) {
+            $percentage = 0;
+            if ($total != 0) {
+                $percentage = $item->count / $total * 100;
+            }
             return [
                 'vhost' => ($item->vhost == null ? 'Unknown' : $item->vhost),
                 'players' => $item->count,
-                'percentage' => number_format((($item->count / $total) * 100), 2, '.', ' ')
+                'percentage' => number_format($percentage, 2, '.', ' ')
             ];
         });
     }
