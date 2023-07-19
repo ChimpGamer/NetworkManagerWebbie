@@ -18,6 +18,7 @@ class ShowPlayerPunishments extends Component
 
     public Player $player;
     public function render(): View {
+
         $punishments = Punishment::where('uuid', $this->player->uuid)
             ->where('type', '!=', 20)
             ->where('type', '!=', 21)

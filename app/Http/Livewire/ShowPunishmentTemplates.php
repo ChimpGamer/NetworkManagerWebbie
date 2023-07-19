@@ -15,8 +15,8 @@ class ShowPunishmentTemplates extends Component
 
     protected string $paginationTheme = 'bootstrap';
 
-    public int $templateId, $type;
-    public ?string $name, $reason, $server;
+    public int $templateId;
+    public ?string $type, $name, $reason, $server;
     public ?string $duration;
     public string $search = '';
 
@@ -34,7 +34,7 @@ class ShowPunishmentTemplates extends Component
         //dump($template);
         $this->templateId = $template->id;
         $this->name = $template->name;
-        $this->type = $template->type;
+        $this->type = $template->type->name();
         $this->duration = $template->duration;
         $this->reason = $template->reason;
         $this->server = $template->server;
@@ -84,7 +84,7 @@ class ShowPunishmentTemplates extends Component
     private function resetInput()
     {
         $this->name = '';
-        $this->type = -1;
+        $this->type = '';
         $this->duration = '';
         $this->reason = '';
         $this->server = '';

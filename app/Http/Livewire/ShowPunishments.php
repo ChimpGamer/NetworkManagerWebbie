@@ -15,8 +15,8 @@ class ShowPunishments extends Component
 
     protected string $paginationTheme = 'bootstrap';
 
-    public int $punishmentId, $type;
-    public ?string $playerName, $punisherName, $reason, $server;
+    public int $punishmentId;
+    public ?string $type, $playerName, $punisherName, $reason, $server;
     public ?string $time, $end;
     public bool $silent, $active;
     public string $search = '';
@@ -34,7 +34,7 @@ class ShowPunishments extends Component
     public function showPunishment(Punishment $punishment)
     {
         $this->punishmentId = $punishment->id;
-        $this->type = $punishment->type;
+        $this->type = $punishment->type->name();
         $this->playerName = $punishment->getPlayerName();
         $this->punisherName = $punishment->getPunisherName();
         $this->reason = $punishment->reason;
@@ -89,7 +89,7 @@ class ShowPunishments extends Component
 
     private function resetInput()
     {
-        $this->type = -1;
+        $this->type = '';
         $this->playerName = '';
         $this->punisherName = '';
         $this->reason = '';

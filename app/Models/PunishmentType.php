@@ -26,8 +26,13 @@ enum PunishmentType: int
     case REPORT = 20;
     case NOTE = 21;
 
-    public function getName(): string {
-        return match ($this) {
+    public function name(): string
+    {
+        return self::getName($this);
+    }
+
+    public static function getName(self $type): string {
+        return match ($type) {
             PunishmentType::BAN => 'Ban',
             PunishmentType::GBAN => 'Global Ban',
             PunishmentType::TEMPBAN => 'Temporary Ban',

@@ -35,7 +35,7 @@
                             @else
                                 <i class="fas fa-exclamation-circle fa-lg"></i>
                             @endif {{ $punishment->id }}</td>
-                            <td>{{ $punishment->type }}</td>
+                            <td>{{ $punishment->type->name() }}</td>
                             <td>{{ $punishment->getPlayerName() }}</td>
                             <td>{{ $punishment->getPunisherName() }}</td>
                             <td>{!! $punishment->reason !!}</td>

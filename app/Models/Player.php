@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\TimeUtils;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -67,7 +68,7 @@ class Player extends Model
     protected $casts = [
         'language' => 'integer',
         'tagid' => 'integer',
-        'version' => 'integer',
+        'version' => ProtocolVersion::class,
 
         'online' => 'boolean'
     ];
@@ -91,7 +92,7 @@ class Player extends Model
     public $timestamps = false;
 
     protected function playtime(): Attribute {
-        return Attribute::make(get: fn (int $value) => CarbonInterval::millisecond($value)->cascade()->forHumans());
+        return Attribute::make(get: fn (int $value) => TimeUtils::millisToReadableFormat($value));
     }
 
     public static function getName($uuid)
@@ -122,7 +123,7 @@ class Player extends Model
                 $percentage = $item->count / $total * 100;
             }
             return [
-                'version' => $item->version,
+                'version' => ProtocolVersion::from($item->version)->name(),
                 'players' => $item->count,
                 'percentage' => number_format($percentage, 2, '.', ' ')
             ];

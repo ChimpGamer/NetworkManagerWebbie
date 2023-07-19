@@ -20,11 +20,11 @@
                     <tbody>
                     @foreach ($sessions as $session)
                         <tr>
-                            <td>{{$session->start}}</td>
-                            <td>{{$session->end}}</td>
-                            <td>{{$session->time}}</td>
+                            <td>{{\App\Helpers\TimeUtils::formatTimestamp($session->start)}}</td>
+                            <td>{{\App\Helpers\TimeUtils::formatTimestamp($session->end)}}</td>
+                            <td>{{\App\Helpers\TimeUtils::millisToReadableFormat($session->time)}}</td>
                             <td>{{$session->ip}}</td>
-                            <td>{{$session->version}}</td>
+                            <td>{{\App\Models\ProtocolVersion::from($session->version)->name()}}</td>
                         </tr>
                     @endforeach
                     </tbody>

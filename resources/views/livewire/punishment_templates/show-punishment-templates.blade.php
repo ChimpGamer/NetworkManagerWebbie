@@ -32,7 +32,7 @@
                         <tr>
                             <td>{{ $template->id }}</td>
                             <td>{{ $template->name }}</td>
-                            <td>{{ $template->type }}</td>
+                            <td>{{ $template->type->name() }}</td>
                             <td>{{ $template->duration }}</td>
                             <td>{{ $template->server }}</td>
                             <td>{!! $template->reason !!}</td>

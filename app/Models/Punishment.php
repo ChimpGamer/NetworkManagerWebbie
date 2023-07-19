@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\TimeUtils;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -80,7 +81,8 @@ class Punishment extends Model
         return Player::getName($this->punisher);
     }
 
-    public function getTimeFormatted() {
-        return date('d-m-Y H:i:s', $this->time / 1000);
+    public function getTimeFormatted(): string
+    {
+        return TimeUtils::formatTimestamp($this->time);
     }
 }

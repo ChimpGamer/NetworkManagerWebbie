@@ -19,7 +19,7 @@
                     <tbody>
                     @foreach ($punishments as $punishment)
                         <tr>
-                            <td>{{$punishment->type->getName()}}</td>
+                            <td>{{$punishment->type->name()}}</td>
                             <td>{{$punishment->getPunisherName()}}</td>
                             <td>{{$punishment->reason}}</td>
                             <td>{{$punishment->getTimeFormatted()}}</td>

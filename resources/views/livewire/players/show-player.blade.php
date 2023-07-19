@@ -30,7 +30,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Latest Minecraft Version</th>
-                                <td>{{$player->version}}</td>
+                                <td>{{$player->version->name()}}</td>
                             </tr>
                             <tr>
                                 <th scope="row">IP Address</th>
