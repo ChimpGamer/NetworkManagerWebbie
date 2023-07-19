@@ -91,8 +91,9 @@ class Player extends Model
      */
     public $timestamps = false;
 
-    protected function playtime(): Attribute {
-        return Attribute::make(get: fn (int $value) => TimeUtils::millisToReadableFormat($value));
+    protected function playtime(): Attribute
+    {
+        return Attribute::make(get: fn(int $value) => TimeUtils::millisToReadableFormat($value));
     }
 
     public static function getName($uuid)
@@ -193,6 +194,33 @@ class Player extends Model
     public function getAltAccounts(): Collection
     {
         return Player::all()->where('ip', $this->ip)->where('uuid', '!=', $this->uuid);
+    }
+
+    public function getMostUsedVersions(): array
+    {
+        $total = DB::table('logins')
+            ->where('version', '<>', 0)
+            ->where('uuid', $this->uuid)
+            ->count();
+
+        $data = DB::table('logins')
+            ->selectRaw('DISTINCT(version) as version, count(version) AS versionUse')
+            ->where('version', '<>', 0)
+            ->where('uuid', $this->uuid)
+            ->groupBy('version')
+            ->get();
+
+        $labels = [];
+        $values = [];
+        foreach ($data as $row) {
+            $protocolVersion = ProtocolVersion::tryFrom($row->version);
+            $version = $protocolVersion == null ? 'snapshot' : $protocolVersion->name();
+            $labels[] = $version;
+            $values[] = $row->versionUse / $total;
+        }
+
+        $result = ['labels' => $labels, 'values' => $values];
+        return $result;
     }
 
     public function getTimestampFormatted($timestamp): string

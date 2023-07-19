@@ -1,4 +1,4 @@
-<section>
+<div>
     <div class="row gy-4">
         <!-- Player Information -->
         <div class="col-6">
@@ -95,6 +95,12 @@
                                     @endforeach
                                 </td>
                             </tr>
+                            <tr>
+                                <th></th>
+                                <td style="text-align:center; vertical-align:middle">
+                                    <canvas id="mostUsedVersionsChart" style="position: relative; right: 20%"></canvas>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -108,4 +114,55 @@
         <!-- Player Punishments -->
         <livewire:show-player-punishments :player="$player"></livewire:show-player-punishments>
     </div>
-</section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+
+    <script>
+        document.addEventListener('livewire:load', function () {
+            // Your JS here.
+            const ctx = document.getElementById('mostUsedVersionsChart');
+
+            let data = @js($player->getMostUsedVersions());
+
+            let labels = data['labels'];
+            let values = data['values'];
+
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values
+                    }]
+                },
+                options: {
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let value = context.formattedValue;
+
+                                    let sum = 0;
+                                    let dataArr = context.chart.data.datasets[0].data;
+                                    dataArr.map(data => {
+                                        sum += Number(data);
+                                    });
+
+                                    return  (value * 100 / sum).toFixed(2) + '%';
+                                }
+                            }
+                        },
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Most Used Versions'
+                        }
+                    }
+                }
+            });
+        })
+    </script>
+</div>
