@@ -13,7 +13,7 @@ class ShowPunishmentTemplates extends Component
 {
     use WithPagination;
 
-    protected $paginationTheme = 'bootstrap';
+    protected string $paginationTheme = 'bootstrap';
 
     public int $templateId, $type;
     public ?string $name, $reason, $server;

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PlayersController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServersController;
 use App\Http\Controllers\AnnouncementsController;
@@ -38,3 +39,4 @@ Route::resource('announcements', AnnouncementsController::class);
 Route::resource('punishments', PunishmentsController::class);
 Route::resource('punishment_templates', PunishmentTemplatesController::class);
 Route::resource('analytics', AnalyticsController::class);
+Route::resource('players', PlayersController::class);

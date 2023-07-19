@@ -50,7 +50,7 @@ class Punishment extends Model
      * @var array
      */
     protected $casts = [
-        'type' => 'integer',
+        'type' => PunishmentType::class,
 
         'silent' => 'boolean',
         'active' => 'boolean',

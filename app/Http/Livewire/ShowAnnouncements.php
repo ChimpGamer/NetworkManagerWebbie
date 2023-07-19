@@ -13,7 +13,7 @@ class ShowAnnouncements extends Component
 {
     use WithPagination;
 
-    protected $paginationTheme = 'bootstrap';
+    protected string $paginationTheme = 'bootstrap';
 
     public int $announcementId, $type;
     public ?string $message, $sound, $server, $condition;

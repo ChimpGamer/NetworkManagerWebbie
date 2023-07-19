@@ -9,7 +9,7 @@
 
         <!-- Brand -->
         <a class="navbar-brand">
-            <img src="images/full_logo.png" height="25" alt="NetworkManager Logo"
+            <img src="/images/full_logo.png" height="25" alt="NetworkManager Logo"
                 loading="lazy" />
         </a>
 
