@@ -123,8 +123,10 @@ class Player extends Model
             if ($total != 0) {
                 $percentage = $item->count / $total * 100;
             }
+            $protocolVersion = ProtocolVersion::tryFrom($item->version);
+            $version = $protocolVersion == null ? 'snapshot' : $protocolVersion->name();
             return [
-                'version' => ProtocolVersion::from($item->version)->name(),
+                'version' => $version,
                 'players' => $item->count,
                 'percentage' => number_format($percentage, 2, '.', ' ')
             ];
@@ -164,8 +166,8 @@ class Player extends Model
             ->get();
 
         $time = 0;
-        foreach ($data as $row) {
-            $time += $row->time;
+        foreach ($data as $item) {
+            $time += $item->time;
         }
         $averagePlaytime = $time / $data->count();
         try {
@@ -212,11 +214,11 @@ class Player extends Model
 
         $labels = [];
         $values = [];
-        foreach ($data as $row) {
-            $protocolVersion = ProtocolVersion::tryFrom($row->version);
+        foreach ($data as $item) {
+            $protocolVersion = ProtocolVersion::tryFrom($item->version);
             $version = $protocolVersion == null ? 'snapshot' : $protocolVersion->name();
             $labels[] = $version;
-            $values[] = $row->versionUse / $total;
+            $values[] = $item->versionUse / $total;
         }
 
         $result = ['labels' => $labels, 'values' => $values];
