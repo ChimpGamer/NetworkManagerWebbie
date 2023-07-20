@@ -164,12 +164,17 @@ class Player extends Model
             ->select('time')
             ->where('uuid', $this->uuid)
             ->get();
+        $count = $data->count();
 
         $time = 0;
         foreach ($data as $item) {
             $time += $item->time;
         }
-        $averagePlaytime = $time / $data->count();
+        if ($count == 0) {
+            $averagePlaytime = 0;
+        } else {
+            $averagePlaytime = $time / $count;
+        }
         try {
             return CarbonInterval::millisecond($averagePlaytime)->cascade()->forHumans();
         } catch (\Exception $ex) {
