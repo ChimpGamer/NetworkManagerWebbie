@@ -20,7 +20,10 @@ class ShowPlayers extends Component
 
     public function render(): View
     {
-        $players = Player::where('username', 'like', '%' . $this->search . '%')->orderBy('firstlogin', 'DESC')->paginate(10);
+        $players = Player::where('username', 'like', '%' . $this->search . '%')
+            ->orWhere('ip', '=', $this->search)
+            ->orderBy('firstlogin', 'DESC')
+            ->paginate(10);
         return view('livewire.players.show-players')->with('players', $players);
     }
 }
