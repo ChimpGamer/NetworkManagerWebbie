@@ -18,7 +18,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Message</th>
+                        <th style="width: 65%">Message</th>
                         <th>Expires</th>
                         <th>Active</th>
                         <th>Actions</th>
