@@ -13,7 +13,9 @@
                         <th>Started</th>
                         <th>Ended</th>
                         <th>Time</th>
-                        <th>IP Address</th>
+                        @can('show_ip')
+                            <th>IP Address</th>
+                        @endcan
                         <th>Version</th>
                     </tr>
                     </thead>
@@ -23,7 +25,9 @@
                             <td>{{\App\Helpers\TimeUtils::formatTimestamp($session->start)}}</td>
                             <td>{{\App\Helpers\TimeUtils::formatTimestamp($session->end)}}</td>
                             <td>{{\App\Helpers\TimeUtils::millisToReadableFormat($session->time)}}</td>
-                            <td>{{$session->ip}}</td>
+                            @can('show_ip')
+                                <td>{{$session->ip}}</td>
+                            @endcan
                             <td>{{\App\Models\ProtocolVersion::from($session->version)->name()}}</td>
                         </tr>
                     @endforeach

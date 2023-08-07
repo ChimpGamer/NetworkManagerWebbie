@@ -134,7 +134,7 @@ class Group extends Model
     public function mapPermissionsToValues(array $permissions): array
     {
         return array_map(function (string $permission) {
-            return $this->isAdministrator() || boolval($this->getAttributeValue($permission));
+            return $this->isAdministrator() || $this->getAttributeValue($permission);
         }, $permissions);
     }
 }

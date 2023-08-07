@@ -32,10 +32,12 @@
                                 <th scope="row">Latest Minecraft Version</th>
                                 <td>{{$player->version->name()}}</td>
                             </tr>
-                            <tr>
-                                <th scope="row">IP Address</th>
-                                <td>{{$player->ip}}</td>
-                            </tr>
+                            @can('show_ip')
+                                <tr>
+                                    <th scope="row">IP Address</th>
+                                    <td>{{$player->ip}}</td>
+                                </tr>
+                            @endcan
                             <tr>
                                 <th scope="row">Joined</th>
                                 <td>{{$player->getTimestampFormatted($player->firstlogin)}}</td>
