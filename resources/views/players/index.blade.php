@@ -3,7 +3,7 @@
 @section('content')
 
     <div>
-        <livewire:show-players>
+        @livewire('player.show-players')
     </div>
 
 @endsection

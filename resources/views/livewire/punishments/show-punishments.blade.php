@@ -45,10 +45,10 @@
                                     wire:click="showPunishment({{$punishment->id}})">
                                     <i class="material-icons text-info">info</i>
                                 </button>
-                                <!--<button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#editAnnouncementModal"
+                                <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#editPunishmentModal"
                                     wire:click="editPunishment({{$punishment->id}})">
                                     <i class="material-icons text-warning">edit</i>
-                                </button>-->
+                                </button>
                                 <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#deletePunishmentModal"
                                     wire:click="deletePunishment({{ $punishment->id }})">
                                     <i class="material-icons text-danger">delete</i>

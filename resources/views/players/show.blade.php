@@ -3,7 +3,7 @@
 @section('content')
 
     <div>
-        <livewire:show-player :player="$player"></livewire:show-player>
+        @livewire('player.show-player', ['player' => $player])
     </div>
 
 @endsection

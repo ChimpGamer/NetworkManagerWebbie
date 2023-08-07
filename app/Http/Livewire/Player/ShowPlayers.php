@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Player;
 
 use App\Models\Player;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;

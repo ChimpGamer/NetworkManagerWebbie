@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Player;
 
 use App\Models\Player;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Livewire\Component;
-use Illuminate\Support\Facades\DB;
 use Livewire\WithPagination;
 
 class ShowPlayerSessions extends Component

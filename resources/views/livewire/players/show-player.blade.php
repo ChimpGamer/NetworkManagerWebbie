@@ -109,10 +109,10 @@
         </div>
 
         <!-- Player Sessions -->
-        <livewire:show-player-sessions :player="$player"></livewire:show-player-sessions>
+        @livewire('player.show-player-sessions', ['player' => $player])
 
         <!-- Player Punishments -->
-        <livewire:show-player-punishments :player="$player"></livewire:show-player-punishments>
+        @livewire('player.show-player-punishments', ['player' => $player])
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
