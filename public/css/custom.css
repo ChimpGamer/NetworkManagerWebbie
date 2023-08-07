@@ -147,3 +147,10 @@ underlined {
 u {
     text-decoration: underline;
 }
+
+.material-icons {
+    vertical-align: middle;
+    line-height: 0 !important;
+    position: relative;
+    top: -1px;
+}

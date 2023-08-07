@@ -60,7 +60,7 @@
     <div class="p-4">
         <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addLanguageModal"
                 wire:click="addLanguage" disabled>
-            <i style="vertical-align: bottom;font-size: 18px !important;" class="material-icons">add</i> Add Language
+            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Language
         </button>
     </div>
 </div>

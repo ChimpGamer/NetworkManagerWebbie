@@ -72,7 +72,7 @@
     <div class="p-4">
         <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addServerModal"
          wire:click="addServer">
-            <i style="vertical-align: bottom;font-size: 18px !important;" class="material-icons">add</i> Add Server
+            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Server
         </button>
     </div>
 </div>
