@@ -1,5 +1,6 @@
 <!-- Show Announcement Modal -->
-<div wire:ignore.self class="modal fade" id="showAnnouncementModal" tabindex="-1" aria-labelledby="showAnnouncementModalLabel"
+<div wire:ignore.self class="modal fade" id="showAnnouncementModal" tabindex="-1"
+     aria-labelledby="showAnnouncementModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -35,14 +36,16 @@
                 <div class="mb-3">
                     <strong>Permission</strong>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" @checked(old('permission', $permission)) disabled />
+                        <input class="form-check-input" type="checkbox" role="switch"
+                               id="flexSwitchCheckCheckedDisabled" @checked(old('permission', $permission)) disabled/>
                         <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Permission</label>
                     </div>
                 </div>
                 <div class="mb-3">
                     <strong>Active</strong>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" @checked(old('active', $active)) disabled />
+                        <input class="form-check-input" type="checkbox" role="switch"
+                               id="flexSwitchCheckCheckedDisabled" @checked(old('active', $active)) disabled/>
                         <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Active</label>
                     </div>
                 </div>
@@ -55,7 +58,8 @@
 </div>
 
 <!-- Update Announcement Modal -->
-<div wire:ignore.self class="modal fade" id="editAnnouncementModal" tabindex="-1" aria-labelledby="editAnnouncementModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="editAnnouncementModal" tabindex="-1"
+     aria-labelledby="editAnnouncementModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -67,7 +71,12 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label>Announcement Type</label>
-                        <input type="number" wire:model="type" class="form-control">
+                        <select name="type" class="form-control" wire:model="type">
+                            @foreach(\App\Models\AnnouncementType::cases() as $announcementType)
+                                <option
+                                    value="{{$announcementType}}">{{ $announcementType->name() }}</option>
+                            @endforeach
+                        </select>
                         @error('type') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
@@ -108,7 +117,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-mdb-dismiss="modal">Close</button>
+                            data-mdb-dismiss="modal">Close
+                    </button>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </form>
@@ -117,7 +127,8 @@
 </div>
 
 <!-- Delete Announcement Modal -->
-<div wire:ignore.self class="modal fade" id="deleteAnnouncementModal" tabindex="-1" aria-labelledby="deleteAnnouncementModalLabel"
+<div wire:ignore.self class="modal fade" id="deleteAnnouncementModal" tabindex="-1"
+     aria-labelledby="deleteAnnouncementModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -129,8 +140,11 @@
                 <p>Are you sure you want to delete announcement {{ $deleteId }}?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click="closeModal" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                <button type="button" wire:click.prevent="delete()" class="btn btn-danger close-modal" data-mdb-dismiss="modal">Yes, Delete</button>
+                <button type="button" wire:click="closeModal" class="btn btn-secondary" data-mdb-dismiss="modal">Close
+                </button>
+                <button type="button" wire:click.prevent="delete()" class="btn btn-danger close-modal"
+                        data-mdb-dismiss="modal">Yes, Delete
+                </button>
             </div>
         </div>
     </div>
