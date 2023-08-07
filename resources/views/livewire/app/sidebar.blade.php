@@ -38,6 +38,11 @@
                     <i class="fas fa-language fa-fw me-3"></i><span>Languages</span>
                 </a>
             @endcan
+            @can('view_permissions')
+                <a href="/permissions" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'permissions')) active @endif">
+                    <i class="fas fa-lock fa-fw me-3"></i><span>Permissions</span>
+                </a>
+            @endcan
             @can('view_network')
                 <a href="/settings" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'settings')) active @endif">
                     <i class="fas fa-gear fa-fw me-3"></i><span>Settings</span>

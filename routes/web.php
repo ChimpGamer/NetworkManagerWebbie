@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\PlayersController;
+use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -46,3 +47,4 @@ Route::resource('players', PlayersController::class);
 Route::resource('settings', SettingsController::class);
 Route::resource('languages', LanguagesController::class);
 Route::resource('profile', ProfileController::class);
+Route::resource('permissions', PermissionsController::class);
