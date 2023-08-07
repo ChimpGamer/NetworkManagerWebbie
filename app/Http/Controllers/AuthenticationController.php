@@ -43,10 +43,10 @@ class AuthenticationController extends Controller {
     public function login(LoginRequest $request)
     {
         $credentials = $request->getCredentials();
-//
-//        if(!Auth::validate($credentials)):
-//            return redirect()->back()->withErrors(['login' => "Invalid login details"]);
-//        endif;
+
+        if(!Auth::validate($credentials)):
+            return redirect()->back()->withErrors(['login' => "Invalid login details"]);
+        endif;
 
         $remember = $request->get('remember');
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
