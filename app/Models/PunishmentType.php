@@ -31,7 +31,28 @@ enum PunishmentType: int
         return self::getName($this);
     }
 
-    public static function getName(self $type): string {
+    public function isGlobal(): bool
+    {
+        return match ($this) {
+            PunishmentType::GBAN, PunishmentType::GTEMPBAN, PunishmentType::GIPBAN, PunishmentType::GTEMPIPBAN,
+            PunishmentType::GMUTE, PunishmentType::GTEMPMUTE, PunishmentType::GIPMUTE, PunishmentType::GTEMPIPMUTE,
+            PunishmentType::GKICK => true,
+            default => false,
+        };
+    }
+
+    public function isTemporary(): bool
+    {
+        return match ($this) {
+            PunishmentType::GTEMPBAN, PunishmentType::TEMPBAN, PunishmentType::GTEMPIPBAN, PunishmentType::TEMPIPBAN,
+            PunishmentType::GTEMPMUTE, PunishmentType::GTEMPIPMUTE, PunishmentType::TEMPMUTE, PunishmentType::TEMPIPMUTE
+            => true,
+            default => false
+        };
+    }
+
+    public static function getName(self $type): string
+    {
         return match ($type) {
             PunishmentType::BAN => 'Ban',
             PunishmentType::GBAN => 'Global Ban',

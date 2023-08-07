@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Helpers\TimeUtils;
 use App\Models\Punishment;
+use App\Models\PunishmentType;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -15,33 +17,51 @@ class ShowPunishments extends Component
 
     protected string $paginationTheme = 'bootstrap';
 
-    public int $punishmentId;
-    public ?string $type, $playerName, $punisherName, $reason, $server;
-    public ?string $time, $end;
-    public bool $silent, $active;
+    public int $punishmentId, $typeId;
+    public ?string $typeName,
+        $playerUUID,
+        $playerName,
+        $punisherUUID,
+        $punisherName,
+        $reason,
+        $server = null,
+        $time,
+        $end,
+        $timeFormatted,
+        $endFormatted;
+    public bool $silent, $active, $isGlobal, $isTemporary;
     public string $search = '';
     public int $deleteId;
 
     protected function rules()
     {
         return [
-            'type' => 'required|integer',
+            'typeId' => 'required|integer',
+            'playerUUID' => 'required|string',
+            'punisherUUID' => 'required|string',
+            'time' => 'required|integer',
+            'end' => 'required|integer',
             'reason' => 'required|string',
-            'active' => ''
+            'server' => $this->isGlobal ? '' : 'required|string',
+            'silent' => 'required|boolean',
+            'active' => 'required|boolean'
         ];
     }
 
     public function showPunishment(Punishment $punishment)
     {
         $this->punishmentId = $punishment->id;
-        $this->type = $punishment->type->name();
+        $this->typeName = $punishment->type->name();
         $this->playerName = $punishment->getPlayerName();
         $this->punisherName = $punishment->getPunisherName();
         $this->reason = $punishment->reason;
-        $this->server = $punishment->server;
+        $this->server = $punishment->type->isGlobal() ? 'Global' : $punishment->server;
         $this->time = $punishment->time;
         $this->end = $punishment->end;
+        $this->timeFormatted = TimeUtils::formatTimestamp($this->time);
+        $this->endFormatted = TimeUtils::formatTimestamp($this->end);
 
+        $this->isTemporary = $punishment->type->isTemporary();
         $this->silent = $punishment->silent;
         $this->active = $punishment->active;
     }
@@ -49,34 +69,63 @@ class ShowPunishments extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
+
+        $type = PunishmentType::from($this->typeId);
+        $this->isGlobal = $type->isGlobal();
+        $this->isTemporary = $type->isTemporary();
+        if ($this->isGlobal) {
+            $this->server = null;
+        }
+        if (!$this->isTemporary) {
+            $this->end = -1;
+        }
     }
 
-    public function editAnnouncement(Punishment $punishment)
+    public function editPunishment(Punishment $punishment)
     {
         $this->resetInput();
 
+        $this->punishmentId = $punishment->id;
+        $this->typeId = $punishment->type->value;
+        $this->playerUUID = $punishment->uuid;
+        $this->punisherUUID = $punishment->punisher;
+        $this->reason = $punishment->reason;
+        $this->server = $punishment->server;
+        $this->time = $punishment->time;
+        $this->end = $punishment->end;
+
+        $this->isGlobal = $punishment->type->isGlobal();
+        $this->isTemporary = $punishment->type->isTemporary();
+        $this->silent = $punishment->silent;
+        $this->active = $punishment->active;
     }
 
-    public function updateAnnouncement()
+    public function updatePunishment()
     {
         $validatedData = $this->validate();
+        $id = $this->punishmentId;
+        $type = PunishmentType::from($validatedData['typeId']);
+        $uuid = $validatedData['playerUUID'];
+        $punisher = $validatedData['punisherUUID'];
+        $time = $validatedData['time'];
+        $end = $type->isTemporary() ? $validatedData['end'] : -1;
+        $reason = $validatedData['reason'];
+        $server = $validatedData['server'];
+        $silent = $validatedData['silent'];
+        $active = $validatedData['active'];
 
-        /*$expires = empty($validatedData['expires']) ? $validatedData['expires'] : Carbon::parse($validatedData['expires']);
+        Punishment::where('id', $id)->update([
+           'type' => $type,
+           'uuid' => $uuid,
+           'punisher' => $punisher,
+           'time' => $time,
+           'end' => $end,
+           'reason' => $reason,
+           'server' => $server,
+           'silent' => $silent,
+           'active' => $active
+        ]);
 
-        Log::info('validateData=' . implode(',', $validatedData));
-        Log::info('expires=' . $expires);
-
-        Announcement::where('id', $this->announcementId)->update([
-            'type' => $validatedData['type'],
-            'message' => $validatedData['message'],
-            'sound' => $validatedData['sound'],
-            'server' => $validatedData['server'],
-            'condition' => $validatedData['condition'],
-            'expires' => $expires,
-
-            'permission' => $validatedData['permission'],
-            'active' => $validatedData['active'],
-        ]);*/
         session()->flash('message', 'Punishment Updated Successfully');
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
@@ -89,14 +138,18 @@ class ShowPunishments extends Component
 
     private function resetInput()
     {
-        $this->type = '';
+        $this->typeId = -1;
+        $this->playerUUID = '';
         $this->playerName = '';
+        $this->punisherUUID = '';
         $this->punisherName = '';
         $this->reason = '';
-        $this->server = '';
+        $this->server = null;
         $this->time = '';
         $this->end = '';
 
+        $this->isGlobal = false;
+        $this->isTemporary = true;
         $this->silent = false;
         $this->active = false;
     }
