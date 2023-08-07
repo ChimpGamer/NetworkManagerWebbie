@@ -21,6 +21,9 @@
             <a href="/punishment_templates" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'punishment_templates')) active @endif">
                 <i class="fas fa-file-lines fa-fw me-3"></i><span>Punishment Templates</span>
             </a>
+            <a href="/languages" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'languages')) active @endif">
+                <i class="fas fa-language fa-fw me-3"></i><span>Languages</span>
+            </a>
             <a href="/settings" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'settings')) active @endif">
                 <i class="fas fa-gear fa-fw me-3"></i><span>Settings</span>
             </a>

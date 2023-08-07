@@ -27,7 +27,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                     <li>
-                        <a class="dropdown-item" href="#">My profile</a>
+                        <a class="dropdown-item" href="/profile">My profile</a>
                     </li>
                     <li>
                         <a class="dropdown-item" href="#">Settings</a>

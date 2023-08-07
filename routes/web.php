@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\PlayersController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServersController;
@@ -42,3 +44,5 @@ Route::resource('punishment_templates', PunishmentTemplatesController::class);
 Route::resource('analytics', AnalyticsController::class);
 Route::resource('players', PlayersController::class);
 Route::resource('settings', SettingsController::class);
+Route::resource('languages', LanguagesController::class);
+Route::resource('profile', ProfileController::class);

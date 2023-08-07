@@ -16,7 +16,7 @@ class ShowServers extends Component
 
     public int $serverId;
     public string $servername, $displayname, $ip, $port;
-    public ?string $motd, $allowed_versions;
+    public ?string $motd, $allowed_versions = null;
     public bool $restricted, $online;
     public string $search = '';
     public int $deleteId;
@@ -74,13 +74,15 @@ class ShowServers extends Component
     {
         $validatedData = $this->validate();
 
+        $allowedVersions = empty($validatedData['allowed_versions']) ? null : $validatedData['allowed_versions'];
+
         Server::where('id', $this->serverId)->update([
             'servername' => $validatedData['servername'],
             'displayname' => $validatedData['displayname'],
             'ip' => $validatedData['ip'],
             'port' => $validatedData['port'],
             'motd' => $validatedData['motd'],
-            'allowed_versions' => $validatedData['allowed_versions'],
+            'allowed_versions' => $allowedVersions,
             'restricted' => $validatedData['restricted'],
         ]);
         session()->flash('message', 'Server Updated Successfully');
@@ -100,7 +102,7 @@ class ShowServers extends Component
         $this->ip = '';
         $this->port = '';
         $this->motd = '';
-        $this->allowed_versions = '';
+        $this->allowed_versions = null;
         $this->restricted = false;
     }
 
@@ -125,13 +127,15 @@ class ShowServers extends Component
     {
         $validatedData = $this->validate();
 
+        $allowedVersions = empty($validatedData['allowed_versions']) ? null : $validatedData['allowed_versions'];
+
         Server::create([
             'servername' => $validatedData['servername'],
             'displayname' => $validatedData['displayname'],
             'ip' => $validatedData['ip'],
             'port' => $validatedData['port'],
             'motd' => $validatedData['motd'],
-            'allowed_versions' => $validatedData['allowed_versions'],
+            'allowed_versions' => $allowedVersions,
             'restricted' => $validatedData['restricted'],
         ]);
 
