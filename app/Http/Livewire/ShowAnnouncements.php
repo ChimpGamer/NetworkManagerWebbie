@@ -20,6 +20,7 @@ class ShowAnnouncements extends Component
     public ?string $expires;
     public bool $permission, $active;
     public string $search = '';
+    public ?string $typeName;
     public int $deleteId;
 
     protected function rules()
@@ -39,7 +40,7 @@ class ShowAnnouncements extends Component
     public function showAnnouncement(Announcement $announcement)
     {
         $this->announcementId = $announcement->id;
-        $this->type = $announcement->type;
+        $this->type = $announcement->type->value;
         $this->message = $announcement->message;
         $this->sound = $announcement->sound;
         $this->server = $announcement->server;
@@ -48,6 +49,8 @@ class ShowAnnouncements extends Component
 
         $this->permission = $announcement->permission;
         $this->active = $announcement->active;
+
+        $this->typeName = $announcement->type->name();
     }
 
     public function updated($fields)
@@ -60,7 +63,7 @@ class ShowAnnouncements extends Component
         $this->resetInput();
 
         $this->announcementId = $announcement->id;
-        $this->type = $announcement->type;
+        $this->type = $announcement->type->value;
         $this->message = $announcement->message;
         $this->sound = $announcement->sound;
         $this->server = $announcement->server;

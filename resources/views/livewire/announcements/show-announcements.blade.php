@@ -18,7 +18,6 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Type</th>
                         <th>Message</th>
                         <th>Expires</th>
                         <th>Active</th>
@@ -30,9 +29,14 @@
                     @foreach($announcements as $announcement)
                     <tr>
                         <td>{{ $announcement->id }}</td>
-                        <td>{{ $announcement->type }}</td>
                         <td>{!! $announcement->message !!}</td>
-                        <td>{{ $announcement->expires }}</td>
+                        <td>
+                            @if ($announcement->expires != null)
+                                <i class="fas fa-check-circle fa-lg" style="color:green" data-mdb-toggle="tooltip" title="{{ $announcement->expires }}"></i>
+                            @else
+                                <i class="fas fa-xmark-circle fa-lg" style="color:red"></i>
+                            @endif
+                        </td>
                         <td>
                             @if ($announcement->active)
                                 <i class="fas fa-check-circle fa-lg" style="color:green"></i>

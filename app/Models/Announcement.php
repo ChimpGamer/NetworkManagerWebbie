@@ -46,7 +46,7 @@ class Announcement extends Model
      * @var array
      */
     protected $casts = [
-        'type' => 'integer',
+        'type' => AnnouncementType::class,
         'expires' => 'datetime',
         'permission' => 'boolean',
         'active' => 'boolean',

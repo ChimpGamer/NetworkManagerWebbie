@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <strong>Type</strong>
-                    <p>{{ $type }}</p>
+                    <p>{{ $typeName }}</p>
                 </div>
                 <div class="mb-3">
                     <strong>Message</strong>
@@ -21,7 +21,7 @@
                     <p>{{ $sound }}</p>
                 </div>
                 <div class="mb-3">
-                    <strong>server</strong>
+                    <strong>Server</strong>
                     <p>{{ $server }}</p>
                 </div>
                 <div class="mb-3">
