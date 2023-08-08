@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\PunishmentTemplate;
+use App\Models\PunishmentType;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
@@ -15,16 +16,20 @@ class ShowPunishmentTemplates extends Component
 
     protected string $paginationTheme = 'bootstrap';
 
-    public int $templateId;
+    public int $templateId, $typeId;
     public ?string $type, $name, $reason, $server;
-    public ?string $duration;
+    public ?int $duration;
+    public bool $isGlobal, $isTemporary;
+
     public string $search = '';
 
     protected function rules()
     {
         return [
-            'type' => 'required|integer',
-            'duration' => 'required|integer',
+            'name' => 'required|string',
+            'typeId' => 'required|integer',
+            'duration' => 'integer',
+            'server' => 'string|nullable',
             'reason' => 'required|string',
         ];
     }
@@ -43,35 +48,73 @@ class ShowPunishmentTemplates extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
+
+        $type = PunishmentType::from($this->typeId);
+        $this->isGlobal = $type->isGlobal();
+        $this->isTemporary = $type->isTemporary();
+        if ($this->isGlobal) {
+            $this->server = null;
+        }
+        if (!$this->isTemporary) {
+            $this->duration = -1;
+        }
+    }
+
+    public function addTemplate()
+    {
+        $this->resetInput();
+    }
+
+    public function createTemplate()
+    {
+        $validatedData = $this->validate();
+
+        $type = PunishmentType::from($validatedData['typeId']);
+
+        PunishmentTemplate::create([
+            'name' => $validatedData['name'],
+            'type' => $type,
+            'duration' => $validatedData['duration'],
+            'server' => $validatedData['server'],
+            'reason' => $validatedData['reason']
+        ]);
+
+        session()->flash('message', 'Successfully Created Template');
+        $this->resetInput();
+        $this->dispatchBrowserEvent('close-modal');
     }
 
     public function editTemplate(PunishmentTemplate $template)
     {
         $this->resetInput();
 
+        $this->templateId = $template->id;
+        $this->name = $template->name;
+        $this->typeId = $template->type->value;
+        $this->duration = $template->duration;
+        $this->server = $template->server;
+        $this->reason = $template->reason;
+
+        $this->isGlobal = $template->type->isGlobal();
+        $this->isTemporary = $template->type->isTemporary();
     }
 
     public function updateTemplate()
     {
         $validatedData = $this->validate();
+        //dump($validatedData);
 
-        /*$expires = empty($validatedData['expires']) ? $validatedData['expires'] : Carbon::parse($validatedData['expires']);
+        $type = PunishmentType::from($validatedData['typeId']);
 
-        Log::info('validateData=' . implode(',', $validatedData));
-        Log::info('expires=' . $expires);
-
-        Announcement::where('id', $this->announcementId)->update([
-            'type' => $validatedData['type'],
-            'message' => $validatedData['message'],
-            'sound' => $validatedData['sound'],
+        PunishmentTemplate::where('id', $this->templateId)->update([
+            'name' => $validatedData['name'],
+            'type' => $type,
+            'duration' => $validatedData['duration'],
             'server' => $validatedData['server'],
-            'condition' => $validatedData['condition'],
-            'expires' => $expires,
+            'reason' => $validatedData['reason']
+        ]);
 
-            'permission' => $validatedData['permission'],
-            'active' => $validatedData['active'],
-        ]);*/
-        session()->flash('message', 'Punishment Template Updated Successfully');
+        session()->flash('message', 'Successfully Updated Template');
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
     }
@@ -85,9 +128,10 @@ class ShowPunishmentTemplates extends Component
     {
         $this->name = '';
         $this->type = '';
-        $this->duration = '';
+        $this->typeId = 1;
+        $this->duration = -1;
         $this->reason = '';
-        $this->server = '';
+        $this->server = null;
     }
 
     public function render(): View

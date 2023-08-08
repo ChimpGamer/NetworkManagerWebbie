@@ -1,5 +1,6 @@
 <!-- Show Punishment Modal -->
-<div wire:ignore.self class="modal fade" id="showPunishmentTemplateModal" tabindex="-1" aria-labelledby="showPunishmentTemplateModalLabel"
+<div wire:ignore.self class="modal fade" id="showPunishmentTemplateModal" tabindex="-1"
+     aria-labelledby="showPunishmentTemplateModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -36,67 +37,116 @@
     </div>
 </div>
 
-<!-- Update Punishment Modal -->
-<div wire:ignore.self class="modal fade" id="editPunishmentModal" tabindex="-1" aria-labelledby="editPunishmentModalLabel" aria-hidden="true">
+<!-- Add Server Modal -->
+<div wire:ignore.self class="modal fade" id="addTemplateModal" tabindex="-1" aria-labelledby="addTemplateModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editPunishmentModalLabel">Edit Punishment</h5>
+                <h5 class="modal-title" id="addGroupModalLabel">Add Template</h5>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='updatePunishment'>
+            <form wire:submit.prevent='createTemplate'>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label>Type</label>
-                        <input type="number" wire:model="type" class="form-control">
-                        @error('type') <span class="text-danger">{{ $message }}</span> @enderror
+                        <label class="bold">Name</label>
+                        <input type="text" wire:model="name" class="form-control">
+                        @error('name') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label>Player</label>
-                        <input type="text" wire:model="playerName" class="form-control">
-                        @error('message') <span class="text-danger">{{ $message }}</span> @enderror
+                        <label class="bold">Type</label>
+                        <select name="type" class="form-control" wire:model="typeId">
+                            @foreach(\App\Models\PunishmentType::cases() as $punishmentType)
+                                <option
+                                    value="{{$punishmentType}}">{{ $punishmentType->name() }}</option>
+                            @endforeach
+                        </select>
+                        @error('typeId') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
+                    @if($isTemporary)
+                        <div class="mb-3">
+                            <label class="bold">Duration</label>
+                            <input type="number" wire:model="duration" class="form-control">
+                            @error('duration') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    @endif
+                    @if(!$isGlobal)
+                        <div class="mb-3">
+                            <label class="bold">Server</label>
+                            <input type="text" wire:model="server" class="form-control">
+                            @error('server') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    @endif
                     <div class="mb-3">
-                        <label>Punisher</label>
-                        <input type="text" wire:model="punisherName" class="form-control">
-                        @error('sound') <span class="text-danger">{{ $message }}</span> @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label>Time</label>
-                        <input type="text" wire:model="time" class="form-control">
-                        @error('time') <span class="text-danger">{{ $message }}</span> @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label>End</label>
-                        <input type="text" wire:model="end" class="form-control">
-                        @error('end') <span class="text-danger">{{ $message }}</span> @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label>Reason</label>
+                        <label class="bold">Reason</label>
                         <input type="text" wire:model="reason" class="form-control">
                         @error('reason') <span class="text-danger">{{ $message }}</span> @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label>Server</label>
-                        <input type="text" wire:model="server" class="form-control">
-                        @error('server') <span class="text-danger">{{ $message }}</span> @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label>Silent</label>
-                        <input type="text" wire:model="silent" class="form-control">
-                        @error('silent') <span class="text-danger">{{ $message }}</span> @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label>Active</label>
-                        <input type="text" wire:model="active" class="form-control">
-                        @error('active') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                        data-mdb-dismiss="modal">Close</button>
-                    <!--<button type="submit" class="btn btn-primary">Update</button>-->
+                            data-mdb-dismiss="modal">Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Update Punishment Modal -->
+<div wire:ignore.self class="modal fade" id="editTemplateModal" tabindex="-1"
+     aria-labelledby="editTemplateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTemplateModalLabel">Edit Punishment</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form wire:submit.prevent='updateTemplate'>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="bold">Name</label>
+                        <input type="text" wire:model="name" class="form-control">
+                        @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">Type</label>
+                        <select name="type" class="form-control" wire:model="typeId">
+                            @foreach(\App\Models\PunishmentType::cases() as $punishmentType)
+                                <option
+                                    value="{{$punishmentType}}">{{ $punishmentType->name() }}</option>
+                            @endforeach
+                        </select>
+                        @error('typeId') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    @if($isTemporary)
+                        <div class="mb-3">
+                            <label class="bold">Duration</label>
+                            <input type="number" wire:model="duration" class="form-control">
+                            @error('duration') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    @endif
+                    @if(!$isGlobal)
+                        <div class="mb-3">
+                            <label class="bold">Server</label>
+                            <input type="text" wire:model="server" class="form-control">
+                            @error('server') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    @endif
+                    <div class="mb-3">
+                        <label class="bold">Reason</label>
+                        <input type="text" wire:model="reason" class="form-control">
+                        @error('reason') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" wire:click="closeModal"
+                            data-mdb-dismiss="modal">Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </form>
         </div>

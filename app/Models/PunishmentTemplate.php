@@ -44,5 +44,13 @@ class PunishmentTemplate extends Model
      */
     protected $casts = [
         'type' => PunishmentType::class,
+        'duration' => 'integer'
     ];
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }
