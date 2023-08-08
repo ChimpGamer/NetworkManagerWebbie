@@ -7,7 +7,7 @@
 
     <div class="card">
         <div class="card-header h5">
-            PunishmentTemplates
+            Punishment Templates
             <label for="punishmentTemplateSearch" class="float-end mx-2">
                 <input id="punishmentTemplateSearch" type="search" wire:model="search" class="form-control"
                     placeholder="Search..." />
