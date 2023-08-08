@@ -33,8 +33,20 @@
                             <td>{{ $template->id }}</td>
                             <td>{{ $template->name }}</td>
                             <td>{{ $template->type->name() }}</td>
-                            <td>{{ $template->duration }}</td>
-                            <td>{{ $template->server }}</td>
+                            <td>
+                                @if($template->duration == -1)
+                                    Permanent
+                                @else
+                                    {{ $template->duration }}
+                                @endif
+                            </td>
+                            <td>
+                                @if($template->server == null)
+                                    Global
+                                @else()
+                                    {{ $template->server }}
+                                @endif
+                            </td>
                             <td>{!! $template->reason !!}</td>
                             <th>
                                 <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#showPunishmentTemplateModal"
