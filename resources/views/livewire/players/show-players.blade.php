@@ -26,7 +26,7 @@
                 <tbody>
                 @foreach ($players as $player)
                     <tr>
-                        <td><img alt="player avatar" src="https://crafatar.com/avatars/{{ $player->uuid  }}?size=24&overlay"> {{$player->username}}</td>
+                        <td><img alt="player avatar" src="https://crafatar.com/avatars/{{ $player->uuid  }}?size=24&overlay" loading="lazy"> {{$player->username}}</td>
                         <td>{{ $player->getTimestampFormatted($player->firstlogin) }}</td>
                         <td>@if ($player->active)
                                 <i class="fas fa-check-circle fa-lg" style="color:green"></i>
