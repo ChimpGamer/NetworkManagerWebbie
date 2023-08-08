@@ -8,3 +8,11 @@
 
 @endsection
 
+@section('script')
+    <script>
+        window.addEventListener('close-modal', () => {
+            $('#addTemplateModal').modal('hide');
+            $('#editTemplateModal').modal('hide');
+        });
+    </script>
+@endsection
