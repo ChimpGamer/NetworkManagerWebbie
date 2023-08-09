@@ -87,7 +87,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="bold">MOTD</label>
-                        <input type="text" wire:model="motd" class="form-control">
+                        <textarea wire:model="motd" class="form-control"></textarea>
                         @error('motd') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
@@ -166,7 +166,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="bold">MOTD</label>
-                        <input type="text" wire:model="motd" class="form-control">
+                        <textarea wire:model="motd" class="form-control"></textarea>
                         @error('motd') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">

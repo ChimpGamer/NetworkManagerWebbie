@@ -81,7 +81,7 @@
                     </div>
                     <div class="mb-3">
                         <label>Message</label>
-                        <input type="text" wire:model="message" class="form-control">
+                        <textarea wire:model="message" class="form-control"></textarea>
                         @error('message') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
@@ -168,7 +168,7 @@
                     </div>
                     <div class="mb-3">
                         <label>Message</label>
-                        <input type="text" wire:model="message" class="form-control">
+                        <textarea wire:model="message" class="form-control"></textarea>
                         @error('message') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
