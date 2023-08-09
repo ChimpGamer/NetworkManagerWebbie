@@ -12,6 +12,7 @@
 <script>
     window.addEventListener('close-modal', () => {
         $('#editPunishmentModal').modal('hide');
+        $('#addPunishmentModal').modal('hide');
     });
 </script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Helpers\TimeUtils;
+use App\Models\Player;
 use App\Models\Punishment;
 use App\Models\PunishmentType;
 use Carbon\Carbon;
@@ -82,6 +83,52 @@ class ShowPunishments extends Component
         }
     }
 
+    public function addPunishment()
+    {
+        $this->resetInput();
+        $this->typeId = 1; // Set type to 1 by default.
+        $this->active = true; // Set active to true by default.
+        $this->isTemporary = false; // Set isTemporary to false by default.
+    }
+
+    public function createPunishment()
+    {
+        $validatedData = $this->validate();
+
+        $type = PunishmentType::from($validatedData['typeId']);
+        $uuid = $validatedData['playerUUID'];
+        $punisher = $validatedData['punisherUUID'];
+        $time = $validatedData['time'];
+        $end = $type->isTemporary() ? $validatedData['end'] : -1;
+        $reason = $validatedData['reason'];
+        $server = $validatedData['server'];
+        $silent = $validatedData['silent'];
+        $active = $validatedData['active'];
+
+        $ip = Player::getIP($uuid);
+        if ($ip == null) {
+            session()->flash('error', "Could not find player ${uuid}");
+            return;
+        }
+
+        Punishment::create([
+            'type' => $type,
+            'uuid' => $uuid,
+            'punisher' => $punisher,
+            'time' => $time,
+            'end' => $end,
+            'reason' => $reason,
+            'ip' => $ip,
+            'server' => $server,
+            'silent' => $silent,
+            'active' => $active
+        ]);
+
+        session()->flash('message', 'Punishment Created Successfully');
+        $this->resetInput();
+        $this->dispatchBrowserEvent('close-modal');
+    }
+
     public function editPunishment(Punishment $punishment)
     {
         $this->resetInput();
@@ -116,15 +163,15 @@ class ShowPunishments extends Component
         $active = $validatedData['active'];
 
         Punishment::where('id', $id)->update([
-           'type' => $type,
-           'uuid' => $uuid,
-           'punisher' => $punisher,
-           'time' => $time,
-           'end' => $end,
-           'reason' => $reason,
-           'server' => $server,
-           'silent' => $silent,
-           'active' => $active
+            'type' => $type,
+            'uuid' => $uuid,
+            'punisher' => $punisher,
+            'time' => $time,
+            'end' => $end,
+            'reason' => $reason,
+            'server' => $server,
+            'silent' => $silent,
+            'active' => $active
         ]);
 
         session()->flash('message', 'Punishment Updated Successfully');

@@ -4,6 +4,9 @@
     @if (session()->has('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
     @endif
+    @if (session()->has('error'))
+        <h5 class="alert alert-danger">{{ session('error') }}</h5>
+    @endif
 
     <div class="card">
         <div class="card-header h5">
@@ -63,5 +66,10 @@
             </div>
         </div>
     </div>
-
+    <div class="p-4">
+        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addPunishmentModal"
+                wire:click="addPunishment">
+            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Punishment
+        </button>
+    </div>
 </div>

@@ -106,6 +106,15 @@ class Player extends Model
         return $player->username;
     }
 
+    public static function getIP($uuid): ?string
+    {
+        $player = Player::select('ip')
+            ->where('uuid', $uuid)
+            ->first();
+        if ($player == null) return null;
+        return $player->ip;
+    }
+
     public static function getMostPlayedVersions()
     {
         $total = DB::table('players')
