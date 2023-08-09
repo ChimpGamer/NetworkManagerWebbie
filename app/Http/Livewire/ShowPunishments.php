@@ -29,7 +29,7 @@ class ShowPunishments extends Component
         $end,
         $timeFormatted,
         $endFormatted;
-    public bool $silent, $active, $isGlobal, $isTemporary;
+    public bool $silent, $active, $isGlobal = false, $isTemporary;
     public string $search = '';
     public int $deleteId;
 
@@ -69,6 +69,7 @@ class ShowPunishments extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
+        if ($fields == "search") return;
 
         $type = PunishmentType::from($this->typeId);
         $this->isGlobal = $type->isGlobal();
