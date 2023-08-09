@@ -222,7 +222,9 @@ class ShowPunishments extends Component
 
     public function render(): View
     {
-        $punishments = Punishment::where('id', 'like', '%' . $this->search . '%')->orderBy('id', 'DESC')->paginate(10);
+        $punishments = Punishment::where('id', 'like', '%' . $this->search . '%')
+            ->orWhere('reason', 'like', '%' . $this->search . '%')
+            ->orderBy('id', 'DESC')->paginate(10);
         return view('livewire.punishments.show-punishments')->with('punishments', $punishments);
     }
 }
