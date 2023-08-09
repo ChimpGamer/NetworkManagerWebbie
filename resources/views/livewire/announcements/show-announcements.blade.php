@@ -67,5 +67,10 @@
             </div>
         </div>
     </div>
-
+    <div class="p-4">
+        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addAnnouncementModal"
+                wire:click="addAnnouncement">
+            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Announcement
+        </button>
+    </div>
 </div>

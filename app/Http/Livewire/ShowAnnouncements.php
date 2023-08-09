@@ -3,8 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Announcement;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
+use App\Models\AnnouncementType;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -18,9 +17,11 @@ class ShowAnnouncements extends Component
     public int $announcementId, $type;
     public ?string $message, $sound, $server, $condition;
     public ?string $expires;
-    public bool $permission, $active;
-    public string $search = '';
+    public bool $permission, $active, $isGlobal;
+
     public ?string $typeName;
+
+    public string $search = '';
     public int $deleteId;
 
     protected function rules()
@@ -28,12 +29,12 @@ class ShowAnnouncements extends Component
         return [
             'type' => 'required|integer',
             'message' => 'required|string|max:512',
-            'sound' => '',
-            'server' => '',
-            'condition' => '',
-            'expires' => '',
-            'permission' => '',
-            'active' => ''
+            'sound' => 'string|nullable',
+            'server' => 'string|nullable',
+            'condition' => 'string|nullable',
+            'expires' => 'date|nullable',
+            'permission' => 'required|boolean',
+            'active' => 'required|boolean'
         ];
     }
 
@@ -45,7 +46,7 @@ class ShowAnnouncements extends Component
         $this->sound = $announcement->sound;
         $this->server = $announcement->server;
         $this->condition = $announcement->condition;
-        $this->expires = $announcement->expires != null ? $announcement->expires->toDateTimeLocalString() : $announcement->expires;
+        $this->expires = $announcement->expires;
 
         $this->permission = $announcement->permission;
         $this->active = $announcement->active;
@@ -56,6 +57,46 @@ class ShowAnnouncements extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
+
+        $type = AnnouncementType::from($this->type);
+        $this->isGlobal = $type->isGlobal();
+        if ($this->isGlobal) {
+            $this->server = null;
+        }
+    }
+
+    public function addAnnouncement()
+    {
+        $this->resetInput();
+        $this->type = 1; // Set type to 1 by default.
+        $this->active = true; // Set active to true by default.
+        $this->isGlobal = true; // The default type is a global type.
+    }
+
+    public function createAnnouncement()
+    {
+        $validatedData = $this->validate();
+
+        $sound = empty($validatedData['sound']) ? null : $validatedData['sound'];
+        $server = empty($validatedData['server']) ? null : $validatedData['server'];
+        $condition = empty($validatedData['condition']) ? null : $validatedData['condition'];
+        $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
+
+        Announcement::create([
+            'type' => $validatedData['type'],
+            'message' => $validatedData['message'],
+            'sound' => $sound,
+            'server' => $server,
+            'condition' => $condition,
+            'expires' => $expires,
+
+            'permission' => $validatedData['permission'],
+            'active' => $validatedData['active'],
+        ]);
+
+        session()->flash('message', 'Successfully Created Announcement');
+        $this->resetInput();
+        $this->dispatchBrowserEvent('close-modal');
     }
 
     public function editAnnouncement(Announcement $announcement)
@@ -70,6 +111,7 @@ class ShowAnnouncements extends Component
         $this->condition = $announcement->condition;
         $this->expires = $announcement->expires != null ? $announcement->expires->toDateTimeLocalString() : $announcement->expires;
 
+        $this->isGlobal = $announcement->type->isGlobal();
         $this->permission = $announcement->permission;
         $this->active = $announcement->active;
     }
@@ -78,22 +120,23 @@ class ShowAnnouncements extends Component
     {
         $validatedData = $this->validate();
 
-        $expires = empty($validatedData['expires']) ? $validatedData['expires'] : Carbon::parse($validatedData['expires']);
-
-        Log::info('validateData=' . implode(',', $validatedData));
-        Log::info('expires=' . $expires);
+        $sound = empty($validatedData['sound']) ? null : $validatedData['sound'];
+        $server = empty($validatedData['server']) ? null : $validatedData['server'];
+        $condition = empty($validatedData['condition']) ? null : $validatedData['condition'];
+        $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
 
         Announcement::where('id', $this->announcementId)->update([
             'type' => $validatedData['type'],
             'message' => $validatedData['message'],
-            'sound' => $validatedData['sound'],
-            'server' => $validatedData['server'],
-            'condition' => $validatedData['condition'],
+            'sound' => $sound,
+            'server' => $server,
+            'condition' => $condition,
             'expires' => $expires,
 
             'permission' => $validatedData['permission'],
             'active' => $validatedData['active'],
         ]);
+
         session()->flash('message', 'Announcement Updated Successfully');
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
@@ -108,11 +151,12 @@ class ShowAnnouncements extends Component
     {
         $this->type = -1;
         $this->message = '';
-        $this->sound = '';
-        $this->server = '';
-        $this->condition = '';
-        $this->expires = '';
+        $this->sound = null;
+        $this->server = null;
+        $this->condition = null;
+        $this->expires = null;
 
+        $this->isGlobal = false;
         $this->permission = false;
         $this->active = false;
     }

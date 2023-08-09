@@ -19,6 +19,14 @@ enum AnnouncementType: int
         return self::getName($this);
     }
 
+    public function isGlobal(): bool
+    {
+        return match ($this) {
+            AnnouncementType::CHATALLSERVERS, AnnouncementType::ACTIONBARALLSERVERS, AnnouncementType::TITLEALLSERVERS => true,
+            default => false,
+        };
+    }
+
     public static function getName(self $type): string
     {
         return match ($type) {
