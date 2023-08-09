@@ -176,6 +176,7 @@ class ShowAnnouncements extends Component
     {
         $announcements = Announcement::where('id', 'like', '%' . $this->search . '%')
             ->orWhere('message', 'like', '%' . $this->search . '%')
+            ->orWhere('server', 'like', '%' . $this->search . '%')
             ->orderBy('id', 'ASC')->paginate(10);
         return view('livewire.announcements.show-announcements')->with('announcements', $announcements);
     }
