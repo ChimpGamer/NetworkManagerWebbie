@@ -98,7 +98,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="bold">Time</label>
-                        <input type="number" wire:model="time" class="form-control">
+                        <input type="datetime-local" wire:model="time" class="form-control">
                         @error('time') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     @if($isTemporary)
@@ -193,13 +193,13 @@
                     </div>
                     <div class="mb-3">
                         <label class="bold">Time</label>
-                        <input type="number" wire:model="time" class="form-control">
+                        <input type="datetime-local" wire:model="time" class="form-control">
                         @error('time') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     @if($isTemporary)
                         <div class="mb-3">
                             <label class="bold">End</label>
-                            <input type="number" wire:model="end" class="form-control">
+                            <input type="datetime-local" wire:model="end" class="form-control">
                             @error('end') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     @endif

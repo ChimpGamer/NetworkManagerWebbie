@@ -41,8 +41,8 @@ class ShowPunishments extends Component
             'typeId' => 'required|integer',
             'playerUUID' => 'required|uuid|exists:players,uuid',
             'punisherUUID' => 'required|uuid',
-            'time' => 'required|integer',
-            'end' => 'required|integer',
+            'time' => 'required|date',
+            'end' => 'required|date',
             'reason' => 'required|string',
             'server' => $this->isGlobal ? '' : 'required|string',
             'silent' => 'required|boolean',
@@ -90,6 +90,7 @@ class ShowPunishments extends Component
         $this->typeId = 1; // Set type to 1 by default.
         $this->active = true; // Set active to true by default.
         $this->isTemporary = false; // Set isTemporary to false by default.
+        $this->time = Carbon::now()->format('Y-m-d\Th:i');
         $this->punisherUUID = Auth::check() ? Auth::user()->getUUID() : null;
     }
 
@@ -100,8 +101,8 @@ class ShowPunishments extends Component
         $type = PunishmentType::from($validatedData['typeId']);
         $uuid = $validatedData['playerUUID'];
         $punisher = $validatedData['punisherUUID'];
-        $time = $validatedData['time'];
-        $end = $type->isTemporary() ? $validatedData['end'] : -1;
+        $time = Carbon::parse($validatedData['time'])->getPreciseTimestamp(3);
+        $end = $type->isTemporary() ? Carbon::parse($validatedData['end'])->getPreciseTimestamp(3) : -1;
         $reason = $validatedData['reason'];
         $server = $validatedData['server'];
         $silent = $validatedData['silent'];
@@ -143,8 +144,8 @@ class ShowPunishments extends Component
         $this->punisherUUID = $punishment->punisher;
         $this->reason = $punishment->reason;
         $this->server = $punishment->server;
-        $this->time = $punishment->time;
-        $this->end = $punishment->end;
+        $this->time = Carbon::createFromTimestamp($punishment->time / 1000);
+        $this->end = $punishment->end == -1 ? -1 : Carbon::createFromTimestamp($punishment->end / 1000);
 
         $this->isGlobal = $punishment->type->isGlobal();
         $this->isTemporary = $punishment->type->isTemporary();
@@ -159,8 +160,8 @@ class ShowPunishments extends Component
         $type = PunishmentType::from($validatedData['typeId']);
         $uuid = $validatedData['playerUUID'];
         $punisher = $validatedData['punisherUUID'];
-        $time = $validatedData['time'];
-        $end = $type->isTemporary() ? $validatedData['end'] : -1;
+        $time = Carbon::parse($validatedData['time'])->getPreciseTimestamp(3);
+        $end = $type->isTemporary() ? Carbon::parse($validatedData['end'])->getPreciseTimestamp(3) : -1;
         $reason = $validatedData['reason'];
         $server = $validatedData['server'];
         $silent = $validatedData['silent'];
