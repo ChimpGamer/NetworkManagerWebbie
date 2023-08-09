@@ -14,6 +14,9 @@ class ShowPlayers extends Component
     protected string $paginationTheme = 'bootstrap';
     public string $search = '';
 
+    public function updated() {
+        $this->resetPage();
+    }
 
 
     public function render(): View

@@ -54,6 +54,10 @@ class ShowServers extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
+        if ($fields == "search") {
+            $this->resetPage();
+            return;
+        }
     }
 
     public function editServer(Server $server)

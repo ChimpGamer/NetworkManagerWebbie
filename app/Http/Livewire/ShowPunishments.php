@@ -71,7 +71,10 @@ class ShowPunishments extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
-        if ($fields == "search") return;
+        if ($fields == "search") {
+            $this->resetPage();
+            return;
+        }
 
         $type = PunishmentType::from($this->typeId);
         $this->isGlobal = $type->isGlobal();
