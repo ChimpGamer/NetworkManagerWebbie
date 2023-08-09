@@ -7,6 +7,7 @@ use App\Models\Player;
 use App\Models\Punishment;
 use App\Models\PunishmentType;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -38,8 +39,8 @@ class ShowPunishments extends Component
     {
         return [
             'typeId' => 'required|integer',
-            'playerUUID' => 'required|string',
-            'punisherUUID' => 'required|string',
+            'playerUUID' => 'required|uuid|exists:players,uuid',
+            'punisherUUID' => 'required|uuid',
             'time' => 'required|integer',
             'end' => 'required|integer',
             'reason' => 'required|string',
@@ -89,6 +90,7 @@ class ShowPunishments extends Component
         $this->typeId = 1; // Set type to 1 by default.
         $this->active = true; // Set active to true by default.
         $this->isTemporary = false; // Set isTemporary to false by default.
+        $this->punisherUUID = Auth::check() ? Auth::user()->getUUID() : null;
     }
 
     public function createPunishment()
@@ -107,7 +109,9 @@ class ShowPunishments extends Component
 
         $ip = Player::getIP($uuid);
         if ($ip == null) {
-            session()->flash('error', "Could not find player ${uuid}");
+            session()->flash('error', "Could not find valid ip for use ${uuid}!");
+            $this->resetInput();
+            $this->dispatchBrowserEvent('close-modal');
             return;
         }
 
