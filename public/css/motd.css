@@ -1,6 +1,30 @@
 @font-face {
     font-family: "Minecraft";
-    src: url('../fonts/minecraft.ttf');
+    src: url("../fonts/Minecraft-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Minecraft";
+    src: url("../fonts/Minecraft-Italic.woff") format("woff");
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Minecraft";
+    src: url("../fonts/Minecraft-Bold.woff") format("woff");
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Minecraft";
+    src: url("../fonts/Minecraft-BoldItalic.woff") format("woff");
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
 }
 
 .preview_zone {
@@ -14,6 +38,8 @@
     line-height: 20px;
     min-height: 64px;
     word-break: break-all;
+    font-size: 20px;
+    max-width: 611px;
     /*margin: 0 auto;*/
 }
 

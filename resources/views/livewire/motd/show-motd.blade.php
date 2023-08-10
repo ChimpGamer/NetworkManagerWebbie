@@ -21,7 +21,7 @@
                     <tr>
                         <td>
                             <div class="preview_zone"
-                                 style="background-image: url({{ $motd->faviconUrl }}), url(../images/motd.png); max-width: 546px;">
+                                 style="background-image: url({{ $motd->faviconUrl }}), url(../images/motd.png);">
                                 <div class="server-name">Minecraft Server <span id="ping" class="ping">@if(empty($motd->customversion)) 143/200 @else {!! $motd->customversion !!} @endif</span>
                                 </div>
                                 <span class="preview_motd" wire:modal="motd.text">{!! $motd->text !!}</span>
