@@ -97,7 +97,7 @@
                     </div>
                     <div class="mb-3">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" wire:model="restricted" @checked(old('restricted', $restricted)) />
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" wire:model="restricted" />
                             <label class="form-check-label" style="font-weight: bold;" for="flexSwitchCheckChecked">Restricted</label>
                         </div>
                         @error('restricted') <span class="text-danger">{{ $message }}</span> @enderror
@@ -176,7 +176,7 @@
                     </div>
                     <div class="mb-3">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" wire:model="restricted" @checked(old('restricted', $restricted)) />
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" wire:model="restricted" />
                             <label class="form-check-label bold" for="flexSwitchCheckChecked">Restricted</label>
                         </div>
                     </div>

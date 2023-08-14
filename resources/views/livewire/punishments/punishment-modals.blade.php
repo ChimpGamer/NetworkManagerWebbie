@@ -126,7 +126,7 @@
                             <strong>Off</strong>
                             <div class="form-check form-switch ms-2">
                                 <input class="form-check-input" type="checkbox" role="switch" id="silentSwitch"
-                                       wire:model="silent" @checked(old('silent', $silent)) />
+                                       wire:model="silent" />
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="silentSwitch"><strong>On</strong></label>
                             </div>
@@ -140,7 +140,7 @@
                             <div class="form-check form-switch ms-2">
                                 <input class="form-check-input" type="checkbox" role="switch"
                                        id="activeSwitch"
-                                       wire:model="active" @checked(old('active', $active)) />
+                                       wire:model="active" />
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="activeSwitch"><strong>On</strong></label>
                             </div>
@@ -221,7 +221,7 @@
                             <strong>Off</strong>
                             <div class="form-check form-switch ms-2">
                                 <input class="form-check-input" type="checkbox" role="switch" id="silentSwitch"
-                                       wire:model="silent" @checked(old('silent', $silent)) />
+                                       wire:model="silent" />
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="silentSwitch"><strong>On</strong></label>
                             </div>
@@ -235,7 +235,7 @@
                             <div class="form-check form-switch ms-2">
                                 <input class="form-check-input" type="checkbox" role="switch"
                                        id="activeSwitch"
-                                       wire:model="active" @checked(old('active', $active)) />
+                                       wire:model="active" />
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="activeSwitch"><strong>On</strong></label>
                             </div>
