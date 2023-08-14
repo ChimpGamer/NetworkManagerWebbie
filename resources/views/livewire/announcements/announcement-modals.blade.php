@@ -89,7 +89,7 @@
                         <input type="text" wire:model="sound" class="form-control">
                         @error('sound') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
-                    @if(!$isGlobal)
+                    @if($showServerInput)
                         <div class="mb-3">
                             <label>Server</label>
                             <input type="text" wire:model="server" class="form-control">
@@ -176,7 +176,7 @@
                         <input type="text" wire:model="sound" class="form-control">
                         @error('sound') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
-                    @if(!$isGlobal)
+                    @if($showServerInput)
                         <div class="mb-3">
                             <label>Server</label>
                             <input type="text" wire:model="server" class="form-control">

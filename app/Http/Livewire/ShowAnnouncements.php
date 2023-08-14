@@ -17,7 +17,9 @@ class ShowAnnouncements extends Component
     public int $announcementId, $type;
     public ?string $message, $sound, $server, $condition;
     public ?string $expires;
-    public bool $permission, $active, $isGlobal;
+    public bool $permission, $active;
+
+    public bool $showServerInput = false;
 
     public ?string $typeName;
 
@@ -63,9 +65,11 @@ class ShowAnnouncements extends Component
         }
 
         $type = AnnouncementType::from($this->type);
-        $this->isGlobal = $type->isGlobal();
-        if ($this->isGlobal) {
+        if ($type->isGlobal()) {
             $this->server = null;
+            $this->showServerInput = false;
+        } else {
+            $this->showServerInput = true;
         }
     }
 
@@ -74,7 +78,6 @@ class ShowAnnouncements extends Component
         $this->resetInput();
         $this->type = 1; // Set type to 1 by default.
         $this->active = true; // Set active to true by default.
-        $this->isGlobal = true; // The default type is a global type.
     }
 
     public function createAnnouncement()
@@ -115,7 +118,7 @@ class ShowAnnouncements extends Component
         $this->condition = $announcement->condition;
         $this->expires = $announcement->expires != null ? $announcement->expires->toDateTimeLocalString() : $announcement->expires;
 
-        $this->isGlobal = $announcement->type->isGlobal();
+        $this->showServerInput = !$announcement->type->isGlobal();
         $this->permission = $announcement->permission;
         $this->active = $announcement->active;
     }
@@ -160,7 +163,7 @@ class ShowAnnouncements extends Component
         $this->condition = null;
         $this->expires = null;
 
-        $this->isGlobal = false;
+        $this->showServerInput = false;
         $this->permission = false;
         $this->active = false;
     }
