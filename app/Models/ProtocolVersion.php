@@ -42,6 +42,7 @@ enum ProtocolVersion: int
     case MINECRAFT_1_19_3 = 761;
     case MINECRAFT_1_19_4 = 762;
     case MINECRAFT_1_20 = 763;
+    case SNAPSHOT = -1;
 
     public function name(): string
     {
