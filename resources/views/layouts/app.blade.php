@@ -12,21 +12,22 @@
 
     @livewireStyles
     <!-- Google Fonts Roboto -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"/>
     <!-- Google Material Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet"/>
 
-    <link href="{{ asset('css/mdb.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/labels.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/mdb.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/labels.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet"/>
 
     <script src="{{ asset('js/mdb.min.js') }}" defer></script>
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
     <script defer src="https://unpkg.com/@popperjs/core@2"></script>
 
@@ -34,16 +35,16 @@
 </head>
 
 <body>
-    <!--Main Navigation-->
-    <main style="margin-top: 58px;">
-        <div class="container my-5">
-            @yield('content')
-        </div>
-    </main>
+<!--Main Navigation-->
+<main style="margin-top: 58px;">
+    <div class="container my-5">
+        @yield('content')
+    </div>
+</main>
 
-    @livewireScripts
+@livewireScripts
 
-    @yield('script')
+@yield('script')
 </body>
 
 <header>
