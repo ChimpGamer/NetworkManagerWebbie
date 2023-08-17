@@ -33,20 +33,14 @@
                         <td>{{ $language->name }}</td>
                         <th>
                             <a type="button" style="background: transparent; border: none;" href="/languages/{{$language->id}}">
-                                <i class="material-icons text-info">info</i>
-                            </a>
-                            {{--<button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#editServerModal"
-                                    wire:click="editServer({{$server->id}})">
                                 <i class="material-icons text-warning">edit</i>
-                            </button>--}}
+                            </a>
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
                                     data-mdb-target="#deleteLanguageModal"
                                     wire:click="deleteLanguage({{ $language->id }})">
                                 <i class="material-icons text-danger">delete</i>
                             </button>
                         </th>
-                        {{--<th><button class="viewDetails" type="button" data-id="{{ $server->id  }}">View</button>
-                        </th>--}}
                     </tr>
                 @endforeach
                 </tbody>
