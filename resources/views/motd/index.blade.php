@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link rel="stylesheet" href="{{asset('css/motd.css')}}"
+    <link rel="stylesheet" href="{{asset('css/motd.css')}}">
 @endpush
 
 @section('content')
