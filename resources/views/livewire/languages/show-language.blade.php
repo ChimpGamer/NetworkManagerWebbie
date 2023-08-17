@@ -21,4 +21,8 @@
             </div>
         </div>
     </div>
+
+    @if (session()->has('message'))
+        <h5 class="alert alert-success">{{ session('message') }}</h5>
+    @endif
 </div>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Livewire\Component;
+use function Sodium\add;
 
 class ShowLanguage extends Component
 {
@@ -36,11 +37,15 @@ class ShowLanguage extends Component
     {
         $this->validate();
 
-        foreach ($this->languageMessages as $message) {
-            if ($message->wasChanged()){
-                $message->save();
-            }
+        $changedMessages = $this->languageMessages->filter(function ($message) {
+            return $message->isDirty();
+        })->values();
+        if ($changedMessages->isEmpty()) return;
+        foreach ($changedMessages as $message) {
+            $message->save();
         }
+        $message = "Successfully updated the following message(s): " . $changedMessages->implode('key', ', ');
+        session()->flash('message', $message);
     }
 
     public function render(): View
