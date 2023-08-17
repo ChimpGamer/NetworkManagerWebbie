@@ -32,11 +32,10 @@
                         <td>{{ $language->id }}</td>
                         <td>{{ $language->name }}</td>
                         <th>
-                            {{--<button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#showServerModal"
-                                    wire:click="showServer({{$server->id}})">
+                            <a type="button" style="background: transparent; border: none;" href="/languages/{{$language->id}}">
                                 <i class="material-icons text-info">info</i>
-                            </button>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#editServerModal"
+                            </a>
+                            {{--<button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#editServerModal"
                                     wire:click="editServer({{$server->id}})">
                                 <i class="material-icons text-warning">edit</i>
                             </button>--}}
