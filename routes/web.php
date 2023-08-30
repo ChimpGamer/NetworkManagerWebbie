@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\MOTDController;
 use App\Http\Controllers\PlayersController;
@@ -50,3 +51,4 @@ Route::resource('languages', LanguagesController::class);
 Route::resource('profile', ProfileController::class);
 Route::resource('permissions', PermissionsController::class);
 Route::resource('motd', MOTDController::class);
+Route::resource('filter', FilterController::class);
