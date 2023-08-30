@@ -48,6 +48,11 @@
                     <i class="fas fa-filter-circle-xmark fa-fw me-3"></i><span>Filter</span>
                 </a>
             @endcan
+            @can('view_commandblocker')
+                <a href="/commandblocker" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'commandblocker')) active @endif">
+                    <i class="fas fa-ban fa-fw me-3"></i><span>Command Blocker</span>
+                </a>
+            @endcan
             @can('view_network')
                 <a href="/motd" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'motd')) active @endif">
                     <i class="fas fa-message fa-fw me-3"></i><span>MOTD</span>

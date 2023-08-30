@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommandBlockerController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\MOTDController;
@@ -52,3 +53,4 @@ Route::resource('profile', ProfileController::class);
 Route::resource('permissions', PermissionsController::class);
 Route::resource('motd', MOTDController::class);
 Route::resource('filter', FilterController::class);
+Route::resource('commandblocker', CommandBlockerController::class);
