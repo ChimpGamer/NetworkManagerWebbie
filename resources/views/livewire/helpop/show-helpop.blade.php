@@ -1,4 +1,12 @@
 <div>
+    @include('livewire.helpop.helpop-modals')
+
+    @if (session()->has('message'))
+        <h5 class="alert alert-success">{{ session('message') }}</h5>
+    @endif
+    @if (session()->has('error'))
+        <h5 class="alert alert-danger">{{ session('error') }}</h5>
+    @endif
 
     <div class="card">
         <div class="card-header text-center py-3">
@@ -16,6 +24,7 @@
                     <th>Message</th>
                     <th>Server</th>
                     <th>Time</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -26,6 +35,12 @@
                         <td>{{ $item->message }}</td>
                         <td>{{ $item->server }}</td>
                         <td>{{ $item->time }}</td>
+                        <td>
+                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                                    data-mdb-target="#deleteHelpOPModal" wire:click="deleteHelpOP({{$item->id}})">
+                                <i class="material-icons text-danger">delete</i>
+                            </button>
+                        </td>
                     </tr>
                 @endforeach
 
