@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommandBlockerController;
 use App\Http\Controllers\FilterController;
+use App\Http\Controllers\HelpOPController;
 use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\MOTDController;
 use App\Http\Controllers\PlayersController;
@@ -54,3 +55,4 @@ Route::resource('permissions', PermissionsController::class);
 Route::resource('motd', MOTDController::class);
 Route::resource('filter', FilterController::class);
 Route::resource('commandblocker', CommandBlockerController::class);
+Route::resource('helpop', HelpOPController::class);
