@@ -43,7 +43,11 @@ class HomeController extends Controller
         foreach ($data as $item) {
             $time += $item->time;
         }
-        return date('H:i:s', $time / 1000);
+        try {
+            return CarbonInterval::millisecond($time)->cascade()->forHumans(['short' => true, 'options' => 0]);
+        } catch (\Exception $ex) {
+            return $ex->getMessage();
+        }
     }
 
     /**
