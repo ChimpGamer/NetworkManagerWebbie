@@ -32,14 +32,18 @@
                         <td>{{ $language->id }}</td>
                         <td>{{ $language->name }}</td>
                         <th>
-                            <a type="button" style="background: transparent; border: none;" href="/languages/{{$language->id}}">
-                                <i class="material-icons text-warning">edit</i>
-                            </a>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#deleteLanguageModal"
-                                    wire:click="deleteLanguage({{ $language->id }})">
-                                <i class="material-icons text-danger">delete</i>
-                            </button>
+                            @can('edit_languages')
+                                <a type="button" style="background: transparent; border: none;"
+                                   href="/languages/{{$language->id}}">
+                                    <i class="material-icons text-warning">edit</i>
+                                </a>
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal"
+                                        data-mdb-target="#deleteLanguageModal"
+                                        wire:click="deleteLanguage({{ $language->id }})">
+                                    <i class="material-icons text-danger">delete</i>
+                                </button>
+                            @endcan
                         </th>
                     </tr>
                 @endforeach
