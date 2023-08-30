@@ -42,6 +42,7 @@ class ShowMotd extends Component
 
     public function editMotd(Motd $motd)
     {
+        $this->motdId = $motd->id;
         $this->text = $motd->text;
         $this->description = $motd->description;
         $this->customversion = $motd->customversion;
@@ -53,7 +54,7 @@ class ShowMotd extends Component
     {
         $validatedData = $this->validate();
 
-        MOTD::where('id', $this->motd->id)->update([
+        MOTD::where('id', $this->motdId)->update([
             'text' => $validatedData['text'],
             'description' => $validatedData['description'],
             'customversion' => $validatedData['customversion'],
@@ -67,7 +68,6 @@ class ShowMotd extends Component
 
     public function deleteMotd(MOTD $motd)
     {
-        $this->motd = $motd;
         $this->motdId = $motd->id;
     }
 
