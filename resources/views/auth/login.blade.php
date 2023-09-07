@@ -25,7 +25,7 @@
                                 <div class="col-lg-8">
                                     <input id="username" type="text"
                                            class="form-control @error('username') is-invalid @enderror" name="username"
-                                           value="{{ old('username') }}" required autocomplete="email" autofocus>
+                                           value="{{ old('username') }}" required autocomplete="username" autofocus>
 
                                 </div>
                             </div>
