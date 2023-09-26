@@ -80,6 +80,13 @@ class Group extends Model
     ];
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The users for the model.
      *
      * @return HasMany

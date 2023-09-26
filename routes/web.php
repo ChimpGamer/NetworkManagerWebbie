@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\CommandBlockerController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\HelpOPController;
@@ -56,3 +57,4 @@ Route::resource('motd', MOTDController::class);
 Route::resource('filter', FilterController::class);
 Route::resource('commandblocker', CommandBlockerController::class);
 Route::resource('helpop', HelpOPController::class);
+Route::resource('accounts', AccountsController::class);

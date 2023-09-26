@@ -65,6 +65,9 @@
                 <a href="/settings" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'settings')) active @endif">
                     <i class="fas fa-gear fa-fw me-3"></i><span>Settings</span>
                 </a>
+                <a href="/accounts" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'accounts')) active @endif">
+                    <i class="fas fa-users fa-fw me-3"></i><span>Groups & Accounts</span>
+                </a>
             @endcan
         </div>
     </div>
