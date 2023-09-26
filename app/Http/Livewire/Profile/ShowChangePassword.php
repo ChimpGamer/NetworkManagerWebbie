@@ -11,13 +11,13 @@ use Livewire\Component;
 class ShowChangePassword extends Component
 {
     public ?string $oldPassword;
-    public ?string $newPassword;
+    public ?string $password, $password_confirmation;
 
     public function rules()
     {
         return [
             'oldPassword' => 'required|string',
-            'newPassword' => 'required|string',
+            'password' => 'required|string|confirmed',
         ];
     }
 
@@ -29,7 +29,7 @@ class ShowChangePassword extends Component
             return back()->with('error', 'Old Password Does not match!');
         }
 
-        User::whereId(auth()->user()->id)->update(['password' => Hash::make($validatedData['newPassword'])]);
+        User::whereId(auth()->user()->id)->update(['password' => Hash::make($validatedData['password'])]);
 
         $this->resetInput();
         return back()->with('message', 'Successfully Changed Password');
@@ -38,7 +38,8 @@ class ShowChangePassword extends Component
     private function resetInput()
     {
         $this->oldPassword = null;
-        $this->newPassword = null;
+        $this->password = null;
+        $this->password_confirmation = null;
     }
 
     public function render(): View

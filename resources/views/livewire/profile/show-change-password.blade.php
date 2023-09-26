@@ -23,8 +23,13 @@
                         </div>
                         <div class="mb-3">
                             <label for="newPassword" class="bold">New Password</label>
-                            <input id="newPassword" type="password" wire:model="newPassword" class="form-control">
-                            @error('newPassword') <span class="text-danger">{{ $message }}</span> @enderror
+                            <input id="newPassword" type="password" wire:model="password" class="form-control">
+                            @error('password') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPasswordConfirmation" class="bold">Confirm New Password</label>
+                            <input id="newPasswordConfirmation" type="password" wire:model="password_confirmation" class="form-control">
+                            @error('password_confirmation') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
                     <div class="card-footer">
