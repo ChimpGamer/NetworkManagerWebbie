@@ -233,8 +233,7 @@
                         <div class="d-flex">
                             <strong>Off</strong>
                             <div class="form-check form-switch ms-2">
-                                <input class="form-check-input" type="checkbox" role="switch"
-                                       id="activeSwitch"
+                                <input class="form-check-input" type="checkbox" role="switch" id="activeSwitch"
                                        wire:model="active" />
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="activeSwitch"><strong>On</strong></label>

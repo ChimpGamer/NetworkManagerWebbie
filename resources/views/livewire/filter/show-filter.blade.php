@@ -34,10 +34,12 @@
                         <td>{{ $filter->replacement }}</td>
                         <td>{{ $filter->server }}</td>
                         <td>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#editFilterModal" wire:click="editFilter({{$filter->id}})">
+                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                                    data-mdb-target="#editFilterModal" wire:click="editFilter({{$filter->id}})">
                                 <i class="material-icons text-warning">edit</i>
                             </button>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#deleteFilterModal" wire:click="deleteFilter({{$filter->id}})">
+                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                                    data-mdb-target="#deleteFilterModal" wire:click="deleteFilter({{$filter->id}})">
                                 <i class="material-icons text-danger">delete</i>
                             </button>
                         </td>

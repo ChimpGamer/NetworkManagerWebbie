@@ -28,11 +28,13 @@
                         <td>{{ $group->ladder }}</td>
                         <td>{{ $group->rank }}</td>
                         <td>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#editGroupModal"
+                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                                    data-mdb-target="#editGroupModal"
                                     wire:click="editGroup({{$group->id}})">
                                 <i class="material-icons text-warning">edit</i>
                             </button>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#deleteGroupModal"
+                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                                    data-mdb-target="#deleteGroupModal"
                                     wire:click="deleteGroup({{ $group->id }})">
                                 <i class="material-icons text-danger">delete</i>
                             </button>
