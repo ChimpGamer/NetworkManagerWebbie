@@ -1,7 +1,7 @@
 <div>
     <div class="row gy-4">
         <!-- Player Information -->
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header text-center py-3">
                     <h5 class="mb-0 text-center">
@@ -70,7 +70,7 @@
         </div>
 
         <!-- Player Statistics -->
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header text-center py-3">
                     <h5 class="mb-0 text-center">
