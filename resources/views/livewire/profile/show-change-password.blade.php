@@ -7,7 +7,7 @@
     @endif
 
     <div class="row gy-4">
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header text-center">
                     <h5 class="mb-0 text-center">
