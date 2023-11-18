@@ -31,7 +31,7 @@ class ShowPunishments extends Component
         $end,
         $timeFormatted,
         $endFormatted;
-    public bool $silent, $active, $isGlobal = false, $isTemporary;
+    public bool $silent, $active, $isGlobal = false, $isTemporary = false;
     public string $search = '';
     public int $deleteId;
 
