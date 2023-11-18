@@ -42,7 +42,7 @@ class ShowPunishments extends Component
             'playerUUID' => 'required|uuid|exists:players,uuid',
             'punisherUUID' => 'required|uuid',
             'time' => 'required|date',
-            'end' => 'required|date',
+            'end' => $this->isTemporary ? 'required|date' : '',
             'reason' => 'required|string',
             'server' => $this->isGlobal ? '' : 'required|string',
             'silent' => 'required|boolean',
