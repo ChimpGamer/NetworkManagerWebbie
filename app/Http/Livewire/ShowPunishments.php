@@ -31,7 +31,7 @@ class ShowPunishments extends Component
         $end,
         $timeFormatted,
         $endFormatted;
-    public bool $silent, $active, $isGlobal = false, $isTemporary;
+    public bool $silent, $active, $isGlobal = false, $isTemporary = false;
     public string $search = '';
     public int $deleteId;
 
@@ -42,7 +42,7 @@ class ShowPunishments extends Component
             'playerUUID' => 'required|uuid|exists:players,uuid',
             'punisherUUID' => 'required|uuid',
             'time' => 'required|date',
-            'end' => 'required|date',
+            'end' => $this->isTemporary ? 'required|date' : '',
             'reason' => 'required|string',
             'server' => $this->isGlobal ? '' : 'required|string',
             'silent' => 'required|boolean',
@@ -223,6 +223,8 @@ class ShowPunishments extends Component
     public function render(): View
     {
         $punishments = Punishment::where('id', 'like', '%' . $this->search . '%')
+            ->orWhere('ip', 'like', '%' . $this->search . '%')
+            ->orWhere('server', 'like', '%' . $this->search . '%')
             ->orWhere('reason', 'like', '%' . $this->search . '%')
             ->orderBy('id', 'DESC')->paginate(10);
         return view('livewire.punishments.show-punishments')->with('punishments', $punishments);
