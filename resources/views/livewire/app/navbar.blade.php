@@ -20,18 +20,18 @@
                 <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
                     id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
                     @if (Auth::check())
-                        <img src="https://crafatar.com/avatars/{{ Auth::user()->getUUID() }}?default=MHF_Steve&overlay" class="rounded-circle" height="22" alt="Avatar" loading="lazy" />
+                        <img src="https://minotar.net/helm/{{ Auth::user()->getUUID() }}" class="rounded-circle" height="22" alt="Avatar" loading="lazy" />
                      @else
-                        <img src="https://crafatar.com/avatars/null?default=MHF_Steve&overlay" class="rounded-circle" height="22" alt="Avatar" loading="lazy" />
+                        <img src="https://minotar.net/helm/MHF_Steve" class="rounded-circle" height="22" alt="Avatar" loading="lazy" />
                     @endif
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                     <li>
                         <a class="dropdown-item" href="/profile">My profile</a>
                     </li>
-                    <li>
+                    {{--<li>
                         <a class="dropdown-item" href="#">Settings</a>
-                    </li>
+                    </li>--}}
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

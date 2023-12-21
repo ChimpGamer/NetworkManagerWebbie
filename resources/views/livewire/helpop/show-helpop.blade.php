@@ -31,7 +31,7 @@
                 @foreach($data as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
-                        <td><a href="/players/{{ $item->requester }}"><img src="https://crafatar.com/avatars/{{ $item->requester }}?size=20" alt="requester avatar"> {{ $item->username }}</a></td>
+                        <td><a href="/players/{{ $item->requester }}"><img src="https://minotar.net/avatar/{{ $item->requester }}/20" alt="requester avatar"> {{ $item->username }}</a></td>
                         <td>{{ $item->message }}</td>
                         <td>{{ $item->server }}</td>
                         <td>{{ $item->time }}</td>
