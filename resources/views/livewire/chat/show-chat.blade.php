@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Str; @endphp
 <div>
     <div class="card">
         <div class="card-header py-3">
@@ -17,7 +18,8 @@
             <div class="float-end d-inline" wire:ignore>
                 <div class="form-outline" data-mdb-input-init>
                     <input type="search" id="chatSearch" class="form-control" wire:model.live="search"/>
-                    <label class="form-label" for="chatSearch" style="font-family: Roboto, 'FontAwesome'">Search...</label>
+                    <label class="form-label" for="chatSearch"
+                           style="font-family: Roboto, 'FontAwesome'">Search...</label>
                 </div>
             </div>
         </div>
@@ -27,6 +29,9 @@
                 <thead>
                 <tr>
                     <th>Username</th>
+                    @if($type == 2)
+                        <th>Receiver</th>
+                    @endif
                     <th>Type</th>
                     <th>Message</th>
                     <th>Server</th>
@@ -35,10 +40,24 @@
                 </thead>
                 <tbody>
                 @forelse($chatmessages as $chatMessage)
+                    @php
+                        $message = $chatMessage->message;
+                        $receiver = null;
+                        if ($type == 2) {
+                            $receiver = strtok($message, " ");
+                            $message = Str::replaceFirst($message, $receiver, '');
+                        }
+                    @endphp
+
                     <tr>
-                        <td><a href="/players/{{ $chatMessage->uuid }}"><img src="https://minotar.net/avatar/{{ $chatMessage->uuid }}/20" alt="requester avatar"> {{ $chatMessage->username }}</a></td>
+                        <td><a href="/players/{{ $chatMessage->uuid }}"><img
+                                    src="https://minotar.net/avatar/{{ $chatMessage->uuid }}/20"
+                                    alt="requester avatar"> {{ $chatMessage->username }}</a></td>
                         <td>{{ $chatMessage->type->name() }}</td>
-                        <td>{{ $chatMessage->message }}</td>
+                        @if($type == 2)
+                            <th>{{ $receiver }}</th>
+                        @endif
+                        <td>{{ $message }}</td>
                         <td>{{ $chatMessage->server }}</td>
                         <td>{{ $chatMessage->time }}</td>
                     </tr>

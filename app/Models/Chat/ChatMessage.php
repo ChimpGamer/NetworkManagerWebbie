@@ -3,7 +3,6 @@
 namespace App\Models\Chat;
 
 use App\Helpers\TimeUtils;
-use App\Models\Player;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
