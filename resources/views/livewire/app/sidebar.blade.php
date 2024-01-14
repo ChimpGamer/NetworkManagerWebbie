@@ -58,6 +58,11 @@
                     <i class="fas fa-question fa-fw me-3"></i><span>HelpOP</span>
                 </a>
             @endcan
+            @can('view_chat')
+                <a href="/chat" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'chat')) active @endif">
+                    <i class="fas fa-comments fa-fw me-3"></i><span>Chat</span>
+                </a>
+            @endcan
             @can('view_network')
                 <a href="/motd" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'motd')) active @endif">
                     <i class="fas fa-message fa-fw me-3"></i><span>MOTD</span>
