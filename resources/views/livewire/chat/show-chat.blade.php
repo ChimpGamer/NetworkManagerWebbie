@@ -45,7 +45,7 @@
                         $receiver = null;
                         if ($type == 2) {
                             $receiver = strtok($message, " ");
-                            $message = Str::replaceFirst($message, $receiver, '');
+                            $message = Str::replaceFirst($receiver, '', $message);
                         }
                     @endphp
 
@@ -53,10 +53,10 @@
                         <td><a href="/players/{{ $chatMessage->uuid }}"><img
                                     src="https://minotar.net/avatar/{{ $chatMessage->uuid }}/20"
                                     alt="requester avatar"> {{ $chatMessage->username }}</a></td>
-                        <td>{{ $chatMessage->type->name() }}</td>
                         @if($type == 2)
                             <th>{{ $receiver }}</th>
                         @endif
+                        <td>{{ $chatMessage->type->name() }}</td>
                         <td>{{ $message }}</td>
                         <td>{{ $chatMessage->server }}</td>
                         <td>{{ $chatMessage->time }}</td>
