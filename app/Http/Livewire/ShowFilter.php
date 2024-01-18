@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Filter;
+use App\Support\Collection;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,7 +15,14 @@ class ShowFilter extends Component
     protected string $paginationTheme = 'bootstrap';
 
     public int $filterId;
-    public ?string $word, $replacement, $server;
+
+    public ?string $word;
+
+    public ?string $replacement;
+
+    public ?string $server;
+
+    public string $search = '';
 
     protected $rules = [
         'word' => 'required|string',
@@ -21,11 +30,15 @@ class ShowFilter extends Component
         'server' => 'string|nullable',
     ];
 
-    public function addFilter() {
+    //private $filters;
+
+    public function addFilter()
+    {
         $this->resetInput();
     }
 
-    public function createFilter() {
+    public function createFilter()
+    {
         $validatedData = $this->validate();
 
         $replacement = empty($validatedData['replacement']) ? null : $validatedData['replacement'];
@@ -90,9 +103,18 @@ class ShowFilter extends Component
         $this->server = null;
     }
 
+    /*public function mount()
+    {
+        $this->filters = new Collection(Filter::orderBy('id', 'DESC')->get()->filter(function (Filter $filter) {
+            return Str::of($this->search)->test('/'.$filter->word.'/');
+        }));
+        dd($this->filters);
+    }*/
+
     public function render()
     {
-        $filters = Filter::orderBy('id', 'DESC')->paginate(10);
+        $filters = Filter::where('word', 'like', '%'.$this->search.'%')->orderBy('id', 'DESC')->paginate(10);
+
         return view('livewire.filter.show-filter')->with('filters', $filters);
     }
 }
