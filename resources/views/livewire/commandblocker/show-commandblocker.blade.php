@@ -9,10 +9,17 @@
     @endif
 
     <div class="card">
-        <div class="card-header text-center py-3">
+        <div class="card-header py-3">
             <h5 class="mb-0 text-center">
                 <strong>Command Blocker</strong>
             </h5>
+
+            <div class="float-end d-inline" wire:ignore>
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="search" id="commandBlockerSearch" class="form-control" wire:model.live="search"/>
+                    <label class="form-label" for="commandBlockerSearch" style="font-family: Roboto, 'FontAwesome'">Search...</label>
+                </div>
+            </div>
         </div>
 
         <div class="card-body border-0 shadow table-responsive">

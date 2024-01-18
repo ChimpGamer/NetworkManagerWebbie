@@ -16,6 +16,8 @@ class ShowCommandBlocker extends Component
     public ?string $command, $server, $customMessage;
     public bool $bypasspermission;
 
+    public string $search = '';
+
     protected $rules = [
         'command' => 'required|string',
         'server' => 'string|nullable',
@@ -102,7 +104,7 @@ class ShowCommandBlocker extends Component
 
     public function render()
     {
-        $blockedCommands = CommandBlocker::orderBy('id', 'DESC')->paginate(10);
+        $blockedCommands = CommandBlocker::where('command', 'like', '%'.$this->search.'%')->orderBy('id', 'DESC')->paginate(10);
         return view('livewire.commandblocker.show-commandblocker')->with('blockedcommands', $blockedCommands);
     }
 }
