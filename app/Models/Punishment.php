@@ -42,7 +42,7 @@ class Punishment extends Model
         'server',
         'unbanner',
         'silent',
-        'active'
+        'active',
     ];
 
     /**
@@ -73,11 +73,13 @@ class Punishment extends Model
      */
     public $timestamps = false;
 
-    public function getPlayerName() {
+    public function getPlayerName()
+    {
         return Player::getName($this->uuid);
     }
 
-    public function getPunisherName() {
+    public function getPunisherName()
+    {
         return Player::getName($this->punisher);
     }
 

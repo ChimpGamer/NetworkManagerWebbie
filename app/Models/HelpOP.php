@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Helpers\TimeUtils;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class HelpOP extends Model
 {
@@ -35,7 +35,7 @@ class HelpOP extends Model
         'requester',
         'message',
         'server',
-        'time'
+        'time',
     ];
 
     /**
@@ -63,7 +63,8 @@ class HelpOP extends Model
      */
     public $timestamps = false;
 
-    protected function time(): Attribute {
+    protected function time(): Attribute
+    {
         return Attribute::make(
             get: fn (string $value) => TimeUtils::formatTimestamp($value)
         );

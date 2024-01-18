@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Helpers\TimeUtils;
-use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -31,7 +30,6 @@ class Player extends Model
      */
     protected $table = 'players';
 
-
     /**
      * The primary key for the model.
      *
@@ -57,7 +55,7 @@ class Player extends Model
         'lastlogin',
         'lastlogout',
         'online',
-        'playtime'
+        'playtime',
     ];
 
     /**
@@ -70,7 +68,7 @@ class Player extends Model
         'tagid' => 'integer',
         'version' => ProtocolVersion::class,
 
-        'online' => 'boolean'
+        'online' => 'boolean',
     ];
 
     /**
@@ -81,7 +79,7 @@ class Player extends Model
     protected $dates = [
         'firstlogin',
         'lastlogin',
-        'lastlogout'
+        'lastlogout',
     ];
 
     /**
@@ -93,16 +91,21 @@ class Player extends Model
 
     protected function playtime(): Attribute
     {
-        return Attribute::make(get: fn(int $value) => TimeUtils::millisToReadableFormat($value));
+        return Attribute::make(get: fn (int $value) => TimeUtils::millisToReadableFormat($value));
     }
 
     public static function getName($uuid)
     {
-        if ($uuid == 'f78a4d8d-d51b-4b39-98a3-230f2de0c670') return 'CONSOLE';
+        if ($uuid == 'f78a4d8d-d51b-4b39-98a3-230f2de0c670') {
+            return 'CONSOLE';
+        }
         $player = Player::select('username')
             ->where('uuid', $uuid)
             ->first();
-        if ($player == null) return $player;
+        if ($player == null) {
+            return $player;
+        }
+
         return $player->username;
     }
 
@@ -111,7 +114,10 @@ class Player extends Model
         $player = Player::select('ip')
             ->where('uuid', $uuid)
             ->first();
-        if ($player == null) return null;
+        if ($player == null) {
+            return null;
+        }
+
         return $player->ip;
     }
 
@@ -121,10 +127,10 @@ class Player extends Model
             ->distinct()
             ->count();
 
-        $result = DB::table("players")
+        $result = DB::table('players')
             ->select(DB::raw('DISTINCT(version) as version, count(*) AS count'))
-            ->orderBy("count", "desc")
-            ->groupBy("version")
+            ->orderBy('count', 'desc')
+            ->groupBy('version')
             ->get();
 
         return $result->map(function ($item) use ($total) {
@@ -134,10 +140,11 @@ class Player extends Model
             }
             $protocolVersion = ProtocolVersion::tryFrom($item->version);
             $version = $protocolVersion == null ? 'snapshot' : $protocolVersion->name();
+
             return [
                 'version' => $version,
                 'players' => $item->count,
-                'percentage' => number_format($percentage, 2, '.', ' ')
+                'percentage' => number_format($percentage, 2, '.', ' '),
             ];
         });
     }
@@ -148,10 +155,10 @@ class Player extends Model
             ->distinct()
             ->count();
 
-        $result = DB::table("logins")
+        $result = DB::table('logins')
             ->select(DB::raw('DISTINCT(vhost) as vhost, count(*) AS count'))
-            ->orderBy("count", "desc")
-            ->groupBy("vhost")
+            ->orderBy('count', 'desc')
+            ->groupBy('vhost')
             ->get();
 
         return $result->map(function ($item) use ($total) {
@@ -159,10 +166,11 @@ class Player extends Model
             if ($total != 0) {
                 $percentage = $item->count / $total * 100;
             }
+
             return [
                 'vhost' => ($item->vhost == null ? 'Unknown' : $item->vhost),
                 'players' => $item->count,
-                'percentage' => number_format($percentage, 2, '.', ' ')
+                'percentage' => number_format($percentage, 2, '.', ' '),
             ];
         });
     }
@@ -197,6 +205,7 @@ class Player extends Model
             ->where('uuid', $this->uuid)
             ->groupBy('uuid')
             ->avg('start');
+
         return date('H:i:s', $data / 1000);
     }
 
@@ -236,6 +245,7 @@ class Player extends Model
         }
 
         $result = ['labels' => $labels, 'values' => $values];
+
         return $result;
     }
 
