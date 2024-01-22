@@ -10,6 +10,10 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
+                    <strong>ID</strong>
+                    <p>{{ $punishmentId }}</p>
+                </div>
+                <div class="mb-3">
                     <strong>Type</strong>
                     <p>{{ $typeName }}</p>
                 </div>
