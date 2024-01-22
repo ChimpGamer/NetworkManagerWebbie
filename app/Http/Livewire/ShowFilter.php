@@ -50,6 +50,7 @@ class ShowFilter extends Component
             'word' => $validatedData['word'],
             'replacement' => $replacement,
             'server' => $server,
+            'enabled' => $validatedData['enabled'],
         ]);
         session()->flash('message', 'Successfully Added Filter');
         $this->resetInput();
