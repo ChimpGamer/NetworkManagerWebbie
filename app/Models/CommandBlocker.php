@@ -34,6 +34,7 @@ class CommandBlocker extends Model
         'server',
         'customMessage',
         'bypasspermission',
+        'enabled',
     ];
 
     /**
@@ -43,6 +44,7 @@ class CommandBlocker extends Model
      */
     protected $casts = [
         'bypasspermission' => 'boolean',
+        'enabled' => 'boolean',
     ];
 
     /**

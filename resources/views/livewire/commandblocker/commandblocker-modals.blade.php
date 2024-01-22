@@ -30,6 +30,19 @@
                             <label class="form-check-label bold" for="flexSwitchCheckChecked">Bypass Permission</label>
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <label class="bold">Enabled</label>
+                        <div class="d-flex">
+                            <strong>Off</strong>
+                            <div class="form-check form-switch ms-2">
+                                <input class="form-check-input" type="checkbox" role="switch" id="enabledSwitch"
+                                       wire:model="enabled" />
+                                <label class="form-check-label" style="font-weight: bold;"
+                                       for="enabledSwitch"><strong>On</strong></label>
+                            </div>
+                            @error('enabled') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
@@ -71,6 +84,19 @@
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" wire:model="bypasspermission" />
                             <label class="form-check-label bold" for="flexSwitchCheckChecked">Bypass Permission</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">Enabled</label>
+                        <div class="d-flex">
+                            <strong>Off</strong>
+                            <div class="form-check form-switch ms-2">
+                                <input class="form-check-input" type="checkbox" role="switch" id="enabledSwitch"
+                                       wire:model="enabled" />
+                                <label class="form-check-label" style="font-weight: bold;"
+                                       for="enabledSwitch"><strong>On</strong></label>
+                            </div>
+                            @error('enabled') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
                 </div>

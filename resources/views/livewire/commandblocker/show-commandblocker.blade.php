@@ -37,7 +37,11 @@
                 <tbody>
                 @foreach($blockedcommands as $blockedCommand)
                     <tr>
-                        <td>{{ $blockedCommand->id }}</td>
+                        <td>@if ($blockedCommand->enabled)
+                                <i class="fas fa-check-circle fa-lg text-success"></i>
+                            @else
+                                <i class="fas fa-exclamation-circle fa-lg text-danger"></i>
+                            @endif{{ $blockedCommand->id }}</td>
                         <td>{{ $blockedCommand->command }}</td>
                         <td>{{ $blockedCommand->server }}</td>
                         <td>{!! $blockedCommand->customMessage !!}</td>
