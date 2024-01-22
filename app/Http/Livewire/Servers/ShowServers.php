@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Servers;
 
 use App\Models\Server;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,10 +14,25 @@ class ShowServers extends Component
     protected string $paginationTheme = 'bootstrap';
 
     public int $serverId;
-    public string $servername, $displayname, $ip, $port;
-    public ?string $motd, $allowed_versions = null;
-    public bool $restricted, $online;
+
+    public string $servername;
+
+    public string $displayname;
+
+    public string $ip;
+
+    public string $port;
+
+    public ?string $motd;
+
+    public ?string $allowed_versions = null;
+
+    public bool $restricted;
+
+    public bool $online;
+
     public string $search = '';
+
     public int $deleteId;
 
     protected function rules()
@@ -54,8 +68,9 @@ class ShowServers extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
-        if ($fields == "search") {
+        if ($fields == 'search') {
             $this->resetPage();
+
             return;
         }
     }
@@ -150,7 +165,8 @@ class ShowServers extends Component
 
     public function render(): View
     {
-        $servers = Server::where('servername', 'like', '%' . $this->search . '%')->orderBy('id', 'ASC')->paginate(10);
+        $servers = Server::where('servername', 'like', '%'.$this->search.'%')->orderBy('id', 'ASC')->paginate(10);
+
         return view('livewire.servers.show-servers')->with('servers', $servers);
     }
 }
