@@ -25,9 +25,16 @@
                         @error('customMessage') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" wire:model="bypasspermission" />
-                            <label class="form-check-label bold" for="flexSwitchCheckChecked">Bypass Permission</label>
+                        <label class="bold">Bypass Permission</label>
+                        <div class="d-flex">
+                            <strong>Off</strong>
+                            <div class="form-check form-switch ms-2">
+                                <input class="form-check-input" type="checkbox" role="switch" id="bypasspermissionSwitch"
+                                       wire:model="bypasspermission" />
+                                <label class="form-check-label" style="font-weight: bold;"
+                                       for="bypasspermissionSwitch"><strong>On</strong></label>
+                            </div>
+                            @error('bypasspermission') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
                     <div class="mb-3">
@@ -81,9 +88,16 @@
                         @error('customMessage') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" wire:model="bypasspermission" />
-                            <label class="form-check-label bold" for="flexSwitchCheckChecked">Bypass Permission</label>
+                        <label class="bold">Bypass Permission</label>
+                        <div class="d-flex">
+                            <strong>Off</strong>
+                            <div class="form-check form-switch ms-2">
+                                <input class="form-check-input" type="checkbox" role="switch" id="bypasspermissionSwitch"
+                                       wire:model="bypasspermission" />
+                                <label class="form-check-label" style="font-weight: bold;"
+                                       for="bypasspermissionSwitch"><strong>On</strong></label>
+                            </div>
+                            @error('bypasspermission') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
                     <div class="mb-3">
