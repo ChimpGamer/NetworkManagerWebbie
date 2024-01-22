@@ -33,6 +33,7 @@ class Filter extends Model
         'word',
         'replacement',
         'server',
+        'enabled',
     ];
 
     /**
@@ -41,7 +42,7 @@ class Filter extends Model
      * @var array
      */
     protected $casts = [
-
+        'enabled' => 'boolean',
     ];
 
     /**

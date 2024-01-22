@@ -24,6 +24,19 @@
                         <input type="text" wire:model="server" class="form-control">
                         @error('server') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
+                    <div class="mb-3">
+                        <label class="bold">Enabled</label>
+                        <div class="d-flex">
+                            <strong>Off</strong>
+                            <div class="form-check form-switch ms-2">
+                                <input class="form-check-input" type="checkbox" role="switch" id="enabledSwitch"
+                                       wire:model="enabled" />
+                                <label class="form-check-label" style="font-weight: bold;"
+                                       for="enabledSwitch"><strong>On</strong></label>
+                            </div>
+                            @error('enabled') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
@@ -60,6 +73,19 @@
                         <label class="bold">Server</label>
                         <input type="text" wire:model="server" class="form-control">
                         @error('server') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">Enabled</label>
+                        <div class="d-flex">
+                            <strong>Off</strong>
+                            <div class="form-check form-switch ms-2">
+                                <input class="form-check-input" type="checkbox" role="switch" id="enabledSwitch"
+                                       wire:model="enabled" />
+                                <label class="form-check-label" style="font-weight: bold;"
+                                       for="enabledSwitch"><strong>On</strong></label>
+                            </div>
+                            @error('enabled') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

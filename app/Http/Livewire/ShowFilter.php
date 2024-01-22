@@ -21,6 +21,7 @@ class ShowFilter extends Component
     public ?string $replacement;
 
     public ?string $server;
+    public bool $enabled;
 
     public string $search = '';
 
@@ -28,6 +29,7 @@ class ShowFilter extends Component
         'word' => 'required|string',
         'replacement' => 'string|nullable',
         'server' => 'string|nullable',
+        'enabled' => 'required|boolean',
     ];
 
     //private $filters;
@@ -60,6 +62,7 @@ class ShowFilter extends Component
         $this->word = $filter->word;
         $this->replacement = $filter->replacement;
         $this->server = $filter->server;
+        $this->enabled = $filter->enabled;
     }
 
     public function updateFilter()
@@ -73,6 +76,7 @@ class ShowFilter extends Component
             'word' => $validatedData['word'],
             'replacement' => $replacement,
             'server' => $server,
+            'enabled' => $validatedData['enabled'],
         ]);
         session()->flash('message', 'Filter Updated Successfully');
         $this->resetInput();
@@ -101,6 +105,7 @@ class ShowFilter extends Component
         $this->word = null;
         $this->replacement = null;
         $this->server = null;
+        $this->enabled = false;
     }
 
     /*public function mount()

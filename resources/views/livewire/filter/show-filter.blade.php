@@ -36,7 +36,11 @@
                 <tbody>
                 @foreach($filters as $filter)
                     <tr>
-                        <td>{{ $filter->id }}</td>
+                        <td>@if ($filter->enabled)
+                                <i class="fas fa-check-circle fa-lg text-success"></i>
+                            @else
+                                <i class="fas fa-exclamation-circle fa-lg text-danger"></i>
+                            @endif {{ $filter->id }}</td>
                         <td>{{ $filter->word }}</td>
                         <td>{{ $filter->replacement }}</td>
                         <td>{{ $filter->server }}</td>
