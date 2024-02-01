@@ -36,14 +36,15 @@ class ShowAccounts extends Component
     {
         $validatedData = $this->validate();
         $username = $validatedData['username'];
-        $password = Hash::make($validatedData['password']);
+        $password = $validatedData['password'];
         $userGroup = $validatedData['user_group'];
 
+        // No need to manually hash password
         User::create([
             'username' => $username,
             'password' => $password,
             'usergroup' => $userGroup,
-            'notifications' => '[]'
+            'notifications' => []
         ]);
 
         session()->flash('message', 'Successfully Added Account');
