@@ -46,7 +46,7 @@
                 </div>
                 <div class="modal-footer">
                     <a type="button" class="btn"
-                       @if(!empty($this->motd)) href="https://webui.advntr.dev/?mode=server_list&input={{urlencode($motd->text)}}"
+                       @if(!empty($text)) href="https://webui.advntr.dev/?mode=server_list&input={{urlencode($text)}}"
                        target="_blank" rel="noopener noreferrer" @endif>
                         Click to preview
                     </a>
@@ -107,7 +107,7 @@
                 </div>
                 <div class="modal-footer">
                     <a type="button" class="btn"
-                       @if(!empty($this->motd)) href="https://webui.advntr.dev/?mode=server_list&input={{urlencode($motd->text)}}"
+                       @if(!empty($text)) href="https://webui.advntr.dev/?mode=server_list&input={{urlencode($text)}}"
                        target="_blank" rel="noopener noreferrer" @endif>
                         Click to preview
                     </a>
