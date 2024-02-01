@@ -3,12 +3,13 @@
 namespace App\Http\Livewire;
 
 use App\Models\Value;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 use Livewire\Component;
 
 class ShowSettings extends Component
 {
+    use AuthorizesRequests;
 
     public string $search = '';
 
@@ -20,19 +21,21 @@ class ShowSettings extends Component
     {
         return [
             'settings.*.variable' => 'required|string',
-            'settings.*.value' => ''
+            'settings.*.value' => '',
         ];
     }
 
-    public function mount() {
+    public function mount()
+    {
         $this->settings = Value::select('variable', 'value')
-            ->where('variable', 'like', '%' . $this->search . '%')
+            ->where('variable', 'like', '%'.$this->search.'%')
             ->orderBy('variable')
             ->get();
     }
 
     public function save()
     {
+        $this->authorize('edit_settings');
         $this->validate();
 
         $changedSettings = $this->settings->filter(function ($value) {
@@ -46,11 +49,13 @@ class ShowSettings extends Component
             }
             return $value;
         });*/
-        if ($changedSettings->isEmpty()) return;
+        if ($changedSettings->isEmpty()) {
+            return;
+        }
         foreach ($changedSettings as $setting) {
             $setting->save();
         }
-        $message = "Successfully updated the following setting(s): " . $changedSettings->implode('variable', ', ');
+        $message = 'Successfully updated the following setting(s): '.$changedSettings->implode('variable', ', ');
         session()->flash('message', $message);
     }
 
