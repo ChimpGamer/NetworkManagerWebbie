@@ -27,6 +27,7 @@
             $('#addAccountGroupModal').modal('hide');
             $('#addAccountModal').modal('hide');
             $('#editAccountModal').modal('hide');
+            $('#editAccountGroupModal').modal('hide');
         });
     </script>
 @endsection
