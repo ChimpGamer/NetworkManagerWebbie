@@ -3,11 +3,14 @@
 namespace App\Http\Livewire\Accounts;
 
 use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class ShowAccounts extends Component
 {
+    use AuthorizesRequests;
+
     public int $user_id = -1;
     public string $username = '';
     public string $password = '', $password_confirmation = '';
@@ -29,11 +32,13 @@ class ShowAccounts extends Component
 
     public function addAccount()
     {
+        $this->authorize('manage_groups_and_accounts');
         $this->resetInput();
     }
 
     public function createAccount()
     {
+        $this->authorize('manage_groups_and_accounts');
         $validatedData = $this->validate();
         $username = $validatedData['username'];
         $password = $validatedData['password'];
@@ -54,6 +59,7 @@ class ShowAccounts extends Component
 
     public function editAccount(User $user)
     {
+        $this->authorize('manage_groups_and_accounts');
         $this->resetInput();
 
         $this->user_id = $user->id;
@@ -63,6 +69,7 @@ class ShowAccounts extends Component
 
     public function updateAccount()
     {
+        $this->authorize('manage_groups_and_accounts');
         $validatedData = $this->validate($this->editRules);
         $username = $validatedData['username'];
         $userGroup = $validatedData['user_group'];
@@ -79,12 +86,14 @@ class ShowAccounts extends Component
 
     public function deleteAccount(User $user)
     {
+        $this->authorize('manage_groups_and_accounts');
         $this->user_id = $user->id;
         $this->username = $user->username;
     }
 
     public function delete()
     {
+        $this->authorize('manage_groups_and_accounts');
         User::find($this->user_id)->delete();
 
         $this->resetInput();

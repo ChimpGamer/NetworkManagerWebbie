@@ -3,10 +3,13 @@
 namespace App\Http\Livewire\Accounts;
 
 use App\Models\Group;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class ShowAccountGroups extends Component
 {
+    use AuthorizesRequests;
+
     public int $group_id = -1;
 
     public string $groupname = '';
@@ -24,11 +27,13 @@ class ShowAccountGroups extends Component
 
     public function addAccountGroup()
     {
+        $this->authorize('manage_groups_and_accounts');
         $this->resetInput();
     }
 
     public function createAccountGroup()
     {
+        $this->authorize('manage_groups_and_accounts');
         $validatedData = $this->validate();
         $groupname = $validatedData['groupname'];
 
@@ -43,6 +48,7 @@ class ShowAccountGroups extends Component
 
     public function editAccountGroup(Group $group)
     {
+        $this->authorize('manage_groups_and_accounts');
         $this->resetInput();
 
         $this->group_id = $group->id;
@@ -55,6 +61,7 @@ class ShowAccountGroups extends Component
 
     public function updateAccountGroup()
     {
+        $this->authorize('manage_groups_and_accounts');
         $validateData = $this->validate();
         $permissions = $validateData['permissions'];
 
@@ -70,12 +77,14 @@ class ShowAccountGroups extends Component
 
     public function deleteAccountGroup(Group $group)
     {
+        $this->authorize('manage_groups_and_accounts');
         $this->group_id = $group->id;
         $this->groupname = $group->name;
     }
 
     public function delete()
     {
+        $this->authorize('manage_groups_and_accounts');
         Group::find($this->group_id)->delete();
 
         $this->resetInput();
