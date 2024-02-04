@@ -12,7 +12,7 @@
                         class="fas fa-chart-line fa-fw me-3"></i><span>Analytics</span></a>
             @endcan
             @can('view_players')
-                <a href="/players" class="list-group-item list-group-item-action py-2 ripple">
+                <a href="/players" class="list-group-item list-group-item-action py-2 ripple @if(Str::startsWith(Route::currentRouteName(), 'players')) active @endif">
                     <i class="fas fa-users fa-fw me-3"></i><span>Players</span>
                 </a>
             @endcan
