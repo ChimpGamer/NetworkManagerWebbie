@@ -67,6 +67,8 @@ Route::prefix('permissions')->controller(PermissionsController::class)->group(fu
         Route::get('permissions', 'groupPermissions');
         Route::get('prefixes', 'groupPrefixes');
         Route::get('suffixes', 'groupSuffixes');
+        Route::get('parents', 'groupParents');
+        Route::get('members', 'groupMembers');
     });
     /*Route::get('/grouppermissions/{group}', 'groupPermissions');
     Route::get('/groupprefixes/{group}', 'groupPermissions');*/

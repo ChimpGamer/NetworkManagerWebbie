@@ -24,11 +24,18 @@
                     <strong>Rank</strong>
                     <p>{{ $rank }}</p>
                 </div>
+                <div class="mb-3">
+                    <strong>Actions</strong>
+                    <p>
+                        <a type="button" class="btn" href="/permissions/group/{{$groupId}}/permissions">View Permissions</a>
+                        <a type="button" class="btn" href="/permissions/group/{{$groupId}}/prefixes">View Prefixes</a>
+                        <a type="button" class="btn" href="/permissions/group/{{$groupId}}/suffixes">View Suffixes</a>
+                        <a type="button" class="btn" href="/permissions/group/{{$groupId}}/parents">View Parents</a>
+                    </p>
+                    <p><a type="button" class="btn" href="/permissions/group/{{$groupId}}/members">View Members</a></p>
+                </div>
             </div>
             <div class="modal-footer">
-                <a type="button" class="btn" href="/permissions/group/{{$groupId}}/permissions">View Permissions</a>
-                <a type="button" class="btn" href="/permissions/group/{{$groupId}}/prefixes">View Prefixes</a>
-                <a type="button" class="btn" href="/permissions/group/{{$groupId}}/suffixes">View Suffixes</a>
                 <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
             </div>
         </div>
