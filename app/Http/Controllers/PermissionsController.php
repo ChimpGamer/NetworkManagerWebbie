@@ -25,4 +25,14 @@ class PermissionsController extends Controller
     {
         return view('permissions.group-permissions', ['group' => $group]);
     }
+
+    public function groupPrefixes(Group $group): View
+    {
+        return view('permissions.group-prefixes', ['group' => $group]);
+    }
+
+    public function groupSuffixes(Group $group): View
+    {
+        return view('permissions.group-suffixes', ['group' => $group]);
+    }
 }

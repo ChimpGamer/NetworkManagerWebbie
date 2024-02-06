@@ -26,7 +26,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a type="button" class="btn" href="/permissions/grouppermissions/{{$groupId}}">View Permissions</a>
+                <a type="button" class="btn" href="/permissions/group/{{$groupId}}/permissions">View Permissions</a>
+                <a type="button" class="btn" href="/permissions/group/{{$groupId}}/prefixes">View Prefixes</a>
+                <a type="button" class="btn" href="/permissions/group/{{$groupId}}/suffixes">View Suffixes</a>
                 <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
             </div>
         </div>
