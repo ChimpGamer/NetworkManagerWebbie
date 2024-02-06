@@ -21,10 +21,20 @@
                 </thead>
                 <tbody>
                 @foreach($members as $member)
+                    @php
+                        $server = $member->server;
+                        $expires = $member->expires;
+                        if (empty($server)) {
+                            $server = "ALL";
+                        }
+                        if (empty($expires)) {
+                            $expires = "Never";
+                        }
+                    @endphp
                     <tr>
                         <td>{{ $member->permissionPlayer->name }}</td>
-                        <td>{{ $member->server }}</td>
-                        <td>{{ $member->expires }}</td>
+                        <td>{{ $server }}</td>
+                        <td>{{ $expires }}</td>
                         {{--<td>
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
                                     data-mdb-target="#editGroupModal"

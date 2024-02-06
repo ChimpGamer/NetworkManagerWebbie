@@ -23,12 +23,26 @@
                 </thead>
                 <tbody>
                 @foreach($permissions as $permission)
+                    @php
+                        $server = $permission->server;
+                        $world = $permission->world;
+                        $expires = $permission->expires;
+                        if (empty($server)) {
+                            $server = "ALL";
+                        }
+                        if (empty($world)) {
+                            $world = "ALL";
+                        }
+                        if (empty($expires)) {
+                            $expires = "Never";
+                        }
+                    @endphp
                     <tr>
                         <td>{{ $permission->id }}</td>
                         <td>{{ $permission->permission }}</td>
-                        <td>{{ $permission->server }}</td>
-                        <td>{{ $permission->world }}</td>
-                        <td>{{ $permission->expires }}</td>
+                        <td>{{ $server }}</td>
+                        <td>{{ $world }}</td>
+                        <td>{{ $expires }}</td>
                         {{--<td>
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
                                     data-mdb-target="#editGroupModal"

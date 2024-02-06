@@ -21,10 +21,16 @@
                 </thead>
                 <tbody>
                 @foreach($prefixes as $prefix)
+                    @php
+                        $server = $prefix->server;
+                        if (empty($server)) {
+                            $server = "ALL";
+                        }
+                    @endphp
                     <tr>
                         <td>{{ $prefix->id }}</td>
                         <td>{{ $prefix->prefix }}</td>
-                        <td>{{ $prefix->server }}</td>
+                        <td>{{ $server }}</td>
                         {{--<td>
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
                                     data-mdb-target="#editGroupModal"
