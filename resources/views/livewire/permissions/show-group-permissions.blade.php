@@ -14,7 +14,6 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Group</th>
                     <th>Permission</th>
                     <th>Server</th>
                     <th>World</th>
@@ -26,7 +25,6 @@
                 @foreach($permissions as $permission)
                     <tr>
                         <td>{{ $permission->id }}</td>
-                        <td>{{ $group->name }}</td>
                         <td>{{ $permission->permission }}</td>
                         <td>{{ $permission->server }}</td>
                         <td>{{ $permission->world }}</td>
