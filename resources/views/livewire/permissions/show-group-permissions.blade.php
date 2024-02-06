@@ -1,5 +1,5 @@
 <div>
-    @include('livewire.permissions.permission-group-modals')
+    {{--@include('livewire.permissions.permission-group-modals')--}}
 
     @if (session()->has('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
@@ -7,56 +7,55 @@
 
     <div class="card">
         <div class="card-header h5">
-            Permission Groups
+            Permissions of {{ $group->name }}
         </div>
         <div class="card-body border-0 shadow table-responsive">
             <table class="table text-center">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Ladder</th>
-                    <th>Rank</th>
-                    <th>Actions</th>
+                    <th>Group</th>
+                    <th>Permission</th>
+                    <th>Server</th>
+                    <th>World</th>
+                    <th>Expires</th>
+                    {{--<th>Actions</th>--}}
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($groups as $group)
+                @foreach($permissions as $permission)
                     <tr>
-                        <td>{{ $group->id }}</td>
+                        <td>{{ $permission->id }}</td>
                         <td>{{ $group->name }}</td>
-                        <td>{{ $group->ladder }}</td>
-                        <td>{{ $group->rank }}</td>
-                        <td>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#showPermissionGroupModal"
-                                    wire:click="showGroup({{$group->id}})">
-                                <i class="material-icons text-info">info</i>
-                            </button>
+                        <td>{{ $permission->permission }}</td>
+                        <td>{{ $permission->server }}</td>
+                        <td>{{ $permission->world }}</td>
+                        <td>{{ $permission->expires }}</td>
+                        {{--<td>
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
                                     data-mdb-target="#editGroupModal"
-                                    wire:click="editGroup({{$group->id}})">
+                                    --}}{{--wire:click="editGroup({{$group->id}})"--}}{{-->
                                 <i class="material-icons text-warning">edit</i>
                             </button>
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
                                     data-mdb-target="#deleteGroupModal"
-                                    wire:click="deleteGroup({{ $group->id }})">
+                                    --}}{{--wire:click="deleteGroup({{ $group->id }})"--}}{{-->
                                 <i class="material-icons text-danger">delete</i>
                             </button>
-                        </td>
+                        </td>--}}
                     </tr>
                 @endforeach
                 </tbody>
             </table>
             <div class="d-flex justify-content-center">
-                {{ $groups->links() }}
+                {{ $permissions->links() }}
             </div>
         </div>
     </div>
-    <div class="p-4">
+    {{--<div class="p-4">
         <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addGroupModal"
                 wire:click="addGroup">
             <i style="font-size: 18px !important;" class="material-icons">add</i> Add Group
         </button>
-    </div>
+    </div>--}}
 </div>

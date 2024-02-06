@@ -53,10 +53,15 @@ Route::resource('players', PlayersController::class);
 Route::resource('settings', SettingsController::class);
 Route::resource('languages', LanguagesController::class);
 Route::resource('profile', ProfileController::class);
-Route::resource('permissions', PermissionsController::class);
 Route::resource('motd', MOTDController::class);
 Route::resource('filter', FilterController::class);
 Route::resource('commandblocker', CommandBlockerController::class);
 Route::resource('helpop', HelpOPController::class);
 Route::resource('accounts', AccountsController::class);
 Route::resource('chat', ChatController::class);
+
+//Route::resource('permissions', PermissionsController::class);
+Route::prefix('permissions')->controller(PermissionsController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/grouppermissions/{group}', 'groupPermissions');
+});

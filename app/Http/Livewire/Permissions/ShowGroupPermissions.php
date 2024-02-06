@@ -3,26 +3,35 @@
 namespace App\Http\Livewire\Permissions;
 
 use App\Models\Permissions\Group;
+use App\Models\Permissions\GroupPermission;
+use Illuminate\Support\Facades\Date;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ShowGroups extends Component
+class ShowGroupPermissions extends Component
 {
 
     use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
-    public ?int $groupId, $rank;
-    public ?string $name, $ladder;
+    public ?int $permissionId;
+    public int $groupId;
+    public string $permission;
+    public string $world;
+    public string $server;
+    public Date $expires;
+
+    public Group $group;
 
     protected function rules()
     {
         return [
-            'name' => 'required|string',
-            'ladder' => 'required|string',
-            'rank' => 'required|integer'
+            'groupId' => 'required|int',
+            'permission' => 'required|string',
+            'world' => 'string',
+            'server' => 'string',
         ];
     }
 
@@ -31,15 +40,8 @@ class ShowGroups extends Component
         $this->validateOnly($fields);
     }
 
-    public function showGroup(Group $group)
+    public function addGroup(): void
     {
-        $this->groupId = $group->id;
-        $this->name = $group->name;
-        $this->ladder = $group->ladder;
-        $this->rank = $group->rank;
-    }
-
-    public function addGroup() {
         $this->resetInput();
     }
 
@@ -105,7 +107,7 @@ class ShowGroups extends Component
 
     public function render(): View
     {
-        $groups = Group::orderBy('id', 'ASC')->paginate(10);
-        return view('livewire.permissions.show-groups')->with('groups', $groups);
+        $groupPermissions = GroupPermission::where('groupid', $this->group->id)->orderBy('id', 'ASC')->paginate(10);
+        return view('livewire.permissions.show-group-permissions')->with('permissions', $groupPermissions);
     }
 }

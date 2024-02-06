@@ -1,3 +1,38 @@
+<!-- Show Permission Group Modal -->
+<div wire:ignore.self class="modal fade" id="showPermissionGroupModal" tabindex="-1" aria-labelledby="showPermissionGroupModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="showPermissionGroupModalLabel">Show Permission Group</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <strong>ID</strong>
+                    <p>{{ $groupId }}</p>
+                </div>
+                <div class="mb-3">
+                    <strong>Name</strong>
+                    <p>{{ $name }}</p>
+                </div>
+                <div class="mb-3">
+                    <strong>Ladder</strong>
+                    <p>{!! $ladder !!}</p>
+                </div>
+                <div class="mb-3">
+                    <strong>Rank</strong>
+                    <p>{{ $rank }}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn" href="/permissions/grouppermissions/{{$groupId}}">View Permissions</a>
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Add Server Modal -->
 <div wire:ignore.self class="modal fade" id="addGroupModal" tabindex="-1" aria-labelledby="addGroupModalLabel" aria-hidden="true">
     <div class="modal-dialog">
