@@ -6,8 +6,12 @@
     @endif
 
     <div class="card">
-        <div class="card-header h5">
-            Members of {{ $group->name }}
+        <div class="card-header">
+            <h5>Members of {{ $group->name }}</h5>
+            <label for="groupMemberSearch" class="float-end mx-2">
+                <input id="groupMemberSearch" type="search" wire:model="search" class="form-control"
+                       placeholder="Search..." />
+            </label>
         </div>
         <div class="card-body border-0 shadow table-responsive">
             <table class="table text-center">

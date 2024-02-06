@@ -25,6 +25,8 @@ class ShowGroupPermissions extends Component
 
     public Group $group;
 
+    public string $search = '';
+
     protected function rules()
     {
         return [
@@ -107,7 +109,13 @@ class ShowGroupPermissions extends Component
 
     public function render(): View
     {
-        $groupPermissions = GroupPermission::where('groupid', $this->group->id)->orderBy('id', 'ASC')->paginate(10);
+        $groupPermissions = GroupPermission::where('groupid', $this->group->id)
+            ->where(function ($query) {
+                $query->orWhere('permission', 'like', '%'.$this->search.'%')
+                    ->orWhere('world', 'like', '%'.$this->search.'%')
+                    ->orWhere('server', 'like', '%'.$this->search.'%');
+            })->orderBy('id', 'ASC')->paginate(10);
+
         return view('livewire.permissions.show-group-permissions')->with('permissions', $groupPermissions);
     }
 }

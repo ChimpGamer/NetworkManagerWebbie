@@ -9,20 +9,26 @@ use Livewire\WithPagination;
 
 class ShowGroups extends Component
 {
-
     use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
-    public ?int $groupId, $rank;
-    public ?string $name, $ladder;
+    public ?int $groupId;
+
+    public ?int $rank;
+
+    public ?string $name;
+
+    public ?string $ladder;
+
+    public string $search = '';
 
     protected function rules()
     {
         return [
             'name' => 'required|string',
             'ladder' => 'required|string',
-            'rank' => 'required|integer'
+            'rank' => 'required|integer',
         ];
     }
 
@@ -39,16 +45,18 @@ class ShowGroups extends Component
         $this->rank = $group->rank;
     }
 
-    public function addGroup() {
+    public function addGroup()
+    {
         $this->resetInput();
     }
 
-    public function createGroup() {
+    public function createGroup()
+    {
         $validatedData = $this->validate();
         Group::create([
             'name' => $validatedData['name'],
             'ladder' => $validatedData['ladder'],
-            'rank' => $validatedData['rank']
+            'rank' => $validatedData['rank'],
         ]);
 
         session()->flash('message', 'Successfully Created Group');
@@ -73,19 +81,21 @@ class ShowGroups extends Component
         Group::where('id', $this->groupId)->update([
             'name' => $validatedData['name'],
             'ladder' => $validatedData['ladder'],
-            'rank' => $validatedData['rank']
+            'rank' => $validatedData['rank'],
         ]);
         session()->flash('message', 'Group Updated Successfully');
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
     }
 
-    public function deleteGroup(Group $group) {
+    public function deleteGroup(Group $group)
+    {
         $this->groupId = $group->id;
         $this->name = $group->name;
     }
 
-    public function delete() {
+    public function delete()
+    {
         Group::find($this->groupId)->delete();
         $this->resetInput();
     }
@@ -105,7 +115,12 @@ class ShowGroups extends Component
 
     public function render(): View
     {
-        $groups = Group::orderBy('id', 'ASC')->paginate(10);
+        $groups = Group::where(function ($query) {
+            $query->where('name', 'like', '%'.$this->search.'%')
+                ->orWhere('ladder', 'like', '%'.$this->search.'%')
+                ->orWhere('rank', 'like', '%'.$this->search.'%');
+        })->orderBy('id', 'ASC')->paginate(10);
+
         return view('livewire.permissions.show-groups')->with('groups', $groups);
     }
 }

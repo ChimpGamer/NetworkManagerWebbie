@@ -3,24 +3,23 @@
 namespace App\Http\Livewire\Permissions;
 
 use App\Models\Permissions\Group;
-use App\Models\Permissions\GroupPermission;
-use App\Models\Permissions\GroupPrefix;
 use App\Models\Permissions\GroupSuffix;
-use Illuminate\Support\Facades\Date;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ShowGroupSuffixes extends Component
 {
-
     use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
     public ?int $suffixId;
+
     public int $groupId;
+
     public string $suffix;
+
     public string $server;
 
     public Group $group;
@@ -44,9 +43,9 @@ class ShowGroupSuffixes extends Component
         $this->resetInput();
     }
 
-    public function createGroupSuffix() {
+    public function createGroupSuffix()
+    {
         $validatedData = $this->validate();
-
 
         session()->flash('message', 'Successfully Created Group Suffix');
         $this->resetInput();
@@ -76,12 +75,14 @@ class ShowGroupSuffixes extends Component
         $this->dispatchBrowserEvent('close-modal');
     }
 
-    public function deleteGroupSuffix(GroupSuffix $groupSuffix) {
+    public function deleteGroupSuffix(GroupSuffix $groupSuffix)
+    {
         $this->groupId = $groupSuffix->id;
         $this->suffix = $groupSuffix->prefix;
     }
 
-    public function deleteSuffix() {
+    public function deleteSuffix()
+    {
         GroupSuffix::find($this->groupId)->delete();
         $this->resetInput();
     }
@@ -101,6 +102,7 @@ class ShowGroupSuffixes extends Component
     public function render(): View
     {
         $groupSuffixes = GroupSuffix::where('groupid', $this->group->id)->orderBy('id', 'ASC')->paginate(10);
+
         return view('livewire.permissions.show-group-suffixes')->with('suffixes', $groupSuffixes);
     }
 }

@@ -6,8 +6,12 @@
     @endif
 
     <div class="card">
-        <div class="card-header h5">
-            Permission Groups
+        <div class="card-header">
+            <h5>Permission Groups</h5>
+            <label for="groupSearch" class="float-end mx-2">
+                <input id="groupSearch" type="search" wire:model="search" class="form-control"
+                       placeholder="Search..." />
+            </label>
         </div>
         <div class="card-body border-0 shadow table-responsive">
             <table class="table text-center">
