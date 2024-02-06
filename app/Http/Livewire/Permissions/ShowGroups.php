@@ -3,6 +3,11 @@
 namespace App\Http\Livewire\Permissions;
 
 use App\Models\Permissions\Group;
+use App\Models\Permissions\GroupMember;
+use App\Models\Permissions\GroupParent;
+use App\Models\Permissions\GroupPermission;
+use App\Models\Permissions\GroupPrefix;
+use App\Models\Permissions\GroupSuffix;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -97,6 +102,11 @@ class ShowGroups extends Component
     public function delete()
     {
         Group::find($this->groupId)->delete();
+        GroupPermission::where('groupid', $this->groupId)->delete();
+        GroupParent::where('groupid', $this->groupId)->delete();
+        GroupPrefix::where('groupid', $this->groupId)->delete();
+        GroupSuffix::where('groupid', $this->groupId)->delete();
+        GroupMember::where('groupid', $this->groupId)->delete();
         $this->resetInput();
     }
 
