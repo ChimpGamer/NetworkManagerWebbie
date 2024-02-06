@@ -61,15 +61,13 @@ Route::resource('accounts', AccountsController::class);
 Route::resource('chat', ChatController::class);
 
 //Route::resource('permissions', PermissionsController::class);
-Route::prefix('permissions')->name('permissions')->controller(PermissionsController::class)->group(function () {
-    Route::get('/', 'index');
+Route::prefix('permissions')->controller(PermissionsController::class)->group(function () {
+    Route::get('/', 'index')->name('permissions');
     Route::prefix('group/{group}')->group(function (){
-        Route::get('permissions', 'groupPermissions');
-        Route::get('prefixes', 'groupPrefixes');
-        Route::get('suffixes', 'groupSuffixes');
-        Route::get('parents', 'groupParents');
-        Route::get('members', 'groupMembers');
+        Route::get('permissions', 'groupPermissions')->name('permissions.group.permissions');
+        Route::get('prefixes', 'groupPrefixes')->name('permissions.group.prefixes');
+        Route::get('suffixes', 'groupSuffixes')->name('permissions.group.suffixes');
+        Route::get('parents', 'groupParents')->name('permissions.group.parents');
+        Route::get('members', 'groupMembers')->name('permissions.group.members');
     });
-    /*Route::get('/grouppermissions/{group}', 'groupPermissions');
-    Route::get('/groupprefixes/{group}', 'groupPermissions');*/
 });
