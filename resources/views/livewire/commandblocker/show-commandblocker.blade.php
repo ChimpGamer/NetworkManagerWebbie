@@ -31,7 +31,9 @@
                     <th>Server</th>
                     <th>Custom Message</th>
                     <th>Bypass Permission</th>
-                    <th>Actions</th>
+                    @can('edit_commandblocker')
+                        <th>Actions</th>
+                    @endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -52,18 +54,22 @@
                                 <i class="fas fa-circle-xmark fa-lg"></i>
                             @endif
                         </td>
-                        <td>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#editCommandBlockerModal"
-                                    wire:click="editCommandBlocker({{$blockedCommand->id}})">
-                                <i class="material-icons text-warning">edit</i>
-                            </button>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#deleteCommandBlockerModal"
-                                    wire:click="deleteCommandBlocker({{$blockedCommand->id}})">
-                                <i class="material-icons text-danger">delete</i>
-                            </button>
-                        </td>
+                        @can('edit_commandblocker')
+                            <td>
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal"
+                                        data-mdb-target="#editCommandBlockerModal"
+                                        wire:click="editCommandBlocker({{$blockedCommand->id}})">
+                                    <i class="material-icons text-warning">edit</i>
+                                </button>
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal"
+                                        data-mdb-target="#deleteCommandBlockerModal"
+                                        wire:click="deleteCommandBlocker({{$blockedCommand->id}})">
+                                    <i class="material-icons text-danger">delete</i>
+                                </button>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
 
@@ -74,10 +80,13 @@
             </div>
         </div>
     </div>
-    <div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addCommandBlockerModal"
-                wire:click="addCommandBlocker">
-            <i style="font-size: 18px !important;" class="material-icons">add</i> Add CommandBlocker
-        </button>
-    </div>
+    @can('edit_commandblocker')
+        <div class="p-4">
+            <button type="button" class="btn btn-primary" data-mdb-toggle="modal"
+                    data-mdb-target="#addCommandBlockerModal"
+                    wire:click="addCommandBlocker">
+                <i style="font-size: 18px !important;" class="material-icons">add</i> Add CommandBlocker
+            </button>
+        </div>
+    @endcan
 </div>

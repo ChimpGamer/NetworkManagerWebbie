@@ -16,7 +16,9 @@
                     <th>ID</th>
                     <th>Prefix</th>
                     <th>Server</th>
-                    <th>Actions</th>
+                    @can('edit_permissions')
+                        <th>Actions</th>
+                    @endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -31,18 +33,22 @@
                         <td>{{ $prefix->id }}</td>
                         <td>{{ $prefix->prefix }}</td>
                         <td>{{ $server }}</td>
-                        <td>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#editGroupPrefixModal"
-                                    wire:click="editGroupPrefix({{$prefix->id}})">
-                                <i class="material-icons text-warning">edit</i>
-                            </button>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#deleteGroupPrefixModal"
-                                    wire:click="deleteGroupPrefix({{ $prefix->id }})">
-                                <i class="material-icons text-danger">delete</i>
-                            </button>
-                        </td>
+                        @can('edit_permissions')
+                            <td>
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal"
+                                        data-mdb-target="#editGroupPrefixModal"
+                                        wire:click="editGroupPrefix({{$prefix->id}})">
+                                    <i class="material-icons text-warning">edit</i>
+                                </button>
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal"
+                                        data-mdb-target="#deleteGroupPrefixModal"
+                                        wire:click="deleteGroupPrefix({{ $prefix->id }})">
+                                    <i class="material-icons text-danger">delete</i>
+                                </button>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
                 </tbody>
@@ -52,10 +58,12 @@
             </div>
         </div>
     </div>
-    <div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addGroupPrefixModal"
-                wire:click="addGroupPrefix">
-            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Prefix
-        </button>
-    </div>
+    @can('edit_permissions')
+        <div class="p-4">
+            <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addGroupPrefixModal"
+                    wire:click="addGroupPrefix">
+                <i style="font-size: 18px !important;" class="material-icons">add</i> Add Prefix
+            </button>
+        </div>
+    @endcan
 </div>

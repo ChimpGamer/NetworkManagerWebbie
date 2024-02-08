@@ -10,7 +10,7 @@
             <h5>Permissions of {{ $group->name }}</h5>
             <label for="groupPermissionSearch" class="float-end mx-2">
                 <input id="groupPermissionSearch" type="search" wire:model="search" class="form-control"
-                       placeholder="Search..." />
+                       placeholder="Search..."/>
             </label>
         </div>
         <div class="card-body border-0 shadow table-responsive">
@@ -22,7 +22,9 @@
                     <th>Server</th>
                     <th>World</th>
                     <th>Expires</th>
-                    <th>Actions</th>
+                    @can('edit_permissions')
+                        <th>Actions</th>
+                    @endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -47,18 +49,22 @@
                         <td>{{ $server }}</td>
                         <td>{{ $world }}</td>
                         <td>{{ $expires }}</td>
-                        <td>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#editGroupPermissionModal"
-                                    wire:click="editGroupPermission({{$permission->id}})">
-                                <i class="material-icons text-warning">edit</i>
-                            </button>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#deleteGroupPermissionModal"
-                                    wire:click="deleteGroupPermission({{ $permission->id }})">
-                                <i class="material-icons text-danger">delete</i>
-                            </button>
-                        </td>
+                        @can('edit_permissions')
+                            <td>
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal"
+                                        data-mdb-target="#editGroupPermissionModal"
+                                        wire:click="editGroupPermission({{$permission->id}})">
+                                    <i class="material-icons text-warning">edit</i>
+                                </button>
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal"
+                                        data-mdb-target="#deleteGroupPermissionModal"
+                                        wire:click="deleteGroupPermission({{ $permission->id }})">
+                                    <i class="material-icons text-danger">delete</i>
+                                </button>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
                 </tbody>
@@ -68,10 +74,13 @@
             </div>
         </div>
     </div>
-    <div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addGroupPermissionModal"
-                wire:click="addGroupPermission">
-            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Permission
-        </button>
-    </div>
+    @can('edit_permissions')
+        <div class="p-4">
+            <button type="button" class="btn btn-primary" data-mdb-toggle="modal"
+                    data-mdb-target="#addGroupPermissionModal"
+                    wire:click="addGroupPermission">
+                <i style="font-size: 18px !important;" class="material-icons">add</i> Add Permission
+            </button>
+        </div>
+    @endcan
 </div>

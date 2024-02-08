@@ -17,7 +17,8 @@
             <div class="float-end d-inline" wire:ignore>
                 <div class="form-outline" data-mdb-input-init>
                     <input type="search" id="filterSearch" class="form-control" wire:model.live="search"/>
-                    <label class="form-label" for="filterSearch" style="font-family: Roboto, 'FontAwesome'">Search...</label>
+                    <label class="form-label" for="filterSearch"
+                           style="font-family: Roboto, 'FontAwesome'">Search...</label>
                 </div>
             </div>
         </div>
@@ -30,7 +31,9 @@
                     <th>Word</th>
                     <th>Replacement</th>
                     <th>Server</th>
-                    <th>Actions</th>
+                    @can('edit_filter')
+                        <th>Actions</th>
+                    @endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -44,16 +47,20 @@
                         <td>{{ $filter->word }}</td>
                         <td>{{ $filter->replacement }}</td>
                         <td>{{ $filter->server }}</td>
-                        <td>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#editFilterModal" wire:click="editFilter({{$filter->id}})">
-                                <i class="material-icons text-warning">edit</i>
-                            </button>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#deleteFilterModal" wire:click="deleteFilter({{$filter->id}})">
-                                <i class="material-icons text-danger">delete</i>
-                            </button>
-                        </td>
+                        @can('edit_filter')
+                            <td>
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal"
+                                        data-mdb-target="#editFilterModal" wire:click="editFilter({{$filter->id}})">
+                                    <i class="material-icons text-warning">edit</i>
+                                </button>
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal"
+                                        data-mdb-target="#deleteFilterModal" wire:click="deleteFilter({{$filter->id}})">
+                                    <i class="material-icons text-danger">delete</i>
+                                </button>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
 
@@ -64,10 +71,12 @@
             </div>
         </div>
     </div>
-    <div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addFilterModal"
-                wire:click="addFilter">
-            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Filter
-        </button>
-    </div>
+    @can('edit_filter')
+        <div class="p-4">
+            <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addFilterModal"
+                    wire:click="addFilter">
+                <i style="font-size: 18px !important;" class="material-icons">add</i> Add Filter
+            </button>
+        </div>
+    @endcan
 </div>

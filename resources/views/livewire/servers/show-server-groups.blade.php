@@ -2,7 +2,7 @@
     @include('livewire.servers.servergroup-modals')
 
     @if (session()->has('message'))
-    <h5 class="alert alert-success">{{ session('message') }}</h5>
+        <h5 class="alert alert-success">{{ session('message') }}</h5>
     @endif
 
     <div class="card">
@@ -10,44 +10,48 @@
             Server Groups
             <label for="serverGroupSearch" class="float-end mx-2">
                 <input id="serverGroupSearch" type="search" wire:model="search" class="form-control"
-                    placeholder="Search..." />
+                       placeholder="Search..."/>
             </label>
         </div>
         <div class="card-body border-0 shadow table-responsive">
             <table id="serverGroupsTable" class="table text-center">
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>ServerName</th>
-                        <th>Balance Method</th>
-                        <td>Actions</td>
-                    </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>ServerName</th>
+                    <th>Balance Method</th>
+                    <td>Actions</td>
+                </tr>
                 </thead>
 
                 <tbody>
-                    @foreach($servergroups as $serverGroup)
+                @foreach($servergroups as $serverGroup)
                     <tr>
                         <td>{{ $serverGroup->id }}</td>
                         <td>{{ $serverGroup->groupname }}</td>
                         <td>{{ $serverGroup->balancemethodtype }}</td>
                         <th>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#showServerGroupModal"
-                                wire:click="showServerGroup({{$serverGroup->id}})">
+                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                                    data-mdb-target="#showServerGroupModal"
+                                    wire:click="showServerGroup({{$serverGroup->id}})">
                                 <i class="material-icons text-info">info</i>
                             </button>
                             {{--<button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#editServerModal"
                                 wire:click="editServer({{$server->id}})">
                                 <i class="material-icons text-warning">edit</i>
                             </button>--}}
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal" data-mdb-target="#deleteServerGroupModal"
-                            wire:click="deleteServerGroup({{ $serverGroup->id }})">
-                                <i class="material-icons text-danger">delete</i>
-                            </button>
+                            @can('edit_servers')
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal" data-mdb-target="#deleteServerGroupModal"
+                                        wire:click="deleteServerGroup({{ $serverGroup->id }})">
+                                    <i class="material-icons text-danger">delete</i>
+                                </button>
+                            @endcan
                         </th>
                         {{--<th><button class="viewDetails" type="button" data-id="{{ $server->id  }}">View</button>
                         </th>--}}
                     </tr>
-                    @endforeach
+                @endforeach
                 </tbody>
             </table>
             <div class="d-flex justify-content-center">

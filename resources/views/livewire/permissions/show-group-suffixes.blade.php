@@ -16,7 +16,9 @@
                     <th>ID</th>
                     <th>Suffix</th>
                     <th>Server</th>
-                    <th>Actions</th>
+                    @can('edit_permissions')
+                        <th>Actions</th>
+                    @endcan
                 </tr>
                 </thead>
                 <tbody>
@@ -31,18 +33,22 @@
                         <td>{{ $suffix->id }}</td>
                         <td>{{ $suffix->suffix }}</td>
                         <td>{{ $server }}</td>
-                        <td>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#editGroupSuffixModal"
-                                    wire:click="editGroupSuffix({{$suffix->id}})">
-                                <i class="material-icons text-warning">edit</i>
-                            </button>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#deleteGroupSuffixModal"
-                                    wire:click="deleteGroupSuffix({{ $suffix->id }})">
-                                <i class="material-icons text-danger">delete</i>
-                            </button>
-                        </td>
+                        @can('edit_permissions')
+                            <td>
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal"
+                                        data-mdb-target="#editGroupSuffixModal"
+                                        wire:click="editGroupSuffix({{$suffix->id}})">
+                                    <i class="material-icons text-warning">edit</i>
+                                </button>
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal"
+                                        data-mdb-target="#deleteGroupSuffixModal"
+                                        wire:click="deleteGroupSuffix({{ $suffix->id }})">
+                                    <i class="material-icons text-danger">delete</i>
+                                </button>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
                 </tbody>

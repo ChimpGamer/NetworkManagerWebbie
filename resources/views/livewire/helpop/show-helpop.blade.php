@@ -24,23 +24,30 @@
                     <th>Message</th>
                     <th>Server</th>
                     <th>Time</th>
-                    <th>Actions</th>
+                    @can('edit_filter')
+                        <th>Actions</th>
+                    @endcan
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($data as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
-                        <td><a href="/players/{{ $item->requester }}"><img src="https://minotar.net/avatar/{{ $item->requester }}/20" alt="requester avatar"> {{ $item->username }}</a></td>
+                        <td><a href="/players/{{ $item->requester }}"><img
+                                    src="https://minotar.net/avatar/{{ $item->requester }}/20"
+                                    alt="requester avatar"> {{ $item->username }}</a></td>
                         <td>{{ $item->message }}</td>
                         <td>{{ $item->server }}</td>
                         <td>{{ $item->time }}</td>
-                        <td>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#deleteHelpOPModal" wire:click="deleteHelpOP({{$item->id}})">
-                                <i class="material-icons text-danger">delete</i>
-                            </button>
-                        </td>
+                        @can('edit_filter')
+                            <td>
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal"
+                                        data-mdb-target="#deleteHelpOPModal" wire:click="deleteHelpOP({{$item->id}})">
+                                    <i class="material-icons text-danger">delete</i>
+                                </button>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
 
