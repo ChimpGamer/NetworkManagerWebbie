@@ -2,12 +2,14 @@
 
 namespace App\Models\Permissions;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PermissionPlayer extends Model
 {
     use HasFactory;
+    use HasUuids;
 
     /**
      * The connection name for the model.
@@ -22,6 +24,13 @@ class PermissionPlayer extends Model
      * @var string
      */
     protected $table = 'permissions_players';
+
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'uuid';
 
     /**
      * The attributes that are mass assignable.
