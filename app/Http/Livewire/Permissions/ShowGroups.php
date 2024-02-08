@@ -57,7 +57,12 @@ class ShowGroups extends Component
 
     public function createGroup()
     {
-        $validatedData = $this->validate();
+        // name has to be unique.
+        $validatedData = $this->validate([
+            'name' => 'required|string|unique:App\Models\Permissions\Group,name',
+            'ladder' => 'required|string',
+            'rank' => 'required|integer',
+        ]);
         Group::create([
             'name' => $validatedData['name'],
             'ladder' => $validatedData['ladder'],
