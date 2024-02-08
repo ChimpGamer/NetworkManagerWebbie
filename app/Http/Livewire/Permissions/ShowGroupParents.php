@@ -14,7 +14,82 @@ class ShowGroupParents extends Component
 
     protected string $paginationTheme = 'bootstrap';
 
+    public ?int $parentId;
+
+    public ?string $groupName;
+
     public Group $group;
+
+    public array $groups = [];
+
+    public function rules()
+    {
+        return [
+            'groupName' => 'required|string|exists:App\Models\Permissions\Group,name',
+        ];
+    }
+
+    public function updated($fields)
+    {
+        $this->validateOnly($fields);
+    }
+
+    public function addGroupParent(): void
+    {
+        $this->resetInput();
+        $this->groups = Group::all()->toArray();
+    }
+
+    public function createGroupParent()
+    {
+        $validatedData = $this->validate();
+        $group = Group::where('name', $validatedData['groupName'])->first();
+        if ($group == null) {
+            session()->flash('error', 'Something went wrong trying to create group parent!');
+            return;
+        }
+        if ($this->group == $group) {
+            session()->flash('error', 'You can\'t add this group as parent!');
+            return;
+        }
+        $exists = GroupParent::where('groupid', $this->group->id)->where('parentgroupid', $group->id)->exists();
+        if ($exists) {
+            session()->flash('error', 'Group ' . $group->name . ' is already a parent of ' . $this->group->name . '.');
+            return;
+        }
+
+        GroupParent::create([
+            'groupid' => $this->group->id,
+            'parentgroupid' => $group->id,
+        ]);
+
+        session()->flash('message', 'Successfully Created Group Parent');
+        $this->resetInput();
+        $this->dispatchBrowserEvent('close-modal');
+    }
+
+    public function deleteGroupParent(Group $group)
+    {
+        $this->parentId = $group->id;
+        $this->groupName = $group->name;
+    }
+
+    public function delete()
+    {
+        GroupParent::where('groupid', $this->group->id)->where('parentgroupid', $this->parentId)->delete();
+        $this->resetInput();
+    }
+
+    public function closeModal()
+    {
+        $this->resetInput();
+    }
+
+    public function resetInput()
+    {
+        $this->parentId = null;
+        $this->parentName = null;
+    }
 
     public function render(): View
     {

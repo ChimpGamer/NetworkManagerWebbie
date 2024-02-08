@@ -1,8 +1,11 @@
 <div>
-    {{--@include('livewire.permissions.permission-group-modals')--}}
+    @include('livewire.permissions.permission-group-parents-modals')
 
     @if (session()->has('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
+    @endif
+    @if(session()->has('error'))
+        <h5 class="alert alert-danger">{{ session('error') }}</h5>
     @endif
 
     <div class="card">
@@ -14,25 +17,25 @@
                 <thead>
                 <tr>
                     <th>Parent Group</th>
-                    {{--<th>Actions</th>--}}
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($parents as $parent)
                     <tr>
                         <td>{{ $parent->parentGroup->name }}</td>
-                        {{--<td>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                        <td>
+                            {{--<button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
                                     data-mdb-target="#editGroupModal"
-                                    --}}{{--wire:click="editGroup({{$group->id}})"--}}{{-->
+                                    wire:click="editGroup({{$group->id}})">
                                 <i class="material-icons text-warning">edit</i>
-                            </button>
+                            </button>--}}
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#deleteGroupModal"
-                                    --}}{{--wire:click="deleteGroup({{ $group->id }})"--}}{{-->
+                                    data-mdb-target="#deleteGroupParentModal"
+                                    wire:click="deleteGroupParent({{ $parent->parentgroupid }})">
                                 <i class="material-icons text-danger">delete</i>
                             </button>
-                        </td>--}}
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -42,10 +45,10 @@
             </div>
         </div>
     </div>
-    {{--<div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addGroupModal"
-                wire:click="addGroup">
+    <div class="p-4">
+        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addGroupParentModal"
+                wire:click="addGroupParent">
             <i style="font-size: 18px !important;" class="material-icons">add</i> Add Group
         </button>
-    </div>--}}
+    </div>
 </div>
