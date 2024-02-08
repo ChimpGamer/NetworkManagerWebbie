@@ -1,5 +1,5 @@
 <div>
-    {{--@include('livewire.permissions.permission-group-modals')--}}
+    @include('livewire.permissions.permission-group-members-modals')
 
     @if (session()->has('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
@@ -20,7 +20,7 @@
                     <th>Username</th>
                     <th>Server</th>
                     <th>Expired</th>
-                    {{--<th>Actions</th>--}}
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,18 +39,18 @@
                         <td>{{ $member->permissionPlayer->name }}</td>
                         <td>{{ $server }}</td>
                         <td>{{ $expires }}</td>
-                        {{--<td>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                        <td>
+                            {{--<button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
                                     data-mdb-target="#editGroupModal"
-                                    --}}{{--wire:click="editGroup({{$group->id}})"--}}{{-->
+                                    wire:click="editGroup({{$group->id}})">
                                 <i class="material-icons text-warning">edit</i>
-                            </button>
+                            </button>--}}
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#deleteGroupModal"
-                                    --}}{{--wire:click="deleteGroup({{ $group->id }})"--}}{{-->
+                                    data-mdb-target="#deleteGroupMemberModal"
+                                    wire:click="deleteGroupMember({{ $member->id }}, '{{ $member->permissionPlayer->uuid }}')">
                                 <i class="material-icons text-danger">delete</i>
                             </button>
-                        </td>--}}
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
