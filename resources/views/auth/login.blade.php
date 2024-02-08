@@ -4,6 +4,10 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">
+                <div class="text-center p-4">
+                    <img src="{{ asset('images/full_logo.png') }}" class="img-fluid" alt="Logo">
+                </div>
+
                 @error('login')
                 <div class="row mb-0" style="padding-left: 12px; padding-right: 12px">
                     <span class="alert alert-danger">
