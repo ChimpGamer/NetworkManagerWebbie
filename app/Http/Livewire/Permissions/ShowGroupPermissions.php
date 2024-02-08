@@ -4,24 +4,25 @@ namespace App\Http\Livewire\Permissions;
 
 use App\Models\Permissions\Group;
 use App\Models\Permissions\GroupPermission;
-use Illuminate\Support\Facades\Date;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ShowGroupPermissions extends Component
 {
-
     use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
     public ?int $permissionId;
-    public int $groupId;
-    public string $permission;
-    public string $world;
-    public string $server;
-    public Date $expires;
+
+    public ?string $permission;
+
+    public ?string $world;
+
+    public ?string $server;
+
+    public ?string $expires;
 
     public Group $group;
 
@@ -30,10 +31,10 @@ class ShowGroupPermissions extends Component
     protected function rules()
     {
         return [
-            'groupId' => 'required|int',
             'permission' => 'required|string',
-            'world' => 'string',
-            'server' => 'string',
+            'world' => 'string|nullable',
+            'server' => 'string|nullable',
+            'expires' => 'date|nullable',
         ];
     }
 
@@ -42,55 +43,69 @@ class ShowGroupPermissions extends Component
         $this->validateOnly($fields);
     }
 
-    public function addGroup(): void
+    public function addGroupPermission(): void
     {
         $this->resetInput();
     }
 
-    public function createGroup() {
+    public function createGroupPermission()
+    {
         $validatedData = $this->validate();
-        Group::create([
-            'name' => $validatedData['name'],
-            'ladder' => $validatedData['ladder'],
-            'rank' => $validatedData['rank']
+        $server = empty($validatedData['server']) ? '' : $validatedData['server'];
+        $world = empty($validatedData['world']) ? '' : $validatedData['world'];
+        $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
+
+        GroupPermission::create([
+            'groupid' => $this->group->id,
+            'permission' => $validatedData['permission'],
+            'server' => $server,
+            'world' => $world,
+            'expires' => $expires,
         ]);
 
-        session()->flash('message', 'Successfully Created Group');
+        session()->flash('message', 'Successfully Created Group Permission');
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
     }
 
-    public function editGroup(Group $group)
+    public function editGroupPermission(GroupPermission $groupPermission)
     {
         $this->resetInput();
 
-        $this->groupId = $group->id;
-        $this->name = $group->name;
-        $this->ladder = $group->ladder;
-        $this->rank = $group->rank;
+        $this->permissionId = $groupPermission->id;
+        $this->permission = $groupPermission->permission;
+        $this->server = $groupPermission->server;
+        $this->world = $groupPermission->world;
+        $this->expires = $groupPermission->expires;
     }
 
-    public function updateGroup()
+    public function updateGroupPermission()
     {
         $validatedData = $this->validate();
+        $server = empty($validatedData['server']) ? '' : $validatedData['server'];
+        $world = empty($validatedData['world']) ? '' : $validatedData['world'];
+        $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
 
-        Group::where('id', $this->groupId)->update([
-            'name' => $validatedData['name'],
-            'ladder' => $validatedData['ladder'],
-            'rank' => $validatedData['rank']
+        GroupPermission::where('id', $this->permissionId)->update([
+            'permission' => $validatedData['permission'],
+            'server' => $server,
+            'world' => $world,
+            'expires' => $expires,
         ]);
-        session()->flash('message', 'Group Updated Successfully');
+        session()->flash('message', 'Group Permission Updated Successfully');
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
     }
 
-    public function deleteGroup(Group $group) {
-        $this->groupId = $group->id;
-        $this->name = $group->name;
+    public function deleteGroupPermission(GroupPermission $groupPermission)
+    {
+        $this->permissionId = $groupPermission->id;
+        $this->permission = $groupPermission->permission;
     }
 
-    public function delete() {
-        Group::find($this->groupId)->delete();
+    public function delete()
+    {
+        GroupPermission::find($this->permissionId)->delete();
         $this->resetInput();
     }
 
@@ -101,10 +116,11 @@ class ShowGroupPermissions extends Component
 
     private function resetInput()
     {
-        $this->groupId = null;
-        $this->name = null;
-        $this->ladder = null;
-        $this->rank = null;
+        $this->permissionId = null;
+        $this->permission = null;
+        $this->world = null;
+        $this->server = null;
+        $this->expires = null;
     }
 
     public function render(): View

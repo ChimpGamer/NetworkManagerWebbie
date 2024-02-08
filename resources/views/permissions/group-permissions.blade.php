@@ -11,9 +11,9 @@
 @section('script')
     <script>
         window.addEventListener('close-modal', () => {
-            $('#editGroupModal').modal('hide');
-            $('#addGroupModal').modal('hide');
-            $('#deleteGroupModal').modal('hide');
+            $('#editGroupPermissionModal').modal('hide');
+            $('#addGroupPermissionModal').modal('hide');
+            $('#deleteGroupPermissionModal').modal('hide');
         });
     </script>
 @endsection

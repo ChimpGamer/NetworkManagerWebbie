@@ -1,5 +1,5 @@
 <div>
-    {{--@include('livewire.permissions.permission-group-modals')--}}
+    @include('livewire.permissions.permission-group-permissions-modals')
 
     @if (session()->has('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
@@ -22,7 +22,7 @@
                     <th>Server</th>
                     <th>World</th>
                     <th>Expires</th>
-                    {{--<th>Actions</th>--}}
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,18 +47,18 @@
                         <td>{{ $server }}</td>
                         <td>{{ $world }}</td>
                         <td>{{ $expires }}</td>
-                        {{--<td>
+                        <td>
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#editGroupModal"
-                                    --}}{{--wire:click="editGroup({{$group->id}})"--}}{{-->
+                                    data-mdb-target="#editGroupPermissionModal"
+                                    wire:click="editGroupPermission({{$permission->id}})">
                                 <i class="material-icons text-warning">edit</i>
                             </button>
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#deleteGroupModal"
-                                    --}}{{--wire:click="deleteGroup({{ $group->id }})"--}}{{-->
+                                    data-mdb-target="#deleteGroupPermissionModal"
+                                    wire:click="deleteGroupPermission({{ $permission->id }})">
                                 <i class="material-icons text-danger">delete</i>
                             </button>
-                        </td>--}}
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -68,10 +68,10 @@
             </div>
         </div>
     </div>
-    {{--<div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addGroupModal"
-                wire:click="addGroup">
-            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Group
+    <div class="p-4">
+        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addGroupPermissionModal"
+                wire:click="addGroupPermission">
+            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Permission
         </button>
-    </div>--}}
+    </div>
 </div>
