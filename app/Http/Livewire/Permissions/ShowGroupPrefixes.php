@@ -16,20 +16,17 @@ class ShowGroupPrefixes extends Component
 
     public ?int $prefixId;
 
-    public int $groupId;
+    public ?string $prefix;
 
-    public string $prefix;
-
-    public string $server;
+    public ?string $server;
 
     public Group $group;
 
     protected function rules()
     {
         return [
-            'groupId' => 'required|int',
             'prefix' => 'required|string',
-            'server' => 'string',
+            'server' => 'string|nullable',
         ];
     }
 
@@ -46,6 +43,13 @@ class ShowGroupPrefixes extends Component
     public function createGroupPrefix()
     {
         $validatedData = $this->validate();
+        $server = empty($validatedData['server']) ? '' : $validatedData['server'];
+
+        GroupPrefix::create([
+            'groupid' => $this->group->id,
+            'prefix' => $validatedData['prefix'],
+            'server' => $server,
+        ]);
 
         session()->flash('message', 'Successfully Created Group Prefix');
         $this->resetInput();
@@ -56,7 +60,7 @@ class ShowGroupPrefixes extends Component
     {
         $this->resetInput();
 
-        $this->groupId = $groupPrefix->id;
+        $this->prefixId = $groupPrefix->id;
         $this->prefix = $groupPrefix->prefix;
         $this->server = $groupPrefix->server;
     }
@@ -64,26 +68,26 @@ class ShowGroupPrefixes extends Component
     public function updateGroupPrefix()
     {
         $validatedData = $this->validate();
+        $server = empty($validatedData['server']) ? '' : $validatedData['server'];
 
-        /*Group::where('id', $this->groupId)->update([
-            'name' => $validatedData['name'],
-            'ladder' => $validatedData['ladder'],
-            'rank' => $validatedData['rank']
-        ]);*/
+        GroupPrefix::where('id', $this->prefixId)->update([
+            'prefix' => $validatedData['prefix'],
+            'server' => $server,
+        ]);
         session()->flash('message', 'Group Prefix Updated Successfully');
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
     }
 
-    public function deleteGroup(GroupPrefix $groupPrefix)
+    public function deleteGroupPrefix(GroupPrefix $groupPrefix)
     {
-        $this->groupId = $groupPrefix->id;
+        $this->prefixId = $groupPrefix->id;
         $this->prefix = $groupPrefix->prefix;
     }
 
     public function delete()
     {
-        GroupPrefix::find($this->groupId)->delete();
+        GroupPrefix::find($this->prefixId)->delete();
         $this->resetInput();
     }
 
@@ -94,7 +98,7 @@ class ShowGroupPrefixes extends Component
 
     private function resetInput()
     {
-        $this->groupId = null;
+        $this->prefixId = null;
         $this->prefix = null;
         $this->server = null;
     }

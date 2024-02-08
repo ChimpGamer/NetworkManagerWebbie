@@ -1,5 +1,5 @@
 <div>
-    {{--@include('livewire.permissions.permission-group-modals')--}}
+    @include('livewire.permissions.permission-group-prefixes-modals')
 
     @if (session()->has('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
@@ -16,7 +16,7 @@
                     <th>ID</th>
                     <th>Prefix</th>
                     <th>Server</th>
-                    {{--<th>Actions</th>--}}
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,18 +31,18 @@
                         <td>{{ $prefix->id }}</td>
                         <td>{{ $prefix->prefix }}</td>
                         <td>{{ $server }}</td>
-                        {{--<td>
+                        <td>
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#editGroupModal"
-                                    --}}{{--wire:click="editGroup({{$group->id}})"--}}{{-->
+                                    data-mdb-target="#editGroupPrefixModal"
+                                    wire:click="editGroupPrefix({{$prefix->id}})">
                                 <i class="material-icons text-warning">edit</i>
                             </button>
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                    data-mdb-target="#deleteGroupModal"
-                                    --}}{{--wire:click="deleteGroup({{ $group->id }})"--}}{{-->
+                                    data-mdb-target="#deleteGroupPrefixModal"
+                                    wire:click="deleteGroupPrefix({{ $prefix->id }})">
                                 <i class="material-icons text-danger">delete</i>
                             </button>
-                        </td>--}}
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -52,10 +52,10 @@
             </div>
         </div>
     </div>
-    {{--<div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addGroupModal"
-                wire:click="addGroup">
-            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Group
+    <div class="p-4">
+        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addGroupPrefixModal"
+                wire:click="addGroupPrefix">
+            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Prefix
         </button>
-    </div>--}}
+    </div>
 </div>
