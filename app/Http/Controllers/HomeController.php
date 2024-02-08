@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Player;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-
     /**
      * Create a new controller instance.
      *
@@ -21,21 +19,27 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    private function getTotalPlayers(): int {
+    private function getTotalPlayers(): int
+    {
         return Player::count();
     }
 
-    private function getTodayOnlinePlayers(): int {
+    private function getTodayOnlinePlayers(): int
+    {
         $start = Carbon::today()->getTimestampMs();
+
         return Player::where('lastlogin', '>', $start)->count();
     }
 
-    private function getNewPlayers(): int {
+    private function getNewPlayers(): int
+    {
         $start = Carbon::today()->getTimestampMs();
+
         return Player::where('firstlogin', '>', $start)->count();
     }
 
-    private function getTodayPlaytime(): string {
+    private function getTodayPlaytime(): string
+    {
         $start = Carbon::today()->getTimestampMs();
         $data = DB::table('sessions')->select('time')->where('start', '>', $start)->get();
 
@@ -61,7 +65,6 @@ class HomeController extends Controller
             ->with('total_players', $this->getTotalPlayers())
             ->with('today_online_players', $this->getTodayOnlinePlayers())
             ->with('new_players', $this->getNewPlayers())
-            ->with('today_playtime', $this->getTodayPlaytime())
-            ;
+            ->with('today_playtime', $this->getTodayPlaytime());
     }
 }

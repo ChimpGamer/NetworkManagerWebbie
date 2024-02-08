@@ -16,7 +16,9 @@ class FilterController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View {
+    public function index(): View
+    {
+        $this->authorize('view_filter');
         return view('filter.index');
     }
 }

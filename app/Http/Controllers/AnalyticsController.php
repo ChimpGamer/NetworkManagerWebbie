@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
 class AnalyticsController extends Controller
@@ -16,7 +17,12 @@ class AnalyticsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function index(): View
+    {
+        $this->authorize('view_analytics');
         return view('analytics.index');
     }
 }

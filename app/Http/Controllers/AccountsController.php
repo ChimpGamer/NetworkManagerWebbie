@@ -16,7 +16,8 @@ class AccountsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View {
+    public function index(): View
+    {
         return view('accounts.index');
     }
 }

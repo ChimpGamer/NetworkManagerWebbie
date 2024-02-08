@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PunishmentTemplate;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
 class PunishmentTemplatesController extends Controller
@@ -17,11 +18,21 @@ class PunishmentTemplatesController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function index(): View
+    {
+        $this->authorize('view_pre_punishments');
         return view('punishment_templates.index');
     }
 
-    public function show(PunishmentTemplate $punishmentTemplate): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function show(PunishmentTemplate $punishmentTemplate): View
+    {
+        $this->authorize('view_pre_punishments');
         return view('punishment_templates.show')->with('punishmentTemplate', $punishmentTemplate);
     }
 }

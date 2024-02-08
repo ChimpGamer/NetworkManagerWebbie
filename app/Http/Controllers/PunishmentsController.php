@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Punishment;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
 class PunishmentsController extends Controller
@@ -17,11 +18,21 @@ class PunishmentsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function index(): View
+    {
+        $this->authorize('view_punishments');
         return view('punishments.index');
     }
 
-    public function show(Punishment $punishment): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function show(Punishment $punishment): View
+    {
+        $this->authorize('view_punishments');
         return view('punishments.show')->with('punishment', $punishment);
     }
 }

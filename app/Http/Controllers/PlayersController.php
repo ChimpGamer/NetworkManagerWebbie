@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Player;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
 class PlayersController extends Controller
@@ -17,11 +18,21 @@ class PlayersController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function index(): View
+    {
+        $this->authorize('view_players');
         return view('players.index');
     }
 
-    public function show(Player $player): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function show(Player $player): View
+    {
+        $this->authorize('view_players');
         return view('players.show')->with('player', $player);
     }
 }

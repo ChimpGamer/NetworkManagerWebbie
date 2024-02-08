@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Announcement;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
 class AnnouncementsController extends Controller
@@ -17,11 +18,21 @@ class AnnouncementsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function index(): View
+    {
+        $this->authorize('view_announcements');
         return view('announcements.index');
     }
 
-    public function show(Announcement $announcement): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function show(Announcement $announcement): View
+    {
+        $this->authorize('view_announcements');
         return view('announcements.show')->with('announcement', $announcement);
     }
 }

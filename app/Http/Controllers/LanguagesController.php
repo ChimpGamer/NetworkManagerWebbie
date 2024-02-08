@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Language;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
 class LanguagesController extends Controller
@@ -17,11 +18,21 @@ class LanguagesController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function index(): View
+    {
+        $this->authorize('view_languages');
         return view('languages.index');
     }
 
-    public function show(Language $language): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function show(Language $language): View
+    {
+        $this->authorize('view_languages');
         return view('languages.show')->with('language', $language);
     }
 }

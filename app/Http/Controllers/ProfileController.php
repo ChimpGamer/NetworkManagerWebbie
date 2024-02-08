@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -17,7 +16,8 @@ class ProfileController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View {
+    public function index(): View
+    {
         return view('profile.index');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Server;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
 class ServersController extends Controller
@@ -17,11 +18,21 @@ class ServersController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function index(): View
+    {
+        $this->authorize('view_servers');
         return view('servers.index');
     }
 
-    public function show(Server $server): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function show(Server $server): View
+    {
+        $this->authorize('view_servers');
         return view('servers.show')->with('server', $server);
     }
 }

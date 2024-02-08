@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
+use App\Services\Login\RememberMeExpiration;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-use App\Services\Login\RememberMeExpiration;
 use Illuminate\Support\Facades\Hash;
 
-
-class AuthenticationController extends Controller {
+class AuthenticationController extends Controller
+{
     use RememberMeExpiration;
 
     /**
@@ -27,7 +27,6 @@ class AuthenticationController extends Controller {
 
     /**
      * Display a login form.
-     *
      */
     public function loginView()
     {
@@ -37,24 +36,23 @@ class AuthenticationController extends Controller {
     /**
      * Authenticate the user.
      *
-     * @param LoginRequest $request
      * @return RedirectResponse|Response
      */
     public function login(LoginRequest $request)
     {
         $credentials = $request->getCredentials();
 
-        if(!Auth::validate($credentials)):
-            return redirect()->back()->withErrors(['login' => "Invalid login details"]);
-        endif;
+        if (! Auth::validate($credentials)) {
+            return redirect()->back()->withErrors(['login' => 'Invalid login details']);
+        }
 
         $remember = $request->get('remember');
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
         Auth::login($user, $remember);
 
-        if($remember):
+        if ($remember) {
             $this->setRememberMeExpiration($user);
-        endif;
+        }
 
         return $this->authenticated($request, $user);
     }
@@ -62,8 +60,6 @@ class AuthenticationController extends Controller {
     /**
      * Handle response after user authenticated
      *
-     * @param Request $request
-     * @param User $user
      *
      * @return Response
      */
@@ -89,7 +85,6 @@ class AuthenticationController extends Controller {
     /**
      * Log out the user from application.
      *
-     * @param Request $request
      * @return Response
      */
     public function logout(Request $request)
@@ -97,7 +92,8 @@ class AuthenticationController extends Controller {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('login')
-            ->withSuccess('You have logged out successfully!');;
+            ->withSuccess('You have logged out successfully!');
     }
 }

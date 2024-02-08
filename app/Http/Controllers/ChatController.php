@@ -16,7 +16,9 @@ class ChatController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View {
+    public function index(): View
+    {
+        $this->authorize('view_chat');
         return view('chat.index');
     }
 }

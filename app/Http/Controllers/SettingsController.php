@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
 class SettingsController extends Controller
@@ -16,7 +17,12 @@ class SettingsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(): View {
+    /**
+     * @throws AuthorizationException
+     */
+    public function index(): View
+    {
+        $this->authorize('view_network');
         return view('settings.index');
     }
 }
