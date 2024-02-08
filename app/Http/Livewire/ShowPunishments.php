@@ -8,7 +8,6 @@ use App\Models\Punishment;
 use App\Models\PunishmentType;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -19,20 +18,42 @@ class ShowPunishments extends Component
 
     protected string $paginationTheme = 'bootstrap';
 
-    public int $punishmentId, $typeId;
-    public ?string $typeName,
-        $playerUUID,
-        $playerName,
-        $punisherUUID,
-        $punisherName,
-        $reason,
-        $server = null,
-        $time,
-        $end,
-        $timeFormatted,
-        $endFormatted;
-    public bool $silent, $active, $isGlobal = false, $isTemporary = false;
+    public int $punishmentId;
+
+    public int $typeId;
+
+    public ?string $typeName;
+
+    public ?string $playerUUID;
+
+    public ?string $playerName;
+
+    public ?string $punisherUUID;
+
+    public ?string $punisherName;
+
+    public ?string $reason;
+
+    public ?string $server = null;
+
+    public ?string $time;
+
+    public ?string $end;
+
+    public ?string $timeFormatted;
+
+    public ?string $endFormatted;
+
+    public bool $silent;
+
+    public bool $active;
+
+    public bool $isGlobal = false;
+
+    public bool $isTemporary = false;
+
     public string $search = '';
+
     public int $deleteId;
 
     protected function rules()
@@ -46,7 +67,7 @@ class ShowPunishments extends Component
             'reason' => 'required|string',
             'server' => $this->isGlobal ? '' : 'required|string',
             'silent' => 'required|boolean',
-            'active' => 'required|boolean'
+            'active' => 'required|boolean',
         ];
     }
 
@@ -71,8 +92,9 @@ class ShowPunishments extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
-        if ($fields == "search") {
+        if ($fields == 'search') {
             $this->resetPage();
+
             return;
         }
 
@@ -82,7 +104,7 @@ class ShowPunishments extends Component
         if ($this->isGlobal) {
             $this->server = null;
         }
-        if (!$this->isTemporary) {
+        if (! $this->isTemporary) {
             $this->end = -1;
         }
     }
@@ -116,6 +138,7 @@ class ShowPunishments extends Component
             session()->flash('error', "Could not find valid ip for use ${uuid}!");
             $this->resetInput();
             $this->dispatchBrowserEvent('close-modal');
+
             return;
         }
 
@@ -129,7 +152,7 @@ class ShowPunishments extends Component
             'ip' => $ip,
             'server' => $server,
             'silent' => $silent,
-            'active' => $active
+            'active' => $active,
         ]);
 
         session()->flash('message', 'Punishment Created Successfully');
@@ -179,7 +202,7 @@ class ShowPunishments extends Component
             'reason' => $reason,
             'server' => $server,
             'silent' => $silent,
-            'active' => $active
+            'active' => $active,
         ]);
 
         session()->flash('message', 'Punishment Updated Successfully');
@@ -222,11 +245,12 @@ class ShowPunishments extends Component
 
     public function render(): View
     {
-        $punishments = Punishment::where('id', 'like', '%' . $this->search . '%')
-            ->orWhere('ip', 'like', '%' . $this->search . '%')
-            ->orWhere('server', 'like', '%' . $this->search . '%')
-            ->orWhere('reason', 'like', '%' . $this->search . '%')
+        $punishments = Punishment::where('id', 'like', '%'.$this->search.'%')
+            ->orWhere('ip', 'like', '%'.$this->search.'%')
+            ->orWhere('server', 'like', '%'.$this->search.'%')
+            ->orWhere('reason', 'like', '%'.$this->search.'%')
             ->orderBy('id', 'DESC')->paginate(10);
+
         return view('livewire.punishments.show-punishments')->with('punishments', $punishments);
     }
 }

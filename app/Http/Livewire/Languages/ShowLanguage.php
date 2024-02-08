@@ -35,6 +35,7 @@ class ShowLanguage extends Component
 
     public function save()
     {
+        $this->authorize('edit_languages');
         $this->validate();
 
         $changedMessages = $this->languageMessages->filter(function ($message) {

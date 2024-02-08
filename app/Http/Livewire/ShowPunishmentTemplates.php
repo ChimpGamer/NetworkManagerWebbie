@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\PunishmentTemplate;
 use App\Models\PunishmentType;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -13,6 +14,7 @@ use Livewire\WithPagination;
 class ShowPunishmentTemplates extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -71,6 +73,7 @@ class ShowPunishmentTemplates extends Component
 
     public function createTemplate()
     {
+        $this->authorize('edit_pre_punishments');
         $validatedData = $this->validate();
 
         $type = PunishmentType::from($validatedData['typeId']);
@@ -105,6 +108,7 @@ class ShowPunishmentTemplates extends Component
 
     public function updateTemplate()
     {
+        $this->authorize('edit_pre_punishments');
         $validatedData = $this->validate();
         //dump($validatedData);
 

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Servers;
 
 use App\Models\Server;
 use App\Models\ServerGroup;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -11,6 +12,7 @@ use Livewire\WithPagination;
 class ShowServerGroups extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -51,6 +53,7 @@ class ShowServerGroups extends Component
 
     public function delete()
     {
+        $this->authorize('edit_servers');
         ServerGroup::find($this->deleteId)->delete();
         $this->groupName = '';
     }

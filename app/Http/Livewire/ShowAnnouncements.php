@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Announcement;
 use App\Models\AnnouncementType;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -11,6 +12,7 @@ use Livewire\WithPagination;
 class ShowAnnouncements extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -82,6 +84,7 @@ class ShowAnnouncements extends Component
 
     public function createAnnouncement()
     {
+        $this->authorize('edit_announcements');
         $validatedData = $this->validate();
 
         $sound = empty($validatedData['sound']) ? null : $validatedData['sound'];
@@ -125,6 +128,7 @@ class ShowAnnouncements extends Component
 
     public function updateAnnouncement()
     {
+        $this->authorize('edit_announcements');
         $validatedData = $this->validate();
 
         $sound = empty($validatedData['sound']) ? null : $validatedData['sound'];
@@ -175,7 +179,9 @@ class ShowAnnouncements extends Component
 
     public function delete()
     {
+        $this->authorize('edit_announcements');
         Announcement::find($this->deleteId)->delete();
+        $this->resetInput();
     }
 
     public function render(): View

@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\Language;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;

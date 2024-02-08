@@ -8,6 +8,7 @@ use App\Models\Permissions\GroupParent;
 use App\Models\Permissions\GroupPermission;
 use App\Models\Permissions\GroupPrefix;
 use App\Models\Permissions\GroupSuffix;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,6 +16,7 @@ use Livewire\WithPagination;
 class ShowGroups extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected string $paginationTheme = 'bootstrap';
 

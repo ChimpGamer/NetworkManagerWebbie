@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Permissions;
 
 use App\Models\Permissions\Group;
 use App\Models\Permissions\GroupSuffix;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -11,6 +12,7 @@ use Livewire\WithPagination;
 class ShowGroupSuffixes extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected string $paginationTheme = 'bootstrap';
 

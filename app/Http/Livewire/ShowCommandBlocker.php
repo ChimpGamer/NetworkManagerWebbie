@@ -3,12 +3,14 @@
 namespace App\Http\Livewire;
 
 use App\Models\CommandBlocker;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ShowCommandBlocker extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -41,6 +43,7 @@ class ShowCommandBlocker extends Component
 
     public function createCommandBlocker()
     {
+        $this->authorize('edit_commandblocker');
         $validatedData = $this->validate();
 
         $server = empty($validatedData['server']) ? null : $validatedData['server'];
@@ -72,6 +75,7 @@ class ShowCommandBlocker extends Component
 
     public function updateCommandBlocker()
     {
+        $this->authorize('edit_commandblocker');
         $validatedData = $this->validate();
 
         $server = empty($validatedData['server']) ? null : $validatedData['server'];
@@ -98,6 +102,7 @@ class ShowCommandBlocker extends Component
 
     public function delete()
     {
+        $this->authorize('edit_commandblocker');
         CommandBlocker::find($this->commandBlockerId)->delete();
         session()->flash('message', 'CommandBlocker Deleted Successfully');
         $this->resetInput();

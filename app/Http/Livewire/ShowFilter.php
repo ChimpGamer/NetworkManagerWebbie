@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Filter;
 use App\Support\Collection;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -11,6 +12,7 @@ use Livewire\WithPagination;
 class ShowFilter extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -41,6 +43,7 @@ class ShowFilter extends Component
 
     public function createFilter()
     {
+        $this->authorize('edit_filter');
         $validatedData = $this->validate();
 
         $replacement = empty($validatedData['replacement']) ? null : $validatedData['replacement'];
@@ -68,6 +71,7 @@ class ShowFilter extends Component
 
     public function updateFilter()
     {
+        $this->authorize('edit_filter');
         $validatedData = $this->validate();
 
         $replacement = empty($validatedData['replacement']) ? null : $validatedData['replacement'];
@@ -91,6 +95,7 @@ class ShowFilter extends Component
 
     public function delete()
     {
+        $this->authorize('edit_filter');
         Filter::find($this->filterId)->delete();
         $this->resetInput();
     }

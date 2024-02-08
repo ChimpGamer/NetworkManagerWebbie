@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Permissions;
 use App\Models\Permissions\Group;
 use App\Models\Permissions\GroupMember;
 use App\Models\Permissions\PermissionPlayer;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -12,6 +13,7 @@ use Livewire\WithPagination;
 class ShowGroupMembers extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -27,6 +29,8 @@ class ShowGroupMembers extends Component
 
     public function deleteGroupMember(GroupMember $groupMember, PermissionPlayer $permissionPlayer)
     {
+        $this->authorize('edit_permissions');
+
         $this->memberId = $groupMember->id;
         $this->groupName = $this->group->name;
         $this->memberName = $permissionPlayer->name;

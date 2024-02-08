@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Servers;
 
 use App\Models\Server;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -10,6 +11,7 @@ use Livewire\WithPagination;
 class ShowServers extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -91,6 +93,7 @@ class ShowServers extends Component
 
     public function updateServer()
     {
+        $this->authorize('edit_servers');
         $validatedData = $this->validate();
 
         $allowedVersions = empty($validatedData['allowed_versions']) ? null : $validatedData['allowed_versions'];
@@ -133,6 +136,7 @@ class ShowServers extends Component
 
     public function delete()
     {
+        $this->authorize('edit_servers');
         Server::find($this->deleteId)->delete();
         $this->servername = '';
     }

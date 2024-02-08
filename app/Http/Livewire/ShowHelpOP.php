@@ -3,12 +3,14 @@
 namespace App\Http\Livewire;
 
 use App\Models\HelpOP;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ShowHelpOP extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -21,6 +23,7 @@ class ShowHelpOP extends Component
 
     public function delete()
     {
+        $this->authorize('edit_helpop');
         HelpOP::find($this->helpOPId)->delete();
         $this->resetInput();
     }
