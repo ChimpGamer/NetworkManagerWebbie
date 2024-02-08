@@ -16,6 +16,8 @@ class ShowGroupParents extends Component
 
     public ?int $parentId;
 
+    public ?string $parentName;
+
     public ?string $groupName;
 
     public Group $group;
@@ -46,15 +48,18 @@ class ShowGroupParents extends Component
         $group = Group::where('name', $validatedData['groupName'])->first();
         if ($group == null) {
             session()->flash('error', 'Something went wrong trying to create group parent!');
+
             return;
         }
         if ($this->group == $group) {
             session()->flash('error', 'You can\'t add this group as parent!');
+
             return;
         }
         $exists = GroupParent::where('groupid', $this->group->id)->where('parentgroupid', $group->id)->exists();
         if ($exists) {
-            session()->flash('error', 'Group ' . $group->name . ' is already a parent of ' . $this->group->name . '.');
+            session()->flash('error', 'Group '.$group->name.' is already a parent of '.$this->group->name.'.');
+
             return;
         }
 
@@ -68,15 +73,16 @@ class ShowGroupParents extends Component
         $this->dispatchBrowserEvent('close-modal');
     }
 
-    public function deleteGroupParent(Group $group)
+    public function deleteGroupParent(GroupParent $groupParent, Group $group)
     {
-        $this->parentId = $group->id;
-        $this->groupName = $group->name;
+        $this->parentId = $groupParent->id;
+        $this->parentName = $group->name;
+        $this->groupName = $this->group->name;
     }
 
     public function delete()
     {
-        GroupParent::where('groupid', $this->group->id)->where('parentgroupid', $this->parentId)->delete();
+        GroupParent::find($this->parentId)->delete();
         $this->resetInput();
     }
 
@@ -88,7 +94,8 @@ class ShowGroupParents extends Component
     public function resetInput()
     {
         $this->parentId = null;
-        $this->parentName = null;
+        $this->groupName = null;
+        $this->groups = [];
     }
 
     public function render(): View

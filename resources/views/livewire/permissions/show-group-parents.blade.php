@@ -32,7 +32,7 @@
                             </button>--}}
                             <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
                                     data-mdb-target="#deleteGroupParentModal"
-                                    wire:click="deleteGroupParent({{ $parent->parentgroupid }})">
+                                    wire:click="deleteGroupParent({{ $parent->id }}, {{ $parent->parentgroupid }})">
                                 <i class="material-icons text-danger">delete</i>
                             </button>
                         </td>

@@ -43,7 +43,7 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete the group `{{ $groupName }}` as a parent from {{ $group->name }}?</p>
+                <p>Are you sure you want to delete the group `{{ $parentName }}` as a parent from {{ $groupName }}?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" wire:click="closeModal" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
