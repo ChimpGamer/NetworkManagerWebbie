@@ -16,20 +16,17 @@ class ShowGroupSuffixes extends Component
 
     public ?int $suffixId;
 
-    public int $groupId;
+    public ?string $suffix;
 
-    public string $suffix;
-
-    public string $server;
+    public ?string $server;
 
     public Group $group;
 
     protected function rules()
     {
         return [
-            'groupId' => 'required|int',
             'suffix' => 'required|string',
-            'server' => 'string',
+            'server' => 'string|nullable',
         ];
     }
 
@@ -46,6 +43,13 @@ class ShowGroupSuffixes extends Component
     public function createGroupSuffix()
     {
         $validatedData = $this->validate();
+        $server = empty($validatedData['server']) ? '' : $validatedData['server'];
+
+        GroupSuffix::create([
+            'groupid' => $this->group->id,
+            'suffix' => $validatedData['suffix'],
+            'server' => $server,
+        ]);
 
         session()->flash('message', 'Successfully Created Group Suffix');
         $this->resetInput();
@@ -56,20 +60,20 @@ class ShowGroupSuffixes extends Component
     {
         $this->resetInput();
 
-        $this->groupId = $groupSuffix->id;
-        $this->suffix = $groupSuffix->prefix;
+        $this->suffixId = $groupSuffix->id;
+        $this->suffix = $groupSuffix->suffix;
         $this->server = $groupSuffix->server;
     }
 
     public function updateGroupSuffix()
     {
         $validatedData = $this->validate();
+        $server = empty($validatedData['server']) ? '' : $validatedData['server'];
 
-        /*Group::where('id', $this->groupId)->update([
-            'name' => $validatedData['name'],
-            'ladder' => $validatedData['ladder'],
-            'rank' => $validatedData['rank']
-        ]);*/
+        GroupSuffix::where('id', $this->suffixId)->update([
+            'suffix' => $validatedData['suffix'],
+            'server' => $server,
+        ]);
         session()->flash('message', 'Group Suffix Updated Successfully');
         $this->resetInput();
         $this->dispatchBrowserEvent('close-modal');
@@ -77,13 +81,13 @@ class ShowGroupSuffixes extends Component
 
     public function deleteGroupSuffix(GroupSuffix $groupSuffix)
     {
-        $this->groupId = $groupSuffix->id;
-        $this->suffix = $groupSuffix->prefix;
+        $this->suffixId = $groupSuffix->id;
+        $this->suffix = $groupSuffix->suffix;
     }
 
-    public function deleteSuffix()
+    public function delete()
     {
-        GroupSuffix::find($this->groupId)->delete();
+        GroupSuffix::find($this->suffixId)->delete();
         $this->resetInput();
     }
 
