@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -77,8 +77,6 @@ class User extends Authenticatable
 
     /**
      * Get the name of the unique identifier for the user.
-     *
-     * @return string
      */
     public function getAuthIdentifierName(): string
     {
@@ -87,30 +85,22 @@ class User extends Authenticatable
 
     /**
      * Get the password of the user.
-     *
-     * @return string
      */
     public function getAuthPassword(): string
     {
         return $this->getAttribute('password');
     }
 
-
     /**
      * Set the password attribute.
-     *
-     * @param string $value
-     * @return void
      */
     public function setPasswordAttribute(string $value): void
     {
         $this->attributes['password'] = Hash::make($value);
     }
 
-     /**
+    /**
      * The group for the model.
-     *
-     * @return HasOne
      */
     public function group(): HasOne
     {
@@ -121,9 +111,6 @@ class User extends Authenticatable
      * Determine if the user has the given permissions.
      *
      * This is an AND check.
-     *
-     * @param array|string $permissions
-     * @return bool
      */
     public function hasPermissions(array|string $permissions): bool
     {
@@ -134,20 +121,19 @@ class User extends Authenticatable
      * Determine if the user has any of the given permissions.
      *
      * This is an OR check.
-     *
-     * @param array|string $permissions
-     * @return bool
      */
     public function hasAnyPermissions(array|string $permissions): bool
     {
         return $this->group->hasAnyPermissions($permissions);
     }
 
-    public function getUUID() {
+    public function getUUID()
+    {
         $player = DB::table('players')
             ->select('uuid')
             ->where('username', $this->username)
             ->first();
+
         return $player?->uuid;
     }
 }

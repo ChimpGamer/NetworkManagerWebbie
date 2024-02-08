@@ -36,7 +36,7 @@ use App\Http\Controllers\AnalyticsController;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::controller(AuthenticationController::class)->group(function() {
+Route::controller(AuthenticationController::class)->group(function () {
     Route::get('/login', 'loginView')->name('auth.login');
     /*Route::get('/logincreatetest', 'logincreatetestView')->name('auth.logincreatetest');
     Route::post('/logincreatetest', 'logincreatetest')->name('logincreatetest');*/
@@ -63,7 +63,7 @@ Route::resource('chat', ChatController::class);
 //Route::resource('permissions', PermissionsController::class);
 Route::prefix('permissions')->controller(PermissionsController::class)->group(function () {
     Route::get('/', 'index')->name('permissions');
-    Route::prefix('group/{group}')->group(function (){
+    Route::prefix('group/{group}')->group(function () {
         Route::get('permissions', 'groupPermissions')->name('permissions.group.permissions');
         Route::get('prefixes', 'groupPrefixes')->name('permissions.group.prefixes');
         Route::get('suffixes', 'groupSuffixes')->name('permissions.group.suffixes');
