@@ -18,7 +18,7 @@
                 </div>
                 <div class="mb-3">
                     <strong>Ladder</strong>
-                    <p>{!! $ladder !!}</p>
+                    <p>{{ $ladder }}</p>
                 </div>
                 <div class="mb-3">
                     <strong>Rank</strong>
@@ -42,7 +42,7 @@
     </div>
 </div>
 
-<!-- Add Server Modal -->
+<!-- Add Group Modal -->
 <div wire:ignore.self class="modal fade" id="addGroupModal" tabindex="-1" aria-labelledby="addGroupModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -80,12 +80,12 @@
 </div>
 
 
-<!-- Update Server Modal -->
+<!-- Update Group Modal -->
 <div wire:ignore.self class="modal fade" id="editGroupModal" tabindex="-1" aria-labelledby="editGroupModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editGroupModalLabel">Edit Server</h5>
+                <h5 class="modal-title" id="editGroupModalLabel">Edit Group</h5>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -117,7 +117,7 @@
     </div>
 </div>
 
-<!-- Delete Server Modal -->
+<!-- Delete Group Modal -->
 <div wire:ignore.self class="modal fade" id="deleteGroupModal" tabindex="-1" aria-labelledby="deleteGroupModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
