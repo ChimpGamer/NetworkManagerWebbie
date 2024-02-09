@@ -70,4 +70,8 @@ Route::prefix('permissions')->controller(PermissionsController::class)->group(fu
         Route::get('parents', 'groupParents')->name('permissions.group.parents');
         Route::get('members', 'groupMembers')->name('permissions.group.members');
     });
+    Route::prefix('player/{player}')->group(function () {
+        Route::get('permissions', 'playerPermissions')->name('permissions.player.permissions');
+        Route::get('groups', 'playerGroups')->name('permissions.player.groups');
+    });
 });

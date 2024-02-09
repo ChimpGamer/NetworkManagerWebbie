@@ -4,6 +4,9 @@
 
     <div>
         @livewire('permissions.show-groups')
+        <hr class="hr">
+        <br>
+        @livewire('permissions.show-players')
     </div>
 
 @endsection
@@ -14,6 +17,7 @@
             $('#editGroupModal').modal('hide');
             $('#addGroupModal').modal('hide');
             $('#deleteGroupModal').modal('hide');
+            $('#editPermissionPlayerModal').modal('hide');
         });
     </script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Permissions\Group;
+use App\Models\Permissions\PermissionPlayer;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
@@ -71,5 +72,23 @@ class PermissionsController extends Controller
     {
         $this->authorize('view_permissions');
         return view('permissions.group-members', ['group' => $group]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function playerPermissions(PermissionPlayer $player): View
+    {
+        $this->authorize('view_permissions');
+        return view('permissions.player-permissions', ['player' => $player]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function playerGroups(PermissionPlayer $player): View
+    {
+        $this->authorize('view_permissions');
+        return view('permissions.player-groups', ['player' => $player]);
     }
 }
