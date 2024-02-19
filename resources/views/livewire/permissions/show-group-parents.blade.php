@@ -28,11 +28,6 @@
                         <td>{{ $parent->parentGroup->name }}</td>
                         @can('edit_permissions')
                             <td>
-                                {{--<button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
-                                        data-mdb-target="#editGroupModal"
-                                        wire:click="editGroup({{$group->id}})">
-                                    <i class="material-icons text-warning">edit</i>
-                                </button>--}}
                                 <button type="button" style="background: transparent; border: none;"
                                         data-mdb-toggle="modal"
                                         data-mdb-target="#deleteGroupParentModal"
