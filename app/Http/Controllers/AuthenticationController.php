@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
 use App\Models\User;
-use App\Services\Login\RememberMeExpiration;
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AuthenticationController extends Controller
 {
-    use RememberMeExpiration;
 
     /**
      * Create a new controller instance.
@@ -28,7 +29,7 @@ class AuthenticationController extends Controller
     /**
      * Display a login form.
      */
-    public function loginView()
+    public function loginView(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('auth.login');
     }
@@ -36,58 +37,98 @@ class AuthenticationController extends Controller
     /**
      * Authenticate the user.
      *
-     * @return RedirectResponse|Response
+     * @return JsonResponse|RedirectResponse
      */
-    public function login(LoginRequest $request)
+    public function login(Request $request): JsonResponse|RedirectResponse
     {
-        $credentials = $request->getCredentials();
+        $this->validateLogin($request);
 
-        if (! Auth::validate($credentials)) {
-            return redirect()->back()->withErrors(['login' => 'Invalid login details']);
+        if ($this->attemptLogin($request)) {
+            if ($request->hasSession()) {
+                $request->session()->put('auth.password_confirmed_at', time());
+            }
+
+            return $this->sendLoginResponse($request);
         }
 
-        $remember = $request->get('remember');
-        $user = Auth::getProvider()->retrieveByCredentials($credentials);
-        Auth::login($user, $remember);
+        return redirect()->back()->withErrors(['login' => 'Invalid login details']);
+    }
 
-        if ($remember) {
-            $this->setRememberMeExpiration($user);
+    /**
+     * Validate the user login request.
+     *
+     * @return void
+     *
+     */
+    protected function validateLogin(Request $request): void
+    {
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+    }
+
+    /**
+     * Attempt to log the user into the application.
+     *
+     * @param Request $request
+     * @return bool
+     */
+    protected function attemptLogin(Request $request): bool
+    {
+        return $this->guard()->attempt($this->credentials($request), $request->boolean('remember'));
+    }
+
+    /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param Request $request
+     * @return array
+     */
+    protected function credentials(Request $request): array
+    {
+        return $request->only('username', 'password');
+    }
+
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param Request $request
+     * @return JsonResponse|RedirectResponse
+     */
+    protected function sendLoginResponse(Request $request): JsonResponse|RedirectResponse
+    {
+        $request->session()->regenerate();
+
+        if ($response = $this->authenticated($request, $this->guard()->user())) {
+            return $response;
         }
 
-        return $this->authenticated($request, $user);
+        return $request->wantsJson()
+            ? new JsonResponse([], 204)
+            : redirect()->intended();
     }
 
     /**
      * Handle response after user authenticated
      *
      *
-     * @return Response
+     * @param Request $request
+     * @param User $user
+     * @return RedirectResponse
      */
-    protected function authenticated(Request $request, User $user)
+    protected function authenticated(Request $request, User $user): RedirectResponse
     {
-        return redirect()->intended('/');
+        return redirect()->intended();
     }
-
-    /*public function logincreatetest(Request $request)
-    {
-        $user = new User();
-
-        $password = Hash::make($request->get("password"));
-
-        $user->fill([
-            'username' => $request->get('username'),
-            'password' => $password,
-        ]);
-
-        $user->save();
-    }*/
 
     /**
      * Log out the user from application.
      *
+     * @param Request $request
      * @return Response
      */
-    public function logout(Request $request)
+    public function logout(Request $request): Response
     {
         Auth::logout();
         $request->session()->invalidate();
@@ -95,5 +136,13 @@ class AuthenticationController extends Controller
 
         return redirect()->route('login')
             ->withSuccess('You have logged out successfully!');
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     */
+    protected function guard(): StatefulGuard
+    {
+        return Auth::guard();
     }
 }

@@ -21,11 +21,11 @@ class LoginRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'username' => 'required',
-            'password' => 'required'
+            'username' => 'required|string',
+            'password' => 'required|string',
         ];
     }
 
@@ -33,11 +33,10 @@ class LoginRequest extends FormRequest
      * Get the needed authorization credentials from the request.
      *
      * @return array
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
      */
-    public function getCredentials()
+    public function getCredentials(): array
     {
-
         return $this->only('username', 'password');
     }
 }
