@@ -23,6 +23,8 @@ class ShowPunishmentTemplates extends Component
     public ?int $duration;
     public bool $isGlobal, $isTemporary;
 
+    public int $deleteId;
+
     public string $search = '';
 
     protected function rules()
@@ -125,6 +127,16 @@ class ShowPunishmentTemplates extends Component
         session()->flash('message', 'Successfully Updated Template');
         $this->resetInput();
         $this->dispatch('close-modal');
+    }
+
+    public function deletePunishmentTemplate(PunishmentTemplate $punishmentTemplate)
+    {
+        $this->deleteId = $punishmentTemplate->id;
+    }
+
+    public function delete()
+    {
+        PunishmentTemplate::find($this->deleteId)->delete();
     }
 
     public function closeModal()

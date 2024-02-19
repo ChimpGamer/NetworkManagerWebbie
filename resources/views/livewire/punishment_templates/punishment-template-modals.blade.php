@@ -43,7 +43,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addGroupModalLabel">Add Template</h5>
+                <h5 class="modal-title" id="addGroupModalLabel">Add Punishment Template</h5>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -101,7 +101,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editTemplateModalLabel">Edit Punishment</h5>
+                <h5 class="modal-title" id="editTemplateModalLabel">Edit Punishment Template</h5>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -149,6 +149,30 @@
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Punishment Template Modal -->
+<div wire:ignore.self class="modal fade" id="deletePunishmentTemplateModal" tabindex="-1"
+     aria-labelledby="deletePunishmentTemplateModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletePunishmentTemplateModalLabel">Delete Punishment Template Confirm</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete punishment template {{ $deleteId }}?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" wire:click="closeModal" class="btn btn-secondary" data-mdb-dismiss="modal">Close
+                </button>
+                <button type="button" wire:click.prevent="delete()" class="btn btn-danger close-modal"
+                        data-mdb-dismiss="modal">Yes, Delete
+                </button>
+            </div>
         </div>
     </div>
 </div>

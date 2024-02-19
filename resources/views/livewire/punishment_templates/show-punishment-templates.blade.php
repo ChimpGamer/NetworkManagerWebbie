@@ -60,7 +60,9 @@
                                         wire:click="editTemplate({{$template->id}})">
                                     <i class="material-icons text-warning">edit</i>
                                 </button>
-                                <button type="button" style="background: transparent; border: none;">
+                                <button type="button" style="background: transparent; border: none;"
+                                        data-mdb-toggle="modal" data-mdb-target="#deletePunishmentTemplateModal"
+                                        wire:click="deletePunishmentTemplate({{$template->id}})">
                                     <i class="material-icons text-danger">delete</i>
                                 </button>
                             @endcan
