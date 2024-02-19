@@ -36,6 +36,13 @@ class ShowCommandBlocker extends Component
         'enabled' => 'required|boolean',
     ];
 
+    public function updated($name, $value): void
+    {
+        if ($name == 'search') {
+            $this->resetPage();
+        }
+    }
+
     public function addCommandBlocker()
     {
         $this->resetInput();

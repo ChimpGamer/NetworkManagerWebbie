@@ -3,14 +3,20 @@
 namespace App\Http\Livewire;
 
 use App\Models\MOTD;
-use App\Models\Permissions\Group;
 use Livewire\Component;
 
 class ShowMotd extends Component
 {
-
     public int $motdId;
-    public string $text, $description, $customversion, $faviconUrl;
+
+    public string $text;
+
+    public string $description;
+
+    public string $customversion;
+
+    public string $faviconUrl;
+
     public bool $enabled;
 
     protected $rules = [
@@ -21,11 +27,13 @@ class ShowMotd extends Component
         'enabled' => 'required|boolean',
     ];
 
-    public function addMotd() {
+    public function addMotd()
+    {
         $this->resetInput();
     }
 
-    public function createMotd() {
+    public function createMotd()
+    {
         $validatedData = $this->validate();
 
         MOTD::create([
@@ -95,6 +103,7 @@ class ShowMotd extends Component
     public function render()
     {
         $motds = MOTD::all();
+
         return view('livewire.motd.show-motd', ['motds' => $motds]);
     }
 }

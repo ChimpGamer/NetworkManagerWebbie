@@ -11,21 +11,35 @@ use Livewire\WithPagination;
 
 class ShowAnnouncements extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
-    public int $announcementId, $type;
-    public ?string $message, $sound, $server, $condition;
+    public int $announcementId;
+
+    public int $type;
+
+    public ?string $message;
+
+    public ?string $sound;
+
+    public ?string $server;
+
+    public ?string $condition;
+
     public ?string $expires;
-    public bool $permission, $active;
+
+    public bool $permission;
+
+    public bool $active;
 
     public bool $showServerInput = false;
 
     public ?string $typeName;
 
     public string $search = '';
+
     public int $deleteId;
 
     protected function rules()
@@ -38,7 +52,7 @@ class ShowAnnouncements extends Component
             'condition' => 'string|nullable',
             'expires' => 'date|nullable',
             'permission' => 'required|boolean',
-            'active' => 'required|boolean'
+            'active' => 'required|boolean',
         ];
     }
 
@@ -61,8 +75,9 @@ class ShowAnnouncements extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
-        if ($fields == "search") {
+        if ($fields == 'search') {
             $this->resetPage();
+
             return;
         }
 
@@ -121,7 +136,7 @@ class ShowAnnouncements extends Component
         $this->condition = $announcement->condition;
         $this->expires = $announcement->expires != null ? $announcement->expires->toDateTimeLocalString() : $announcement->expires;
 
-        $this->showServerInput = !$announcement->type->isGlobal();
+        $this->showServerInput = ! $announcement->type->isGlobal();
         $this->permission = $announcement->permission;
         $this->active = $announcement->active;
     }
@@ -186,10 +201,11 @@ class ShowAnnouncements extends Component
 
     public function render(): View
     {
-        $announcements = Announcement::where('id', 'like', '%' . $this->search . '%')
-            ->orWhere('message', 'like', '%' . $this->search . '%')
-            ->orWhere('server', 'like', '%' . $this->search . '%')
+        $announcements = Announcement::where('id', 'like', '%'.$this->search.'%')
+            ->orWhere('message', 'like', '%'.$this->search.'%')
+            ->orWhere('server', 'like', '%'.$this->search.'%')
             ->orderBy('id', 'ASC')->paginate(10);
+
         return view('livewire.announcements.show-announcements')->with('announcements', $announcements);
     }
 }

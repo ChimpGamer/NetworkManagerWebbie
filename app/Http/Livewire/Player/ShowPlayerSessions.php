@@ -15,11 +15,14 @@ class ShowPlayerSessions extends Component
     protected string $paginationTheme = 'bootstrap';
 
     public Player $player;
-    public function render(): View {
+
+    public function render(): View
+    {
         $sessions = DB::table('sessions')
             ->where('uuid', $this->player->uuid)
             ->orderBy('id', 'DESC')
             ->paginate(10);
+
         return view('livewire.players.show-player-sessions')->with('sessions', $sessions);
     }
 }

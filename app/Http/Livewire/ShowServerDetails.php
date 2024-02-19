@@ -2,15 +2,14 @@
 
 namespace App\Http\Livewire;
 
-
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Livewire\Component;
 
 class ShowServerDetails extends Component
 {
-
     public int $serverId;
+
     public string $servername;
 
     public function showServer(int $serverId)

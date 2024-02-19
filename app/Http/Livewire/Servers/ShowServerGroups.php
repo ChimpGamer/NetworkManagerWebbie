@@ -11,8 +11,8 @@ use Livewire\WithPagination;
 
 class ShowServerGroups extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -27,6 +27,13 @@ class ShowServerGroups extends Component
     public array $servers = [];
 
     public int $deleteId;
+
+    public function updated($name, $value): void
+    {
+        if ($name == 'search') {
+            $this->resetPage();
+        }
+    }
 
     public function showServerGroup(ServerGroup $serverGroup)
     {

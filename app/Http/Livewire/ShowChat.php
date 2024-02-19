@@ -3,7 +3,10 @@
 namespace App\Http\Livewire;
 
 use App\Models\Chat\ChatMessage;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Application;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -17,7 +20,14 @@ class ShowChat extends Component
 
     public string $search = '';
 
-    public function render()
+    public function updated($name, $value): void
+    {
+        if ($name == 'search') {
+            $this->resetPage();
+        }
+    }
+
+    public function render(): View|Application|Factory
     {
         $chatMessages = ChatMessage::join('players', 'chat.uuid', 'players.uuid')
             ->select('chat.uuid', 'chat.type', 'chat.message', 'chat.server', 'chat.time', 'players.username')

@@ -9,8 +9,8 @@ use Livewire\WithPagination;
 
 class ShowHelpOP extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -43,6 +43,7 @@ class ShowHelpOP extends Component
         $data = HelpOP::join('players', 'helpop.requester', '=', 'players.uuid')
             ->select('helpop.*', 'players.username')
             ->orderBy('id', 'DESC')->paginate(10);
+
         return view('livewire.helpop.show-helpop')->with('data', $data);
     }
 }

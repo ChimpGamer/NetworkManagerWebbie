@@ -15,13 +15,16 @@ class ShowPlayerPunishments extends Component
     protected string $paginationTheme = 'bootstrap';
 
     public Player $player;
-    public function render(): View {
+
+    public function render(): View
+    {
 
         $punishments = Punishment::where('uuid', $this->player->uuid)
             ->where('type', '!=', 20)
             ->where('type', '!=', 21)
             ->orderBy('id', 'DESC')
             ->paginate(10);
+
         return view('livewire.players.show-player-punishments')->with('punishments', $punishments);
     }
 }

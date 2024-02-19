@@ -14,8 +14,17 @@ class ShowLanguages extends Component
     protected string $paginationTheme = 'bootstrap';
 
     public string $name;
+
     public string $search = '';
+
     public int $deleteId;
+
+    public function updated($name, $value): void
+    {
+        if ($name == 'search') {
+            $this->resetPage();
+        }
+    }
 
     public function closeModal()
     {
@@ -36,8 +45,9 @@ class ShowLanguages extends Component
     public function delete()
     {
         if ($this->deleteId == 1) {
-            session()->flash('warning-message', 'The ' . $this->name . ' language cannot be deleted!');
+            session()->flash('warning-message', 'The '.$this->name.' language cannot be deleted!');
             $this->name = '';
+
             return;
         }
         Language::find($this->deleteId)->delete();
@@ -46,7 +56,8 @@ class ShowLanguages extends Component
 
     public function render(): View
     {
-        $languages = Language::where('name', 'like', '%' . $this->search . '%')->orderBy('id', 'ASC')->paginate(10);
+        $languages = Language::where('name', 'like', '%'.$this->search.'%')->orderBy('id', 'ASC')->paginate(10);
+
         return view('livewire.languages.show-languages')->with('languages', $languages);
     }
 }

@@ -12,8 +12,13 @@ class ShowAccounts extends Component
     use AuthorizesRequests;
 
     public int $user_id = -1;
+
     public string $username = '';
-    public string $password = '', $password_confirmation = '';
+
+    public string $password = '';
+
+    public string $password_confirmation = '';
+
     public string $user_group = '';
 
     protected function rules()
@@ -49,7 +54,7 @@ class ShowAccounts extends Component
             'username' => $username,
             'password' => $password,
             'usergroup' => $userGroup,
-            'notifications' => []
+            'notifications' => [],
         ]);
 
         session()->flash('message', 'Successfully Added Account');
@@ -76,7 +81,7 @@ class ShowAccounts extends Component
 
         User::where('id', $this->user_id)->update([
             'username' => $username,
-            'usergroup' => $userGroup
+            'usergroup' => $userGroup,
         ]);
 
         session()->flash('message', 'Account Updated Successfully');
@@ -118,6 +123,7 @@ class ShowAccounts extends Component
     public function render()
     {
         $users = User::all();
+
         return view('livewire.accounts.show-accounts', ['accounts' => $users]);
     }
 }

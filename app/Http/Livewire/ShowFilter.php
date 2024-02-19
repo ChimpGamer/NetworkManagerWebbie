@@ -3,16 +3,14 @@
 namespace App\Http\Livewire;
 
 use App\Models\Filter;
-use App\Support\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ShowFilter extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -23,6 +21,7 @@ class ShowFilter extends Component
     public ?string $replacement;
 
     public ?string $server;
+
     public bool $enabled;
 
     public string $search = '';
@@ -34,7 +33,12 @@ class ShowFilter extends Component
         'enabled' => 'required|boolean',
     ];
 
-    //private $filters;
+    public function updated($name, $value): void
+    {
+        if ($name == 'search') {
+            $this->resetPage();
+        }
+    }
 
     public function addFilter()
     {
@@ -113,14 +117,6 @@ class ShowFilter extends Component
         $this->server = null;
         $this->enabled = false;
     }
-
-    /*public function mount()
-    {
-        $this->filters = new Collection(Filter::orderBy('id', 'DESC')->get()->filter(function (Filter $filter) {
-            return Str::of($this->search)->test('/'.$filter->word.'/');
-        }));
-        dd($this->filters);
-    }*/
 
     public function render()
     {
