@@ -29,8 +29,11 @@ class LanguageMessage extends Model
      * @var array
      */
     protected $fillable = [
+        'language_id',
         'key',
         'message',
+        'plugin',
+        'version',
     ];
 
     /**
