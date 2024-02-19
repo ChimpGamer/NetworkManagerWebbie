@@ -10,7 +10,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AuthenticationController extends Controller
@@ -37,6 +36,7 @@ class AuthenticationController extends Controller
     /**
      * Authenticate the user.
      *
+     * @param Request $request
      * @return JsonResponse|RedirectResponse
      */
     public function login(Request $request): JsonResponse|RedirectResponse
@@ -104,9 +104,7 @@ class AuthenticationController extends Controller
             return $response;
         }
 
-        return $request->wantsJson()
-            ? new JsonResponse([], 204)
-            : redirect()->intended();
+        return $request->wantsJson() ? new JsonResponse([], 204) : redirect()->intended();
     }
 
     /**
@@ -126,16 +124,15 @@ class AuthenticationController extends Controller
      * Log out the user from application.
      *
      * @param Request $request
-     * @return Response
+     * @return JsonResponse|RedirectResponse
      */
-    public function logout(Request $request): Response
+    public function logout(Request $request): JsonResponse|RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')
-            ->withSuccess('You have logged out successfully!');
+        return $request->wantsJson() ? new JsonResponse([], 204) : redirect('/');
     }
 
     /**
