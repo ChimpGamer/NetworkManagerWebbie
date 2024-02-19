@@ -8,6 +8,8 @@
         <h5 class="alert alert-warning">{{ session('warning-message')  }}</h5>
     @endif
 
+    <h5 class="alert alert-info"><i class="fa-solid fa-circle-info"></i> Note: These languages and language message are all in-game.</h5>
+
     <div class="card">
         <div class="card-header h5">
             Languages
