@@ -121,7 +121,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
 
     <script>
-        document.addEventListener('livewire:load', function () {
+        document.addEventListener('livewire:init', function () {
             // Your JS here.
             const ctx = document.getElementById('mostUsedVersionsChart');
 

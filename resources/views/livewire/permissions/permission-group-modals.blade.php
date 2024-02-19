@@ -51,21 +51,21 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='createGroup'>
+            <form wire:submit='createGroup'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Name</label>
-                        <input type="text" wire:model="name" class="form-control">
+                        <input type="text" wire:model.live="name" class="form-control">
                         @error('name') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Ladder</label>
-                        <input type="text" wire:model="ladder" class="form-control">
+                        <input type="text" wire:model.live="ladder" class="form-control">
                         @error('ladder') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Rank</label>
-                        <input type="number" wire:model="rank" class="form-control">
+                        <input type="number" wire:model.live="rank" class="form-control">
                         @error('rank') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
@@ -89,21 +89,21 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='updateGroup'>
+            <form wire:submit='updateGroup'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Name</label>
-                        <input type="text" wire:model="name" class="form-control">
+                        <input type="text" wire:model.live="name" class="form-control">
                         @error('name') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Ladder</label>
-                        <input type="text" wire:model="ladder" class="form-control">
+                        <input type="text" wire:model.live="ladder" class="form-control">
                         @error('ladder') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Rank</label>
-                        <input type="number" wire:model="rank" class="form-control">
+                        <input type="number" wire:model.live="rank" class="form-control">
                         @error('rank') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>

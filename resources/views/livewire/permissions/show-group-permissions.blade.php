@@ -9,7 +9,7 @@
         <div class="card-header">
             <h5>Permissions of {{ $group->name }}</h5>
             <label for="groupPermissionSearch" class="float-end mx-2">
-                <input id="groupPermissionSearch" type="search" wire:model="search" class="form-control"
+                <input id="groupPermissionSearch" type="search" wire:model.live="search" class="form-control"
                        placeholder="Search..."/>
             </label>
         </div>

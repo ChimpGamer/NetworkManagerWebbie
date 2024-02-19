@@ -7,16 +7,16 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='createGroupSuffix'>
+            <form wire:submit='createGroupSuffix'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Suffix</label>
-                        <input type="text" wire:model="suffix" class="form-control">
+                        <input type="text" wire:model.live="suffix" class="form-control">
                         @error('suffix') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Server</label>
-                        <input type="text" wire:model="server" class="form-control">
+                        <input type="text" wire:model.live="server" class="form-control">
                         @error('server') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
@@ -40,16 +40,16 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='updateGroupSuffix'>
+            <form wire:submit='updateGroupSuffix'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Suffix</label>
-                        <input type="text" wire:model="suffix" class="form-control">
+                        <input type="text" wire:model.live="suffix" class="form-control">
                         @error('suffix') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Server</label>
-                        <input type="text" wire:model="server" class="form-control">
+                        <input type="text" wire:model.live="server" class="form-control">
                         @error('server') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>

@@ -9,7 +9,7 @@
         <div class="card-header h5">
             Punishment Templates
             <label for="punishmentTemplateSearch" class="float-end mx-2">
-                <input id="punishmentTemplateSearch" type="search" wire:model="search" class="form-control"
+                <input id="punishmentTemplateSearch" type="search" wire:model.live="search" class="form-control"
                        placeholder="Search..."/>
             </label>
         </div>

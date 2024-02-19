@@ -7,21 +7,21 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='createFilter'>
+            <form wire:submit='createFilter'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Word</label>
-                        <input type="text" wire:model="word" class="form-control">
+                        <input type="text" wire:model.live="word" class="form-control">
                         @error('word') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Replacement</label>
-                        <input type="text" wire:model="replacement" class="form-control">
+                        <input type="text" wire:model.live="replacement" class="form-control">
                         @error('replacement') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Server</label>
-                        <input type="text" wire:model="server" class="form-control">
+                        <input type="text" wire:model.live="server" class="form-control">
                         @error('server') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
@@ -30,7 +30,7 @@
                             <strong>Off</strong>
                             <div class="form-check form-switch ms-2">
                                 <input class="form-check-input" type="checkbox" role="switch" id="enabledSwitch"
-                                       wire:model="enabled" />
+                                       wire:model.live="enabled" />
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="enabledSwitch"><strong>On</strong></label>
                             </div>
@@ -57,21 +57,21 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='updateFilter'>
+            <form wire:submit='updateFilter'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Word</label>
-                        <input type="text" wire:model="word" class="form-control">
+                        <input type="text" wire:model.live="word" class="form-control">
                         @error('word') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Replacement</label>
-                        <input type="text" wire:model="replacement" class="form-control">
+                        <input type="text" wire:model.live="replacement" class="form-control">
                         @error('replacement') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Server</label>
-                        <input type="text" wire:model="server" class="form-control">
+                        <input type="text" wire:model.live="server" class="form-control">
                         @error('server') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
@@ -80,7 +80,7 @@
                             <strong>Off</strong>
                             <div class="form-check form-switch ms-2">
                                 <input class="form-check-input" type="checkbox" role="switch" id="enabledSwitch"
-                                       wire:model="enabled" />
+                                       wire:model.live="enabled" />
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="enabledSwitch"><strong>On</strong></label>
                             </div>

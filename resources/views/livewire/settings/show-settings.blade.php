@@ -5,7 +5,7 @@
                 <h4 class="mb-0">Settings</h4>
             </div>
             <div class="card-body">
-                <form wire:submit.prevent="save">
+                <form wire:submit="save">
                     @foreach($settings as $i => $setting)
                         <div class="row" wire:key="setting-field-{{ $setting->variable }}">
                             <label for="setting-label-{{ $setting->variable }}"
@@ -16,17 +16,17 @@
                                         <strong>Off</strong>
                                         <div class="form-check form-switch ms-2">
                                             <input id="setting-label-{{ $setting->variable }}" class="form-check-input" type="checkbox" role="switch"
-                                                   wire:model.defer="settings.{{ $i }}.value" />
+                                                   wire:model="settings.{{ $i }}.value" />
                                             <label class="form-check-label" style="font-weight: bold;"
                                                    for="setting-label-{{ $setting->variable }}"><strong>On</strong></label>
                                         </div>
                                     </div>
                                 @else
-                                    <input id="setting-label-{{ $setting->variable }}" class="form-control" type="text" wire:model.defer="settings.{{ $i }}.value">
+                                    <input id="setting-label-{{ $setting->variable }}" class="form-control" type="text" wire:model="settings.{{ $i }}.value">
                                 @endif--}}
                                 @can('edit_settings')
                                     <input id="setting-label-{{ $setting->variable }}" class="form-control" type="text"
-                                           wire:model.defer="settings.{{ $i }}.value">
+                                           wire:model="settings.{{ $i }}.value">
                                 @else
                                     <span>{{ $setting->value }}</span>
                                 @endcan

@@ -7,21 +7,21 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='createCommandBlocker'>
+            <form wire:submit='createCommandBlocker'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Command</label>
-                        <input type="text" wire:model="command" class="form-control">
+                        <input type="text" wire:model.live="command" class="form-control">
                         @error('command') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Server</label>
-                        <input type="text" wire:model="server" class="form-control">
+                        <input type="text" wire:model.live="server" class="form-control">
                         @error('server') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Custom Message</label>
-                        <input type="text" wire:model="customMessage" class="form-control">
+                        <input type="text" wire:model.live="customMessage" class="form-control">
                         @error('customMessage') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
@@ -30,7 +30,7 @@
                             <strong>Off</strong>
                             <div class="form-check form-switch ms-2">
                                 <input class="form-check-input" type="checkbox" role="switch" id="bypasspermissionSwitch"
-                                       wire:model="bypasspermission" />
+                                       wire:model.live="bypasspermission" />
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="bypasspermissionSwitch"><strong>On</strong></label>
                             </div>
@@ -43,7 +43,7 @@
                             <strong>Off</strong>
                             <div class="form-check form-switch ms-2">
                                 <input class="form-check-input" type="checkbox" role="switch" id="enabledSwitch"
-                                       wire:model="enabled" />
+                                       wire:model.live="enabled" />
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="enabledSwitch"><strong>On</strong></label>
                             </div>
@@ -70,21 +70,21 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='updateCommandBlocker'>
+            <form wire:submit='updateCommandBlocker'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Command</label>
-                        <input type="text" wire:model="command" class="form-control">
+                        <input type="text" wire:model.live="command" class="form-control">
                         @error('command') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Server</label>
-                        <input type="text" wire:model="server" class="form-control">
+                        <input type="text" wire:model.live="server" class="form-control">
                         @error('server') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Custom Message</label>
-                        <input type="text" wire:model="customMessage" class="form-control">
+                        <input type="text" wire:model.live="customMessage" class="form-control">
                         @error('customMessage') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
@@ -93,7 +93,7 @@
                             <strong>Off</strong>
                             <div class="form-check form-switch ms-2">
                                 <input class="form-check-input" type="checkbox" role="switch" id="bypasspermissionSwitch"
-                                       wire:model="bypasspermission" />
+                                       wire:model.live="bypasspermission" />
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="bypasspermissionSwitch"><strong>On</strong></label>
                             </div>
@@ -106,7 +106,7 @@
                             <strong>Off</strong>
                             <div class="form-check form-switch ms-2">
                                 <input class="form-check-input" type="checkbox" role="switch" id="enabledSwitch"
-                                       wire:model="enabled" />
+                                       wire:model.live="enabled" />
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="enabledSwitch"><strong>On</strong></label>
                             </div>

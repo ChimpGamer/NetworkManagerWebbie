@@ -12,7 +12,7 @@
         <div class="card-header">
             <h5>Groups of {{ $player->name }}</h5>
             <label for="playerGroupSearch" class="float-end mx-2">
-                <input id="playerGroupSearch" type="search" wire:model="search" class="form-control"
+                <input id="playerGroupSearch" type="search" wire:model.live="search" class="form-control"
                        placeholder="Search..."/>
             </label>
         </div>

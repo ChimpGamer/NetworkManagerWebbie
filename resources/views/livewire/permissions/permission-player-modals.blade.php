@@ -48,16 +48,16 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='updatePermissionPlayer'>
+            <form wire:submit='updatePermissionPlayer'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Prefix</label>
-                        <input type="text" wire:model="prefix" class="form-control">
+                        <input type="text" wire:model.live="prefix" class="form-control">
                         @error('prefix') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Suffix</label>
-                        <input type="text" wire:model="suffix" class="form-control">
+                        <input type="text" wire:model.live="suffix" class="form-control">
                         @error('suffix') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>

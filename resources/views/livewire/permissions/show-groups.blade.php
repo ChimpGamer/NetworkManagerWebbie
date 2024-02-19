@@ -9,7 +9,7 @@
         <div class="card-header">
             <h5>Permission Groups</h5>
             <label for="groupSearch" class="float-end mx-2">
-                <input id="groupSearch" type="search" wire:model="search" class="form-control"
+                <input id="groupSearch" type="search" wire:model.live="search" class="form-control"
                        placeholder="Search..."/>
             </label>
         </div>

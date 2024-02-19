@@ -9,7 +9,7 @@
         <div class="card-header h5">
             Server Groups
             <label for="serverGroupSearch" class="float-end mx-2">
-                <input id="serverGroupSearch" type="search" wire:model="search" class="form-control"
+                <input id="serverGroupSearch" type="search" wire:model.live="search" class="form-control"
                        placeholder="Search..."/>
             </label>
         </div>

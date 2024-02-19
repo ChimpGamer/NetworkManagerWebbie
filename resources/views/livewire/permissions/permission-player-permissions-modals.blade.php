@@ -7,26 +7,26 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='createPlayerPermission'>
+            <form wire:submit='createPlayerPermission'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Permission</label>
-                        <input type="text" wire:model="permission" class="form-control">
+                        <input type="text" wire:model.live="permission" class="form-control">
                         @error('permission') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Server</label>
-                        <input type="text" wire:model="server" class="form-control">
+                        <input type="text" wire:model.live="server" class="form-control">
                         @error('server') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">World</label>
-                        <input type="text" wire:model="world" class="form-control">
+                        <input type="text" wire:model.live="world" class="form-control">
                         @error('world') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Expires</label>
-                        <input type="datetime-local" wire:model="expires" class="form-control">
+                        <input type="datetime-local" wire:model.live="expires" class="form-control">
                         @error('expires') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
@@ -50,26 +50,26 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='updatePlayerPermission'>
+            <form wire:submit='updatePlayerPermission'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Permission</label>
-                        <input type="text" wire:model="permission" class="form-control">
+                        <input type="text" wire:model.live="permission" class="form-control">
                         @error('permission') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Server</label>
-                        <input type="text" wire:model="server" class="form-control">
+                        <input type="text" wire:model.live="server" class="form-control">
                         @error('server') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">World</label>
-                        <input type="text" wire:model="world" class="form-control">
+                        <input type="text" wire:model.live="world" class="form-control">
                         @error('world') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Expires</label>
-                        <input type="datetime-local" wire:model="expires" class="form-control">
+                        <input type="datetime-local" wire:model.live="expires" class="form-control">
                         @error('expires') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>

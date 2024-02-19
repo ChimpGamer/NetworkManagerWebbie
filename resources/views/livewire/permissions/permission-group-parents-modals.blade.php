@@ -7,11 +7,11 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='createGroupParent'>
+            <form wire:submit='createGroupParent'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Group</label>
-                        <input type="text" wire:model.lazy="groupName" class="form-control" list="group-list">
+                        <input type="text" wire:model.blur="groupName" class="form-control" list="group-list">
                         <datalist id="group-list">
                             @foreach($groups as $group)
                                 <option

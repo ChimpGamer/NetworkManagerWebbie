@@ -9,7 +9,7 @@
         <div class="card-header h5">
             Announcements
             <label for="announcementSearch" class="float-end mx-2">
-                <input id="announcementSearch" type="search" wire:model="search" class="form-control"
+                <input id="announcementSearch" type="search" wire:model.live="search" class="form-control"
                        placeholder="Search..."/>
             </label>
         </div>

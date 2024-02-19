@@ -10,7 +10,6 @@
         {{ config('app.name') }}
     </title>
 
-    @livewireStyles
     <!-- Google Fonts Roboto -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"/>
@@ -41,8 +40,6 @@
         @yield('content')
     </div>
 </main>
-
-@livewireScripts
 
 @yield('script')
 </body>

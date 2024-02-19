@@ -9,7 +9,7 @@
         <div class="card-header">
             <h5>Permissions of {{ $player->name }}</h5>
             <label for="playerPermissionSearch" class="float-end mx-2">
-                <input id="playerPermissionSearch" type="search" wire:model="search" class="form-control"
+                <input id="playerPermissionSearch" type="search" wire:model.live="search" class="form-control"
                        placeholder="Search..."/>
             </label>
         </div>

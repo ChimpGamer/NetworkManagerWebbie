@@ -7,11 +7,11 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='createLanguage'>
+            <form wire:submit='createLanguage'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Language Name</label>
-                        <input type="text" wire:model="name" class="form-control">
+                        <input type="text" wire:model.live="name" class="form-control">
                         @error('name') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>

@@ -7,26 +7,26 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='createMotd'>
+            <form wire:submit='createMotd'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Text</label>
-                        <textarea wire:model="text" class="form-control"></textarea>
+                        <textarea wire:model.live="text" class="form-control"></textarea>
                         @error('text') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Hover Description</label>
-                        <textarea wire:model="description" class="form-control"></textarea>
+                        <textarea wire:model.live="description" class="form-control"></textarea>
                         @error('description') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Custom Version</label>
-                        <input type="text" wire:model="customversion" class="form-control">
+                        <input type="text" wire:model.live="customversion" class="form-control">
                         @error('customversion') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Favicon</label>
-                        <input type="text" wire:model="faviconUrl" class="form-control">
+                        <input type="text" wire:model.live="faviconUrl" class="form-control">
                         @error('faviconUrl') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
@@ -36,7 +36,7 @@
                             <div class="form-check form-switch ms-2">
                                 <input class="form-check-input" type="checkbox" role="switch"
                                        id="enabledSwitch"
-                                       wire:model="enabled" />
+                                       wire:model.live="enabled" />
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="enabledSwitch"><strong>On</strong></label>
                             </div>
@@ -68,26 +68,26 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form wire:submit.prevent='updateMotd'>
+            <form wire:submit='updateMotd'>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Text</label>
-                        <textarea wire:model="text" class="form-control"></textarea>
+                        <textarea wire:model.live="text" class="form-control"></textarea>
                         @error('text') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Hover Description</label>
-                        <textarea wire:model="description" class="form-control"></textarea>
+                        <textarea wire:model.live="description" class="form-control"></textarea>
                         @error('description') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Custom Version</label>
-                        <input type="text" wire:model="customversion" class="form-control">
+                        <input type="text" wire:model.live="customversion" class="form-control">
                         @error('customversion') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Favicon</label>
-                        <input type="text" wire:model="faviconUrl" class="form-control">
+                        <input type="text" wire:model.live="faviconUrl" class="form-control">
                         @error('faviconUrl') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
@@ -97,7 +97,7 @@
                             <div class="form-check form-switch ms-2">
                                 <input class="form-check-input" type="checkbox" role="switch"
                                        id="enabledSwitch"
-                                       wire:model="enabled" />
+                                       wire:model.live="enabled" />
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="enabledSwitch"><strong>On</strong></label>
                             </div>

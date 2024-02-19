@@ -12,7 +12,7 @@
         <div class="card-header h5">
             Punishments
             <label for="punishmentSearch" class="float-end mx-2">
-                <input id="punishmentSearch" type="search" wire:model="search" class="form-control"
+                <input id="punishmentSearch" type="search" wire:model.live="search" class="form-control"
                        placeholder="Search..."/>
             </label>
         </div>
