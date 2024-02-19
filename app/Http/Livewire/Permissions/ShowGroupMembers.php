@@ -27,6 +27,13 @@ class ShowGroupMembers extends Component
 
     public string $search = '';
 
+    public function updated($name, $value): void
+    {
+        if ($name == 'search') {
+            $this->resetPage();
+        }
+    }
+
     public function deleteGroupMember(GroupMember $groupMember, PermissionPlayer $permissionPlayer)
     {
         $this->authorize('edit_permissions');

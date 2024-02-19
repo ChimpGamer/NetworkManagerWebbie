@@ -42,6 +42,9 @@ class ShowGroups extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
+        if ($fields == 'search') {
+            $this->resetPage();
+        }
     }
 
     public function showGroup(Group $group)

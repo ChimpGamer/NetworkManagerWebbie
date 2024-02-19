@@ -38,6 +38,13 @@ class ShowPlayerGroups extends Component
         ];
     }
 
+    public function updated($name, $value): void
+    {
+        if ($name == 'search') {
+            $this->resetPage();
+        }
+    }
+
     public function addPlayerGroup()
     {
         $this->resetInput();

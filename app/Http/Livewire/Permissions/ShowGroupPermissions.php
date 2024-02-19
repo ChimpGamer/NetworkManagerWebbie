@@ -43,6 +43,9 @@ class ShowGroupPermissions extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
+        if ($fields == 'search') {
+            $this->resetPage();
+        }
     }
 
     public function addGroupPermission(): void
@@ -129,9 +132,9 @@ class ShowGroupPermissions extends Component
     {
         $groupPermissions = GroupPermission::where('groupid', $this->group->id)
             ->where(function ($query) {
-                $query->orWhere('permission', 'like', '%'.$this->search.'%')
-                    ->orWhere('world', 'like', '%'.$this->search.'%')
-                    ->orWhere('server', 'like', '%'.$this->search.'%');
+                $query->orWhere('permission', 'like', '%' . $this->search . '%')
+                    ->orWhere('world', 'like', '%' . $this->search . '%')
+                    ->orWhere('server', 'like', '%' . $this->search . '%');
             })->orderBy('id', 'ASC')->paginate(10);
 
         return view('livewire.permissions.show-group-permissions')->with('permissions', $groupPermissions);

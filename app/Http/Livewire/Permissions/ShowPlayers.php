@@ -33,6 +33,13 @@ class ShowPlayers extends Component
         ];
     }
 
+    public function updated($name, $value): void
+    {
+        if ($name == 'search') {
+            $this->resetPage();
+        }
+    }
+
     public function showPlayer(PermissionPlayer $permissionPlayer)
     {
         $this->playerUuid = $permissionPlayer->uuid;
