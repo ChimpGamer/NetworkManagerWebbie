@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Languages;
 
 use App\Models\Language;
 use App\Models\LanguageMessage;
+use App\Models\Value;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -73,20 +74,42 @@ class ShowLanguages extends Component
 
     public function deleteLanguage(Language $language)
     {
+        if ($this->isProtectedLanguage($language)) {
+            session()->flash('warning-message', 'The '.$language->name.' language cannot be deleted!');
+            return;
+        }
+
         $this->deleteId = $language->id;
         $this->name = $language->name;
     }
 
     public function delete()
     {
-        if ($this->deleteId == 1) {
-            session()->flash('warning-message', 'The '.$this->name.' language cannot be deleted!');
-            $this->name = '';
-
+        $language = Language::find($this->deleteId);
+        if ($this->isProtectedLanguage($language)) {
+            session()->flash('warning-message', 'The '.$language->name.' language cannot be deleted!');
+            $this->resetInput();
             return;
         }
-        Language::find($this->deleteId)->delete();
-        $this->name = '';
+
+        $language->delete();
+        $this->resetInput();
+    }
+
+    public function isProtectedLanguage(Language $language): bool
+    {
+        if ($language->id == 1) {
+            return true;
+        } else {
+            $defaultLanguage = Language::getByName(Value::getValueByVariable('setting_language_default')->value);
+            if ($defaultLanguage != null) {
+                if ($language->id == $defaultLanguage->id) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public function render(): View

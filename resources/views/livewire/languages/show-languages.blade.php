@@ -8,7 +8,8 @@
         <h5 class="alert alert-warning">{{ session('warning-message')  }}</h5>
     @endif
 
-    <h5 class="alert alert-info"><i class="fa-solid fa-circle-info"></i> Note: These languages and language message are all in-game.</h5>
+    <h5 class="alert alert-info"><i class="fa-solid fa-circle-info"></i> Note: These languages and language message are
+        all in-game.</h5>
 
     <div class="card">
         <div class="card-header h5">
@@ -40,8 +41,10 @@
                                     <i class="material-icons text-warning">edit</i>
                                 </a>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal"
-                                        data-mdb-target="#deleteLanguageModal"
+                                        @if(!$this->isProtectedLanguage($language))
+                                            data-mdb-toggle="modal"
+                                            data-mdb-target="#deleteLanguageModal"
+                                        @endif
                                         wire:click="deleteLanguage({{ $language->id }})">
                                     <i class="material-icons text-danger">delete</i>
                                 </button>

@@ -26,7 +26,7 @@
 </div>
 
 
-<!-- Delete Server Modal -->
+<!-- Delete Language Modal -->
 <div wire:ignore.self class="modal fade" id="deleteLanguageModal" tabindex="-1" aria-labelledby="deleteLanguageModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">

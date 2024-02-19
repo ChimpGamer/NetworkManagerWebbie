@@ -98,11 +98,16 @@ class Value extends Model
         'setting_notify_banned_player_join',
     ];
 
-    public function isBooleanSetting()
+    public function isBooleanSetting(): bool
     {
         if (str_ends_with($this->variable, '_enabled')) {
             return true;
         }
         return in_array($this->variable, $this->booleanSettings);
+    }
+
+    public static function getValueByVariable(string $variable): mixed
+    {
+        return Value::where('variable', $variable)->first();
     }
 }

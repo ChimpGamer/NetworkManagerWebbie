@@ -30,7 +30,7 @@ class Language extends Model
      */
     protected $fillable = [
         'id',
-        'name'
+        'name',
     ];
 
     /**
@@ -39,7 +39,7 @@ class Language extends Model
      * @var array
      */
     protected $casts = [
-        'name' => 'string'
+        'name' => 'string',
     ];
 
     /**
@@ -58,4 +58,8 @@ class Language extends Model
      */
     public $timestamps = false;
 
+    public static function getByName(string $name): ?Language
+    {
+        return Language::where('name', $name)->first();
+    }
 }
