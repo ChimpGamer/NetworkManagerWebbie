@@ -40,8 +40,8 @@ class ShowServers extends Component
     protected function rules()
     {
         return [
-            'servername' => 'required|string|min:6',
-            'displayname' => 'required|string|min:6',
+            'servername' => 'required|string|min:3',
+            'displayname' => 'required|string|min:3',
             'ip' => 'required|string',
             'port' => 'required|int',
             'motd' => '',
