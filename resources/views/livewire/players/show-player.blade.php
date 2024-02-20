@@ -1,3 +1,4 @@
+@php use App\Helpers\CountryUtils; @endphp
 <div>
     <div class="row gy-4">
         <!-- Player Information -->
@@ -26,7 +27,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Country</th>
-                                <td>{{$player->country}}</td>
+                                <td>{{CountryUtils::countryCodeToCountry($player->country)}}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Latest Minecraft Version</th>
@@ -142,7 +143,7 @@
                     plugins: {
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     let value = context.formattedValue;
 
                                     let sum = 0;
@@ -151,7 +152,7 @@
                                         sum += Number(data);
                                     });
 
-                                    return  (value * 100 / sum).toFixed(2) + '%';
+                                    return (value * 100 / sum).toFixed(2) + '%';
                                 }
                             }
                         },
