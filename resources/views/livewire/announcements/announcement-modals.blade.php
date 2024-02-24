@@ -51,6 +51,11 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <a type="button" class="btn"
+                   @if(!empty($message)) href="https://webui.advntr.dev/?mode=chat_closed&input={{urlencode($message)}}"
+                   target="_blank" rel="noopener noreferrer" @endif>
+                    Click to preview
+                </a>
                 <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
             </div>
         </div>
@@ -134,6 +139,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <a type="button" class="btn"
+                       @if(!empty($message)) href="https://webui.advntr.dev/?mode=chat_closed&input={{urlencode($message)}}"
+                       target="_blank" rel="noopener noreferrer" @endif>
+                        Click to preview
+                    </a>
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
                             data-mdb-dismiss="modal">Close
                     </button>
@@ -221,6 +231,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <a type="button" class="btn"
+                       @if(!empty($message)) href="https://webui.advntr.dev/?mode=chat_closed&input={{urlencode($message)}}"
+                       target="_blank" rel="noopener noreferrer" @endif>
+                        Click to preview
+                    </a>
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
                             data-mdb-dismiss="modal">Close
                     </button>
