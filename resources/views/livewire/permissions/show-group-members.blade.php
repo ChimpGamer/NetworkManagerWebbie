@@ -4,6 +4,9 @@
     @if (session()->has('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
     @endif
+    @if(session()->has('error'))
+        <h5 class="alert alert-danger">{{ session('error') }}</h5>
+    @endif
 
     <div class="card">
         <div class="card-header">
@@ -60,10 +63,10 @@
             </div>
         </div>
     </div>
-    {{--<div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addGroupModal"
-                wire:click="addGroup">
-            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Group
+    <div class="p-4">
+        <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addGroupMemberModal"
+                wire:click="addGroupMember">
+            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Member
         </button>
-    </div>--}}
+    </div>
 </div>

@@ -4,9 +4,7 @@ namespace App\Livewire\Permissions;
 
 use App\Models\Permissions\Group;
 use App\Models\Permissions\GroupMember;
-use App\Models\Permissions\GroupPermission;
 use App\Models\Permissions\PermissionPlayer;
-use App\Models\Permissions\PlayerPermission;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -14,8 +12,8 @@ use Livewire\WithPagination;
 
 class ShowPlayerGroups extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -34,7 +32,9 @@ class ShowPlayerGroups extends Component
     protected function rules()
     {
         return [
-            'groupName' => 'string|required|exists:App\Models\Permissions\Group,name'
+            'groupName' => 'string|required|exists:App\Models\Permissions\Group,name',
+            'server' => 'string|nullable',
+            'expires' => 'date|nullable',
         ];
     }
 
@@ -153,8 +153,8 @@ class ShowPlayerGroups extends Component
     {
         $playerGroups = GroupMember::where('playeruuid', $this->player->uuid)
             ->where(function ($query) {
-                $query->orWhere('groupid', 'like', '%' . $this->search . '%')
-                    ->orWhere('server', 'like', '%' . $this->search . '%');
+                $query->orWhere('groupid', 'like', '%'.$this->search.'%')
+                    ->orWhere('server', 'like', '%'.$this->search.'%');
             })->orderBy('id', 'ASC')->paginate(10);
 
         return view('livewire.permissions.show-player-groups')->with('playerGroups', $playerGroups);
