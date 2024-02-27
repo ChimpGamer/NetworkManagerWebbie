@@ -36,13 +36,13 @@
                         @can('edit_permissions')
                             <td>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal"
+                                        data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#editGroupPrefixModal"
                                         wire:click="editGroupPrefix({{$prefix->id}})">
                                     <i class="material-icons text-warning">edit</i>
                                 </button>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal"
+                                        data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#deleteGroupPrefixModal"
                                         wire:click="deleteGroupPrefix({{ $prefix->id }})">
                                     <i class="material-icons text-danger">delete</i>
@@ -60,7 +60,7 @@
     </div>
     @can('edit_permissions')
         <div class="p-4">
-            <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addGroupPrefixModal"
+            <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addGroupPrefixModal"
                     wire:click="addGroupPrefix">
                 <i style="font-size: 18px !important;" class="material-icons">add</i> Add Prefix
             </button>

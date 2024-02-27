@@ -47,13 +47,13 @@
                         @can('edit_permissions')
                             <td>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal"
+                                        data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#editPlayerGroupModal"
                                         wire:click="editPlayerGroup({{ $playerGroup->id }}, {{ $playerGroup->group->id }})">
                                     <i class="material-icons text-warning">edit</i>
                                 </button>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal"
+                                        data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#deletePlayerGroupModal"
                                         wire:click="deletePlayerGroup({{ $playerGroup->id }}, {{ $playerGroup->group->id }})">
                                     <i class="material-icons text-danger">delete</i>
@@ -71,7 +71,7 @@
     </div>
     @can('edit_permissions')
         <div class="p-4">
-            <button type="button" class="btn btn-primary" data-mdb-toggle="modal"
+            <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init
                     data-mdb-target="#addPlayerGroupModal"
                     wire:click="addPlayerGroup">
                 <i style="font-size: 18px !important;" class="material-icons">add</i> Add Group

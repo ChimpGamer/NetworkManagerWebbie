@@ -49,19 +49,19 @@
                         </td>
                         <td>{!! $template->reason !!}</td>
                         <th>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                            <button type="button" style="background: transparent; border: none;" data-mdb-ripple-init data-mdb-modal-init
                                     data-mdb-target="#showPunishmentTemplateModal"
                                     wire:click="showPunishmentTemplate({{ $template->id }})">
                                 <i class="material-icons text-info">info</i>
                             </button>
                             @can('edit_pre_punishments')
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal" data-mdb-target="#editTemplateModal"
+                                        data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#editTemplateModal"
                                         wire:click="editTemplate({{$template->id}})">
                                     <i class="material-icons text-warning">edit</i>
                                 </button>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal" data-mdb-target="#deletePunishmentTemplateModal"
+                                        data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#deletePunishmentTemplateModal"
                                         wire:click="deletePunishmentTemplate({{$template->id}})">
                                     <i class="material-icons text-danger">delete</i>
                                 </button>
@@ -78,7 +78,7 @@
     </div>
     @can('edit_pre_punishments')
         <div class="p-4">
-            <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addTemplateModal"
+            <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addTemplateModal"
                     wire:click="addTemplate">
                 <i style="font-size: 18px !important;" class="material-icons">add</i> Add Template
             </button>

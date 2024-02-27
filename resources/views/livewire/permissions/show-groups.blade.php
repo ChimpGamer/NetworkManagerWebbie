@@ -32,20 +32,20 @@
                         <td>{{ $group->ladder }}</td>
                         <td>{{ $group->rank }}</td>
                         <td>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                            <button type="button" style="background: transparent; border: none;" data-mdb-ripple-init data-mdb-modal-init
                                     data-mdb-target="#showPermissionGroupModal"
                                     wire:click="showGroup({{$group->id}})">
                                 <i class="material-icons text-info">info</i>
                             </button>
                             @can('edit_permissions')
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal"
+                                        data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#editGroupModal"
                                         wire:click="editGroup({{$group->id}})">
                                     <i class="material-icons text-warning">edit</i>
                                 </button>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal"
+                                        data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#deleteGroupModal"
                                         wire:click="deleteGroup({{ $group->id }})">
                                     <i class="material-icons text-danger">delete</i>
@@ -63,7 +63,7 @@
     </div>
     @can('edit_permissions')
         <div class="p-4">
-            <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addGroupModal"
+            <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addGroupModal"
                     wire:click="addGroup">
                 <i style="font-size: 18px !important;" class="material-icons">add</i> Add Group
             </button>

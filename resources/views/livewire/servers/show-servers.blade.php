@@ -45,19 +45,19 @@
                             </span>
                         </td>
                         <th>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                            <button type="button" style="background: transparent; border: none;" data-mdb-ripple-init data-mdb-modal-init
                                     data-mdb-target="#showServerModal"
                                     wire:click="showServer({{$server->id}})">
                                 <i class="material-icons text-info">info</i>
                             </button>
                             @can('edit_servers')
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal" data-mdb-target="#editServerModal"
+                                        data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#editServerModal"
                                         wire:click="editServer({{$server->id}})">
                                     <i class="material-icons text-warning">edit</i>
                                 </button>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal" data-mdb-target="#deleteServerModal"
+                                        data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#deleteServerModal"
                                         wire:click="deleteServer({{ $server->id }})">
                                     <i class="material-icons text-danger">delete</i>
                                 </button>
@@ -74,7 +74,7 @@
     </div>
     @can('edit_servers')
         <div class="p-4">
-            <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addServerModal"
+            <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addServerModal"
                     wire:click="addServer">
                 <i style="font-size: 18px !important;" class="material-icons">add</i> Add Server
             </button>

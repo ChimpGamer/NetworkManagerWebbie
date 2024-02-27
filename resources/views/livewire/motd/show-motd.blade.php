@@ -28,17 +28,17 @@
                             </div>
                         </td>
                         <td>
-                            <a type="button" style="background: transparent; border: none;" data-mdb-toggle="tooltip"
+                            <a type="button" style="background: transparent; border: none;" data-mdb-tooltip-init
                                title="Click to preview"
                                href="https://webui.advntr.dev/?mode=server_list&input={{urlencode($motd->text)}}"
                                target="_blank" rel="noopener noreferrer">
                                 <i class="material-icons text-primary">travel_explore</i>
                             </a>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                            <button type="button" style="background: transparent; border: none;" data-mdb-ripple-init data-mdb-modal-init
                                     data-mdb-target="#editMotdModal"  wire:click="editMotd({{$motd->id}})">
                                 <i class="material-icons text-warning">edit</i>
                             </button>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                            <button type="button" style="background: transparent; border: none;" data-mdb-ripple-init data-mdb-modal-init
                                     data-mdb-target="#deleteMotdModal" wire:click="deleteMotd({{$motd->id}})">
                                 <i class="material-icons text-danger">delete</i>
                             </button>
@@ -50,7 +50,7 @@
         </div>
     </div>
     <div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addMotdModal"
+        <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addMotdModal"
                 wire:click="addMotd">
             <i style="font-size: 18px !important;" class="material-icons">add</i> Add MOTD
         </button>

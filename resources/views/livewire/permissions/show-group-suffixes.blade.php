@@ -36,13 +36,13 @@
                         @can('edit_permissions')
                             <td>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal"
+                                        data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#editGroupSuffixModal"
                                         wire:click="editGroupSuffix({{$suffix->id}})">
                                     <i class="material-icons text-warning">edit</i>
                                 </button>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal"
+                                        data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#deleteGroupSuffixModal"
                                         wire:click="deleteGroupSuffix({{ $suffix->id }})">
                                     <i class="material-icons text-danger">delete</i>
@@ -59,7 +59,7 @@
         </div>
     </div>
     <div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addGroupSuffixModal"
+        <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addGroupSuffixModal"
                 wire:click="addGroupSuffix">
             <i style="font-size: 18px !important;" class="material-icons">add</i> Add Suffix
         </button>

@@ -42,7 +42,7 @@
                         @can('edit_filter')
                             <td>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal"
+                                        data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#deleteHelpOPModal" wire:click="deleteHelpOP({{$item->id}})">
                                     <i class="material-icons text-danger">delete</i>
                                 </button>

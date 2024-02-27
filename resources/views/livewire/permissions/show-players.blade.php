@@ -32,14 +32,14 @@
                         <td>{{ $player->prefix }}</td>
                         <td>{{ $player->suffix }}</td>
                         <td>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-toggle="modal"
+                            <button type="button" style="background: transparent; border: none;" data-mdb-ripple-init data-mdb-modal-init
                                     data-mdb-target="#showPermissionPlayerModal"
                                     wire:click="showPlayer('{{$player->uuid}}')">
                                 <i class="material-icons text-info">info</i>
                             </button>
                             @can('edit_permissions')
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal"
+                                        data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#editPermissionPlayerModal"
                                         wire:click="editPlayer('{{$player->uuid}}')">
                                     <i class="material-icons text-warning">edit</i>

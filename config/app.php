@@ -211,4 +211,5 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    'theme' => env('APP_THEME', 'light'),
 ];

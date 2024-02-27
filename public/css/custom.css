@@ -1,4 +1,4 @@
-body {
+[data-mdb-theme=light] body {
     background-color: #fbfbfb;
 }
 
@@ -71,7 +71,7 @@ dark_blue {
 }
 
 blue {
-    color: 5555ff;
+    color: #5555ff;
 }
 
 dark_green {

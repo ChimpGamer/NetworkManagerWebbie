@@ -42,7 +42,7 @@
                                 </a>
                                 <button type="button" style="background: transparent; border: none;"
                                         @if(!$this->isProtectedLanguage($language))
-                                            data-mdb-toggle="modal"
+                                            data-mdb-ripple-init data-mdb-modal-init
                                             data-mdb-target="#deleteLanguageModal"
                                         @endif
                                         wire:click="deleteLanguage({{ $language->id }})">
@@ -60,7 +60,7 @@
         </div>
     </div>
     <div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addLanguageModal"
+        <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addLanguageModal"
                 wire:click="addLanguage">
             <i style="font-size: 18px !important;" class="material-icons">add</i> Add Language
         </button>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-mdb-theme="{{ config('app.theme') }}">
 
 <head>
     <meta charset="UTF-8">
@@ -23,7 +23,7 @@
     <link href="{{ asset('css/labels.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet"/>
 
-    <script src="{{ asset('js/mdb.min.js') }}" defer></script>
+    <script src="{{ asset('js/mdb.umd.min.js') }}" defer></script>
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
             integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>

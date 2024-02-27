@@ -57,13 +57,13 @@
                         @can('edit_commandblocker')
                             <td>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal"
+                                        data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#editCommandBlockerModal"
                                         wire:click="editCommandBlocker({{$blockedCommand->id}})">
                                     <i class="material-icons text-warning">edit</i>
                                 </button>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-toggle="modal"
+                                        data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#deleteCommandBlockerModal"
                                         wire:click="deleteCommandBlocker({{$blockedCommand->id}})">
                                     <i class="material-icons text-danger">delete</i>
@@ -82,7 +82,7 @@
     </div>
     @can('edit_commandblocker')
         <div class="p-4">
-            <button type="button" class="btn btn-primary" data-mdb-toggle="modal"
+            <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init
                     data-mdb-target="#addCommandBlockerModal"
                     wire:click="addCommandBlocker">
                 <i style="font-size: 18px !important;" class="material-icons">add</i> Add CommandBlocker
