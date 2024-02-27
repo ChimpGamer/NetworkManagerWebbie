@@ -4,6 +4,9 @@
     @if (session()->has('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
     @endif
+    @if(session()->has('error'))
+        <h5 class="alert alert-danger">{{ session('error') }}</h5>
+    @endif
 
     <div class="card">
         <div class="card-header">

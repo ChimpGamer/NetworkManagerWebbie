@@ -11,8 +11,8 @@ use Livewire\WithPagination;
 
 class ShowGroupPermissions extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -56,13 +56,47 @@ class ShowGroupPermissions extends Component
     public function createGroupPermission()
     {
         $validatedData = $this->validate();
+        $permission = $validatedData['permission'];
         $server = empty($validatedData['server']) ? '' : $validatedData['server'];
         $world = empty($validatedData['world']) ? '' : $validatedData['world'];
         $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
 
+        $exists = $this->permissionExists($this->group, $permission, $server, $world, $expires);
+        if ($exists) {
+            session()->flash('error', 'Group '.$this->group->name.' already has the '.$permission.' permission.');
+
+            return;
+        }
+
+        if ($expires != null) {
+            $similarPermissions = GroupPermission::where('groupid', $this->group->id)
+                ->where('permission', $permission)
+                ->where('server', $server)
+                ->where('world', $world)
+                ->get();
+
+            foreach ($similarPermissions as $perm) {
+                if ($perm->willExpire()) {
+                    $updated = $perm->update(['expires' => $expires]);
+                    if (! $updated) {
+                        session()->flash('message', 'Could not update permission expiration date.');
+                        $this->resetInput();
+                        $this->dispatch('close-modal');
+
+                        return;
+                    }
+                    session()->flash('message', 'Permission expiration changed.');
+                    $this->resetInput();
+                    $this->dispatch('close-modal');
+
+                    return;
+                }
+            }
+        }
+
         GroupPermission::create([
             'groupid' => $this->group->id,
-            'permission' => $validatedData['permission'],
+            'permission' => $permission,
             'server' => $server,
             'world' => $world,
             'expires' => $expires,
@@ -87,12 +121,20 @@ class ShowGroupPermissions extends Component
     public function updateGroupPermission()
     {
         $validatedData = $this->validate();
+        $permission = $validatedData['permission'];
         $server = empty($validatedData['server']) ? '' : $validatedData['server'];
         $world = empty($validatedData['world']) ? '' : $validatedData['world'];
         $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
 
+        $exists = $this->permissionExists($this->group, $permission, $server, $world, $expires);
+        if ($exists) {
+            session()->flash('error', 'Group '.$this->group->name.' already has the '.$permission.' permission.');
+
+            return;
+        }
+
         GroupPermission::where('id', $this->permissionId)->update([
-            'permission' => $validatedData['permission'],
+            'permission' => $permission,
             'server' => $server,
             'world' => $world,
             'expires' => $expires,
@@ -114,6 +156,16 @@ class ShowGroupPermissions extends Component
         $this->resetInput();
     }
 
+    private function permissionExists(Group $group, string $permission, string $server, string $world, $expires): bool
+    {
+        return GroupPermission::where('groupid', $group->id)
+            ->where('permission', $permission)
+            ->where('server', $server)
+            ->where('world', $world)
+            ->where('expires', $expires)
+            ->exists();
+    }
+
     public function closeModal()
     {
         $this->resetInput();
@@ -132,9 +184,9 @@ class ShowGroupPermissions extends Component
     {
         $groupPermissions = GroupPermission::where('groupid', $this->group->id)
             ->where(function ($query) {
-                $query->orWhere('permission', 'like', '%' . $this->search . '%')
-                    ->orWhere('world', 'like', '%' . $this->search . '%')
-                    ->orWhere('server', 'like', '%' . $this->search . '%');
+                $query->orWhere('permission', 'like', '%'.$this->search.'%')
+                    ->orWhere('world', 'like', '%'.$this->search.'%')
+                    ->orWhere('server', 'like', '%'.$this->search.'%');
             })->orderBy('id', 'ASC')->paginate(10);
 
         return view('livewire.permissions.show-group-permissions')->with('permissions', $groupPermissions);

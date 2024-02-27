@@ -34,7 +34,7 @@ class GroupPermission extends Model implements Permission
         'permission',
         'world',
         'server',
-        'expires'
+        'expires',
     ];
 
     /**
@@ -44,15 +44,7 @@ class GroupPermission extends Model implements Permission
      */
     protected $casts = [
         'groupid' => 'integer',
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'expires'
+        'expires' => 'datetime',
     ];
 
     /**
@@ -62,12 +54,12 @@ class GroupPermission extends Model implements Permission
      */
     public $timestamps = false;
 
-    function willExpire(): bool
+    public function willExpire(): bool
     {
         return $this->expires != null;
     }
 
-    function hasExpired(): bool
+    public function hasExpired(): bool
     {
         return $this->willExpire() && $this->expires->isPast();
     }

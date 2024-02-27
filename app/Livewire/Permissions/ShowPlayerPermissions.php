@@ -58,9 +58,43 @@ class ShowPlayerPermissions extends Component
     public function createPlayerPermission()
     {
         $validatedData = $this->validate();
+        $permission = $validatedData['permission'];
         $server = empty($validatedData['server']) ? '' : $validatedData['server'];
         $world = empty($validatedData['world']) ? '' : $validatedData['world'];
         $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
+
+        $exists = $this->permissionExists($this->player, $permission, $server, $world, $expires);
+        if ($exists) {
+            session()->flash('error', 'Player '.$this->player->name.' already has the '.$permission.' permission.');
+
+            return;
+        }
+
+        if ($expires != null) {
+            $similarPermissions = PlayerPermission::where('playeruuid', $this->player->uuid)
+                ->where('permission', $permission)
+                ->where('server', $server)
+                ->where('world', $world)
+                ->get();
+
+            foreach ($similarPermissions as $perm) {
+                if ($perm->willExpire()) {
+                    $updated = $perm->update(['expires' => $expires]);
+                    if (! $updated) {
+                        session()->flash('message', 'Could not update permission expiration date.');
+                        $this->resetInput();
+                        $this->dispatch('close-modal');
+
+                        return;
+                    }
+                    session()->flash('message', 'Permission expiration changed.');
+                    $this->resetInput();
+                    $this->dispatch('close-modal');
+
+                    return;
+                }
+            }
+        }
 
         PlayerPermission::create([
             'playeruuid' => $this->player->uuid,
@@ -89,9 +123,17 @@ class ShowPlayerPermissions extends Component
     public function updatePlayerPermission()
     {
         $validatedData = $this->validate();
+        $permission = $validatedData['permission'];
         $server = empty($validatedData['server']) ? '' : $validatedData['server'];
         $world = empty($validatedData['world']) ? '' : $validatedData['world'];
         $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
+
+        $exists = $this->permissionExists($this->player, $permission, $server, $world, $expires);
+        if ($exists) {
+            session()->flash('error', 'Player '.$this->player->name.' already has the '.$permission.' permission.');
+
+            return;
+        }
 
         PlayerPermission::where('id', $this->permissionId)->update([
             'permission' => $validatedData['permission'],
@@ -114,6 +156,16 @@ class ShowPlayerPermissions extends Component
     {
         PlayerPermission::find($this->permissionId)->delete();
         $this->resetInput();
+    }
+
+    private function permissionExists(PermissionPlayer $permissionPlayer, string $permission, string $server, string $world, $expires): bool
+    {
+        return PlayerPermission::where('playeruuid', $permissionPlayer->uuid)
+            ->where('permission', $permission)
+            ->where('server', $server)
+            ->where('world', $world)
+            ->where('expires', $expires)
+            ->exists();
     }
 
     public function closeModal()

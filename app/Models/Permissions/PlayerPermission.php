@@ -34,7 +34,7 @@ class PlayerPermission extends Model implements Permission
         'permission',
         'world',
         'server',
-        'expires'
+        'expires',
     ];
 
     /**
@@ -43,16 +43,7 @@ class PlayerPermission extends Model implements Permission
      * @var array
      */
     protected $casts = [
-
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'expires'
+        'expires' => 'datetime',
     ];
 
     /**
@@ -62,12 +53,12 @@ class PlayerPermission extends Model implements Permission
      */
     public $timestamps = false;
 
-    function willExpire(): bool
+    public function willExpire(): bool
     {
         return $this->expires != null;
     }
 
-    function hasExpired(): bool
+    public function hasExpired(): bool
     {
         return $this->willExpire() && $this->expires->isPast();
     }
