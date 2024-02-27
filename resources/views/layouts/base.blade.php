@@ -21,7 +21,7 @@
     <link href="{{ asset('css/authentication.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/labels.css') }}" rel="stylesheet" />
 
-    <script src="{{ asset('js/mdb.min.js') }}" defer></script>
+    <script src="{{ asset('js/mdb.umd.min.js') }}" defer></script>
 </head>
 <body>
 <main>
