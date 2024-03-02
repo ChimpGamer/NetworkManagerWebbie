@@ -55,7 +55,6 @@ class ShowAccountGroups extends Component
         $this->groupname = $group->name;
 
         $permissions = array_slice($group->attributesToArray(), 2);
-        unset($permissions['administrator']);
         $this->permissions = $permissions;
     }
 
