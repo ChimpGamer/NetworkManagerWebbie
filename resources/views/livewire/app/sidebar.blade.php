@@ -1,4 +1,4 @@
-<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse">
+<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-body">
     <div class="position-sticky">
         <div class="list-group list-group-flush mx-3 mt-4">
             <a href="/"
@@ -88,6 +88,13 @@
                    data-mdb-ripple-init
                    class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'chat')) active @endif">
                     <i class="fas fa-comments fa-fw me-3"></i><span>Chat</span>
+                </a>
+            @endcan
+            @can('view_tickets')
+                <a href="/tickets"
+                   data-mdb-ripple-init
+                   class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'tickets')) active @endif">
+                    <i class="fas fa-ticket fa-fw me-3"></i><span>Tickets</span>
                 </a>
             @endcan
             @can('view_network')
