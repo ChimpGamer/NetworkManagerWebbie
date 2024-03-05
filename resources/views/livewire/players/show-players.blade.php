@@ -28,7 +28,7 @@
                     <tr>
                         <td><img alt="player avatar" src="https://minotar.net/helm/{{ $player->uuid  }}/20" loading="lazy"> {{$player->username}}</td>
                         <td>{{ $player->getTimestampFormatted($player->firstlogin) }}</td>
-                        <td>@if ($player->active)
+                        <td>@if ($player->online)
                                 <i class="fas fa-check-circle fa-lg" style="color:green"></i>
                             @else
                                 <i class="fas fa-xmark-circle fa-lg" style="color:red"></i>
