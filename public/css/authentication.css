@@ -1,4 +1,6 @@
-* {box-sizing: border-box}
+* {
+    box-sizing: border-box
+}
 
 body {
     background-image: url("../images/login-background-blur.webp");
@@ -9,18 +11,24 @@ body {
 }
 
 /* Full-width input fields */
-input[type=text], input[type=password], input[type=email] {
+input[type=text], input[type=password] {
     width: 100%;
     padding: 15px;
     margin: 5px 0 12px 0;
     display: inline-block;
     border: none;
+}
+
+[data-mdb-theme=light] input[type=text], [data-mdb-theme=light] input[type=password] {
     background: #f1f1f1;
 }
 
-input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
-    background-color: #ddd;
+input[type=text]:focus, input[type=password]:focus {
     outline: none;
+}
+
+[data-mdb-theme=light] input[type=text]:focus, [data-mdb-theme=light] input[type=password]:focus {
+    background-color: #ddd;
 }
 
 hr {
@@ -30,8 +38,6 @@ hr {
 
 /* Set a style for all buttons */
 button {
-    background-color: rgb(63 81 197);
-    color: white;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
@@ -41,7 +47,7 @@ button {
 }
 
 button:hover {
-    opacity:1;
+    opacity: 1;
 }
 
 /* Add padding to container elements */
