@@ -36,7 +36,7 @@
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
-                        <a class="dropdown-item" href="/profile">My profile</a>
+                        <a class="dropdown-item" href="/profile"><i class="fa-solid fa-user"></i> My profile</a>
                     </li>
                     {{--<li>
                         <a class="dropdown-item" href="#">Settings</a>
@@ -44,7 +44,7 @@
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button class="dropdown-item" type="submit">Logout</button>
+                            <button class="dropdown-item" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
                         </form>
                     </li>
                 </ul>
