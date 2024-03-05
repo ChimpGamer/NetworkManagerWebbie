@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
     <link href="{{ asset('css/mdb.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/authentication.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/labels.css') }}" rel="stylesheet" />
