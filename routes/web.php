@@ -11,6 +11,7 @@ use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TagsController;
 use App\Http\Controllers\TicketsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServersController;
@@ -60,6 +61,7 @@ Route::resource('commandblocker', CommandBlockerController::class);
 Route::resource('helpop', HelpOPController::class);
 Route::resource('accounts', AccountsController::class);
 Route::resource('chat', ChatController::class);
+Route::resource('tags', TagsController::class);
 
 //Route::resource('permissions', PermissionsController::class);
 Route::prefix('permissions')->controller(PermissionsController::class)->group(function () {

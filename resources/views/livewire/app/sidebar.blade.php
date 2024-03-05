@@ -90,6 +90,13 @@
                     <i class="fas fa-comments fa-fw me-3"></i><span>Chat</span>
                 </a>
             @endcan
+            @can('view_tags')
+                <a href="/tags"
+                   data-mdb-ripple-init
+                   class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'tags')) active @endif">
+                    <i class="fas fa-tags fa-fw me-3"></i><span>Tags</span>
+                </a>
+            @endcan
             @can('view_tickets')
                 <a href="/tickets"
                    data-mdb-ripple-init
