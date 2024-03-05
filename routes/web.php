@@ -78,5 +78,5 @@ Route::prefix('permissions')->controller(PermissionsController::class)->group(fu
 });
 Route::prefix('tickets')->controller(TicketsController::class)->group(function () {
     Route::get('/', 'index')->name('tickets');
-    Route::get('/{ticket}', 'ticket')->name('tickets');
+    Route::get('/{ticket}', 'ticket')->name('tickets.ticket');
 });
