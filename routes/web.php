@@ -11,6 +11,7 @@ use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TicketsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServersController;
 use App\Http\Controllers\AnnouncementsController;
@@ -74,4 +75,8 @@ Route::prefix('permissions')->controller(PermissionsController::class)->group(fu
         Route::get('permissions', 'playerPermissions')->name('permissions.player.permissions');
         Route::get('groups', 'playerGroups')->name('permissions.player.groups');
     });
+});
+Route::prefix('tickets')->controller(TicketsController::class)->group(function () {
+    Route::get('/', 'index')->name('tickets');
+    Route::get('/{ticket}', 'ticket')->name('tickets');
 });

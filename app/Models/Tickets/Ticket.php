@@ -2,8 +2,12 @@
 
 namespace App\Models\Tickets;
 
+use App\Helpers\TimeUtils;
+use App\Models\Player;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 
 class Ticket extends Model
 {
@@ -51,7 +55,8 @@ class Ticket extends Model
      * @var array
      */
     protected $casts = [
-        'priority' => 'integer',
+        'priority' => TicketPriority::class,
+        'active' => 'boolean',
     ];
 
     /**
@@ -69,4 +74,39 @@ class Ticket extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function ticketMessages(): HasOneOrMany
+    {
+        return $this->hasMany(TicketMessage::class, 'ticket_id', 'id');
+    }
+
+    public function getCreatorName()
+    {
+        return Player::getName($this->creator);
+    }
+
+    public function getLastAnswerName()
+    {
+        return Player::getName($this->last_answer);
+    }
+
+    public function getClosedByName()
+    {
+        return Player::getName($this->last_answer);
+    }
+
+    public function getCreationFormatted(): string
+    {
+        $creation = Carbon::createFromTimestampMs($this->creation);
+        if ($creation->diffInWeeks() <= 1) {
+            return $creation->diffForHumans();
+        } else {
+            return TimeUtils::formatTimestamp($this->creation);
+        }
+    }
+
+    public function getLastUpdateFormatted(): string
+    {
+        return TimeUtils::formatTimestamp($this->last_update);
+    }
 }

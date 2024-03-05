@@ -2,6 +2,9 @@
 
 namespace App\Models\Tickets;
 
+use App\Helpers\TimeUtils;
+use App\Models\Player;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -60,4 +63,19 @@ class TicketMessage extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function getSenderName()
+    {
+        return Player::getName($this->uuid);
+    }
+
+    public function getTimeFormatted(): string
+    {
+        $creation = Carbon::createFromTimestampMs($this->time);
+        if ($creation->diffInHours() <= 24) {
+            return $creation->diffForHumans();
+        } else {
+            return TimeUtils::formatTimestamp($this->time);
+        }
+    }
 }
