@@ -45,7 +45,7 @@
                         <td>{{ $tag->tag }}</td>
                         <td>{{ $tag->description }}</td>
                         <td>{{ $tag->server }}</td>
-                        @can('edit_filter')
+                        @can('edit_tags')
                             <td>
                                 <button type="button" style="background: transparent; border: none;"
                                         data-mdb-ripple-init data-mdb-modal-init
@@ -69,7 +69,7 @@
             </div>
         </div>
     </div>
-    @can('edit_filter')
+    @can('edit_tags')
         <div class="p-4">
             <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init
                     data-mdb-target="#addTagModal"
