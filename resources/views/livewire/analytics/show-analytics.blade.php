@@ -17,7 +17,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($mostPlayedVersions as $mostPlayedVersion)
+                        @foreach ($this->mostPlayedVersions as $mostPlayedVersion)
                             <tr>
                                 <td>{{ $mostPlayedVersion['version'] }}</td>
                                 <td>{{ $mostPlayedVersion['players'] }}</td>
@@ -49,7 +49,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($mostUsedVirtualHosts as $mostUsedVirtualHost)
+                        @foreach ($this->mostUsedVirtualHosts as $mostUsedVirtualHost)
                             <tr>
                                 <td>{{ $mostUsedVirtualHost['vhost'] }}</td>
                                 <td>{{ $mostUsedVirtualHost['players'] }}</td>
