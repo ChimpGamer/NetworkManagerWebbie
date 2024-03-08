@@ -12,7 +12,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Name</label>
-                        <input type="text" wire:model.live="groupname" class="form-control">
+                        <input type="text" wire:model="groupname" class="form-control">
                         @error('groupname') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Name</label>
-                        <input type="text" wire:model.live="groupname" class="form-control">
+                        <input type="text" wire:model="groupname" class="form-control">
                         @error('groupname') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                         <label class="bold">Permissions</label>
                         @foreach($permissions as $key => $value)
                             <div class="form-check" wire:key="{{$key}}">
-                                <input class="form-check-input" type="checkbox" wire:model.live="permissions.{{$key}}"
+                                <input class="form-check-input" type="checkbox" wire:model="permissions.{{$key}}"
                                        id="permission-{{$key}}">
                                 <label class="form-check-label" for="permission-{{$key}}">{{$key}}</label>
                                 @error('permissions.' . $key) <span class="text-danger">{{ $message }}</span> @enderror
