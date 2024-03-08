@@ -2,9 +2,12 @@
 
 namespace App\Livewire\Accounts;
 
+use App\Models\Group;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class ShowAccounts extends Component
@@ -34,6 +37,12 @@ class ShowAccounts extends Component
         'username' => 'required|string|min:4',
         'user_group' => 'required|string|exists:App\Models\Group,name',
     ];
+
+    #[Computed]
+    public function allUserGroups(): Collection
+    {
+        return Group::all();
+    }
 
     public function addAccount()
     {

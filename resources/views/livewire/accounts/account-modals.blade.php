@@ -12,24 +12,24 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Username</label>
-                        <input type="text" wire:model.live="username" class="form-control">
+                        <input type="text" wire:model="username" class="form-control">
                         @error('username') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Password</label>
-                        <input type="password" wire:model.live="password" name="password" class="form-control">
+                        <input type="password" wire:model="password" name="password" class="form-control">
                         @error('password') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Confirm Password</label>
-                        <input type="password" wire:model.live="password_confirmation" class="form-control">
+                        <input type="password" wire:model="password_confirmation" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label class="bold">UserGroup</label>
-                        <select class="form-control" wire:model.live="user_group">
+                        <select class="form-control" wire:model="user_group">
                             <option selected>Select a user group...</option>
 
-                            @foreach (\App\Models\Group::all() as $group)
+                            @foreach ($this->allUserGroups as $group)
                                 <option value="{{ $group->name }}">{{ $group->name }}</option>
                             @endforeach
                         </select>
@@ -61,15 +61,15 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Username</label>
-                        <input type="text" wire:model.live="username" class="form-control">
+                        <input type="text" wire:model="username" class="form-control">
                         @error('username') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">UserGroup</label>
-                        <select class="form-control" wire:model.live="user_group">
+                        <select class="form-control" wire:model="user_group">
                             <option disabled>Select a user group...</option>
 
-                            @foreach (\App\Models\Group::all() as $group)
+                            @foreach ($this->allUserGroups as $group)
                                 <option value="{{ $group->name }}">{{ $group->name }}</option>
                             @endforeach
                         </select>
