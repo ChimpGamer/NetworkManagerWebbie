@@ -1,0 +1,29 @@
+{
+    "name": "nwidart/ultimatetags",
+    "description": "",
+    "authors": [
+        {
+            "name": "ChimpGamer",
+            "email": "chimpgamermc@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\UltimateTags\\": "",
+            "Modules\\UltimateTags\\App\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\UltimateTags\\Tests\\": "tests/"
+        }
+    }
+}
