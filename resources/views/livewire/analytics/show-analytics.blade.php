@@ -3,6 +3,19 @@
         <div class="card">
             <div class="card-header text-center py-3">
                 <h5 class="mb-0 text-center">
+                    <strong>Online Players</strong>
+                </h5>
+            </div>
+            <div class="card-body">
+                @livewire('analytics.online-players-chart', ['lazy' => true])
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-4">
+        <div class="card">
+            <div class="card-header text-center py-3">
+                <h5 class="mb-0 text-center">
                     <strong>Most Played Versions</strong>
                 </h5>
             </div>
