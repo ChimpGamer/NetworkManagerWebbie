@@ -71,9 +71,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $punishmentTemplates->links() }}
-            </div>
+            {{ $punishmentTemplates->links() }}
         </div>
     </div>
     @can('edit_pre_punishments')

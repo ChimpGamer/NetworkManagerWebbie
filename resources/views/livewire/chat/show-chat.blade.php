@@ -69,15 +69,7 @@
 
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $chatmessages->links() }}
-            </div>
+            {{ $chatmessages->links() }}
         </div>
     </div>
-    {{--<div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addCommandBlockerModal"
-                wire:click="addCommandBlocker">
-            <i style="font-size: 18px !important;" class="material-icons">add</i> Add CommandBlocker
-        </button>
-    </div>--}}
 </div>

@@ -60,9 +60,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $tickets->links() }}
-            </div>
+            {{ $tickets->links() }}
         </div>
     </div>
     {{--@can('edit_servers')

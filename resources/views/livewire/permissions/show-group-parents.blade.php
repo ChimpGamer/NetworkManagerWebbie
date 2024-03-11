@@ -40,9 +40,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $parents->links() }}
-            </div>
+            {{ $parents->links() }}
         </div>
     </div>
     @can('edit_permissions')

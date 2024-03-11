@@ -33,9 +33,7 @@
                     @endforeach
                     </tbody>
                 </table>
-                <div class="d-flex justify-content-center">
-                    {{ $sessions->links() }}
-                </div>
+                {{ $sessions->links() }}
             </div>
         </div>
     </div>

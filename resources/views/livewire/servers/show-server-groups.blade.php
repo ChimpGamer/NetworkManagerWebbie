@@ -54,9 +54,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $servergroups->links() }}
-            </div>
+            {{ $servergroups->links() }}
         </div>
     </div>
     {{--<div class="p-4">

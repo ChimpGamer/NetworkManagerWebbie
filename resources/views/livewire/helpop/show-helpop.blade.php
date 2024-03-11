@@ -53,9 +53,7 @@
 
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $data->links() }}
-            </div>
+            {{ $data->links() }}
         </div>
     </div>
 </div>

@@ -54,9 +54,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $languages->links() }}
-            </div>
+            {{ $languages->links() }}
         </div>
     </div>
     <div class="p-4">

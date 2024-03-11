@@ -64,9 +64,7 @@
 
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $tags->links() }}
-            </div>
+            {{ $tags->links() }}
         </div>
     </div>
     @can('edit_tags')

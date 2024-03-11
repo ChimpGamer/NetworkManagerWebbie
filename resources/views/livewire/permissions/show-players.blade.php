@@ -50,9 +50,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $players->links() }}
-            </div>
+            {{ $players->links() }}
         </div>
     </div>
 </div>
