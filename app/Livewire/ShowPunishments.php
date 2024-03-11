@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Helpers\TimeUtils;
-use App\Models\Player;
+use App\Models\Player\Player;
 use App\Models\Punishment;
 use App\Models\PunishmentType;
 use Carbon\Carbon;

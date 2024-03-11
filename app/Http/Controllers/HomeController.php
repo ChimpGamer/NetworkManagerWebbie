@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Player;
+use App\Models\Player\Player;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\DB;

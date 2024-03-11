@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Player;
 
-use App\Models\Player;
+use App\Models\Player\Player;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;

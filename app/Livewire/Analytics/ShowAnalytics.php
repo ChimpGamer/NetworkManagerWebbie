@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Analytics;
 
-use App\Models\Player;
+use App\Models\Player\Player;
 use App\Models\ServerAnalytic;
 use Carbon\Carbon;
 use Illuminate\View\View;

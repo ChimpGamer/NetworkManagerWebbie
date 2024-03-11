@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Player;
 
 use App\Helpers\TimeUtils;
+use App\Models\ProtocolVersion;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -202,6 +203,7 @@ class Player extends Model
     public function getAverageDailyLogin(): string
     {
         $data = DB::table('sessions')
+            ->select('start')
             ->where('uuid', $this->uuid)
             ->groupBy('uuid')
             ->avg('start');
@@ -218,7 +220,7 @@ class Player extends Model
 
     public function getAltAccounts(): Collection
     {
-        return Player::all()->where('ip', $this->ip)->where('uuid', '!=', $this->uuid);
+        return Player::where('ip', $this->ip)->where('uuid', '!=', $this->uuid)->get();
     }
 
     public function getMostUsedVersions(): array
@@ -244,9 +246,7 @@ class Player extends Model
             $values[] = $item->versionUse / $total;
         }
 
-        $result = ['labels' => $labels, 'values' => $values];
-
-        return $result;
+        return ['labels' => $labels, 'values' => $values];
     }
 
     public function getTimestampFormatted($timestamp): string
