@@ -9,6 +9,7 @@ use App\Models\PunishmentType;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -69,6 +70,12 @@ class ShowPunishments extends Component
             'silent' => 'required|boolean',
             'active' => 'required|boolean',
         ];
+    }
+
+    #[Computed]
+    public function punishmentTypeCases(): array
+    {
+        return PunishmentType::cases();
     }
 
     public function showPunishment(Punishment $punishment)
