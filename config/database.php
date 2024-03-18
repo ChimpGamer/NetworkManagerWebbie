@@ -112,26 +112,6 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MANAGER_MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
-
-        'ultimatetags' => [
-            'driver' => 'mysql',
-            'url' => env('DATABASE_URL'),
-            'host' => 'localhost',
-            'port' => 3306,
-            'database' => 'UltimateTags',
-            'username' => 'UltimateTags',
-            'password' => 'UltimateTags',
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'strict' => false,
-            'engine' => 'InnoDB',
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
-        ],
     ],
 
     /*

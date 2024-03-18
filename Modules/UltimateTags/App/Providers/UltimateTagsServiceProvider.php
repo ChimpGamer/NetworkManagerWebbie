@@ -4,6 +4,7 @@ namespace Modules\UltimateTags\App\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use PDO;
 
 class UltimateTagsServiceProvider extends ServiceProvider
 {
@@ -73,6 +74,10 @@ class UltimateTagsServiceProvider extends ServiceProvider
     {
         $this->publishes([module_path($this->moduleName, 'config/config.php') => config_path($this->moduleNameLower.'.php')], 'config');
         $this->mergeConfigFrom(module_path($this->moduleName, 'config/config.php'), $this->moduleNameLower);
+
+        $connectionConfig = config('ultimatetags.storage');
+
+        config(['database.connections.ultimatetags' => $connectionConfig]);
     }
 
     /**

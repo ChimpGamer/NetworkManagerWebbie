@@ -3,43 +3,15 @@
 return [
     'name' => 'UltimateTags',
 
-    'connections' => [
-        'ultimatetags' => [
-            'driver' => 'mysql',
-            'url' => env('DATABASE_URL'),
-            'host' => 'st02.cremers.local',
-            'port' => 3307,
-            'database' => 'UltimateTags',
-            'username' => 'NetworkManager',
-            'password' => 'NetworkManager',
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'strict' => false,
-            'engine' => 'InnoDB',
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
-        ],
-    ],
-
-    'ultimatetags' => [
+    'storage' => [
         'driver' => 'mysql',
-        'url' => env('DATABASE_URL'),
-        'host' => 'st02.cremers.local',
-        'port' => 3307,
+        'host' => 'localhost',
+        'port' => 3306,
         'database' => 'UltimateTags',
-        'username' => 'NetworkManager',
-        'password' => 'NetworkManager',
-        'unix_socket' => env('DB_SOCKET', ''),
+        'username' => 'UltimateTags',
+        'password' => 'UltimateTags',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
-        'prefix' => '',
-        'prefix_indexes' => true,
-        'strict' => false,
-        'engine' => 'InnoDB',
         'options' => extension_loaded('pdo_mysql') ? array_filter([
             PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
         ]) : [],
