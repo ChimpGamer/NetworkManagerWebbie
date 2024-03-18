@@ -27,12 +27,12 @@
                 <div class="mb-3">
                     <strong>Actions</strong>
                     <p>
-                        <a type="button" class="btn" href="/permissions/group/{{$groupId}}/permissions">View Permissions</a>
-                        <a type="button" class="btn" href="/permissions/group/{{$groupId}}/prefixes">View Prefixes</a>
-                        <a type="button" class="btn" href="/permissions/group/{{$groupId}}/suffixes">View Suffixes</a>
-                        <a type="button" class="btn" href="/permissions/group/{{$groupId}}/parents">View Parents</a>
+                        <a wire:navigate type="button" class="btn" href="/permissions/group/{{$groupId}}/permissions">View Permissions</a>
+                        <a wire:navigate type="button" class="btn" href="/permissions/group/{{$groupId}}/prefixes">View Prefixes</a>
+                        <a wire:navigate type="button" class="btn" href="/permissions/group/{{$groupId}}/suffixes">View Suffixes</a>
+                        <a wire:navigate type="button" class="btn" href="/permissions/group/{{$groupId}}/parents">View Parents</a>
                     </p>
-                    <p><a type="button" class="btn" href="/permissions/group/{{$groupId}}/members">View Members</a></p>
+                    <p><a wire:navigate type="button" class="btn" href="/permissions/group/{{$groupId}}/members">View Members</a></p>
                 </div>
             </div>
             <div class="modal-footer">
