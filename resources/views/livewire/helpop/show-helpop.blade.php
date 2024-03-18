@@ -33,7 +33,7 @@
                 @foreach($data as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
-                        <td><a href="/players/{{ $item->requester }}"><img
+                        <td><a wire:navigate href="/players/{{ $item->requester }}"><img
                                     src="https://minotar.net/avatar/{{ $item->requester }}/20"
                                     alt="requester avatar"> {{ $item->username }}</a></td>
                         <td>{{ $item->message }}</td>
@@ -53,9 +53,7 @@
 
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $data->links() }}
-            </div>
+            {{ $data->links() }}
         </div>
     </div>
 </div>

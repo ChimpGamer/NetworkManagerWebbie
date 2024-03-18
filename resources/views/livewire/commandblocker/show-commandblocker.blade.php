@@ -72,12 +72,9 @@
                         @endcan
                     </tr>
                 @endforeach
-
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $blockedcommands->links() }}
-            </div>
+            {{ $blockedcommands->links() }}
         </div>
     </div>
     @can('edit_commandblocker')

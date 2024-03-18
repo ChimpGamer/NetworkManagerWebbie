@@ -66,9 +66,7 @@
 
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $filters->links() }}
-            </div>
+            {{ $filters->links() }}
         </div>
     </div>
     @can('edit_filter')

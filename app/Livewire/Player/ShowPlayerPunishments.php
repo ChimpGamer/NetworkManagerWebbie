@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Player;
 
-use App\Models\Player;
+use App\Models\Player\Player;
 use App\Models\Punishment;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -19,7 +19,8 @@ class ShowPlayerPunishments extends Component
     public function render(): View
     {
 
-        $punishments = Punishment::where('uuid', $this->player->uuid)
+        $punishments = Punishment::select('type', 'punisher', 'time', 'reason')
+            ->where('uuid', $this->player->uuid)
             ->where('type', '!=', 20)
             ->where('type', '!=', 21)
             ->orderBy('id', 'DESC')

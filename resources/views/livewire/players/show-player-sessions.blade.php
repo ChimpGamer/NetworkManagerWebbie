@@ -22,20 +22,18 @@
                     <tbody>
                     @foreach ($sessions as $session)
                         <tr>
-                            <td>{{\App\Helpers\TimeUtils::formatTimestamp($session->start)}}</td>
-                            <td>{{\App\Helpers\TimeUtils::formatTimestamp($session->end)}}</td>
-                            <td>{{\App\Helpers\TimeUtils::millisToReadableFormat($session->time)}}</td>
+                            <td>{{$session->formatStart()}}</td>
+                            <td>{{$session->formatEnd()}}</td>
+                            <td>{{$session->formatTime()}}</td>
                             @can('show_ip')
                                 <td>{{$session->ip}}</td>
                             @endcan
-                            <td>{{\App\Models\ProtocolVersion::from($session->version)->name()}}</td>
+                            <td>{{$session->version->name()}}</td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
-                <div class="d-flex justify-content-center">
-                    {{ $sessions->links() }}
-                </div>
+                {{ $sessions->links() }}
             </div>
         </div>
     </div>

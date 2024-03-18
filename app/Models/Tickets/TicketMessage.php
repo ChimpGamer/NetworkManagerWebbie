@@ -3,7 +3,7 @@
 namespace App\Models\Tickets;
 
 use App\Helpers\TimeUtils;
-use App\Models\Player;
+use App\Models\Player\Player;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

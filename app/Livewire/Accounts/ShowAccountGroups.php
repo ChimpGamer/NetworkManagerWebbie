@@ -19,11 +19,15 @@ class ShowAccountGroups extends Component
     protected function rules()
     {
         return [
-            'groupname' => 'required|string',
-            'permissions' => 'required|array',
-            'permissions.*' => 'required|boolean',
+            'groupname' => 'required|string'
         ];
     }
+
+    protected array $editRules = [
+        'groupname' => 'required|string',
+        'permissions' => 'required|array',
+        'permissions.*' => 'required|boolean',
+    ];
 
     public function addAccountGroup()
     {
@@ -61,7 +65,7 @@ class ShowAccountGroups extends Component
     public function updateAccountGroup()
     {
         $this->authorize('manage_groups_and_accounts');
-        $validateData = $this->validate();
+        $validateData = $this->validate($this->editRules);
         $permissions = $validateData['permissions'];
 
         $update = array_merge(['name' => $validateData['groupname']], $permissions);

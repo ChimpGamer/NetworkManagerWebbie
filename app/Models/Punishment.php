@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\TimeUtils;
+use App\Models\Player\Player;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Player;
+use App\Models\Player\Player;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 

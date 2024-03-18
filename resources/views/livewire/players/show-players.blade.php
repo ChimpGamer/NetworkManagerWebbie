@@ -34,7 +34,7 @@
                                 <i class="fas fa-xmark-circle fa-lg" style="color:red"></i>
                             @endif</td>
                         <th>
-                            <a type="button" style="background: transparent; border: none;" href="/players/{{$player->uuid}}">
+                            <a wire:navigate type="button" style="background: transparent; border: none;" href="/players/{{$player->uuid}}">
                                 <i class="material-icons text-info">info</i>
                             </a>
                         </th>
@@ -42,9 +42,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $players->links() }}
-            </div>
+            {{ $players->links() }}
         </div>
     </div>
 

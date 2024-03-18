@@ -36,8 +36,7 @@
                         <td>{{ $language->name }}</td>
                         <th>
                             @can('edit_languages')
-                                <a type="button" style="background: transparent; border: none;"
-                                   href="/languages/{{$language->id}}">
+                                <a wire:navigate type="button" style="background: transparent; border: none;" href="/languages/{{$language->id}}">
                                     <i class="material-icons text-warning">edit</i>
                                 </a>
                                 <button type="button" style="background: transparent; border: none;"
@@ -54,9 +53,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $languages->links() }}
-            </div>
+            {{ $languages->links() }}
         </div>
     </div>
     <div class="p-4">

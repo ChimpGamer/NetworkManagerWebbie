@@ -3,7 +3,7 @@
 @section('content')
 
     <div>
-        <livewire:show-analytics>
+        @livewire('analytics.show-analytics')
     </div>
 
 @endsection

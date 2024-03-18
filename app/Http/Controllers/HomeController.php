@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Player;
+use App\Models\Player\Player;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\DB;
@@ -41,12 +41,7 @@ class HomeController extends Controller
     private function getTodayPlaytime(): string
     {
         $start = Carbon::today()->getTimestampMs();
-        $data = DB::table('sessions')->select('time')->where('start', '>', $start)->get();
-
-        $time = 0;
-        foreach ($data as $item) {
-            $time += $item->time;
-        }
+        $time = DB::table('sessions')->select('time')->where('start', '>', $start)->sum('time');
         try {
             return CarbonInterval::millisecond($time)->cascade()->forHumans(['short' => true, 'options' => 0]);
         } catch (\Exception $ex) {

@@ -27,8 +27,8 @@
                 <div class="mb-3">
                     <strong>Actions</strong>
                     <p>
-                        <a type="button" class="btn" href="/permissions/player/{{$playerUuid}}/permissions">View Permissions</a>
-                        <a type="button" class="btn" href="/permissions/player/{{$playerUuid}}/groups">View Groups</a>
+                        <a wire:navigate type="button" class="btn" href="/permissions/player/{{$playerUuid}}/permissions">View Permissions</a>
+                        <a wire:navigate type="button" class="btn" href="/permissions/player/{{$playerUuid}}/groups">View Groups</a>
                     </p>
                 </div>
             </div>

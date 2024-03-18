@@ -40,7 +40,7 @@
                         <td>{{ $ticket->getCreationFormatted() }}</td>
                         <td>{{ $ticket->getLastUpdateFormatted() }}</td>
                         <th>
-                            <a type="button" style="background: transparent; border: none;" href="/tickets/{{$ticket->id}}">
+                            <a wire:navigate type="button" style="background: transparent; border: none;" href="/tickets/{{$ticket->id}}">
                                 <i class="material-icons text-info">info</i>
                             </a>
                             {{--@can('edit_servers')
@@ -60,9 +60,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $tickets->links() }}
-            </div>
+            {{ $tickets->links() }}
         </div>
     </div>
     {{--@can('edit_servers')

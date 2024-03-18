@@ -64,9 +64,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $playerGroups->links() }}
-            </div>
+            {{ $playerGroups->links() }}
         </div>
     </div>
     @can('edit_permissions')

@@ -39,7 +39,7 @@
                                 <i class="fas fa-exclamation-circle fa-lg"></i>
                             @endif {{ $punishment->id }}</td>
                         <td>{{ $punishment->type->name() }}</td>
-                        <td><a href="/players/{{$punishment->uuid}}">{{ $punishment->getPlayerName() }}</a></td>
+                        <td><a wire:navigate href="/players/{{$punishment->uuid}}">{{ $punishment->getPlayerName() }}</a></td>
                         <td>{{ $punishment->getPunisherName() }}</td>
                         <td>{!! $punishment->reason !!}</td>
                         <td>{{ $punishment->getTimeFormatted() }}</td>
@@ -66,9 +66,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $punishments->links() }}
-            </div>
+            {{ $punishments->links() }}
         </div>
     </div>
     @can('edit_punishments')

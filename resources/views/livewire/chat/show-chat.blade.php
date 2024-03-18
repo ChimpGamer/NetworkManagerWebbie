@@ -50,7 +50,7 @@
                     @endphp
 
                     <tr>
-                        <td><a href="/players/{{ $chatMessage->uuid }}"><img
+                        <td><a wire:navigate href="/players/{{ $chatMessage->uuid }}"><img
                                     src="https://minotar.net/avatar/{{ $chatMessage->uuid }}/20"
                                     alt="requester avatar"> {{ $chatMessage->username }}</a></td>
                         @if($type == 2)
@@ -69,15 +69,7 @@
 
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $chatmessages->links() }}
-            </div>
+            {{ $chatmessages->links() }}
         </div>
     </div>
-    {{--<div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addCommandBlockerModal"
-                wire:click="addCommandBlocker">
-            <i style="font-size: 18px !important;" class="material-icons">add</i> Add CommandBlocker
-        </button>
-    </div>--}}
 </div>
