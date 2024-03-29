@@ -44,7 +44,7 @@
                 @endif
             @endcan
             @can('view_servers')
-                @if($this->isModuleEnabled('module_servers'))
+                @if($this->isModuleEnabled('module_servermanager'))
                     <a href="/servers"
                        wire:navigate
                        data-mdb-ripple-init
