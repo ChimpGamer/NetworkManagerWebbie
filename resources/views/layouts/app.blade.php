@@ -23,16 +23,22 @@
     <link href="{{ asset('css/labels.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet"/>
 
-    <script src="{{ asset('js/mdb.umd.min.js') }}" defer></script>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
-    <script defer src="https://unpkg.com/@popperjs/core@2"></script>
+    <!-- Tippy -->
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
 
     @stack('styles')
 </head>
 
 <body>
+<header>
+    <div>
+        @persist('nav')
+            @livewire('navbar')
+        @endpersist
+        @livewire('sidebar')
+    </div>
+</header>
+
 <!--Main Navigation-->
 <main style="margin-top: 58px;">
     <div class="container my-5">
@@ -40,14 +46,13 @@
     </div>
 </main>
 
+<script data-navigate-once src="{{ asset('js/mdb.umd.min.js') }}"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<!-- Alpine Tooltip -->
+<script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js" defer></script>
+
 @yield('script')
 </body>
-
-<header>
-    <div>
-        <livewire:sidebar/>
-        <livewire:navbar/>
-    </div>
-</header>
-
 </html>

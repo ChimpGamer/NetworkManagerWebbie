@@ -32,8 +32,7 @@
                         <td>{!! $announcement->message !!}</td>
                         <td>
                             @if ($announcement->expires != null)
-                                <i class="fas fa-check-circle fa-lg" style="color:green" data-mdb-tooltip-init
-                                   title="{{ $announcement->expires }}"></i>
+                                <i class="fas fa-check-circle fa-lg" style="color:green" x-data x-tooltip.raw="{{ $announcement->expires }}"></i>
                             @else
                                 <i class="fas fa-xmark-circle fa-lg" style="color:red"></i>
                             @endif
