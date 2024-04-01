@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Addons;
 
+use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
-class AccountsController extends Controller
+class FilterController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -18,6 +19,7 @@ class AccountsController extends Controller
 
     public function index(): View
     {
-        return view('accounts.index');
+        $this->authorize('view_filter');
+        return view('filter.index');
     }
 }

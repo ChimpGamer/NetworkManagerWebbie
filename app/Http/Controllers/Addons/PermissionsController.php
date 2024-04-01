@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Addons;
 
+use App\Http\Controllers\Controller;
 use App\Models\Permissions\Group;
 use App\Models\Permissions\PermissionPlayer;
 use Illuminate\Auth\Access\AuthorizationException;

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Addons;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
-class HelpOPController extends Controller
+class TagsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -22,7 +23,7 @@ class HelpOPController extends Controller
      */
     public function index(): View
     {
-        $this->authorize('view_helpop');
-        return view('helpop.index');
+        $this->authorize('view_tags');
+        return view('tags.index');
     }
 }

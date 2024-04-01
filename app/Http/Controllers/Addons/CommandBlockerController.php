@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Addons;
 
+use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
 class CommandBlockerController extends Controller
