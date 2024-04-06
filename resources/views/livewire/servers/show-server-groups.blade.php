@@ -36,10 +36,10 @@
                                     wire:click="showServerGroup({{$serverGroup->id}})">
                                 <i class="material-icons text-info">info</i>
                             </button>
-{{--                            <button type="button" style="background: transparent; border: none;" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#editServerGroupModal"--}}
-{{--                                wire:click="editServerGroup({{$serverGroup->id}})">--}}
-{{--                                <i class="material-icons text-warning">edit</i>--}}
-{{--                            </button>--}}
+                            <button type="button" style="background: transparent; border: none;" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#editServerGroupModal"
+                                wire:click="editServerGroup({{$serverGroup->id}})">
+                                <i class="material-icons text-warning">edit</i>
+                            </button>
                             @can('edit_servers')
                                 <button type="button" style="background: transparent; border: none;"
                                         data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#deleteServerGroupModal"

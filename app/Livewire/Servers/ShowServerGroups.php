@@ -23,11 +23,13 @@ class ShowServerGroups extends Component
 
     public string $groupname;
 
-    public array $balancemethods = [];
+    public array $balancemethods = ["RANDOM", "RANDOM_LOWEST", "RANDOM_FILLER"];
 
     public string $balancemethod;
 
     public $servers = [];
+
+    public $currentServers = [];
 
     public $serversSelection = [];
 
@@ -82,6 +84,36 @@ class ShowServerGroups extends Component
         $this->groupname = '';
         $this->balancemethod = '';
         $this->servers = [];
+    }
+
+    public function editServerGroup(ServerGroup $serverGroup)
+    {
+        $this->resetInput();
+
+        $this->groupId = $serverGroup->id;
+        $this->groupname = $serverGroup->groupname;
+        $this->balancemethod = $serverGroup->balancemethodtype;
+        $this->balancemethods = ["RANDOM", "RANDOM_LOWEST", "RANDOM_FILLER"];
+
+        $this->currentServers = Server::whereIn('id', $serverGroup->servers)->get();
+        $this->servers = Server::select('id', 'servername', 'displayname')->get();;
+    }
+
+    public function updateServerGroup()
+    {
+        $this->authorize('edit_servers');
+        $validatedData = $this->validate();
+
+        $serversSelection = array_map('intval', $validatedData['serversSelection']);
+
+        ServerGroup::where('id', $this->groupId)->update([
+            'groupname' => $validatedData['groupname'],
+            'balancemethodtype' => $validatedData['balancemethod'],
+            'servers' => $serversSelection,
+        ]);
+        session()->flash('message', 'Group Updated Successfully');
+        $this->resetInput();
+        $this->dispatch('close-modal');
     }
 
     public function addServerGroup()

@@ -54,6 +54,51 @@
     </div>
 </div>
 
+<!-- Update Server Modal -->
+<div wire:ignore.self class="modal fade" id="editServerGroupModal" tabindex="-1" aria-labelledby="editServerGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editServerGroupModalLabel">Edit Server</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form wire:submit='updateServerGroup'>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="bold">Group Name</label>
+                        <input type="text" wire:model.live="groupname" class="form-control">
+                        @error('groupname') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">Balance Method</label>
+                        <select class="form-control" wire:model.live="balancemethod">
+                            @foreach ($balancemethods as $balancemethodchoice)
+                                <option value="{{ $balancemethodchoice }}" {{ $balancemethodchoice == $balancemethod ? 'selected' : '' }}>{{ $balancemethodchoice }}</option>
+                            @endforeach
+                        </select>
+                        @error('balancemethod') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">Servers</label>
+                        <select style="width: 100%" title="servers" multiple wire:model.live="serversSelection">
+                            @foreach ($servers as $server)
+                                <option value="{{ $server->id }}" {{ $currentServers->contains($server) ? 'selected' : '' }}>{{ $server->servername }}</option>
+                            @endforeach
+                        </select>
+                        @error('serversSelection') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" wire:click="closeModal"
+                            data-mdb-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Add Server Group Modal -->
 <div wire:ignore.self class="modal fade" id="addServerGroupModal" tabindex="-1" aria-labelledby="addServerGroupModalLabel" aria-hidden="true">
     <div class="modal-dialog">
