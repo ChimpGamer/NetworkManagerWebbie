@@ -18,28 +18,24 @@ class ShowServerGroups extends Component
     protected string $paginationTheme = 'bootstrap';
 
     public string $search = '';
-
     public int $groupId;
-
     public string $groupname;
-
-    public array $balancemethods = ["RANDOM", "RANDOM_LOWEST", "RANDOM_FILLER"];
-
+    public array $balancemethods = self::BALANCE_METHODS;
     public string $balancemethod;
-
     public $servers = [];
-
     public $currentServers = [];
 
     public $serversSelection = [];
 
     public int $deleteId;
 
+    CONST BALANCE_METHODS = ["RANDOM", "RANDOM_LOWEST", "RANDOM_FILLER"];
+
     protected function rules()
     {
         return [
             'groupname' => 'required|string|min:3',
-            'balancemethod' => 'required|string|in:RANDOM,RANDOM_LOWEST,RANDOM_FILLER',
+            'balancemethod' => 'required|string|in:' . implode(',', self::BALANCE_METHODS),
             'serversSelection' => 'required|array',
             'serversSelection.*'  => 'integer|exists:servers,id'
         ];
@@ -59,6 +55,7 @@ class ShowServerGroups extends Component
         $this->balancemethod = $serverGroup->balancemethodtype;
 
         $this->servers = Server::whereIn('id', $serverGroup->servers)->get();
+        $this->currentServers = $this->servers;
     }
     public function deleteServerGroup(ServerGroup $serverGroup)
     {
@@ -86,6 +83,11 @@ class ShowServerGroups extends Component
         $this->servers = [];
     }
 
+    public function getServersData()
+    {
+        return Server::select('id', 'servername', 'displayname')->get();
+    }
+
     public function editServerGroup(ServerGroup $serverGroup)
     {
         $this->resetInput();
@@ -95,8 +97,9 @@ class ShowServerGroups extends Component
         $this->balancemethod = $serverGroup->balancemethodtype;
         $this->balancemethods = ["RANDOM", "RANDOM_LOWEST", "RANDOM_FILLER"];
 
+        $this->servers = $this->getServersData();
         $this->currentServers = Server::whereIn('id', $serverGroup->servers)->get();
-        $this->servers = Server::select('id', 'servername', 'displayname')->get();;
+        $this->serversSelection = $this->currentServers->pluck('id')->toArray();
     }
 
     public function updateServerGroup()
@@ -121,7 +124,7 @@ class ShowServerGroups extends Component
         $this->resetInput();
 
         $this->balancemethods = ["RANDOM", "RANDOM_LOWEST", "RANDOM_FILLER"];
-        $this->servers = Server::select('id', 'servername', 'displayname')->get();;
+        $this->servers = $this->getServersData();
     }
 
     public function createServerGroup()

@@ -17,6 +17,7 @@
         $('#editServerModal').modal('hide');
         $('#addServerModal').modal('hide');
         $('#addServerGroupModal').modal('hide');
+        $('#editServerGroupModal').modal('hide');
         $('#deleteServerGroupModal').modal('hide');
     });
 </script>
