@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Modules;
 
-use App\Models\Punishment;
+use App\Http\Controllers\Controller;
+use App\Models\Tickets\Ticket;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
-class PunishmentsController extends Controller
+class TicketsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,16 +24,16 @@ class PunishmentsController extends Controller
      */
     public function index(): View
     {
-        $this->authorize('view_punishments');
-        return view('punishments.index');
+        $this->authorize('view_tickets');
+        return view('tickets.index');
     }
 
     /**
      * @throws AuthorizationException
      */
-    public function show(Punishment $punishment): View
+    public function ticket(Ticket $ticket): View
     {
-        $this->authorize('view_punishments');
-        return view('punishments.show')->with('punishment', $punishment);
+        $this->authorize('view_ticket');
+        return view('tickets.view-ticket', ['ticket' => $ticket]);
     }
 }
