@@ -3,7 +3,6 @@
 namespace App\Livewire\Profile;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -11,7 +10,10 @@ use Livewire\Component;
 class ShowChangePassword extends Component
 {
     public ?string $oldPassword;
-    public ?string $password, $password_confirmation;
+
+    public ?string $password;
+
+    public ?string $password_confirmation;
 
     public function rules()
     {
@@ -25,13 +27,14 @@ class ShowChangePassword extends Component
     {
         $validatedData = $this->validate();
 
-        if (!Hash::check($validatedData['oldPassword'], auth()->user()->getAuthPassword())) {
+        if (! Hash::check($validatedData['oldPassword'], auth()->user()->getAuthPassword())) {
             return back()->with('error', 'Old Password Does not match!');
         }
 
         User::whereId(auth()->user()->id)->update(['password' => Hash::make($validatedData['password'])]);
 
         $this->resetInput();
+
         return back()->with('message', 'Successfully Changed Password');
     }
 

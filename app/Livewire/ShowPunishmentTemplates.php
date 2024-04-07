@@ -4,24 +4,35 @@ namespace App\Livewire;
 
 use App\Models\PunishmentTemplate;
 use App\Models\PunishmentType;
-use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ShowPunishmentTemplates extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
-    public int $templateId, $typeId;
-    public ?string $type, $name, $reason, $server;
+    public int $templateId;
+
+    public int $typeId;
+
+    public ?string $type;
+
+    public ?string $name;
+
+    public ?string $reason;
+
+    public ?string $server;
+
     public ?int $duration;
-    public bool $isGlobal, $isTemporary;
+
+    public bool $isGlobal;
+
+    public bool $isTemporary;
 
     public int $deleteId;
 
@@ -52,8 +63,9 @@ class ShowPunishmentTemplates extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
-        if ($fields == "search") {
+        if ($fields == 'search') {
             $this->resetPage();
+
             return;
         }
 
@@ -63,7 +75,7 @@ class ShowPunishmentTemplates extends Component
         if ($this->isGlobal) {
             $this->server = null;
         }
-        if (!$this->isTemporary) {
+        if (! $this->isTemporary) {
             $this->duration = -1;
         }
     }
@@ -85,7 +97,7 @@ class ShowPunishmentTemplates extends Component
             'type' => $type,
             'duration' => $validatedData['duration'],
             'server' => $validatedData['server'],
-            'reason' => $validatedData['reason']
+            'reason' => $validatedData['reason'],
         ]);
 
         session()->flash('message', 'Successfully Created Template');
@@ -121,7 +133,7 @@ class ShowPunishmentTemplates extends Component
             'type' => $type,
             'duration' => $validatedData['duration'],
             'server' => $validatedData['server'],
-            'reason' => $validatedData['reason']
+            'reason' => $validatedData['reason'],
         ]);
 
         session()->flash('message', 'Successfully Updated Template');
@@ -156,7 +168,8 @@ class ShowPunishmentTemplates extends Component
 
     public function render(): View
     {
-        $punishmentTemplates = PunishmentTemplate::where('id', 'like', '%' . $this->search . '%')->paginate(10);
+        $punishmentTemplates = PunishmentTemplate::where('id', 'like', '%'.$this->search.'%')->paginate(10);
+
         return view('livewire.punishment_templates.show-punishment-templates')->with('punishmentTemplates', $punishmentTemplates);
     }
 }

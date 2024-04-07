@@ -2,8 +2,6 @@
 
 namespace App\Livewire\Permissions;
 
-use App\Models\Permissions\Group;
-use App\Models\Permissions\GroupPermission;
 use App\Models\Permissions\PermissionPlayer;
 use App\Models\Permissions\PlayerPermission;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -13,8 +11,8 @@ use Livewire\WithPagination;
 
 class ShowPlayerPermissions extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
