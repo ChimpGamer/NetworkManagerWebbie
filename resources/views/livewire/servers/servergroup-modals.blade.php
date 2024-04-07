@@ -1,4 +1,5 @@
-<!-- Show Server Group Modal -->
+@php use Illuminate\Database\Eloquent\Collection; @endphp
+    <!-- Show Server Group Modal -->
 <x-modal id="showServerGroupModal" title="Show Server Group">
     <div class="mb-3">
         <strong>ID</strong>
@@ -14,7 +15,7 @@
     </div>
     <div class="mb-3">
         <strong>Servers</strong>
-        @foreach($servers as $server)
+        @foreach($currentServers as $server)
             <p class="mb-0">{{ $server->servername }}</p>
         @endforeach
     </div>
@@ -28,7 +29,9 @@
     <p>Are you sure you want to delete the {{ $groupname }} server group?</p>
     <x-slot name="footer">
         <button type="button" wire:click="closeModal" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-        <button type="button" wire:click.prevent="delete()" class="btn btn-danger close-modal" data-mdb-dismiss="modal">Yes, Delete</button>
+        <button type="button" wire:click.prevent="delete()" class="btn btn-danger close-modal" data-mdb-dismiss="modal">
+            Yes, Delete
+        </button>
     </x-slot>
 </x-modal>
 
@@ -43,7 +46,8 @@
         <label class="bold">Balance Method</label>
         <select class="form-control" wire:model.live="balancemethod">
             @foreach ($balancemethods as $balancemethodchoice)
-                <option value="{{ $balancemethodchoice }}" {{ $balancemethodchoice == $balancemethod ? 'selected' : '' }}>{{ $balancemethodchoice }}</option>
+                <option
+                    value="{{ $balancemethodchoice }}" {{ $balancemethodchoice == $balancemethod ? 'selected' : '' }}>{{ $balancemethodchoice }}</option>
             @endforeach
         </select>
         @error('balancemethod') <span class="text-danger">{{ $message }}</span> @enderror
@@ -51,8 +55,9 @@
     <div class="mb-3">
         <label class="bold">Servers</label>
         <select style="width: 100%" title="servers" multiple wire:model.live="serversSelection">
-            @foreach ($servers as $server)
-                <option value="{{ $server->id }}" {{ $currentServers->contains($server) ? 'selected' : '' }}>{{ $server->servername }}</option>
+            @foreach ($this->allServers as $server)
+                <option
+                    value="{{ $server->id }}" {{ $currentServers instanceof Collection && $currentServers->contains($server) ? 'selected' : '' }}>{{ $server->servername }}</option>
             @endforeach
         </select>
         @error('serversSelection') <span class="text-danger">{{ $message }}</span> @enderror
@@ -83,7 +88,7 @@
     <div class="mb-3">
         <label class="bold">Servers</label>
         <select style="width: 100%" title="servers" multiple wire:model.live="serversSelection">
-            @foreach ($servers as $server)
+            @foreach ($this->allServers as $server)
                 <option value="{{ $server->id }}">{{ $server->servername }}</option>
             @endforeach
         </select>
@@ -91,7 +96,8 @@
     </div>
     <x-slot name="footer">
         <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                data-mdb-dismiss="modal">Close</button>
+                data-mdb-dismiss="modal">Close
+        </button>
         <button type="submit" class="btn btn-primary">Add</button>
     </x-slot>
 </x-modal>

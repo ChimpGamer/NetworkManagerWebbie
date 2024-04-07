@@ -4,8 +4,10 @@ namespace App\Livewire\Servers;
 
 use App\Models\Server;
 use App\Models\ServerGroup;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -25,8 +27,6 @@ class ShowServerGroups extends Component
     public array $balancemethods = self::BALANCE_METHODS;
 
     public string $balancemethod;
-
-    public $servers = [];
 
     public $currentServers = [];
 
@@ -59,8 +59,7 @@ class ShowServerGroups extends Component
         $this->groupname = $serverGroup->groupname;
         $this->balancemethod = $serverGroup->balancemethodtype;
 
-        $this->servers = Server::whereIn('id', $serverGroup->servers)->get();
-        $this->currentServers = $this->servers;
+        $this->currentServers = Server::whereIn('id', $serverGroup->servers)->get();
     }
 
     public function deleteServerGroup(ServerGroup $serverGroup)
@@ -86,12 +85,13 @@ class ShowServerGroups extends Component
         $this->groupId = -1;
         $this->groupname = '';
         $this->balancemethod = '';
-        $this->servers = [];
+        $this->currentServers = [];
+        $this->serversSelection = [];
     }
 
-    public function getServersData()
-    {
-        return Server::select('id', 'servername', 'displayname')->get();
+    #[Computed]
+    public function allServers(): Collection {
+        return Server::select('id', 'servername')->get();
     }
 
     public function editServerGroup(ServerGroup $serverGroup)
@@ -102,7 +102,6 @@ class ShowServerGroups extends Component
         $this->groupname = $serverGroup->groupname;
         $this->balancemethod = $serverGroup->balancemethodtype;
 
-        $this->servers = $this->getServersData();
         $this->currentServers = Server::whereIn('id', $serverGroup->servers)->get();
         $this->serversSelection = $this->currentServers->pluck('id')->toArray();
     }
@@ -127,8 +126,6 @@ class ShowServerGroups extends Component
     public function addServerGroup()
     {
         $this->resetInput();
-
-        $this->servers = $this->getServersData();
     }
 
     public function createServerGroup()
