@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Addons;
+namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
-class CommandBlockerController extends Controller
+class TagsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -17,9 +18,12 @@ class CommandBlockerController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function index(): View
     {
-        $this->authorize('view_commandblocker');
-        return view('commandblocker.index');
+        $this->authorize('view_tags');
+        return view('tags.index');
     }
 }

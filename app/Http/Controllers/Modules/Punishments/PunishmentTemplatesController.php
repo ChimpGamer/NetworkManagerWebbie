@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Addons\Punishments;
+namespace App\Http\Controllers\Modules\Punishments;
 
 use App\Http\Controllers\Controller;
 use App\Models\PunishmentTemplate;

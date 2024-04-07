@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Addons;
+namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
-class HelpOPController extends Controller
+class FilterController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -18,12 +17,9 @@ class HelpOPController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * @throws AuthorizationException
-     */
     public function index(): View
     {
-        $this->authorize('view_helpop');
-        return view('helpop.index');
+        $this->authorize('view_filter');
+        return view('filter.index');
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Addons\Punishments;
+namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
-use App\Models\Punishment;
+use App\Models\Server;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
-class PunishmentsController extends Controller
+class ServersController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,16 +24,16 @@ class PunishmentsController extends Controller
      */
     public function index(): View
     {
-        $this->authorize('view_punishments');
-        return view('punishments.index');
+        $this->authorize('view_servers');
+        return view('servers.index');
     }
 
     /**
      * @throws AuthorizationException
      */
-    public function show(Punishment $punishment): View
+    public function show(Server $server): View
     {
-        $this->authorize('view_punishments');
-        return view('punishments.show')->with('punishment', $punishment);
+        $this->authorize('view_servers');
+        return view('servers.show')->with('server', $server);
     }
 }

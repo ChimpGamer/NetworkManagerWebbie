@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Addons;
+namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use App\Models\Permissions\Group;

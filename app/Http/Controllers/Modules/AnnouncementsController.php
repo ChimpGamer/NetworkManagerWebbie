@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Addons;
+namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
-use App\Models\Server;
+use App\Models\Announcement;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
-class ServersController extends Controller
+class AnnouncementsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -24,16 +24,16 @@ class ServersController extends Controller
      */
     public function index(): View
     {
-        $this->authorize('view_servers');
-        return view('servers.index');
+        $this->authorize('view_announcements');
+        return view('announcements.index');
     }
 
     /**
      * @throws AuthorizationException
      */
-    public function show(Server $server): View
+    public function show(Announcement $announcement): View
     {
-        $this->authorize('view_servers');
-        return view('servers.show')->with('server', $server);
+        $this->authorize('view_announcements');
+        return view('announcements.show')->with('announcement', $announcement);
     }
 }

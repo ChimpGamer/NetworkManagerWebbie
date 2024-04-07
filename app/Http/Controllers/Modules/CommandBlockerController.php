@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Addons;
+namespace App\Http\Controllers\Modules;
 
 use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
-class FilterController extends Controller
+class CommandBlockerController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -19,7 +19,7 @@ class FilterController extends Controller
 
     public function index(): View
     {
-        $this->authorize('view_filter');
-        return view('filter.index');
+        $this->authorize('view_commandblocker');
+        return view('commandblocker.index');
     }
 }

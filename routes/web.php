@@ -1,15 +1,15 @@
 <?php
 
-use App\Http\Controllers\Addons\AnnouncementsController;
-use App\Http\Controllers\Addons\CommandBlockerController;
-use App\Http\Controllers\Addons\FilterController;
-use App\Http\Controllers\Addons\HelpOPController;
-use App\Http\Controllers\Addons\PermissionsController;
-use App\Http\Controllers\Addons\Punishments\PunishmentsController;
-use App\Http\Controllers\Addons\Punishments\PunishmentTemplatesController;
-use App\Http\Controllers\Addons\ServersController;
-use App\Http\Controllers\Addons\TagsController;
-use App\Http\Controllers\Addons\TicketsController;
+use App\Http\Controllers\Modules\AnnouncementsController;
+use App\Http\Controllers\Modules\CommandBlockerController;
+use App\Http\Controllers\Modules\FilterController;
+use App\Http\Controllers\Modules\HelpOPController;
+use App\Http\Controllers\Modules\PermissionsController;
+use App\Http\Controllers\Modules\Punishments\PunishmentsController;
+use App\Http\Controllers\Modules\Punishments\PunishmentTemplatesController;
+use App\Http\Controllers\Modules\ServersController;
+use App\Http\Controllers\Modules\TagsController;
+use App\Http\Controllers\Modules\TicketsController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
