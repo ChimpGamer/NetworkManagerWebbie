@@ -101,7 +101,6 @@ class ShowServerGroups extends Component
         $this->groupId = $serverGroup->id;
         $this->groupname = $serverGroup->groupname;
         $this->balancemethod = $serverGroup->balancemethodtype;
-        $this->balancemethods = ['RANDOM', 'RANDOM_LOWEST', 'RANDOM_FILLER'];
 
         $this->servers = $this->getServersData();
         $this->currentServers = Server::whereIn('id', $serverGroup->servers)->get();
@@ -129,7 +128,6 @@ class ShowServerGroups extends Component
     {
         $this->resetInput();
 
-        $this->balancemethods = ['RANDOM', 'RANDOM_LOWEST', 'RANDOM_FILLER'];
         $this->servers = $this->getServersData();
     }
 
