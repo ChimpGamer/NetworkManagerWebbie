@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class Player extends Model
 {
-    use HasFactory;
     use HasUuids;
 
     /**

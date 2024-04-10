@@ -1,10 +1,6 @@
 <div>
-    <div id="container"></div>
+    <div x-init="loadPlayerStatisticsChart" id="container"></div>
 </div>
-
-@assets
-<script src="https://code.highcharts.com/highcharts.js"></script>
-@endassets
 
 @script
 <script>
@@ -18,7 +14,7 @@
             }
         }
     });
-    setTimeout(() => {
+    window.loadPlayerStatisticsChart = () => {
         Highcharts.chart('container', {
             chart: {
                 type: 'areaspline',
@@ -116,6 +112,6 @@
                 }]
             }
         });
-    });
+    }
 </script>
 @endscript

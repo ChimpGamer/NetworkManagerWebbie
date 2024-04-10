@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <div class="col-md-8 mb-4">
+        {{--<div class="col-md-8 mb-4">
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
@@ -78,9 +78,9 @@
                     {{ Auth::user()->username }}!
                 </div>
             </div>
-        </div>
+        </div>--}}
 
-        <div class="col-md-12">
+        <div class="col-md-12 mb-4">
             <div class="card">
                 <div class="card-header text-center py-3">
                     <h5 class="mb-0 text-center">
@@ -92,5 +92,22 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header text-center py-3">
+                    <h5 class="mb-0 text-center">
+                        <strong>Newest Players</strong>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @livewire('dashboard.map-chart', ['lazy' => true])
+                </div>
+            </div>
+        </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
 @endsection
