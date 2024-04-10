@@ -14,9 +14,9 @@ use Livewire\Component;
 #[Lazy]
 class PlayerStatisticsChart extends Component
 {
-
     #[Computed]
-    public function newPlayers() {
+    public function newPlayers()
+    {
         return Player::selectRaw('cast(from_unixtime(firstlogin/1000) as date) as day, count(*) as amount')
             ->where('firstlogin', '>', Carbon::now()->subDays(60)->getTimestampMs())->groupBy('day')->get()
             ->map(function (Player $player) {

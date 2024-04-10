@@ -12,7 +12,6 @@ use Livewire\Component;
 #[Lazy]
 class OnlinePlayersChart extends Component
 {
-
     #[Computed]
     public function data()
     {
