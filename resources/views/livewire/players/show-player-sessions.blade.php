@@ -1,6 +1,6 @@
 <div class="col-12">
     <div class="card">
-        <div class="card-header text-center py-3">
+        <div class="card-header py-3">
             <h5 class="mb-0 text-center">
                 <strong>Player Sessions</strong>
             </h5>
@@ -20,7 +20,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($sessions as $session)
+                    @forelse ($sessions as $session)
                         <tr>
                             <td>{{$session->formatStart()}}</td>
                             <td>{{$session->formatEnd()}}</td>
@@ -30,7 +30,11 @@
                             @endcan
                             <td>{{$session->version->name()}}</td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Sorry - No Data Found</td>
+                        </tr>
+                    @endforelse
                     </tbody>
                 </table>
                 {{ $sessions->links() }}

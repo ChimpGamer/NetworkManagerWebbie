@@ -25,7 +25,7 @@
                 </thead>
 
                 <tbody>
-                @foreach($servergroups as $serverGroup)
+                @forelse($servergroups as $serverGroup)
                     <tr>
                         <td>{{ $serverGroup->id }}</td>
                         <td>{{ $serverGroup->groupname }}</td>
@@ -49,7 +49,11 @@
                             @endcan
                         </th>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="4" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $servergroups->links() }}

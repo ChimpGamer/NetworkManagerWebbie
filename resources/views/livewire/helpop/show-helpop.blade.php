@@ -30,7 +30,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($data as $item)
+                @forelse($data as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
                         <td><a wire:navigate href="/players/{{ $item->requester }}"><img
@@ -49,8 +49,11 @@
                             </td>
                         @endcan
                     </tr>
-                @endforeach
-
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $data->links() }}

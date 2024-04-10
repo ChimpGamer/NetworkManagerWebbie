@@ -2,13 +2,13 @@
 
 namespace App\Models\Player;
 
+use App\Helpers\CountryUtils;
 use App\Helpers\TimeUtils;
 use App\Models\ProtocolVersion;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -92,6 +92,11 @@ class Player extends Model
     protected function playtime(): Attribute
     {
         return Attribute::make(get: fn (int $value) => TimeUtils::millisToReadableFormat($value));
+    }
+
+    public function fullCountry(): string
+    {
+        return CountryUtils::countryCodeToCountry($this->country);
     }
 
     public static function getName($uuid)

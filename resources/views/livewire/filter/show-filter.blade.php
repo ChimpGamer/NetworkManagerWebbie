@@ -37,7 +37,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($filters as $filter)
+                @forelse($filters as $filter)
                     <tr>
                         <td>@if ($filter->enabled)
                                 <i class="fas fa-check-circle fa-lg text-success"></i>
@@ -62,7 +62,11 @@
                             </td>
                         @endcan
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
 
                 </tbody>
             </table>

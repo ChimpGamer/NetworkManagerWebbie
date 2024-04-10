@@ -28,7 +28,7 @@
                 </thead>
 
                 <tbody>
-                @foreach($servers as $server)
+                @forelse($servers as $server)
                     <tr>
                         <td>{{ $server->id }}</td>
                         <td>{{ $server->servername }}</td>
@@ -64,7 +64,11 @@
                             @endcan
                         </th>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $servers->links() }}

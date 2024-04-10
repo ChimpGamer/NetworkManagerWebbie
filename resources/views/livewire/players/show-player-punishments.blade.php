@@ -1,6 +1,6 @@
 <div class="col-12">
     <div class="card">
-        <div class="card-header text-center py-3">
+        <div class="card-header py-3">
             <h5 class="mb-0 text-center">
                 <strong>Player Punishments</strong>
             </h5>
@@ -17,14 +17,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($punishments as $punishment)
+                    @forelse ($punishments as $punishment)
                         <tr>
                             <td>{{$punishment->type->name()}}</td>
                             <td>{{$punishment->getPunisherName()}}</td>
                             <td>{{$punishment->reason}}</td>
                             <td>{{$punishment->getTimeFormatted()}}</td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center">Sorry - No Data Found</td>
+                        </tr>
+                    @endforelse
                     </tbody>
                 </table>
                 {{ $punishments->links() }}
