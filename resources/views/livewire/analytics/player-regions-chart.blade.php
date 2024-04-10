@@ -1,10 +1,10 @@
 <div>
     <div class="row">
         <div class="col-4">
-            <div x-init="loadCountriesChart" id="countries" style="width: 100%;" class="highcharts-dark"></div>
+            <div x-init="loadCountriesChart" id="countries"></div>
         </div>
         <div class="col-8">
-            <div x-init="loadPlayerRegionsChart" id="map" style="width: 100%;"></div>
+            <div x-init="loadPlayerRegionsChart" id="map"></div>
         </div>
     </div>
 </div>
