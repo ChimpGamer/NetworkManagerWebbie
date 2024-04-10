@@ -1,5 +1,5 @@
 <div>
-    <div id="container"></div>
+    <div x-init="loadOnlinePlayersChart" id="container"></div>
 </div>
 
 @assets
@@ -29,7 +29,7 @@
         }
         return colors;
     }());
-    setTimeout(() => {
+    window.loadOnlinePlayersChart = () => {
         Highcharts.chart('container', {
             chart: {
                 type: 'areaspline',
@@ -121,6 +121,6 @@
                 }]
             }
         });
-    });
+    };
 </script>
 @endscript
