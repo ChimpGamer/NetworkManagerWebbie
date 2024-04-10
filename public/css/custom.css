@@ -162,3 +162,8 @@ u {
 .pagination {
     margin-bottom: 0 !important;
 }
+
+/* Fix label styling for dark theme */
+[data-mdb-theme=dark] .highcharts-axis-labels text {
+    fill: #fff !important;
+}
