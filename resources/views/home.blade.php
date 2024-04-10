@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-md-8 mb-4">
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
@@ -76,6 +76,19 @@
 
                     {{ __('You are logged in') }}
                     {{ Auth::user()->username }}!
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header text-center py-3">
+                    <h5 class="mb-0 text-center">
+                        <strong>Player Statistics</strong>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @livewire('dashboard.player-statistics-chart', ['lazy' => true])
                 </div>
             </div>
         </div>
