@@ -2,10 +2,6 @@
     <div x-init="loadOnlinePlayersChart" id="container"></div>
 </div>
 
-@assets
-<script src="https://code.highcharts.com/highcharts.js"></script>
-@endassets
-
 @script
 <script>
     const data = @js($this->data);
@@ -17,18 +13,6 @@
             zoomType: false
         }
     });
-    Highcharts.getOptions().plotOptions.pie.colors = (function () {
-        let colors = [],
-            base = '#039BE5',
-            i;
-
-        for (i = 0; i < 10; i += 1) {
-            // Start out with a darkened base color (negative brighten), and end
-            // up with a much brighter color
-            colors.push(Highcharts.color(base).brighten((i - 2) / 64).get());
-        }
-        return colors;
-    }());
     window.loadOnlinePlayersChart = () => {
         Highcharts.chart('container', {
             chart: {
