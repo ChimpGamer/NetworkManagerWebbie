@@ -139,7 +139,7 @@ class ShowGroups extends Component
             $query->where('name', 'like', '%'.$this->search.'%')
                 ->orWhere('ladder', 'like', '%'.$this->search.'%')
                 ->orWhere('rank', 'like', '%'.$this->search.'%');
-        })->orderBy('id', 'ASC')->paginate(10);
+        })->orderBy('id', 'ASC')->paginate(10, pageName: 'groups-page');
 
         return view('livewire.permissions.show-groups')->with('groups', $groups);
     }
