@@ -44,6 +44,7 @@ enum ProtocolVersion: int
     case MINECRAFT_1_20 = 763;
     case MINECRAFT_1_20_2 = 764;
     case MINECRAFT_1_20_3 = 765;
+    case MINECRAFT_1_20_5 = 766;
     case SNAPSHOT = -1;
 
     public function name(): string
@@ -94,6 +95,7 @@ enum ProtocolVersion: int
             ProtocolVersion::MINECRAFT_1_20 => '1.20 - 1.20.1',
             ProtocolVersion::MINECRAFT_1_20_2 => '1.20.2',
             ProtocolVersion::MINECRAFT_1_20_3 => '1.20.3 - 1.20.4',
+            ProtocolVersion::MINECRAFT_1_20_5 => '1.20.5',
             default => 'snapshot'
         };
     }
