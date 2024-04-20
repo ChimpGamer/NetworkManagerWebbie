@@ -34,7 +34,7 @@ class ShowServerGroups extends Component
 
     public int $deleteId;
 
-    const BALANCE_METHODS = ['RANDOM', 'RANDOM_LOWEST', 'RANDOM_FILLER'];
+    const BALANCE_METHODS = ['RANDOM', 'RANDOM_LOWEST', 'RANDOM_FILLER', 'PROGRESSIVE_LOWEST'];
 
     protected function rules()
     {

@@ -34,7 +34,9 @@ class MOTD extends Model
         'description',
         'customversion',
         'faviconUrl',
-        'enabled'
+        'expires',
+        'maintenance_mode',
+        'enabled',
     ];
 
     /**
@@ -43,7 +45,8 @@ class MOTD extends Model
      * @var array
      */
     protected $casts = [
-        'enabled' => 'boolean'
+        'maintenance_mode' => 'boolean',
+        'enabled' => 'boolean',
     ];
 
     /**
@@ -52,7 +55,7 @@ class MOTD extends Model
      * @var array
      */
     protected $dates = [
-
+        'expires',
     ];
 
     /**
