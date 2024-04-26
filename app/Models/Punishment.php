@@ -88,4 +88,9 @@ class Punishment extends Model
     {
         return TimeUtils::formatTimestamp($this->time);
     }
+
+    public function getUnbannerName(): ?string
+    {
+        return Player::getName($this->unbanner);
+    }
 }

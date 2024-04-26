@@ -105,6 +105,7 @@ class Player extends Model
 
     public static function getName($uuid)
     {
+        if ($uuid == null) return null;
         if ($uuid == 'f78a4d8d-d51b-4b39-98a3-230f2de0c670') {
             return 'CONSOLE';
         }
