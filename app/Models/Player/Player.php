@@ -66,7 +66,6 @@ class Player extends Model
     protected $casts = [
         'language' => 'integer',
         'tagid' => 'integer',
-        'version' => ProtocolVersion::class,
 
         'online' => 'boolean',
     ];
@@ -97,6 +96,11 @@ class Player extends Model
     public function fullCountry(): string
     {
         return CountryUtils::countryCodeToCountry($this->country);
+    }
+
+    public function version(): Attribute
+    {
+        return Attribute::make(get: fn (int $value) => ProtocolVersion::tryFrom($value) ?? ProtocolVersion::SNAPSHOT);
     }
 
     public static function getName($uuid)
