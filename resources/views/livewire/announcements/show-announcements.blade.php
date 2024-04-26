@@ -21,19 +21,21 @@
                     <th style="width: 65%">Message</th>
                     <th>Expires</th>
                     <th>Active</th>
-                    <th>Actions</th>
+                    @can('edit_announcements')
+                        <th>Actions</th>
+                    @endcan
                 </tr>
                 </thead>
 
                 <tbody>
-                @foreach($announcements as $announcement)
+                @forelse($announcements as $announcement)
                     <tr>
                         <td>{{ $announcement->id }}</td>
                         <td>{!! $announcement->message !!}</td>
                         <td>
                             @if ($announcement->expires != null)
-                                <i class="fas fa-check-circle fa-lg" style="color:green" data-mdb-tooltip-init
-                                   title="{{ $announcement->expires }}"></i>
+                                <i class="fas fa-check-circle fa-lg" style="color:green" x-data
+                                   x-tooltip.raw="{{ $announcement->expires }}"></i>
                             @else
                                 <i class="fas fa-xmark-circle fa-lg" style="color:red"></i>
                             @endif
@@ -46,26 +48,33 @@
                             @endif
                         </td>
                         <th>
-                            <button type="button" style="background: transparent; border: none;" data-mdb-ripple-init data-mdb-modal-init
+                            <button type="button" style="background: transparent; border: none;" data-mdb-ripple-init
+                                    data-mdb-modal-init
                                     data-mdb-target="#showAnnouncementModal"
                                     wire:click="showAnnouncement({{$announcement->id}})">
                                 <i class="material-icons text-info">info</i>
                             </button>
                             @can('edit_announcements')
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#editAnnouncementModal"
+                                        data-mdb-ripple-init data-mdb-modal-init
+                                        data-mdb-target="#editAnnouncementModal"
                                         wire:click="editAnnouncement({{$announcement->id}})">
                                     <i class="material-icons text-warning">edit</i>
                                 </button>
                                 <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#deleteAnnouncementModal"
+                                        data-mdb-ripple-init data-mdb-modal-init
+                                        data-mdb-target="#deleteAnnouncementModal"
                                         wire:click="deleteAnnouncement({{ $announcement->id }})">
                                     <i class="material-icons text-danger">delete</i>
                                 </button>
                             @endcan
                         </th>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $announcements->links() }}

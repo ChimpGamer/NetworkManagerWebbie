@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Webpanel;
 
+use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
-class CommandBlockerController extends Controller
+class AccountsController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -18,7 +19,6 @@ class CommandBlockerController extends Controller
 
     public function index(): View
     {
-        $this->authorize('view_commandblocker');
-        return view('commandblocker.index');
+        return view('accounts.index');
     }
 }

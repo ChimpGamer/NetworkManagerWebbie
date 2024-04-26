@@ -31,8 +31,8 @@ class ServerGroup extends Model
     protected $fillable = [
         'id',
         'groupname',
-        'servers',
         'balancemethodtype',
+        'servers',
     ];
 
     /**
@@ -41,7 +41,8 @@ class ServerGroup extends Model
      * @var array
      */
     protected $casts = [
-
+        'servers' => 'array',
+        'servers.*' => 'integer',
     ];
 
     /**

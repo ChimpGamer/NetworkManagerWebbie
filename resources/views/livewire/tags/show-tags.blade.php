@@ -38,7 +38,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($tags as $tag)
+                @forelse($tags as $tag)
                     <tr>
                         <td>{{ $tag->id }}</td>
                         <td>{{ $tag->name }}</td>
@@ -60,7 +60,11 @@
                             </td>
                         @endcan
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
 
                 </tbody>
             </table>

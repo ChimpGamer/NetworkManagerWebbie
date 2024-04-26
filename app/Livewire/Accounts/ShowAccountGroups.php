@@ -19,7 +19,7 @@ class ShowAccountGroups extends Component
     protected function rules()
     {
         return [
-            'groupname' => 'required|string'
+            'groupname' => 'required|string',
         ];
     }
 

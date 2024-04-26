@@ -2,19 +2,18 @@
 
 namespace App\Models\Player;
 
+use App\Helpers\CountryUtils;
 use App\Helpers\TimeUtils;
 use App\Models\ProtocolVersion;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Player extends Model
 {
-    use HasFactory;
     use HasUuids;
 
     /**
@@ -67,7 +66,6 @@ class Player extends Model
     protected $casts = [
         'language' => 'integer',
         'tagid' => 'integer',
-        'version' => ProtocolVersion::class,
 
         'online' => 'boolean',
     ];
@@ -95,8 +93,19 @@ class Player extends Model
         return Attribute::make(get: fn (int $value) => TimeUtils::millisToReadableFormat($value));
     }
 
+    public function fullCountry(): string
+    {
+        return CountryUtils::countryCodeToCountry($this->country);
+    }
+
+    public function version(): Attribute
+    {
+        return Attribute::make(get: fn (int $value) => ProtocolVersion::tryFrom($value) ?? ProtocolVersion::SNAPSHOT);
+    }
+
     public static function getName($uuid)
     {
+        if ($uuid == null) return null;
         if ($uuid == 'f78a4d8d-d51b-4b39-98a3-230f2de0c670') {
             return 'CONSOLE';
         }

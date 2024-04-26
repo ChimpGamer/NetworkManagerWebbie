@@ -59,9 +59,21 @@
                         <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Active</label>
                     </div>
                 </div>
+                @if(isset($unbanner))
+                    <div class="mb-3">
+                        <strong>Unbanner</strong>
+                        <p>{{ $unbannerName }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Unban Reason</strong>
+                        <p>{{ $unbanReason }}</p>
+                    </div>
+                @endif
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning" disabled>Unban</button>
+                <button type="button" class="btn btn-warning" @if(!$active) disabled @endif
+                        data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#unbanPunishmentModal"
+                        wire:click="editPunishment({{$punishmentId}})">Unban</button>
                 <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
             </div>
         </div>
@@ -277,6 +289,35 @@
                         data-mdb-dismiss="modal">Yes, Delete
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Unban Punishment Modal -->
+<div wire:ignore.self class="modal fade" id="unbanPunishmentModal" tabindex="-1"
+     aria-labelledby="unbanPunishmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="unbanPunishmentModalLabel">Unban Punishment #{{ $punishmentId }}</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form wire:submit='handleUnban'>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="bold">Unban Reason</label>
+                        <input type="text" wire:model="unbanReason" class="form-control">
+                        @error('unbanReason') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" wire:click="closeModal"
+                            data-mdb-dismiss="modal">Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">Unban</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

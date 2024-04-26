@@ -28,8 +28,7 @@
                             </div>
                         </td>
                         <td>
-                            <a type="button" style="background: transparent; border: none;" data-mdb-tooltip-init
-                               title="Click to preview"
+                            <a type="button" style="background: transparent; border: none;" x-data x-tooltip.raw="Click to preview"
                                href="https://webui.advntr.dev/?mode=server_list&input={{urlencode($motd->text)}}"
                                target="_blank" rel="noopener noreferrer">
                                 <i class="material-icons text-primary">travel_explore</i>

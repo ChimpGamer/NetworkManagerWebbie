@@ -31,7 +31,7 @@
                 </thead>
 
                 <tbody>
-                @foreach ($punishments as $punishment)
+                @forelse ($punishments as $punishment)
                     <tr>
                         <td>@if ($punishment->active)
                                 <i class="fas fa-check-circle fa-lg"></i>
@@ -63,7 +63,11 @@
                             @endcan
                         </th>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $punishments->links() }}

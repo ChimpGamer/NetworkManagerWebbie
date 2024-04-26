@@ -30,6 +30,25 @@
                         @error('faviconUrl') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
+                        <label class="bold">Expires</label>
+                        <input type="datetime-local" wire:model="expires" class="form-control">
+                        @error('expires') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">Maintenance Mode</label>
+                        <div class="d-flex">
+                            <strong>Off</strong>
+                            <div class="form-check form-switch ms-2">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                       id="maintenanceModeSwitch"
+                                       wire:model.live="maintenance_mode" />
+                                <label class="form-check-label" style="font-weight: bold;"
+                                       for="enabledSwitch"><strong>On</strong></label>
+                            </div>
+                            @error('maintenance_mode') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                    <div class="mb-3">
                         <label class="bold">Enabled</label>
                         <div class="d-flex">
                             <strong>Off</strong>
@@ -40,7 +59,7 @@
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="enabledSwitch"><strong>On</strong></label>
                             </div>
-                            @error('active') <span class="text-danger">{{ $message }}</span> @enderror
+                            @error('enabled') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
                 </div>
@@ -52,7 +71,7 @@
                     </a>
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
                             data-mdb-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
                 </div>
             </form>
         </div>
@@ -91,6 +110,25 @@
                         @error('faviconUrl') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
+                        <label class="bold">Expires</label>
+                        <input type="datetime-local" wire:model="expires" class="form-control">
+                        @error('expires') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">Maintenance Mode</label>
+                        <div class="d-flex">
+                            <strong>Off</strong>
+                            <div class="form-check form-switch ms-2">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                       id="maintenanceModeSwitch"
+                                       wire:model.live="maintenance_mode" />
+                                <label class="form-check-label" style="font-weight: bold;"
+                                       for="maintenanceModeSwitch"><strong>On</strong></label>
+                            </div>
+                            @error('maintenance_mode') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                    <div class="mb-3">
                         <label class="bold">Enabled</label>
                         <div class="d-flex">
                             <strong>Off</strong>
@@ -101,7 +139,7 @@
                                 <label class="form-check-label" style="font-weight: bold;"
                                        for="enabledSwitch"><strong>On</strong></label>
                             </div>
-                            @error('active') <span class="text-danger">{{ $message }}</span> @enderror
+                            @error('enabled') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
                 </div>
@@ -130,7 +168,7 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete motd {{ $motdId }}?</p>
+                <p>Are you sure you want to delete motd #{{ $motdId }}?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" wire:click="closeModal" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>

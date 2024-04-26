@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <div class="col-md-8">
+        {{--<div class="col-md-8 mb-4">
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
@@ -78,6 +78,38 @@
                     {{ Auth::user()->username }}!
                 </div>
             </div>
+        </div>--}}
+
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-header text-center py-3">
+                    <h5 class="mb-0 text-center">
+                        <strong>Player Statistics</strong>
+                        <i class="material-icons" style="font-size: 20px;" x-data x-tooltip.raw.interactive.placement.bottom="SHOWS USEFUL STATS OF THE PLAYERCOUNT FROM THE LAST 60 DAYS">help_outline</i>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @livewire('dashboard.player-statistics-chart', ['lazy' => true])
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header text-center py-3">
+                    <h5 class="mb-0 text-center">
+                        <strong>Newest Players</strong>
+                        <i class="material-icons" style="font-size: 20px;" x-data x-tooltip.raw.interactive.placement.bottom="SHOWS A MAP WITH THE LOCATIONS OF PLAYERS THAT HAVE JOINED THE LAST 60 DAYS">help_outline</i>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    @livewire('dashboard.map-chart', ['lazy' => true])
+                </div>
+            </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
 @endsection

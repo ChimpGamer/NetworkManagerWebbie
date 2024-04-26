@@ -25,7 +25,7 @@
                 </thead>
 
                 <tbody>
-                @foreach($servergroups as $serverGroup)
+                @forelse($servergroups as $serverGroup)
                     <tr>
                         <td>{{ $serverGroup->id }}</td>
                         <td>{{ $serverGroup->groupname }}</td>
@@ -36,10 +36,10 @@
                                     wire:click="showServerGroup({{$serverGroup->id}})">
                                 <i class="material-icons text-info">info</i>
                             </button>
-                            {{--<button type="button" style="background: transparent; border: none;" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#editServerModal"
-                                wire:click="editServer({{$server->id}})">
+                            <button type="button" style="background: transparent; border: none;" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#editServerGroupModal"
+                                wire:click="editServerGroup({{$serverGroup->id}})">
                                 <i class="material-icons text-warning">edit</i>
-                            </button>--}}
+                            </button>
                             @can('edit_servers')
                                 <button type="button" style="background: transparent; border: none;"
                                         data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#deleteServerGroupModal"
@@ -48,19 +48,22 @@
                                 </button>
                             @endcan
                         </th>
-                        {{--<th><button class="viewDetails" type="button" data-id="{{ $server->id  }}">View</button>
-                        </th>--}}
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="4" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $servergroups->links() }}
         </div>
     </div>
-    {{--<div class="p-4">
-        <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addServerModal"
-         wire:click="addServer">
-            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Server
+    <div class="p-4">
+        <button type="button" class="btn btn-primary"
+                data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addServerGroupModal"
+                wire:click="addServerGroup">
+            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Group
         </button>
-    </div>--}}
+    </div>
 </div>

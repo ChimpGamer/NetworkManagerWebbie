@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Modules\Punishments;
 
+use App\Http\Controllers\Controller;
 use App\Models\Punishment;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;

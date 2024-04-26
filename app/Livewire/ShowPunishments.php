@@ -49,6 +49,10 @@ class ShowPunishments extends Component
 
     public bool $active;
 
+    public ?string $unbanner;
+    public ?string $unbannerName;
+    public ?string $unbanReason;
+
     public bool $isGlobal = false;
 
     public bool $isTemporary = false;
@@ -90,6 +94,10 @@ class ShowPunishments extends Component
         $this->end = $punishment->end;
         $this->timeFormatted = TimeUtils::formatTimestamp($this->time);
         $this->endFormatted = TimeUtils::formatTimestamp($this->end);
+
+        $this->unbanner = $punishment->unbanner;
+        $this->unbannerName = $punishment->getUnbannerName();
+        $this->unbanReason = $punishment->unbanreason;
 
         $this->isTemporary = $punishment->type->isTemporary();
         $this->silent = $punishment->silent;
@@ -217,6 +225,38 @@ class ShowPunishments extends Component
         $this->dispatch('close-modal');
     }
 
+    public function unban(Punishment $punishment)
+    {
+        $this->resetInput();
+
+        $this->punishmentId = $punishment->id;
+    }
+
+    public function handleUnban()
+    {
+        $validatedData = $this->validate([
+            'unbanReason' => 'required|string',
+        ]);
+        $id = $this->punishmentId;
+
+        $unbanner = auth()->user()->getUUID();
+        if ($unbanner == null) {
+            session()->flash('error', 'User has non existing uuid!');
+            return;
+        }
+        $unbanReason = $validatedData['unbanReason'];
+
+        Punishment::where('id', $id)->update([
+            'unbanner' => $unbanner,
+            'unbanreason' => $unbanReason,
+            'active' => false
+        ]);
+
+        session()->flash('message', 'Punishment Updated Successfully');
+        $this->resetInput();
+        $this->dispatch('close-modal');
+    }
+
     public function closeModal()
     {
         $this->resetInput();
@@ -233,6 +273,9 @@ class ShowPunishments extends Component
         $this->server = null;
         $this->time = '';
         $this->end = '';
+
+        $this->unbanner = null;
+        $this->unbanReason = null;
 
         $this->isGlobal = false;
         $this->isTemporary = true;

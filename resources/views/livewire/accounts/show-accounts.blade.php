@@ -15,7 +15,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($accounts as $account)
+                @forelse($accounts as $account)
                     <tr>
                         <td>{{ $account->username }}</td>
                         <td>{{ $account->usergroup }}</td>
@@ -32,7 +32,11 @@
                             </button>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="3" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
         </div>

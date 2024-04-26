@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Modules;
 
-use App\Models\Tickets\Ticket;
+use App\Http\Controllers\Controller;
+use App\Models\Server;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\View\View;
 
-class TicketsController extends Controller
+class ServersController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,16 +24,16 @@ class TicketsController extends Controller
      */
     public function index(): View
     {
-        $this->authorize('view_tickets');
-        return view('tickets.index');
+        $this->authorize('view_servers');
+        return view('servers.index');
     }
 
     /**
      * @throws AuthorizationException
      */
-    public function ticket(Ticket $ticket): View
+    public function show(Server $server): View
     {
-        $this->authorize('view_ticket');
-        return view('tickets.view-ticket', ['ticket' => $ticket]);
+        $this->authorize('view_servers');
+        return view('servers.show')->with('server', $server);
     }
 }

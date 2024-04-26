@@ -1,40 +1,51 @@
 <div>
-    <div x-init="loadOnlinePlayersChart" id="container"></div>
+    <div x-init="loadPlayerStatisticsChart" id="container"></div>
 </div>
 
 @script
 <script>
-    const data = @js($this->data);
+    const newPlayersData = @js($this->newPlayers);
+    const sessionData = @js($this->sessions);
+    const playerPeakData = @js($this->playerPeak);
     Highcharts.setOptions({
         chart: {
             style: {
-                fontFamily: 'Roboto'
-            },
-            zoomType: false
+                fontFamily: 'Roboto Th'
+            }
         }
     });
-    window.loadOnlinePlayersChart = () => {
+    window.loadPlayerStatisticsChart = () => {
         Highcharts.chart('container', {
             chart: {
                 type: 'areaspline',
                 backgroundColor: 'transparent',
-                height: 200,
                 zoomType: 'x'
             },
+
             title: {
-                text: ''
+                text: '',
+                style: {
+                    fontSize: '18px',
+                    color: '#212121'
+                },
+                align: 'left'
             },
             series: [{
-                name: 'Online Players',
+                name: 'New Players',
                 color: '#2196F3',
-                data: data
+                data: newPlayersData
+            }, {
+                name: 'Total Sessions',
+                dashStyle: 'ShortDash',
+                color: '#2196F3',
+                data: sessionData
+            }, {
+                name: 'Player Peak',
+                dashStyle: 'Dot',
+                color: '#2196F3',
+                data: playerPeakData
             }],
-            scrollbar: {
-                enabled: false
-            },
-            navigator: {
-                enabled: false
-            },
+
             yAxis: {
                 title: {
                     text: ''
@@ -60,9 +71,8 @@
                 type: 'datetime',
                 events: {
                     afterSetExtremes: function (event) {
-                        //console.log(event);
-                        var date = new Date(event.min);
-                        var datevalues = date.getFullYear()
+                        const date = new Date(event.min);
+                        const datevalues = date.getFullYear()
                             + '-' + date.getMonth() + 1
                             + '-' + date.getDate()
                             + ' ' + date.getUTCHours()
@@ -80,18 +90,15 @@
             },
             tooltip: {
                 backgroundColor: '#FFFFFF',
-                borderColor: '#F7F7F7',
+                borderColor: '#FFFFFF',
                 borderRadius: 2,
                 borderWidth: 1,
-                xDateFormat: '%A, %e %b, %H:%M',
-                style: {
-                    fontSize: '12px'
-                }
+                shared: true
             },
             plotOptions: {
                 series: {
                     pointStart: 2010,
-                    fillOpacity: 0.1,
+                    fillOpacity: 0.2,
                     marker: {
                         enabled: false
                     }
@@ -105,6 +112,6 @@
                 }]
             }
         });
-    };
+    }
 </script>
 @endscript

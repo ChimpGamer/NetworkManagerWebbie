@@ -4,6 +4,7 @@ namespace App\Models\Player;
 
 use App\Helpers\TimeUtils;
 use App\Models\ProtocolVersion;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Session extends Model
@@ -37,15 +38,6 @@ class Session extends Model
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'version' => ProtocolVersion::class,
-    ];
-
-    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
@@ -65,5 +57,10 @@ class Session extends Model
     public function formatTime(): string
     {
         return TimeUtils::millisToReadableFormat($this->time);
+    }
+
+    public function version(): Attribute
+    {
+        return Attribute::make(get: fn (int $value) => ProtocolVersion::tryFrom($value) ?? ProtocolVersion::SNAPSHOT);
     }
 }

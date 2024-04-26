@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\MOTD;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class ShowMotd extends Component
@@ -17,6 +18,10 @@ class ShowMotd extends Component
 
     public string $faviconUrl;
 
+    public ?string $expires;
+
+    public bool $maintenance_mode;
+
     public bool $enabled;
 
     protected $rules = [
@@ -24,6 +29,8 @@ class ShowMotd extends Component
         'description' => 'string',
         'customversion' => 'string',
         'faviconUrl' => 'url:http,https|ends_with:png,jpg',
+        'expires' => 'date|nullable',
+        'maintenance_mode' => 'required|boolean',
         'enabled' => 'required|boolean',
     ];
 
@@ -35,12 +42,15 @@ class ShowMotd extends Component
     public function createMotd()
     {
         $validatedData = $this->validate();
+        $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
 
         MOTD::create([
             'text' => $validatedData['text'],
             'description' => $validatedData['description'],
             'customversion' => $validatedData['customversion'],
             'faviconUrl' => $validatedData['faviconUrl'],
+            'expires' => $expires,
+            'maintenance_mode' => $validatedData['maintenance_mode'],
             'enabled' => $validatedData['enabled'],
         ]);
         session()->flash('message', 'Successfully Created Motd');
@@ -55,18 +65,23 @@ class ShowMotd extends Component
         $this->description = $motd->description;
         $this->customversion = $motd->customversion;
         $this->faviconUrl = $motd->faviconUrl;
+        $this->expires = $motd->expires;
+        $this->maintenance_mode = $motd->maintenance_mode;
         $this->enabled = $motd->enabled;
     }
 
     public function updateMotd()
     {
         $validatedData = $this->validate();
+        $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
 
         MOTD::where('id', $this->motdId)->update([
             'text' => $validatedData['text'],
             'description' => $validatedData['description'],
             'customversion' => $validatedData['customversion'],
             'faviconUrl' => $validatedData['faviconUrl'],
+            'expires' => $expires,
+            'maintenance_mode' => $validatedData['maintenance_mode'],
             'enabled' => $validatedData['enabled'],
         ]);
         session()->flash('message', 'Motd Updated Successfully');
@@ -97,6 +112,8 @@ class ShowMotd extends Component
         $this->description = '';
         $this->customversion = '';
         $this->faviconUrl = '';
+        $this->expires = null;
+        $this->maintenance_mode = false;
         $this->enabled = true;
     }
 

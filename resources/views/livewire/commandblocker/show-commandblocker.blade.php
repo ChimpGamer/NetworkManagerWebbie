@@ -37,7 +37,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($blockedcommands as $blockedCommand)
+                @forelse($blockedcommands as $blockedCommand)
                     <tr>
                         <td>@if ($blockedCommand->enabled)
                                 <i class="fas fa-check-circle fa-lg text-success"></i>
@@ -71,7 +71,11 @@
                             </td>
                         @endcan
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $blockedcommands->links() }}

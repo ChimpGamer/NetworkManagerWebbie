@@ -1,4 +1,3 @@
-@php use App\Helpers\CountryUtils; @endphp
 <div>
     <div class="row gy-4">
         <!-- Player Information -->
@@ -27,7 +26,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Country</th>
-                                <td>{{CountryUtils::countryCodeToCountry($player->country)}}</td>
+                                <td>{{$player->fullCountry()}}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Latest Minecraft Version</th>
@@ -101,7 +100,7 @@
                             <tr>
                                 <th></th>
                                 <td style="text-align:center; vertical-align:middle">
-                                    <canvas id="mostUsedVersionsChart" style="position: relative; right: 20%"></canvas>
+                                    <canvas x-init="loadVersionsChart" id="mostUsedVersionsChart" style="position: relative; right: 20%"></canvas>
                                 </td>
                             </tr>
                             </tbody>
@@ -117,55 +116,59 @@
         <!-- Player Punishments -->
         @livewire('player.show-player-punishments', ['player' => $player])
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+@assets
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+@endassets
 
-    <script>
-        document.addEventListener('livewire:init', function () {
-            // Your JS here.
-            const ctx = document.getElementById('mostUsedVersionsChart');
+@script
+<script>
+    window.loadVersionsChart = () => {
+        // Your JS here.
+        const ctx = document.getElementById('mostUsedVersionsChart');
 
-            let data = @js($player->getMostUsedVersions());
+        let data = @js($player->getMostUsedVersions());
 
-            let labels = data['labels'];
-            let values = data['values'];
+        let labels = data['labels'];
+        let values = data['values'];
 
-            new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: values
-                    }]
-                },
-                options: {
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function (context) {
-                                    let value = context.formattedValue;
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                let value = context.formattedValue;
 
-                                    let sum = 0;
-                                    let dataArr = context.chart.data.datasets[0].data;
-                                    dataArr.map(data => {
-                                        sum += Number(data);
-                                    });
+                                let sum = 0;
+                                let dataArr = context.chart.data.datasets[0].data;
+                                dataArr.map(data => {
+                                    sum += Number(data);
+                                });
 
-                                    return (value * 100 / sum).toFixed(2) + '%';
-                                }
+                                return (value * 100 / sum).toFixed(2) + '%';
                             }
-                        },
-                        legend: {
-                            display: false
-                        },
-                        title: {
-                            display: true,
-                            text: 'Most Used Versions'
                         }
+                    },
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Most Used Versions'
                     }
                 }
-            });
-        })
-    </script>
-</div>
+            }
+        });
+    }
+</script>
+@endscript

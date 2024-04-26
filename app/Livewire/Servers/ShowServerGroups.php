@@ -4,8 +4,10 @@ namespace App\Livewire\Servers;
 
 use App\Models\Server;
 use App\Models\ServerGroup;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -20,13 +22,29 @@ class ShowServerGroups extends Component
 
     public int $groupId;
 
-    public string $groupName;
+    public string $groupname;
 
-    public string $balanceMethod;
+    public array $balancemethods = self::BALANCE_METHODS;
 
-    public array $servers = [];
+    public string $balancemethod;
+
+    public $currentServers = [];
+
+    public $serversSelection = [];
 
     public int $deleteId;
+
+    const BALANCE_METHODS = ['RANDOM', 'RANDOM_LOWEST', 'RANDOM_FILLER', 'PROGRESSIVE_LOWEST'];
+
+    protected function rules()
+    {
+        return [
+            'groupname' => 'required|string|min:3',
+            'balancemethod' => 'required|string|in:'.implode(',', self::BALANCE_METHODS),
+            'serversSelection' => 'required|array',
+            'serversSelection.*' => 'integer|exists:servers,id',
+        ];
+    }
 
     public function updated($name, $value): void
     {
@@ -38,31 +56,23 @@ class ShowServerGroups extends Component
     public function showServerGroup(ServerGroup $serverGroup)
     {
         $this->groupId = $serverGroup->id;
-        $this->groupName = $serverGroup->groupname;
-        $this->balanceMethod = $serverGroup->balancemethodtype;
-        $this->servers = [];
+        $this->groupname = $serverGroup->groupname;
+        $this->balancemethod = $serverGroup->balancemethodtype;
 
-        $serversRaw = $serverGroup->servers;
-        $serversJson = json_decode($serversRaw);
-        foreach ($serversJson as $serverId) {
-            $server = Server::find($serverId);
-            if ($server != null) {
-                $this->servers[] = $server->servername;
-            }
-        }
+        $this->currentServers = Server::whereIn('id', $serverGroup->servers)->get();
     }
 
     public function deleteServerGroup(ServerGroup $serverGroup)
     {
         $this->deleteId = $serverGroup->id;
-        $this->groupName = $serverGroup->groupname;
+        $this->groupname = $serverGroup->groupname;
     }
 
     public function delete()
     {
         $this->authorize('edit_servers');
         ServerGroup::find($this->deleteId)->delete();
-        $this->groupName = '';
+        $this->groupname = '';
     }
 
     public function closeModal()
@@ -73,9 +83,66 @@ class ShowServerGroups extends Component
     private function resetInput()
     {
         $this->groupId = -1;
-        $this->groupName = '';
-        $this->balanceMethod = '';
-        $this->servers = [];
+        $this->groupname = '';
+        $this->balancemethod = '';
+        $this->currentServers = [];
+        $this->serversSelection = [];
+    }
+
+    #[Computed]
+    public function allServers(): Collection {
+        return Server::select('id', 'servername')->get();
+    }
+
+    public function editServerGroup(ServerGroup $serverGroup)
+    {
+        $this->resetInput();
+
+        $this->groupId = $serverGroup->id;
+        $this->groupname = $serverGroup->groupname;
+        $this->balancemethod = $serverGroup->balancemethodtype;
+
+        $this->currentServers = Server::whereIn('id', $serverGroup->servers)->get();
+        $this->serversSelection = $this->currentServers->pluck('id')->toArray();
+    }
+
+    public function updateServerGroup()
+    {
+        $this->authorize('edit_servers');
+        $validatedData = $this->validate();
+
+        $serversSelection = array_map('intval', $validatedData['serversSelection']);
+
+        ServerGroup::where('id', $this->groupId)->update([
+            'groupname' => $validatedData['groupname'],
+            'balancemethodtype' => $validatedData['balancemethod'],
+            'servers' => $serversSelection,
+        ]);
+        session()->flash('message', 'Group Updated Successfully');
+        $this->resetInput();
+        $this->dispatch('close-modal');
+    }
+
+    public function addServerGroup()
+    {
+        $this->resetInput();
+    }
+
+    public function createServerGroup()
+    {
+        $validatedData = $this->validate();
+
+        $serversSelection = array_map('intval', $validatedData['serversSelection']);
+
+        ServerGroup::create([
+            'groupname' => $validatedData['groupname'],
+            'balancemethodtype' => $validatedData['balancemethod'],
+            'servers' => $serversSelection,
+        ]);
+
+        session()->flash('message', 'Successfully Added Server Group');
+        $this->resetInput();
+        $this->dispatch('close-modal');
     }
 
     public function render(): View
