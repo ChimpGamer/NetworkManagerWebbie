@@ -59,9 +59,9 @@ class ShowTags extends Component
 
         $name = $validatedData['name'];
         $tag = $validatedData['tag'];
-        $description = $validatedData['description'];
+        $description = $validatedData['description'] ?? null;
         $permission = $validatedData['permission'] ?? 'ultimatetags.tag.default';
-        $server = $validatedData['server'] ?? '';
+        $server = $validatedData['server'] ?? null;
 
         Tag::create([
             'name' => $name,
@@ -91,9 +91,9 @@ class ShowTags extends Component
 
         $name = $validatedData['name'];
         $tag = $validatedData['tag'];
-        $description = $validatedData['description'];
+        $description = $validatedData['description'] ?? null;
         $permission = $validatedData['permission'] ?? 'ultimatetags.tag.default';
-        $server = $validatedData['server'] ?? '';
+        $server = $validatedData['server'] ?? null;
 
         Tag::where('id', $this->tagId)->update([
             'name' => $name,
