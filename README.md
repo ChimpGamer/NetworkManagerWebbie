@@ -77,3 +77,8 @@ php artisan view:cache
 php artisan up
 ```
 After that it should be running just fine again.
+
+## Addons
+
+Currently, there is only one addon implemented.
+* [UltimateTags](https://polymart.org/resource/ultimatetags.3765) - You can enable this addon by running `php artisan module:enable UltimateTags`. The configuration for this addon is located in: `addons/UltimateTags/config`. 
