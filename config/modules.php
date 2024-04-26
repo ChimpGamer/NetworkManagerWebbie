@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'namespace' => 'Modules',
+    'namespace' => 'Addons',
 
     /*
     |--------------------------------------------------------------------------
@@ -71,7 +71,7 @@ return [
         |
         */
 
-        'modules' => base_path('Modules'),
+        'modules' => base_path('addons'),
         /*
         |--------------------------------------------------------------------------
         | Modules assets path
@@ -222,7 +222,7 @@ return [
     'activators' => [
         'file' => [
             'class' => FileActivator::class,
-            'statuses-file' => base_path('modules_statuses.json'),
+            'statuses-file' => base_path('addons_statuses.json'),
             'cache-key' => 'activator.installed',
             'cache-lifetime' => 604800,
         ],

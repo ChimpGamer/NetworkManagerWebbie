@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\UltimateTags\Livewire;
+namespace Addons\UltimateTags\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use Modules\UltimateTags\App\Models\Tag;
+use Addons\UltimateTags\App\Models\Tag;
 
 class ShowTags extends Component
 {

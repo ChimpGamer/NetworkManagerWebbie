@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\UltimateTags\App\Providers;
+namespace Addons\UltimateTags\App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -10,7 +10,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * The module namespace to assume when generating URLs to actions.
      */
-    protected string $moduleNamespace = 'Modules\UltimateTags\App\Http\Controllers';
+    protected string $moduleNamespace = 'Addons\UltimateTags\App\Http\Controllers';
 
     /**
      * Called before routes are registered.

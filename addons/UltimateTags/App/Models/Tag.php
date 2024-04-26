@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\UltimateTags\App\Models;
+namespace Addons\UltimateTags\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

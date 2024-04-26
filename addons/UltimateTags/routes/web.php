@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\UltimateTags\App\Http\Controllers\UltimateTagsController;
+use Addons\UltimateTags\App\Http\Controllers\UltimateTagsController;
 
 /*
 |--------------------------------------------------------------------------

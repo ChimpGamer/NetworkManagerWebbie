@@ -164,26 +164,28 @@
                 @endcan
             @endcan
 
-            <a class="list-group-item list-group-item-action py-2"
-               aria-current="true"
-               data-mdb-collapse-init
-               data-mdb-ripple-init
-               href="#collapseAddons"
-               aria-expanded="false"
-               aria-controls="collapseAddons">
-                <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Addons</span>
-            </a>
-            <ul id="collapseAddons" class="collapse list-group list-group-flush">
-                @foreach(\Nwidart\Modules\Facades\Module::allEnabled() as $module)
-                    <li class="list-group-item py-1">
-                        <a href="/{{ $module->getLowerName() }}"
-                           data-mdb-ripple-init
-                           class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), $module->getLowerName())) active @endif">
-                            <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>{{ $module->getName() }}</span>
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
+            @if(count(\Nwidart\Modules\Facades\Module::allEnabled()) > 0)
+                <a class="list-group-item list-group-item-action py-2"
+                   aria-current="true"
+                   data-mdb-collapse-init
+                   data-mdb-ripple-init
+                   href="#collapseAddons"
+                   aria-expanded="false"
+                   aria-controls="collapseAddons">
+                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Addons</span>
+                </a>
+                <ul id="collapseAddons" class="collapse list-group list-group-flush">
+                    @foreach(\Nwidart\Modules\Facades\Module::allEnabled() as $module)
+                        <li class="list-group-item py-1">
+                            <a href="/{{ $module->getLowerName() }}"
+                               data-mdb-ripple-init
+                               class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), $module->getLowerName())) active @endif">
+                                <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>{{ $module->getName() }}</span>
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
         </div>
     </div>
 </nav>

@@ -17,13 +17,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\UltimateTags\\": "",
-            "Modules\\UltimateTags\\App\\": "app/"
+            "Addons\\UltimateTags\\": "",
+            "Addons\\UltimateTags\\App\\": "app/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Modules\\UltimateTags\\Tests\\": "tests/"
+            "Addons\\UltimateTags\\Tests\\": "tests/"
         }
     }
 }

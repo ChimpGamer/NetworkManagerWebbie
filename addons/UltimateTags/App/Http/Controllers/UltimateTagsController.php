@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\UltimateTags\App\Http\Controllers;
+namespace Addons\UltimateTags\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
