@@ -62,9 +62,7 @@
 
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
-                {{ $tags->links() }}
-            </div>
+            {{ $tags->links() }}
         </div>
     </div>
     <div class="p-4">
