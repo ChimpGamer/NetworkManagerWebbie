@@ -113,10 +113,12 @@ class ShowCommandBlocker extends Component
         $this->closeModal('deleteCommandBlockerModal');
     }
 
-    public function closeModal($modalId)
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
-        $this->dispatch('close-modal', $modalId);
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     public function resetInput()

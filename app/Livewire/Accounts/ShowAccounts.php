@@ -111,10 +111,12 @@ class ShowAccounts extends Component
         $this->resetInput();
     }
 
-    public function closeModal($modalId)
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
-        $this->dispatch('close-modal', $modalId);
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     private function resetInput()

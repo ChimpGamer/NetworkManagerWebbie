@@ -256,10 +256,12 @@ class ShowPunishments extends Component
         $this->closeModal('unbanPunishmentModal');
     }
 
-    public function closeModal($modalId)
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
-        $this->dispatch('close-modal', $modalId);
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     private function resetInput()
