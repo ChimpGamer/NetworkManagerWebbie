@@ -1,4 +1,4 @@
-<div x-data @close-modal.window=""">
+<div>
     @include('ultimatetags::livewire.tags-modals')
 
     @if (session()->has('message'))
