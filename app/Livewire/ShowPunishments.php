@@ -50,7 +50,9 @@ class ShowPunishments extends Component
     public bool $active;
 
     public ?string $unbanner;
+
     public ?string $unbannerName;
+
     public ?string $unbanReason;
 
     public bool $isGlobal = false;
@@ -151,8 +153,7 @@ class ShowPunishments extends Component
         $ip = Player::getIP($uuid);
         if ($ip == null) {
             session()->flash('error', "Could not find valid ip for use ${uuid}!");
-            $this->resetInput();
-            $this->dispatch('close-modal');
+            $this->closeModal('addPunishmentModal');
 
             return;
         }
@@ -171,8 +172,7 @@ class ShowPunishments extends Component
         ]);
 
         session()->flash('message', 'Punishment Created Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addPunishmentModal');
     }
 
     public function editPunishment(Punishment $punishment)
@@ -221,8 +221,7 @@ class ShowPunishments extends Component
         ]);
 
         session()->flash('message', 'Punishment Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editPunishmentModal');
     }
 
     public function unban(Punishment $punishment)
@@ -242,6 +241,7 @@ class ShowPunishments extends Component
         $unbanner = auth()->user()->getUUID();
         if ($unbanner == null) {
             session()->flash('error', 'User has non existing uuid!');
+
             return;
         }
         $unbanReason = $validatedData['unbanReason'];
@@ -249,17 +249,17 @@ class ShowPunishments extends Component
         Punishment::where('id', $id)->update([
             'unbanner' => $unbanner,
             'unbanreason' => $unbanReason,
-            'active' => false
+            'active' => false,
         ]);
 
         session()->flash('message', 'Punishment Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('unbanPunishmentModal');
     }
 
-    public function closeModal()
+    public function closeModal($modalId)
     {
         $this->resetInput();
+        $this->dispatch('closeModal', $modalId);
     }
 
     private function resetInput()

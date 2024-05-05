@@ -11,13 +11,3 @@
     </div>
 
 @endsection
-
-@section('script')
-    <script>
-        window.addEventListener('close-modal', () => {
-            $('#editMotdModal').modal('hide');
-            $('#addMotdModal').modal('hide');
-            $('#deleteMotdModal').modal('hide');
-        });
-    </script>
-@endsection

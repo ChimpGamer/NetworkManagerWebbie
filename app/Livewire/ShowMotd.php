@@ -54,8 +54,7 @@ class ShowMotd extends Component
             'enabled' => $validatedData['enabled'],
         ]);
         session()->flash('message', 'Successfully Created Motd');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addMotdModal');
     }
 
     public function editMotd(Motd $motd)
@@ -85,8 +84,7 @@ class ShowMotd extends Component
             'enabled' => $validatedData['enabled'],
         ]);
         session()->flash('message', 'Motd Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editMotdModal');
     }
 
     public function deleteMotd(MOTD $motd)
@@ -100,9 +98,10 @@ class ShowMotd extends Component
         $this->resetInput();
     }
 
-    public function closeModal()
+    public function closeModal($modalId)
     {
         $this->resetInput();
+        $this->dispatch('closeModal', $modalId);
     }
 
     private function resetInput()

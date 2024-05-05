@@ -5,13 +5,3 @@
 
     @livewire('ultimatetags::show-tags')
 @endsection
-
-@section('script')
-    <script>
-        window.addEventListener('close-modal', () => {
-            $('#deleteTagModal').modal('hide');
-            $('#editTagModal').modal('hide');
-            $('#addTagModal').modal('hide');
-        });
-    </script>
-@endsection

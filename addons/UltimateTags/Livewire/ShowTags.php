@@ -2,9 +2,9 @@
 
 namespace Addons\UltimateTags\Livewire;
 
+use Addons\UltimateTags\App\Models\Tag;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Addons\UltimateTags\App\Models\Tag;
 
 class ShowTags extends Component
 {
@@ -71,8 +71,7 @@ class ShowTags extends Component
             'server' => $server,
         ]);
         session()->flash('message', 'Successfully Added Tag');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addTagModal');
     }
 
     public function editTag(Tag $tag)
@@ -103,8 +102,7 @@ class ShowTags extends Component
             'server' => $server,
         ]);
         session()->flash('message', 'Tag Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editTagModal');
     }
 
     public function deleteTag(Tag $tag)
@@ -116,12 +114,13 @@ class ShowTags extends Component
     public function delete()
     {
         Tag::find($this->tagId)->delete();
-        $this->resetInput();
+        $this->closeModal('deleteTagModal');
     }
 
-    public function closeModal()
+    public function closeModal($modalId)
     {
         $this->resetInput();
+        $this->dispatch('closeModal', $modalId);
     }
 
     public function resetInput()
