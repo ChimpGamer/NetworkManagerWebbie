@@ -67,8 +67,7 @@ class ShowAccounts extends Component
         ]);
 
         session()->flash('message', 'Successfully Added Account');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addAccountModal');
     }
 
     public function editAccount(User $user)
@@ -94,8 +93,7 @@ class ShowAccounts extends Component
         ]);
 
         session()->flash('message', 'Account Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editAccountModal');
     }
 
     public function deleteAccount(User $user)
@@ -113,9 +111,10 @@ class ShowAccounts extends Component
         $this->resetInput();
     }
 
-    public function closeModal()
+    public function closeModal($modalId)
     {
         $this->resetInput();
+        $this->dispatch('closeModal', $modalId);
     }
 
     private function resetInput()

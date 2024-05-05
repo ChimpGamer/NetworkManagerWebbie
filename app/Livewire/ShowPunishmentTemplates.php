@@ -101,8 +101,7 @@ class ShowPunishmentTemplates extends Component
         ]);
 
         session()->flash('message', 'Successfully Created Template');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addTemplateModal');
     }
 
     public function editTemplate(PunishmentTemplate $template)
@@ -137,8 +136,7 @@ class ShowPunishmentTemplates extends Component
         ]);
 
         session()->flash('message', 'Successfully Updated Template');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editTemplateModal');
     }
 
     public function deletePunishmentTemplate(PunishmentTemplate $punishmentTemplate)
@@ -151,9 +149,10 @@ class ShowPunishmentTemplates extends Component
         PunishmentTemplate::find($this->deleteId)->delete();
     }
 
-    public function closeModal()
+    public function closeModal($modalId)
     {
         $this->resetInput();
+        $this->dispatch('closeModal', $modalId);
     }
 
     private function resetInput()

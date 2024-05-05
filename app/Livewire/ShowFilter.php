@@ -60,8 +60,7 @@ class ShowFilter extends Component
             'enabled' => $validatedData['enabled'],
         ]);
         session()->flash('message', 'Successfully Added Filter');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addFilterModal');
     }
 
     public function editFilter(Filter $filter)
@@ -88,8 +87,7 @@ class ShowFilter extends Component
             'enabled' => $validatedData['enabled'],
         ]);
         session()->flash('message', 'Filter Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editFilterModal');
     }
 
     public function deleteFilter(Filter $filter)
@@ -104,9 +102,10 @@ class ShowFilter extends Component
         $this->resetInput();
     }
 
-    public function closeModal()
+    public function closeModal($modalId)
     {
         $this->resetInput();
+        $this->dispatch('closeModal', $modalId);
     }
 
     public function resetInput()

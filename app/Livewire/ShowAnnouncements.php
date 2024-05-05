@@ -120,8 +120,7 @@ class ShowAnnouncements extends Component
         ]);
 
         session()->flash('message', 'Successfully Created Announcement');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addAnnouncementModal');
     }
 
     public function editAnnouncement(Announcement $announcement)
@@ -164,13 +163,13 @@ class ShowAnnouncements extends Component
         ]);
 
         session()->flash('message', 'Announcement Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editAnnouncementModal');
     }
 
-    public function closeModal()
+    public function closeModal($modalId)
     {
         $this->resetInput();
+        $this->dispatch('closeModal', $modalId);
     }
 
     private function resetInput()

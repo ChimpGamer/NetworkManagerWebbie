@@ -108,13 +108,13 @@ class ShowServers extends Component
             'restricted' => $validatedData['restricted'],
         ]);
         session()->flash('message', 'Server Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editServerModal');
     }
 
-    public function closeModal()
+    public function closeModal($modalId)
     {
         $this->resetInput();
+        $this->dispatch('closeModal', $modalId);
     }
 
     private function resetInput()
@@ -163,8 +163,7 @@ class ShowServers extends Component
         ]);
 
         session()->flash('message', 'Successfully Added Server');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addServerModal');
     }
 
     public function render(): View

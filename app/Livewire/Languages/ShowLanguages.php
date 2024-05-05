@@ -57,13 +57,13 @@ class ShowLanguages extends Component
         LanguageMessage::insert($newLanguageMessages->toArray());
 
         session()->flash('message', 'Successfully Added Language');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addLanguageModal');
     }
 
-    public function closeModal()
+    public function closeModal($modalId)
     {
         $this->resetInput();
+        $this->dispatch('closeModal', $modalId);
     }
 
     private function resetInput()

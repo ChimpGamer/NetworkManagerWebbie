@@ -75,9 +75,10 @@ class ShowServerGroups extends Component
         $this->groupname = '';
     }
 
-    public function closeModal()
+    public function closeModal($modalId)
     {
         $this->resetInput();
+        $this->dispatch('closeModal', $modalId);
     }
 
     private function resetInput()
@@ -119,8 +120,7 @@ class ShowServerGroups extends Component
             'servers' => $serversSelection,
         ]);
         session()->flash('message', 'Group Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editServerGroupModal');
     }
 
     public function addServerGroup()
@@ -141,8 +141,7 @@ class ShowServerGroups extends Component
         ]);
 
         session()->flash('message', 'Successfully Added Server Group');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addServerGroupModal');
     }
 
     public function render(): View

@@ -46,8 +46,7 @@ class ShowAccountGroups extends Component
         ]);
 
         session()->flash('message', 'Successfully Added Account Group');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addAccountGroupModal');
     }
 
     public function editAccountGroup(Group $group)
@@ -74,8 +73,7 @@ class ShowAccountGroups extends Component
         Group::where('id', $this->group_id)->update($update);
 
         session()->flash('message', 'Account Group Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editAccountGroupModal');
     }
 
     public function deleteAccountGroup(Group $group)
@@ -93,9 +91,10 @@ class ShowAccountGroups extends Component
         $this->resetInput();
     }
 
-    public function closeModal()
+    public function closeModal($modalId)
     {
         $this->resetInput();
+        $this->dispatch('closeModal', $modalId);
     }
 
     private function resetInput()

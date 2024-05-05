@@ -66,8 +66,7 @@ class ShowCommandBlocker extends Component
             'enabled' => $enabled,
         ]);
         session()->flash('message', 'Successfully Added CommandBlocker');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addCommandBlockerModal');
     }
 
     public function editCommandBlocker(CommandBlocker $commandBlocker)
@@ -98,8 +97,7 @@ class ShowCommandBlocker extends Component
             'enabled' => $enabled,
         ]);
         session()->flash('message', 'CommandBlocker Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editCommandBlockerModal');
     }
 
     public function deleteCommandBlocker(CommandBlocker $commandBlocker)
@@ -112,13 +110,13 @@ class ShowCommandBlocker extends Component
         $this->authorize('edit_commandblocker');
         CommandBlocker::find($this->commandBlockerId)->delete();
         session()->flash('message', 'CommandBlocker Deleted Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('deleteCommandBlockerModal');
     }
 
-    public function closeModal()
+    public function closeModal($modalId)
     {
         $this->resetInput();
+        $this->dispatch('closeModal', $modalId);
     }
 
     public function resetInput()

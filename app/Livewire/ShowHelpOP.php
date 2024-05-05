@@ -28,11 +28,6 @@ class ShowHelpOP extends Component
         $this->resetInput();
     }
 
-    public function closeModal()
-    {
-        $this->resetInput();
-    }
-
     public function resetInput()
     {
         $this->helpOPId = -1;
