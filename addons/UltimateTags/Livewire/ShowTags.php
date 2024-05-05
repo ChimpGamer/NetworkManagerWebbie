@@ -27,7 +27,7 @@ class ShowTags extends Component
     public string $search = '';
 
     protected array $rules = [
-        'name' => 'required|string|exists:Modules\UltimateTags\App\Models\Tag,name',
+        'name' => 'required|string|exists:Addons\UltimateTags\App\Models\Tag,name',
         'tag' => 'required|string',
         'description' => 'string|nullable',
         'permission' => 'string|nullable',
