@@ -120,7 +120,7 @@ class ShowTags extends Component
     public function closeModal($modalId)
     {
         $this->resetInput();
-        $this->dispatch('closeModal', $modalId);
+        $this->dispatch('close-modal', $modalId);
     }
 
     public function resetInput()

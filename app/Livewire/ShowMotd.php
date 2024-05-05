@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\MOTD;
-use Carbon\Carbon;
 use Livewire\Component;
 
 class ShowMotd extends Component
@@ -98,10 +97,12 @@ class ShowMotd extends Component
         $this->resetInput();
     }
 
-    public function closeModal($modalId)
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
-        $this->dispatch('closeModal', $modalId);
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     private function resetInput()
