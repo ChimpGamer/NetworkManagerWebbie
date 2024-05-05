@@ -47,6 +47,7 @@
 </main>
 
 <script src="{{ asset('js/mdb.umd.min.js') }}"></script>
+<script src="{{ asset('js/custom.js') }}"></script>
 
 <!-- Alpine Tooltip -->
 <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js" defer></script>
