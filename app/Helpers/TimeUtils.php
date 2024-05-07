@@ -2,16 +2,18 @@
 
 namespace App\Helpers;
 
+use Carbon\Carbon;
 use Carbon\CarbonInterval;
 
 class TimeUtils
 {
-    public static function formatTimestamp($timestamp): string
+    public static function formatTimestamp(float $timestamp): string
     {
-        return date('d-m-Y H:i:s', $timestamp / 1000);
+        return Carbon::createFromTimestamp($timestamp)->format('Y-m-d H:i:s');
     }
 
-    public static function millisToReadableFormat($millis): string {
+    public static function millisToReadableFormat($millis): string
+    {
         try {
             return CarbonInterval::millisecond($millis)->cascade()->forHumans();
         } catch (\Exception $ex) {
