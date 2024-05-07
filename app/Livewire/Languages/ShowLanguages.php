@@ -21,6 +21,8 @@ class ShowLanguages extends Component
 
     public int $deleteId;
 
+    public ?Language $defaultLanguage = null;
+
     protected function rules(): array
     {
         return [
@@ -33,6 +35,11 @@ class ShowLanguages extends Component
         if ($name == 'search') {
             $this->resetPage();
         }
+    }
+
+    public function mount(): void
+    {
+        $this->defaultLanguage = Language::getByName(Value::getValueByVariable('setting_language_default')->value);
     }
 
     public function addLanguage()
@@ -51,6 +58,7 @@ class ShowLanguages extends Component
         $newLanguageMessages = $languageMessages->map(function ($languageMessage) use ($language) {
             $languageMessage->id = 0;
             $languageMessage->language_id = $language->id;
+
             return $languageMessage;
         });
 
@@ -78,6 +86,7 @@ class ShowLanguages extends Component
     {
         if ($this->isProtectedLanguage($language)) {
             session()->flash('warning-message', 'The '.$language->name.' language cannot be deleted!');
+
             return;
         }
 
@@ -91,6 +100,7 @@ class ShowLanguages extends Component
         if ($this->isProtectedLanguage($language)) {
             session()->flash('warning-message', 'The '.$language->name.' language cannot be deleted!');
             $this->resetInput();
+
             return;
         }
 
@@ -102,16 +112,9 @@ class ShowLanguages extends Component
     {
         if ($language->id == 1) {
             return true;
-        } else {
-            $defaultLanguage = Language::getByName(Value::getValueByVariable('setting_language_default')->value);
-            if ($defaultLanguage != null) {
-                if ($language->id == $defaultLanguage->id) {
-                    return true;
-                }
-            }
         }
 
-        return false;
+        return $this->defaultLanguage?->id == $language->id;
     }
 
     public function render(): View
