@@ -103,8 +103,7 @@ class ShowPlayerPermissions extends Component
         ]);
 
         session()->flash('message', 'Successfully Created Player Permission');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addPlayerPermissionModal');
     }
 
     public function editPlayerPermission(PlayerPermission $playerPermission)
@@ -140,8 +139,7 @@ class ShowPlayerPermissions extends Component
             'expires' => $expires,
         ]);
         session()->flash('message', 'Player Permission Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editPlayerPermissionModal');
     }
 
     public function deletePlayerPermission(PlayerPermission $playerPermission)
@@ -166,9 +164,12 @@ class ShowPlayerPermissions extends Component
             ->exists();
     }
 
-    public function closeModal()
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     private function resetInput()

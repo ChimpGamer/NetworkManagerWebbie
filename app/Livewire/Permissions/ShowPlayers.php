@@ -70,13 +70,15 @@ class ShowPlayers extends Component
             'suffix' => $suffix,
         ]);
         session()->flash('message', 'Permission Player Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editPermissionPlayerModal');
     }
 
-    public function closeModal()
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     private function resetInput()

@@ -57,8 +57,7 @@ class ShowGroupSuffixes extends Component
         ]);
 
         session()->flash('message', 'Successfully Created Group Suffix');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addGroupSuffixModal');
     }
 
     public function editGroupSuffix(GroupSuffix $groupSuffix)
@@ -80,8 +79,7 @@ class ShowGroupSuffixes extends Component
             'server' => $server,
         ]);
         session()->flash('message', 'Group Suffix Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editGroupSuffixModal');
     }
 
     public function deleteGroupSuffix(GroupSuffix $groupSuffix)
@@ -96,9 +94,12 @@ class ShowGroupSuffixes extends Component
         $this->resetInput();
     }
 
-    public function closeModal()
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     private function resetInput()

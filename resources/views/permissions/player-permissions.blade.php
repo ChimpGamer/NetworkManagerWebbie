@@ -7,13 +7,3 @@
     </div>
 
 @endsection
-
-@section('script')
-    <script>
-        window.addEventListener('close-modal', () => {
-            $('#editPlayerPermissionModal').modal('hide');
-            $('#addPlayerPermissionModal').modal('hide');
-            $('#deletePlayerPermissionModal').modal('hide');
-        });
-    </script>
-@endsection

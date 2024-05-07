@@ -10,14 +10,3 @@
     </div>
 
 @endsection
-
-@section('script')
-    <script>
-        window.addEventListener('close-modal', () => {
-            $('#editGroupModal').modal('hide');
-            $('#addGroupModal').modal('hide');
-            $('#deleteGroupModal').modal('hide');
-            $('#editPermissionPlayerModal').modal('hide');
-        });
-    </script>
-@endsection

@@ -103,8 +103,7 @@ class ShowGroupPermissions extends Component
         ]);
 
         session()->flash('message', 'Successfully Created Group Permission');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addGroupPermissionModal');
     }
 
     public function editGroupPermission(GroupPermission $groupPermission)
@@ -140,8 +139,7 @@ class ShowGroupPermissions extends Component
             'expires' => $expires,
         ]);
         session()->flash('message', 'Group Permission Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editGroupPermissionModal');
     }
 
     public function deleteGroupPermission(GroupPermission $groupPermission)
@@ -166,9 +164,12 @@ class ShowGroupPermissions extends Component
             ->exists();
     }
 
-    public function closeModal()
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     private function resetInput()

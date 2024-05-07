@@ -75,8 +75,7 @@ class ShowGroups extends Component
         ]);
 
         session()->flash('message', 'Successfully Created Group');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addGroupModal');
     }
 
     public function editGroup(Group $group)
@@ -99,8 +98,7 @@ class ShowGroups extends Component
             'rank' => $validatedData['rank'],
         ]);
         session()->flash('message', 'Group Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editGroupModal');
     }
 
     public function deleteGroup(Group $group)
@@ -120,9 +118,12 @@ class ShowGroups extends Component
         $this->resetInput();
     }
 
-    public function closeModal()
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     private function resetInput()

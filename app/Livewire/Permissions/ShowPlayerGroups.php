@@ -78,8 +78,7 @@ class ShowPlayerGroups extends Component
             'expires' => $expires,
         ]);
         session()->flash('message', 'Successfully Created Player Group');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addPlayerGroupModal');
     }
 
     public function editPlayerGroup(GroupMember $groupMember, Group $group)
@@ -118,8 +117,7 @@ class ShowPlayerGroups extends Component
             'expires' => $expires,
         ]);
         session()->flash('message', 'Player Group Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editPlayerGroupModal');
     }
 
     public function deletePlayerGroup(GroupMember $groupMember, Group $group)
@@ -137,9 +135,12 @@ class ShowPlayerGroups extends Component
         $this->resetInput();
     }
 
-    public function closeModal()
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     private function resetInput()

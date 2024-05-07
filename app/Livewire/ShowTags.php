@@ -69,8 +69,7 @@ class ShowTags extends Component
             'server' => $server,
         ]);
         session()->flash('message', 'Successfully Added Tag');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addTagModal');
     }
 
     public function editTag(Tag $tag)
@@ -99,8 +98,7 @@ class ShowTags extends Component
             'server' => $server,
         ]);
         session()->flash('message', 'Tag Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editTagModal');
     }
 
     public function deleteTag(Tag $tag)
@@ -116,9 +114,12 @@ class ShowTags extends Component
         $this->resetInput();
     }
 
-    public function closeModal()
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     public function resetInput()

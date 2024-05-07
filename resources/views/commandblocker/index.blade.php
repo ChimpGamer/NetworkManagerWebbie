@@ -7,13 +7,3 @@
     </div>
 
 @endsection
-
-@section('script')
-    <script>
-        window.addEventListener('close-modal', () => {
-            $('#addCommandBlockerModal').modal('hide');
-            $('#editCommandBlockerModal').modal('hide');
-            $('#deleteCommandBlockerModal').modal('hide');
-        });
-    </script>
-@endsection

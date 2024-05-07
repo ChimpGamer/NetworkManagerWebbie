@@ -7,13 +7,3 @@
     </div>
 
 @endsection
-
-@section('script')
-    <script>
-        window.addEventListener('close-modal', () => {
-            $('#editGroupPermissionModal').modal('hide');
-            $('#addGroupPermissionModal').modal('hide');
-            $('#deleteGroupPermissionModal').modal('hide');
-        });
-    </script>
-@endsection

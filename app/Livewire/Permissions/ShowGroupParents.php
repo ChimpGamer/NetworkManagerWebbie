@@ -74,8 +74,7 @@ class ShowGroupParents extends Component
         ]);
 
         session()->flash('message', 'Successfully Created Group Parent');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addGroupParentModal');
     }
 
     public function deleteGroupParent(GroupParent $groupParent, Group $group)
@@ -91,9 +90,12 @@ class ShowGroupParents extends Component
         $this->resetInput();
     }
 
-    public function closeModal()
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     public function resetInput()

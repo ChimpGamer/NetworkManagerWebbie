@@ -20,14 +20,3 @@
     </div>
 
 @endsection
-
-@section('script')
-    <script>
-        window.addEventListener('close-modal', () => {
-            $('#addAccountGroupModal').modal('hide');
-            $('#addAccountModal').modal('hide');
-            $('#editAccountModal').modal('hide');
-            $('#editAccountGroupModal').modal('hide');
-        });
-    </script>
-@endsection

@@ -7,13 +7,3 @@
     </div>
 
 @endsection
-
-@section('script')
-    <script>
-        window.addEventListener('close-modal', () => {
-            $('#editGroupSuffixModal').modal('hide');
-            $('#addGroupSuffixModal').modal('hide');
-            $('#deleteGroupSuffixModal').modal('hide');
-        });
-    </script>
-@endsection

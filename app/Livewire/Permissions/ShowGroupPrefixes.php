@@ -57,8 +57,7 @@ class ShowGroupPrefixes extends Component
         ]);
 
         session()->flash('message', 'Successfully Created Group Prefix');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addGroupPrefixModal');
     }
 
     public function editGroupPrefix(GroupPrefix $groupPrefix)
@@ -80,8 +79,7 @@ class ShowGroupPrefixes extends Component
             'server' => $server,
         ]);
         session()->flash('message', 'Group Prefix Updated Successfully');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('editGroupPrefixModal');
     }
 
     public function deleteGroupPrefix(GroupPrefix $groupPrefix)
@@ -96,9 +94,12 @@ class ShowGroupPrefixes extends Component
         $this->resetInput();
     }
 
-    public function closeModal()
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     private function resetInput()

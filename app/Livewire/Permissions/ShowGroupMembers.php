@@ -81,8 +81,7 @@ class ShowGroupMembers extends Component
             'expires' => $expires,
         ]);
         session()->flash('message', 'Successfully Added Player to Group');
-        $this->resetInput();
-        $this->dispatch('close-modal');
+        $this->closeModal('addGroupMemberModal');
     }
 
     public function deleteGroupMember(GroupMember $groupMember, PermissionPlayer $permissionPlayer)
@@ -100,9 +99,12 @@ class ShowGroupMembers extends Component
         $this->resetInput();
     }
 
-    public function closeModal()
+    public function closeModal(?string $modalId = null)
     {
         $this->resetInput();
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
     }
 
     private function resetInput()
