@@ -6,11 +6,6 @@ window.addEventListener('close-modal', (event) => {
 
     //find modal
     const modal = document.getElementById(modalId);
-
-    modal.classList.remove('show');
-    modal.setAttribute('aria-hidden', 'true');
-    modal.setAttribute('style', 'display: none');
-    // get modal backdrops
-    const modalsBackdrops = document.getElementsByClassName('modal-backdrop');
-    document.body.removeChild(modalsBackdrops[0]);
+    const mdbModal = window.mdb.Modal.getInstance(modal);
+    mdbModal.hide();
 });
