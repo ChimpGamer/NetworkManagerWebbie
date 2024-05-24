@@ -1,3 +1,66 @@
+<!-- Show CommandBlocker Modal -->
+<div wire:ignore.self class="modal fade" id="showCommandBlockerModal" tabindex="-1"
+     aria-labelledby="showCommandBlockerModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="showCommandBlockerModalLabel">Show Command Block</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <strong>Name</strong>
+                    <p>{{ $name }}</p>
+                </div>
+                <div class="mb-3">
+                    <strong>Description</strong>
+                    <p>{{ $description }}</p>
+                </div>
+                <div class="mb-3">
+                    <strong>Command</strong>
+                    <p>{{ $command }}</p>
+                </div>
+                <div class="mb-3">
+                    <strong>Server</strong>
+                    <p>{{ $server }}</p>
+                </div>
+                <div class="mb-3">
+                    <strong>Custom Message</strong>
+                    <p>{!!  $customMessage  !!}</p>
+                </div>
+                <div class="mb-3">
+                    <label class="bold">Bypass Permission</label>
+                    <div class="d-flex">
+                        <strong>Off</strong>
+                        <div class="form-check form-switch ms-2">
+                            <input class="form-check-input" type="checkbox" role="switch" id="silentSwitch"
+                                   wire:model="bypasspermission" disabled/>
+                            <label class="form-check-label" style="font-weight: bold;"
+                                   for="silentSwitch"><strong>On</strong></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="bold">Enabled</label>
+                    <div class="d-flex">
+                        <strong>Off</strong>
+                        <div class="form-check form-switch ms-2">
+                            <input class="form-check-input" type="checkbox" role="switch" id="silentSwitch"
+                                   wire:model="enabled" disabled/>
+                            <label class="form-check-label" style="font-weight: bold;"
+                                   for="silentSwitch"><strong>On</strong></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Add CommandBlocker Modal -->
 <div wire:ignore.self class="modal fade" id="addCommandBlockerModal" tabindex="-1" aria-labelledby="addCommandBlockerModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -9,6 +72,16 @@
 
             <form wire:submit='createCommandBlocker'>
                 <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="bold">Name</label>
+                        <input type="text" wire:model.live="name" class="form-control">
+                        @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">Description</label>
+                        <input type="text" wire:model.live="description" class="form-control">
+                        @error('description') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
                     <div class="mb-3">
                         <label class="bold">Command</label>
                         <input type="text" wire:model.live="command" class="form-control">
@@ -72,6 +145,16 @@
 
             <form wire:submit='updateCommandBlocker'>
                 <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="bold">Name</label>
+                        <input type="text" wire:model.live="name" class="form-control">
+                        @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label class="bold">Description</label>
+                        <input type="text" wire:model.live="description" class="form-control">
+                        @error('description') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
                     <div class="mb-3">
                         <label class="bold">Command</label>
                         <input type="text" wire:model.live="command" class="form-control">

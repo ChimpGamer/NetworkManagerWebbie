@@ -30,6 +30,8 @@ class CommandBlocker extends Model
      */
     protected $fillable = [
         'id',
+        'name',
+        'description',
         'command',
         'server',
         'customMessage',

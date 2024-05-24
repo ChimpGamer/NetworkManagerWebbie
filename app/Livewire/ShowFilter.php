@@ -16,6 +16,8 @@ class ShowFilter extends Component
 
     public int $filterId;
 
+    public ?string $name;
+    public ?string $description;
     public ?string $word;
 
     public ?string $replacement;
@@ -27,6 +29,8 @@ class ShowFilter extends Component
     public string $search = '';
 
     protected $rules = [
+        'name' => 'required|string|alpha_dash|max:128',
+        'description' => 'string|nullable',
         'word' => 'required|string',
         'replacement' => 'string|nullable',
         'server' => 'string|nullable',
@@ -40,6 +44,17 @@ class ShowFilter extends Component
         }
     }
 
+    public function showFilter(Filter $filter): void
+    {
+        $this->filterId = $filter->id;
+        $this->name = $filter->name;
+        $this->description = $filter->description;
+        $this->word = $filter->word;
+        $this->replacement = $filter->replacement;
+        $this->server = $filter->server;
+        $this->enabled = $filter->enabled;
+    }
+
     public function addFilter()
     {
         $this->resetInput();
@@ -50,10 +65,13 @@ class ShowFilter extends Component
         $this->authorize('edit_filter');
         $validatedData = $this->validate();
 
+        $description = empty($validatedData['description']) ? null : $validatedData['description'];
         $replacement = empty($validatedData['replacement']) ? null : $validatedData['replacement'];
         $server = empty($validatedData['server']) ? null : $validatedData['server'];
 
         Filter::create([
+            'name' => $validatedData['name'],
+            'description' => $description,
             'word' => $validatedData['word'],
             'replacement' => $replacement,
             'server' => $server,
@@ -66,6 +84,8 @@ class ShowFilter extends Component
     public function editFilter(Filter $filter)
     {
         $this->filterId = $filter->id;
+        $this->name = $filter->name;
+        $this->description = $filter->description;
         $this->word = $filter->word;
         $this->replacement = $filter->replacement;
         $this->server = $filter->server;
@@ -77,10 +97,13 @@ class ShowFilter extends Component
         $this->authorize('edit_filter');
         $validatedData = $this->validate();
 
+        $description = empty($validatedData['description']) ? null : $validatedData['description'];
         $replacement = empty($validatedData['replacement']) ? null : $validatedData['replacement'];
         $server = empty($validatedData['server']) ? null : $validatedData['server'];
 
         Filter::where('id', $this->filterId)->update([
+            'name' => $validatedData['name'],
+            'description' => $description,
             'word' => $validatedData['word'],
             'replacement' => $replacement,
             'server' => $server,
@@ -113,6 +136,8 @@ class ShowFilter extends Component
     public function resetInput()
     {
         $this->filterId = -1;
+        $this->name = null;
+        $this->description = null;
         $this->word = null;
         $this->replacement = null;
         $this->server = null;
@@ -121,7 +146,8 @@ class ShowFilter extends Component
 
     public function render()
     {
-        $filters = Filter::where('word', 'like', '%'.$this->search.'%')->orderBy('id', 'DESC')->paginate(10);
+        $filters = Filter::where('name', 'like', '%' . $this->search . '%')
+            ->where('word', 'like', '%' . $this->search . '%')->orderBy('id', 'DESC')->paginate(10);
 
         return view('livewire.filter.show-filter')->with('filters', $filters);
     }

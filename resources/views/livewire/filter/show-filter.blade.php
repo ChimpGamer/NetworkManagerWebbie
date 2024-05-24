@@ -28,12 +28,11 @@
                 <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Name</th>
                     <th>Word</th>
                     <th>Replacement</th>
                     <th>Server</th>
-                    @can('edit_filter')
-                        <th>Actions</th>
-                    @endcan
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -44,11 +43,17 @@
                             @else
                                 <i class="fas fa-exclamation-circle fa-lg text-danger"></i>
                             @endif {{ $filter->id }}</td>
+                        <td>{{ $filter->name }}</td>
                         <td>{{ $filter->word }}</td>
                         <td>{{ $filter->replacement }}</td>
                         <td>{{ $filter->server }}</td>
-                        @can('edit_filter')
-                            <td>
+                        <td>
+                            <button type="button" style="background: transparent; border: none;" data-mdb-ripple-init data-mdb-modal-init
+                                    data-mdb-target="#showFilterModal"
+                                    wire:click="showFilter({{ $filter->id }})">
+                                <i class="material-icons text-info">info</i>
+                            </button>
+                            @can('edit_filter')
                                 <button type="button" style="background: transparent; border: none;"
                                         data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#editFilterModal" wire:click="editFilter({{$filter->id}})">
@@ -59,8 +64,8 @@
                                         data-mdb-target="#deleteFilterModal" wire:click="deleteFilter({{$filter->id}})">
                                     <i class="material-icons text-danger">delete</i>
                                 </button>
-                            </td>
-                        @endcan
+                            @endcan
+                        </td>
                     </tr>
                 @empty
                     <tr>
