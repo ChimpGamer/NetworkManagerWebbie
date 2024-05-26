@@ -113,7 +113,7 @@ class ShowCommandBlocker extends Component
 
         CommandBlocker::where('id', $this->commandBlockerId)->update([
             'name' => $validatedData['name'],
-            'description' => $validatedData['description'],
+            'description' => $description,
             'command' => $validatedData['command'],
             'server' => $server,
             'customMessage' => $customMessage,
