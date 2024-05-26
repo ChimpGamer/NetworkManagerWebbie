@@ -147,7 +147,7 @@ class ShowFilter extends Component
     public function render()
     {
         $filters = Filter::where('name', 'like', '%' . $this->search . '%')
-            ->where('word', 'like', '%' . $this->search . '%')->orderBy('id', 'DESC')->paginate(10);
+            ->orWhere('word', 'like', '%' . $this->search . '%')->orderBy('id', 'DESC')->paginate(10);
 
         return view('livewire.filter.show-filter')->with('filters', $filters);
     }

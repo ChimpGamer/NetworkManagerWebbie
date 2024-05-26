@@ -160,7 +160,7 @@ class ShowCommandBlocker extends Component
     public function render()
     {
         $blockedCommands = CommandBlocker::where('name', 'like', '%' . $this->search . '%')
-            ->where('command', 'like', '%' . $this->search . '%')->orderBy('id', 'DESC')->paginate(10);
+            ->orWhere('command', 'like', '%' . $this->search . '%')->orderBy('id', 'DESC')->paginate(10);
 
         return view('livewire.commandblocker.show-commandblocker')->with('blockedcommands', $blockedCommands);
     }
