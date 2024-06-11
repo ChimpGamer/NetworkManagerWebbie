@@ -3,7 +3,7 @@
 namespace App\Livewire\Languages;
 
 use App\Models\Language;
-use App\Models\LanguageMessage;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -11,11 +11,11 @@ class ShowLanguage extends Component
 {
     public Language $language;
 
-    public $languageMessages;
+    public Collection $languageMessages;
 
     public string $search = '';
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'languageMessages.*.key' => 'required|string',
@@ -23,21 +23,12 @@ class ShowLanguage extends Component
         ];
     }
 
-    public function updated($name, $value): void
+    public function mount(): void
     {
-        if ($name == 'search') {
-            $this->resetPage();
-        }
+        $this->languageMessages = $this->language->languageMessages;
     }
 
-    public function mount()
-    {
-        $this->languageMessages = LanguageMessage::select('id', 'key', 'message')
-            ->where('language_id', $this->language->id)
-            ->get();
-    }
-
-    public function save()
+    public function save(): void
     {
         $this->authorize('edit_languages');
         $this->validate();

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Language extends Model
 {
@@ -61,5 +62,10 @@ class Language extends Model
     public static function getByName(string $name): ?Language
     {
         return Language::where('name', $name)->first();
+    }
+
+    public function languageMessages(): HasMany
+    {
+        return $this->hasMany(LanguageMessage::class);
     }
 }

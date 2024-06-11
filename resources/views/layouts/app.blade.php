@@ -32,9 +32,7 @@
 <body>
 <header>
     <div>
-        @persist('nav')
-            @livewire('navbar')
-        @endpersist
+        @livewire('navbar')
         @livewire('sidebar')
     </div>
 </header>
