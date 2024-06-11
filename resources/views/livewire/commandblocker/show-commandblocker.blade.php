@@ -27,9 +27,9 @@
                 <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Name</th>
                     <th>Command</th>
                     <th>Server</th>
-                    <th>Custom Message</th>
                     <th>Bypass Permission</th>
                     @can('edit_commandblocker')
                         <th>Actions</th>
@@ -44,9 +44,9 @@
                             @else
                                 <i class="fas fa-exclamation-circle fa-lg text-danger"></i>
                             @endif{{ $blockedCommand->id }}</td>
+                        <td>{{ $blockedCommand->name }}</td>
                         <td>{{ $blockedCommand->command }}</td>
                         <td>{{ $blockedCommand->server }}</td>
-                        <td>{!! $blockedCommand->customMessage !!}</td>
                         <td>
                             @if ($blockedCommand->bypasspermission)
                                 <i class="fas fa-check-circle fa-lg"></i>
@@ -54,8 +54,13 @@
                                 <i class="fas fa-circle-xmark fa-lg"></i>
                             @endif
                         </td>
-                        @can('edit_commandblocker')
-                            <td>
+                        <td>
+                            <button type="button" style="background: transparent; border: none;" data-mdb-ripple-init data-mdb-modal-init
+                                    data-mdb-target="#showCommandBlockerModal"
+                                    wire:click="showCommandBlock({{ $blockedCommand->id }})">
+                                <i class="material-icons text-info">info</i>
+                            </button>
+                            @can('edit_commandblocker')
                                 <button type="button" style="background: transparent; border: none;"
                                         data-mdb-ripple-init data-mdb-modal-init
                                         data-mdb-target="#editCommandBlockerModal"
@@ -68,8 +73,8 @@
                                         wire:click="deleteCommandBlocker({{$blockedCommand->id}})">
                                     <i class="material-icons text-danger">delete</i>
                                 </button>
-                            </td>
-                        @endcan
+                            @endcan
+                        </td>
                     </tr>
                 @empty
                     <tr>

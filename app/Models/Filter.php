@@ -30,6 +30,8 @@ class Filter extends Model
      */
     protected $fillable = [
         'id',
+        'name',
+        'description',
         'word',
         'replacement',
         'server',

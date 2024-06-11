@@ -16,6 +16,8 @@ class ShowCommandBlocker extends Component
 
     public int $commandBlockerId;
 
+    public ?string $name;
+    public ?string $description;
     public ?string $command;
 
     public ?string $server;
@@ -29,6 +31,8 @@ class ShowCommandBlocker extends Component
     public string $search = '';
 
     protected $rules = [
+        'name' => 'required|string|alpha_dash|max:128',
+        'description' => 'string|nullable',
         'command' => 'required|string',
         'server' => 'string|nullable',
         'customMessage' => 'string|nullable',
@@ -43,6 +47,18 @@ class ShowCommandBlocker extends Component
         }
     }
 
+    public function showCommandBlock(CommandBlocker $commandBlocker): void
+    {
+        $this->commandBlockerId = $commandBlocker->id;
+        $this->name = $commandBlocker->name;
+        $this->description = $commandBlocker->description;
+        $this->command = $commandBlocker->command;
+        $this->server = $commandBlocker->server;
+        $this->customMessage = $commandBlocker->customMessage;
+        $this->bypasspermission = $commandBlocker->bypasspermission;
+        $this->enabled = $commandBlocker->enabled;
+    }
+
     public function addCommandBlocker()
     {
         $this->resetInput();
@@ -53,12 +69,15 @@ class ShowCommandBlocker extends Component
         $this->authorize('edit_commandblocker');
         $validatedData = $this->validate();
 
+        $description = empty($validatedData['description']) ? null : $validatedData['description'];
         $server = empty($validatedData['server']) ? null : $validatedData['server'];
         $customMessage = empty($validatedData['customMessage']) ? null : $validatedData['customMessage'];
         $bypasspermission = $validatedData['bypasspermission'];
         $enabled = $validatedData['enabled'];
 
         CommandBlocker::create([
+            'name' => $validatedData['name'],
+            'description' => $description,
             'command' => $validatedData['command'],
             'server' => $server,
             'customMessage' => $customMessage,
@@ -72,6 +91,8 @@ class ShowCommandBlocker extends Component
     public function editCommandBlocker(CommandBlocker $commandBlocker)
     {
         $this->commandBlockerId = $commandBlocker->id;
+        $this->name = $commandBlocker->name;
+        $this->description = $commandBlocker->description;
         $this->command = $commandBlocker->command;
         $this->server = $commandBlocker->server;
         $this->customMessage = $commandBlocker->customMessage;
@@ -84,12 +105,15 @@ class ShowCommandBlocker extends Component
         $this->authorize('edit_commandblocker');
         $validatedData = $this->validate();
 
+        $description = empty($validatedData['description']) ? null : $validatedData['description'];
         $server = empty($validatedData['server']) ? null : $validatedData['server'];
         $customMessage = empty($validatedData['customMessage']) ? null : $validatedData['customMessage'];
         $bypasspermission = $validatedData['bypasspermission'];
         $enabled = $validatedData['enabled'];
 
         CommandBlocker::where('id', $this->commandBlockerId)->update([
+            'name' => $validatedData['name'],
+            'description' => $description,
             'command' => $validatedData['command'],
             'server' => $server,
             'customMessage' => $customMessage,
@@ -124,6 +148,8 @@ class ShowCommandBlocker extends Component
     public function resetInput()
     {
         $this->commandBlockerId = -1;
+        $this->name = null;
+        $this->description = null;
         $this->command = null;
         $this->server = null;
         $this->customMessage = null;
@@ -133,7 +159,8 @@ class ShowCommandBlocker extends Component
 
     public function render()
     {
-        $blockedCommands = CommandBlocker::where('command', 'like', '%'.$this->search.'%')->orderBy('id', 'DESC')->paginate(10);
+        $blockedCommands = CommandBlocker::where('name', 'like', '%' . $this->search . '%')
+            ->orWhere('command', 'like', '%' . $this->search . '%')->orderBy('id', 'DESC')->paginate(10);
 
         return view('livewire.commandblocker.show-commandblocker')->with('blockedcommands', $blockedCommands);
     }
