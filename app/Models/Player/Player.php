@@ -5,11 +5,13 @@ namespace App\Models\Player;
 use App\Helpers\CountryUtils;
 use App\Helpers\TimeUtils;
 use App\Models\ProtocolVersion;
+use App\Models\Tag;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
 class Player extends Model
@@ -88,6 +90,11 @@ class Player extends Model
      */
     public $timestamps = false;
 
+    public function tag(): HasOne
+    {
+        return $this->hasOne(Tag::class, 'id', 'tagid');
+    }
+
     protected function playtime(): Attribute
     {
         return Attribute::make(get: fn (int $value) => TimeUtils::millisToReadableFormat($value));
@@ -105,7 +112,9 @@ class Player extends Model
 
     public static function getName($uuid)
     {
-        if ($uuid == null) return null;
+        if ($uuid == null) {
+            return null;
+        }
         if ($uuid == 'f78a4d8d-d51b-4b39-98a3-230f2de0c670') {
             return 'CONSOLE';
         }

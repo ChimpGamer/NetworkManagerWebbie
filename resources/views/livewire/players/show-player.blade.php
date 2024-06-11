@@ -25,10 +25,6 @@
                                 <td>{{$player->uuid}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Country</th>
-                                <td>{{$player->fullCountry()}}</td>
-                            </tr>
-                            <tr>
                                 <th scope="row">Latest Minecraft Version</th>
                                 <td>{{$player->version->name()}}</td>
                             </tr>
@@ -38,6 +34,14 @@
                                     <td>{{$player->ip}}</td>
                                 </tr>
                             @endcan
+                            <tr>
+                                <th scope="row">Country</th>
+                                <td>{{$player->fullCountry()}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Tag</th>
+                                <td>{{$player->tag?->name}}</td>
+                            </tr>
                             <tr>
                                 <th scope="row">Joined</th>
                                 <td>{{$player->getTimestampFormatted($player->firstlogin)}}</td>
