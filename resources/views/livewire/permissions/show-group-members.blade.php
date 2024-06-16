@@ -29,7 +29,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($members as $member)
+                @forelse($members as $member)
                     @php
                         $server = $member->server;
                         $expires = $member->expires;
@@ -55,7 +55,11 @@
                             </td>
                         @endcan
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $members->links() }}

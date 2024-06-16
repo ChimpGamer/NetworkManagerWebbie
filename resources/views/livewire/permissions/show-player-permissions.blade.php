@@ -31,7 +31,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($permissions as $permission)
+                @forelse($permissions as $permission)
                     @php
                         $server = $permission->server;
                         $world = $permission->world;
@@ -69,7 +69,11 @@
                             </td>
                         @endcan
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $permissions->links() }}

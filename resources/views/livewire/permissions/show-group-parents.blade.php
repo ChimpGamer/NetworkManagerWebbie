@@ -23,7 +23,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($parents as $parent)
+                @forelse($parents as $parent)
                     <tr>
                         <td>{{ $parent->parentGroup->name }}</td>
                         @can('edit_permissions')
@@ -37,7 +37,11 @@
                             </td>
                         @endcan
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $parents->links() }}

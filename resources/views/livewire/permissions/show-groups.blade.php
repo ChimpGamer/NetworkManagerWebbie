@@ -25,7 +25,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($groups as $group)
+                @forelse($groups as $group)
                     <tr>
                         <td>{{ $group->id }}</td>
                         <td>{{ $group->name }}</td>
@@ -53,7 +53,11 @@
                             @endcan
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $groups->links() }}

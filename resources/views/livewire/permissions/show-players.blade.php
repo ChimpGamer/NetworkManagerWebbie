@@ -25,7 +25,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($players as $player)
+                @forelse($players as $player)
                     <tr>
                         <td>{{ $player->uuid }}</td>
                         <td>{{ $player->name }}</td>
@@ -47,7 +47,11 @@
                             @endcan
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $players->links() }}

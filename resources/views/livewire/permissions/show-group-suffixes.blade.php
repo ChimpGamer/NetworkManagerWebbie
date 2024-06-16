@@ -22,7 +22,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($suffixes as $suffix)
+                @forelse($suffixes as $suffix)
                     @php
                         $server = $suffix->server;
                         if (empty($server)) {
@@ -50,7 +50,11 @@
                             </td>
                         @endcan
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $suffixes->links() }}

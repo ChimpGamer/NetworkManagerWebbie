@@ -29,7 +29,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($playerGroups as $playerGroup)
+                @forelse($playerGroups as $playerGroup)
                     @php
                         $server = $playerGroup->server;
                         $expires = $playerGroup->expires;
@@ -61,7 +61,11 @@
                             </td>
                         @endcan
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $playerGroups->links() }}
