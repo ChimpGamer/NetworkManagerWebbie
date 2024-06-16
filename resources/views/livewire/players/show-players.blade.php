@@ -24,7 +24,7 @@
                 </thead>
 
                 <tbody>
-                @foreach ($players as $player)
+                @forelse ($players as $player)
                     <tr>
                         <td><img alt="player avatar" src="https://minotar.net/helm/{{ $player->uuid  }}/20" loading="lazy"> {{$player->username}}</td>
                         <td>{{ $player->getTimestampFormatted($player->firstlogin) }}</td>
@@ -39,7 +39,11 @@
                             </a>
                         </th>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="4" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $players->links() }}
