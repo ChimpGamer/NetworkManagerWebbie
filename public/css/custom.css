@@ -167,3 +167,25 @@ u {
 [data-mdb-theme=dark] .highcharts-axis-labels text {
     fill: #fff !important;
 }
+
+.aps-header {
+    margin-bottom: 10px;
+}
+
+.aps {
+    margin-bottom: 8px;
+}
+
+.aps p {
+    color: #88898A !important;
+    font-size: 14px;
+    margin: 0;
+}
+
+.aps h3 {
+    color: #2196F3 !important;
+    font-size: 22px;
+    margin: 0;
+    padding: 0;
+    font-weight: 300;
+}
