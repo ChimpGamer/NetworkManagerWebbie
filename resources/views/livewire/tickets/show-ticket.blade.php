@@ -1,14 +1,16 @@
 <div>
     <div class="d-flex">
         <div x-data="{ open: false }" class="me-auto">
-            <button @click="open = ! open" @keydown.escape="open = false" class="btn btn-outline-primary" data-mdb-dropdown-initialized="true" aria-expanded="true">
+            <button @click="open = ! open" @keydown.escape="open = false" class="btn btn-outline-primary"
+                    data-mdb-dropdown-initialized="true" aria-expanded="true">
                 <i class="fa-solid fa-user-tie"></i> {{$ticket->assigned_to ?? "Unassigned"}}
             </button>
             <div x-cloak x-show="open" @click.away="open = false">
                 <ul class="dropdown-menu">
                     @foreach($assignOptions as $username)
                         <li wire:key="{{$username}}">
-                            <button @click="open = false" class="dropdown-item" wire:click="setAssigned('{{$username}}')">
+                            <button @click="open = false" class="dropdown-item"
+                                    wire:click="setAssigned('{{$username}}')">
                                 {{ $username }}
                             </button>
                         </li>
@@ -17,14 +19,17 @@
             </div>
         </div>
         <div x-data="{ open: false }">
-            <button @click="open = ! open" @keydown.escape="open = false" class="btn {{$ticket->priority->buttonStyleClass()}} btn-floating" data-mdb-dropdown-initialized="true" aria-expanded="true">
+            <button @click="open = ! open" @keydown.escape="open = false"
+                    class="btn {{$ticket->priority->buttonStyleClass()}} btn-floating"
+                    data-mdb-dropdown-initialized="true" aria-expanded="true">
                 <i class="fa-solid fa-circle-exclamation"></i>
             </button>
             <div x-cloak x-show="open" @click.away="open = false">
                 <ul class="dropdown-menu">
                     @foreach($this->ticketPriorityCases as $ticketPriority)
                         <li wire:key="{{$ticketPriority->value}}">
-                            <button @click="open = false" class="dropdown-item" wire:click="setPriority({{$ticketPriority->value}})">
+                            <button @click="open = false" class="dropdown-item"
+                                    wire:click="setPriority({{$ticketPriority->value}})">
                                 <i class="{{$ticketPriority->iconColorClass()}} fa-solid fa-circle-exclamation"></i>
                                 {{ $ticketPriority->name() }}
                                 @if($ticket->priority == $ticketPriority)
@@ -67,6 +72,13 @@
         </div>
     </div>
     <hr class="hr">
+    <div wire:ignore>
+        <textarea id="editor" wire:model="message"></textarea>
+    </div>
+
+    <br/>
+    <button type="submit" class="btn btn-primary" wire:click="sendMessage" onclick="tinyMCE.activeEditor.setContent('');">Send message</button>
+    <hr class="hr">
     <div class="col-12">
         @foreach($ticket->ticketMessages->sortByDesc('id') as $ticketMessage)
             <div class="card">
@@ -101,6 +113,37 @@
                 {!! $ticket->message !!}
             </div>
         </div>
-        <hr class="hr">
     </div>
 </div>
+
+@script
+<script>
+    tinymce.init({
+        selector: 'textarea#editor',
+        skin: 'oxide-dark',
+        content_css: 'dark',
+        plugins: 'advlist link image lists autosave',
+        autosave_restore_when_empty: true,
+        promotion: false,
+        branding: false,
+        setup: (editor) => {
+            editor.on('init', () => {
+                editor.getContainer().style.transition = 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out';
+                editor.save();
+            });
+            editor.on('focus', () => {
+                editor.getContainer().style.boxShadow = '0 0 0 .2rem rgba(0, 123, 255, .25)';
+                editor.getContainer().style.borderColor = '#424242';
+            });
+            editor.on('blur', () => {
+                editor.getContainer().style.boxShadow = '';
+                editor.getContainer().style.borderColor = '';
+            });
+            editor.on('change', () => {
+                editor.save();
+                @this.set('message', editor.getContent());
+            });
+        }
+    });
+</script>
+@endscript

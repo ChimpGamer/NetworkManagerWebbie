@@ -3,6 +3,7 @@
 namespace App\Livewire\Tickets;
 
 use App\Models\Tickets\Ticket;
+use App\Models\Tickets\TicketMessage;
 use App\Models\Tickets\TicketPriority;
 use App\Models\User;
 use Carbon\Carbon;
@@ -20,6 +21,12 @@ class ShowTicket extends Component
     public Ticket $ticket;
 
     public array $assignOptions = [];
+
+    public string $message;
+
+    protected $rules = [
+        'message' => 'required|string',
+    ];
 
     public function mount(): void
     {
@@ -51,6 +58,23 @@ class ShowTicket extends Component
             $username = null;
         }
         $this->ticket->update(['assigned_from' => Auth::user()->username, 'assigned_to' => $username, 'last_update' => Carbon::now()->getTimestampMs()]);
+    }
+
+    public function sendMessage(): void
+    {
+        $validatedData = $this->validate();
+        $message = $validatedData['message'];
+        $uuid = Auth::check() ? Auth::user()->getUUID() : null;
+        if ($uuid == null) {
+            return;
+        }
+        TicketMessage::create([
+            'ticket_id' => $this->ticket->id,
+            'message' => $message,
+            'uuid' => $uuid,
+            'time' => Carbon::now()->getTimestampMs(),
+        ]);
+        $this->ticket->refresh();
     }
 
     public function render(): View
