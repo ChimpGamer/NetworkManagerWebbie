@@ -97,7 +97,7 @@
                                 <th scope="row">Additional Accounts</th>
                                 <td>
                                     @foreach($player->getAltAccounts() as $alt)
-                                        <a wire:navigate href="/players/{{$alt->uuid}}">{{$alt->username}}</a>
+                                        <a href="/players/{{$alt->uuid}}">{{$alt->username}}</a>
                                     @endforeach
                                 </td>
                             </tr>

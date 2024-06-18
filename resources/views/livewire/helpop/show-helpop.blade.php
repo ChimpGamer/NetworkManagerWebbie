@@ -33,7 +33,7 @@
                 @forelse($data as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
-                        <td><a wire:navigate href="/players/{{ $item->requester }}"><img
+                        <td><a href="/players/{{ $item->requester }}"><img
                                     src="https://minotar.net/avatar/{{ $item->requester }}/20"
                                     alt="requester avatar"> {{ $item->username }}</a></td>
                         <td>{{ $item->message }}</td>

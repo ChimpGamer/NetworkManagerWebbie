@@ -36,7 +36,7 @@
                         <td>{{ $language->name }}</td>
                         <th>
                             @can('edit_languages')
-                                <a wire:navigate type="button" style="background: transparent; border: none;" href="/languages/{{$language->id}}">
+                                <a type="button" style="background: transparent; border: none;" href="/languages/{{$language->id}}">
                                     <i class="material-icons text-warning">edit</i>
                                 </a>
                                 <button type="button" style="background: transparent; border: none;"

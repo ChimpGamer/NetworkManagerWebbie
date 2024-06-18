@@ -36,7 +36,7 @@
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
-                        <a wire:navigate class="dropdown-item" href="/profile"><i class="fa-solid fa-user"></i> My profile</a>
+                        <a class="dropdown-item" href="/profile"><i class="fa-solid fa-user"></i> My profile</a>
                     </li>
                     {{--<li>
                         <a class="dropdown-item" href="#">Settings</a>

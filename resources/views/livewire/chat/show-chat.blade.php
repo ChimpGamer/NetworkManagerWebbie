@@ -50,7 +50,7 @@
                     @endphp
 
                     <tr>
-                        <td><a wire:navigate href="/players/{{ $chatMessage->uuid }}"><img
+                        <td><a href="/players/{{ $chatMessage->uuid }}"><img
                                     src="https://minotar.net/avatar/{{ $chatMessage->uuid }}/20"
                                     alt="requester avatar"> {{ $chatMessage->username }}</a></td>
                         @if($type == 2)

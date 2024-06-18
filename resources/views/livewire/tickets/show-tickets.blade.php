@@ -40,7 +40,7 @@
                         <td>{{ $ticket->getCreationFormatted() }}</td>
                         <td>{{ $ticket->getLastUpdateFormatted() }}</td>
                         <th>
-                            <a wire:navigate type="button" style="background: transparent; border: none;" href="/tickets/{{$ticket->id}}">
+                            <a type="button" style="background: transparent; border: none;" href="/tickets/{{$ticket->id}}">
                                 <i class="material-icons text-info">info</i>
                             </a>
                             {{--@can('edit_servers')
