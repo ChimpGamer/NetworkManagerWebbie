@@ -171,7 +171,7 @@ class Player extends Model
     public static function getMostUsedVirtualHosts()
     {
         $total = DB::table('logins')
-            ->distinct()
+            ->distinct('uuid', 'vhost')
             ->count();
 
         $result = DB::table('logins')
