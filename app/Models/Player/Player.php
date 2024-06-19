@@ -142,28 +142,20 @@ class Player extends Model
 
     public static function getMostPlayedVersions()
     {
-        $total = DB::table('players')
-            ->distinct()
-            ->count();
-
         $result = DB::table('players')
-            ->select(DB::raw('DISTINCT(version) as version, count(*) AS count'))
+            ->select(DB::raw('DISTINCT(version) as version, count(*) AS count, COUNT(*) * 100.0 / sum(COUNT(*)) over() as percentage'))
             ->orderBy('count', 'desc')
             ->groupBy('version')
             ->get();
 
-        return $result->map(function ($item) use ($total) {
-            $percentage = 0;
-            if ($total != 0) {
-                $percentage = $item->count / $total * 100;
-            }
+        return $result->map(function ($item) {
             $protocolVersion = ProtocolVersion::tryFrom($item->version);
             $version = $protocolVersion == null ? 'snapshot' : $protocolVersion->name();
 
             return [
                 'version' => $version,
                 'players' => $item->count,
-                'percentage' => number_format($percentage, 2, '.', ' '),
+                'percentage' => number_format($item->percentage, 2, '.', ' '),
             ];
         });
     }
