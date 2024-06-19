@@ -175,7 +175,7 @@ class Player extends Model
             ->count();
 
         $result = DB::table('logins')
-            ->select(DB::raw('DISTINCT(vhost) as vhost, count(*) AS count'))
+            ->select(DB::raw('DISTINCT(vhost) as vhost, count(DISTINCT(uuid)) AS count'))
             ->orderBy('count', 'desc')
             ->groupBy('vhost')
             ->get();
