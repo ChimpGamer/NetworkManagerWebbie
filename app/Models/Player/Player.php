@@ -170,26 +170,17 @@ class Player extends Model
 
     public static function getMostUsedVirtualHosts()
     {
-        $total = DB::table('logins')
-            ->distinct('uuid', 'vhost')
-            ->count();
-
         $result = DB::table('logins')
-            ->select(DB::raw('DISTINCT(vhost) as vhost, count(DISTINCT(uuid)) AS count'))
-            ->orderBy('count', 'desc')
+            ->selectRaw('vhost, COUNT(DISTINCT uuid, vhost) as count, COUNT(DISTINCT uuid, vhost) * 100.0 / sum(COUNT(DISTINCT uuid, vhost)) over() as percentage')
             ->groupBy('vhost')
+            ->orderBy('count', 'desc')
             ->get();
 
-        return $result->map(function ($item) use ($total) {
-            $percentage = 0;
-            if ($total != 0) {
-                $percentage = $item->count / $total * 100;
-            }
-
+        return $result->map(function ($item) {
             return [
                 'vhost' => ($item->vhost == null ? 'Unknown' : $item->vhost),
                 'players' => $item->count,
-                'percentage' => number_format($percentage, 2, '.', ' '),
+                'percentage' => number_format($item->percentage, 2, '.', ' '),
             ];
         });
     }
