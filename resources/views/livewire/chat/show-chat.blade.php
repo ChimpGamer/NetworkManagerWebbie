@@ -63,7 +63,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center">Sorry - No Data Found</td>
+                        <td colspan="6" class="text-center">Sorry - No Data Found</td>
                     </tr>
                 @endforelse
 
