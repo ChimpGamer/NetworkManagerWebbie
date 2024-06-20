@@ -23,7 +23,7 @@
                 </thead>
 
                 <tbody>
-                @foreach($tickets as $ticket)
+                @forelse($tickets as $ticket)
                     <tr>
                         <td>@if ($ticket->active)
                                 <i class="fas fa-check-circle fa-lg text-success"></i>
@@ -57,7 +57,11 @@
                             @endcan--}}
                         </th>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $tickets->links() }}
