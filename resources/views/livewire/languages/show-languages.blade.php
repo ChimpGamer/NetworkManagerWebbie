@@ -61,5 +61,9 @@
                 wire:click="addLanguage">
             <i style="font-size: 18px !important;" class="material-icons">add</i> Add Language
         </button>
+        <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addLanguageMessageModal"
+                wire:click="addLanguage">
+            <i style="font-size: 18px !important;" class="material-icons">add</i> Add Language Message
+        </button>
     </div>
 </div>
