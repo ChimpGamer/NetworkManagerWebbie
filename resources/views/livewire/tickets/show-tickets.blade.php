@@ -23,7 +23,7 @@
                 </thead>
 
                 <tbody>
-                @foreach($tickets as $ticket)
+                @forelse($tickets as $ticket)
                     <tr>
                         <td>@if ($ticket->active)
                                 <i class="fas fa-check-circle fa-lg text-success"></i>
@@ -43,32 +43,16 @@
                             <a type="button" style="background: transparent; border: none;" href="/tickets/{{$ticket->id}}">
                                 <i class="material-icons text-info">info</i>
                             </a>
-                            {{--@can('edit_servers')
-                                <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#editServerModal"
-                                        wire:click="editServer({{$server->id}})">
-                                    <i class="material-icons text-warning">edit</i>
-                                </button>
-                                <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#deleteServerModal"
-                                        wire:click="deleteServer({{ $server->id }})">
-                                    <i class="material-icons text-danger">delete</i>
-                                </button>
-                            @endcan--}}
                         </th>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center">Sorry - No Data Found</td>
+                    </tr>
+                @endforelse
                 </tbody>
             </table>
             {{ $tickets->links() }}
         </div>
     </div>
-    {{--@can('edit_servers')
-        <div class="p-4">
-            <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addServerModal"
-                    wire:click="addServer">
-                <i style="font-size: 18px !important;" class="material-icons">add</i> Add Server
-            </button>
-        </div>
-    @endcan--}}
 </div>
