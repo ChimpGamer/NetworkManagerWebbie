@@ -23,6 +23,12 @@ class ShowLanguages extends Component
 
     public ?Language $defaultLanguage = null;
 
+    public string $key;
+
+    public string $plugin;
+
+    public string $version;
+
     protected function rules(): array
     {
         return [
@@ -106,6 +112,28 @@ class ShowLanguages extends Component
 
         $language->delete();
         $this->resetInput();
+    }
+
+    public function addLanguageMessage(): void
+    {
+        $validatedData = $this->validate([
+            'key' => 'required|string|unique:language_messages,key',
+            'plugin' => 'required|string',
+            'version' => 'required|string',
+        ]);
+
+        foreach (Language::all() as $language) {
+            LanguageMessage::insert([
+                'language_id' => $language->id,
+                'key' => $validatedData['key'],
+                'message' => '',
+                'plugin' => $validatedData['plugin'],
+                'version' => $validatedData['version'],
+            ]);
+        }
+
+        session()->flash('message', 'Successfully Added Language Message! Make sure to edit your message for each language.');
+        $this->closeModal('addLanguageMessageModal');
     }
 
     public function isProtectedLanguage(Language $language): bool
