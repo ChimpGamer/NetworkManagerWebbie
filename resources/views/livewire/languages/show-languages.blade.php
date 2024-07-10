@@ -12,12 +12,18 @@
         all in-game.</h5>
 
     <div class="card">
-        <div class="card-header h5">
-            Languages
-            <label for="languageSearch" class="float-end mx-2">
-                <input id="languageSearch" type="search" wire:model.live="search" class="form-control"
-                       placeholder="Search..."/>
-            </label>
+        <div class="card-header py-3">
+            <h5 class="mb-0 text-center">
+                <strong>Languages</strong>
+            </h5>
+
+            <div class="float-end d-inline" wire:ignore>
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="search" id="languageSearch" class="form-control" wire:model.live="search"/>
+                    <label class="form-label" for="languageSearch"
+                           style="font-family: Roboto, 'FontAwesome'">Search...</label>
+                </div>
+            </div>
         </div>
         <div class="card-body border-0 shadow table-responsive">
             <table id="languagesTable" class="table text-center">

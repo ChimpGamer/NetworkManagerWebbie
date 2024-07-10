@@ -5,12 +5,18 @@
     @endif
 
     <div class="card">
-        <div class="card-header h5">
-            Players
-            <label for="punishmentSearch" class="float-end mx-2">
-                <input id="punishmentSearch" type="search" wire:model.live="search" class="form-control"
-                       placeholder="Search..." />
-            </label>
+        <div class="card-header py-3">
+            <h5 class="mb-0 text-center">
+                <strong>Players</strong>
+            </h5>
+
+            <div class="float-end d-inline" wire:ignore>
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="search" id="playerSearch" class="form-control" wire:model.live="search"/>
+                    <label class="form-label" for="playerSearch"
+                           style="font-family: Roboto, 'FontAwesome'">Search...</label>
+                </div>
+            </div>
         </div>
         <div class="card-body border-0 shadow table-responsive">
             <table id="playersTable" class="table text-center">

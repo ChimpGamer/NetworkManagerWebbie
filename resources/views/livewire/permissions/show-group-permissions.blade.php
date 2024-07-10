@@ -9,12 +9,18 @@
     @endif
 
     <div class="card">
-        <div class="card-header">
-            <h5>Permissions of {{ $group->name }}</h5>
-            <label for="groupPermissionSearch" class="float-end mx-2">
-                <input id="groupPermissionSearch" type="search" wire:model.live="search" class="form-control"
-                       placeholder="Search..."/>
-            </label>
+        <div class="card-header py-3">
+            <h5 class="mb-0 text-center">
+                <strong>Permissions of {{ $group->name }}</strong>
+            </h5>
+
+            <div class="float-end d-inline" wire:ignore>
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="search" id="groupPermissionSearch" class="form-control" wire:model.live="search"/>
+                    <label class="form-label" for="groupPermissionSearch"
+                           style="font-family: Roboto, 'FontAwesome'">Search...</label>
+                </div>
+            </div>
         </div>
         <div class="card-body border-0 shadow table-responsive">
             <table class="table text-center">
