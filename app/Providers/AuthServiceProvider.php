@@ -67,10 +67,11 @@ class AuthServiceProvider extends ServiceProvider
             'view_pre_punishments',
             'edit_pre_punishments',
             'show_ip',
-
-            // To create
             'edit_settings',
             'manage_groups_and_accounts',
+
+            'view_motd',
+            'edit_motd',
         ];
         // Set Permissions
         foreach ($permissions as $permission) {

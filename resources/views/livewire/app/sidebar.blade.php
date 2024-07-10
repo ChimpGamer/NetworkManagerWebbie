@@ -140,7 +140,7 @@
                 @endif
             @endcan
             @can('view_network')
-                @if($this->isModuleEnabled('motd_enabled'))
+                @if(Auth::user()->can('view_motd') && $this->isModuleEnabled('motd_enabled'))
                     <a href="/motd"
 
                        data-mdb-ripple-init
