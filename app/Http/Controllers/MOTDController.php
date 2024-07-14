@@ -22,7 +22,7 @@ class MOTDController extends Controller
      */
     public function index(): View
     {
-        $this->authorize('view_network');
+        $this->authorize('view_motd');
         return view('motd.index');
     }
 }

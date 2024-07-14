@@ -9,12 +9,18 @@
     @endif
 
     <div class="card">
-        <div class="card-header">
-            <h5>Members of {{ $group->name }}</h5>
-            <label for="groupMemberSearch" class="float-end mx-2">
-                <input id="groupMemberSearch" type="search" wire:model.live="search" class="form-control"
-                       placeholder="Search..."/>
-            </label>
+        <div class="card-header py-3">
+            <h5 class="mb-0 text-center">
+                <strong>Members of {{ $group->name }}</strong>
+            </h5>
+
+            <div class="float-end d-inline" wire:ignore>
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="search" id="groupMemberSearch" class="form-control" wire:model.live="search"/>
+                    <label class="form-label" for="groupMemberSearch"
+                           style="font-family: Roboto, 'FontAwesome'">Search...</label>
+                </div>
+            </div>
         </div>
         <div class="card-body border-0 shadow table-responsive">
             <table class="table text-center">

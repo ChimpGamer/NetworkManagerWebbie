@@ -39,6 +39,7 @@ class ShowAnnouncements extends Component
     public ?string $typeName;
 
     public string $search = '';
+    public int $per_page = 10;
 
     public int $deleteId;
 
@@ -75,7 +76,7 @@ class ShowAnnouncements extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
-        if ($fields == 'search') {
+        if ($fields == 'search' || $fields == 'per_page') {
             $this->resetPage();
 
             return;
@@ -205,7 +206,7 @@ class ShowAnnouncements extends Component
         $announcements = Announcement::where('id', 'like', '%'.$this->search.'%')
             ->orWhere('message', 'like', '%'.$this->search.'%')
             ->orWhere('server', 'like', '%'.$this->search.'%')
-            ->orderBy('id', 'ASC')->paginate(10);
+            ->orderBy('id', 'ASC')->paginate($this->per_page);
 
         return view('livewire.announcements.show-announcements')->with('announcements', $announcements);
     }

@@ -31,9 +31,7 @@
                     <th>Command</th>
                     <th>Server</th>
                     <th>Bypass Permission</th>
-                    @can('edit_commandblocker')
-                        <th>Actions</th>
-                    @endcan
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
