@@ -26,7 +26,7 @@
                 <tbody>
                 @forelse ($players as $player)
                     <tr>
-                        <td><img alt="player avatar" src="https://minotar.net/helm/{{ $player->uuid  }}/20" loading="lazy"> {{$player->username}}</td>
+                        <td><x-player-link :uuid="$player->uuid" :username="$player->username" /></td>
                         <td>{{ $player->getTimestampFormatted($player->firstlogin) }}</td>
                         <td>@if ($player->online)
                                 <i class="fas fa-check-circle fa-lg" style="color:green"></i>
@@ -34,7 +34,7 @@
                                 <i class="fas fa-xmark-circle fa-lg" style="color:red"></i>
                             @endif</td>
                         <th>
-                            <a type="button" style="background: transparent; border: none;" href="/players/{{$player->uuid}}">
+                            <a type="button" style="background: transparent; border: none;" href="{{ route('players.show', $player->uuid) }}">
                                 <i class="material-icons text-info">info</i>
                             </a>
                         </th>

@@ -50,9 +50,7 @@
                     @endphp
 
                     <tr>
-                        <td><a href="/players/{{ $chatMessage->uuid }}"><img
-                                    src="https://minotar.net/avatar/{{ $chatMessage->uuid }}/20"
-                                    alt="requester avatar"> {{ $chatMessage->username }}</a></td>
+                        <td><x-player-link :uuid="$chatMessage->uuid" :username="$chatMessage->username" /></td>
                         @if($type == 2)
                             <th>{{ $receiver }}</th>
                         @endif
