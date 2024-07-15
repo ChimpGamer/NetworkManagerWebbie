@@ -44,7 +44,9 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Actions</th>
+                    @can('edit_languages')
+                        <th>Actions</th>
+                    @endcan
                 </tr>
                 </thead>
 
