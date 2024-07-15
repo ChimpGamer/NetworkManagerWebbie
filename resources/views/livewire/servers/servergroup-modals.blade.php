@@ -54,7 +54,7 @@
     </div>
     <div class="mb-3">
         <label class="bold">Servers</label>
-        <select style="width: 100%" title="servers" multiple wire:model.live="serversSelection">
+        <select style="width: 100%" size="8" title="servers" multiple wire:model.live="serversSelection">
             @foreach ($this->allServers as $server)
                 <option
                     value="{{ $server->id }}" {{ $currentServers instanceof Collection && $currentServers->contains($server) ? 'selected' : '' }}>{{ $server->servername }}</option>
@@ -87,7 +87,7 @@
     </div>
     <div class="mb-3">
         <label class="bold">Servers</label>
-        <select style="width: 100%" title="servers" multiple wire:model.live="serversSelection">
+        <select style="width: 100%" size="8" title="servers" multiple wire:model.live="serversSelection">
             @foreach ($this->allServers as $server)
                 <option value="{{ $server->id }}">{{ $server->servername }}</option>
             @endforeach
