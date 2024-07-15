@@ -2,7 +2,7 @@
     @include('livewire.motd.motd-modals')
 
     <div class="card">
-        <div class="card-header text-center py-3">
+        <div class="card-header">
             <h5 class="mb-0 text-center">
                 <strong>MOTD</strong>
             </h5>
