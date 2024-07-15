@@ -18,6 +18,7 @@ class ShowLanguages extends Component
     public ?string $name;
 
     public string $search = '';
+    public int $per_page = 10;
 
     public int $deleteId;
 
@@ -147,7 +148,7 @@ class ShowLanguages extends Component
 
     public function render(): View
     {
-        $languages = Language::where('name', 'like', '%'.$this->search.'%')->orderBy('id', 'ASC')->paginate(10);
+        $languages = Language::where('name', 'like', '%'.$this->search.'%')->orderBy('id', 'ASC')->paginate($this->per_page);
 
         return view('livewire.languages.show-languages')->with('languages', $languages);
     }

@@ -24,6 +24,7 @@ class ShowPlayers extends Component
     public ?string $suffix;
 
     public string $search = '';
+    public int $per_page = 10;
 
     protected function rules()
     {
@@ -96,7 +97,7 @@ class ShowPlayers extends Component
                 ->orWhere('name', 'like', '%'.$this->search.'%')
                 ->orWhere('prefix', 'like', '%'.$this->search.'%')
                 ->orWhere('suffix', 'like', '%'.$this->search.'%');
-        })->orderBy('name', 'ASC')->paginate(10, pageName: 'players-page');
+        })->orderBy('name', 'ASC')->paginate($this->per_page, pageName: 'players-page');
 
         return view('livewire.permissions.show-players')->with('players', $players);
     }

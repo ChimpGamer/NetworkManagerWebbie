@@ -32,6 +32,7 @@ class ShowGroupMembers extends Component
     public Group $group;
 
     public string $search = '';
+    public int $per_page = 10;
 
     protected function rules()
     {
@@ -124,7 +125,7 @@ class ShowGroupMembers extends Component
                 $query->orWhere('playeruuid', 'like', '%'.$this->search.'%')
                     ->orWhere('server', 'like', '%'.$this->search.'%');
             })
-            ->orderBy('id', 'ASC')->paginate(10);
+            ->orderBy('id', 'ASC')->paginate($this->per_page);
 
         return view('livewire.permissions.show-group-members')->with('members', $groupMembers);
     }

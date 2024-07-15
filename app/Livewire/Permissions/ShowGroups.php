@@ -29,6 +29,7 @@ class ShowGroups extends Component
     public ?string $ladder;
 
     public string $search = '';
+    public int $per_page = 10;
 
     protected function rules()
     {
@@ -140,7 +141,7 @@ class ShowGroups extends Component
             $query->where('name', 'like', '%'.$this->search.'%')
                 ->orWhere('ladder', 'like', '%'.$this->search.'%')
                 ->orWhere('rank', 'like', '%'.$this->search.'%');
-        })->orderBy('id', 'ASC')->paginate(10, pageName: 'groups-page');
+        })->orderBy('id', 'ASC')->paginate($this->per_page, pageName: 'groups-page');
 
         return view('livewire.permissions.show-groups')->with('groups', $groups);
     }

@@ -37,6 +37,7 @@ class ShowPunishmentTemplates extends Component
     public int $deleteId;
 
     public string $search = '';
+    public int $per_page = 10;
 
     protected function rules()
     {
@@ -169,7 +170,7 @@ class ShowPunishmentTemplates extends Component
 
     public function render(): View
     {
-        $punishmentTemplates = PunishmentTemplate::where('id', 'like', '%'.$this->search.'%')->paginate(10);
+        $punishmentTemplates = PunishmentTemplate::where('id', 'like', '%'.$this->search.'%')->paginate($this->per_page);
 
         return view('livewire.punishment_templates.show-punishment-templates')->with('punishmentTemplates', $punishmentTemplates);
     }

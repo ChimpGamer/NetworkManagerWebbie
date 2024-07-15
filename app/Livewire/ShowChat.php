@@ -19,6 +19,7 @@ class ShowChat extends Component
     public int $type = 1;
 
     public string $search = '';
+    public int $per_page = 10;
 
     public function updated($name, $value): void
     {
@@ -37,7 +38,7 @@ class ShowChat extends Component
                     ->orWhere('server', 'like', '%'.$this->search.'%')
                     ->orWhere('message', 'like', '%'.$this->search.'%');
             })
-            ->orderBy('time', 'DESC')->paginate(10);
+            ->orderBy('time', 'DESC')->paginate($this->per_page);
 
         return view('livewire.chat.show-chat')->with('chatmessages', $chatMessages);
     }

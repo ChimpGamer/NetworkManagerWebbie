@@ -60,6 +60,7 @@ class ShowPunishments extends Component
     public bool $isTemporary = false;
 
     public string $search = '';
+    public int $per_page = 10;
 
     public int $deleteId;
 
@@ -301,7 +302,7 @@ class ShowPunishments extends Component
             ->orWhere('ip', 'like', '%'.$this->search.'%')
             ->orWhere('server', 'like', '%'.$this->search.'%')
             ->orWhere('reason', 'like', '%'.$this->search.'%')
-            ->orderBy('id', 'DESC')->paginate(10);
+            ->orderBy('id', 'DESC')->paginate($this->per_page);
 
         return view('livewire.punishments.show-punishments')->with('punishments', $punishments);
     }

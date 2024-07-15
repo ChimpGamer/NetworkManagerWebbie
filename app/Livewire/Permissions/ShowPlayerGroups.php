@@ -28,6 +28,7 @@ class ShowPlayerGroups extends Component
     public array $groups = [];
 
     public string $search = '';
+    public int $per_page = 10;
 
     protected function rules()
     {
@@ -156,7 +157,7 @@ class ShowPlayerGroups extends Component
             ->where(function ($query) {
                 $query->orWhere('groupid', 'like', '%'.$this->search.'%')
                     ->orWhere('server', 'like', '%'.$this->search.'%');
-            })->orderBy('id', 'ASC')->paginate(10);
+            })->orderBy('id', 'ASC')->paginate($this->per_page);
 
         return view('livewire.permissions.show-player-groups')->with('playerGroups', $playerGroups);
     }

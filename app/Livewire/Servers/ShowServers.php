@@ -34,6 +34,7 @@ class ShowServers extends Component
     public bool $online;
 
     public string $search = '';
+    public int $per_page = 10;
 
     public int $deleteId;
 
@@ -170,7 +171,7 @@ class ShowServers extends Component
 
     public function render(): View
     {
-        $servers = Server::where('servername', 'like', '%'.$this->search.'%')->orderBy('id', 'ASC')->paginate(10);
+        $servers = Server::where('servername', 'like', '%'.$this->search.'%')->orderBy('id', 'ASC')->paginate($this->per_page);
 
         return view('livewire.servers.show-servers')->with('servers', $servers);
     }

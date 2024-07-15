@@ -6,8 +6,8 @@
     @endif
 
     <div class="card">
-        <div class="card-header h5">
-            Suffixes of {{ $group->name }}
+        <div class="card-header h5 text-center mb-0">
+            <strong>Suffixes of {{ $group->name }}</strong>
         </div>
         <div class="card-body border-0 shadow table-responsive">
             <table class="table text-center">

@@ -27,6 +27,7 @@ class ShowFilter extends Component
     public bool $enabled;
 
     public string $search = '';
+    public int $per_page = 10;
 
     protected $rules = [
         'name' => 'required|string|alpha_dash|max:128',
@@ -147,7 +148,7 @@ class ShowFilter extends Component
     public function render()
     {
         $filters = Filter::where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('word', 'like', '%' . $this->search . '%')->orderBy('id', 'DESC')->paginate(10);
+            ->orWhere('word', 'like', '%' . $this->search . '%')->orderBy('id', 'DESC')->paginate($this->per_page);
 
         return view('livewire.filter.show-filter')->with('filters', $filters);
     }

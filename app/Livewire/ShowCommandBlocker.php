@@ -29,6 +29,7 @@ class ShowCommandBlocker extends Component
     public bool $enabled;
 
     public string $search = '';
+    public int $per_page = 10;
 
     protected $rules = [
         'name' => 'required|string|alpha_dash|max:128',
@@ -160,7 +161,7 @@ class ShowCommandBlocker extends Component
     public function render()
     {
         $blockedCommands = CommandBlocker::where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('command', 'like', '%' . $this->search . '%')->orderBy('id', 'DESC')->paginate(10);
+            ->orWhere('command', 'like', '%' . $this->search . '%')->orderBy('id', 'DESC')->paginate($this->per_page);
 
         return view('livewire.commandblocker.show-commandblocker')->with('blockedcommands', $blockedCommands);
     }

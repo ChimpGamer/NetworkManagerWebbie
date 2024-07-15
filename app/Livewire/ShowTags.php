@@ -27,6 +27,8 @@ class ShowTags extends Component
 
     public string $search = '';
 
+    public int $per_page = 10;
+
     protected array $rules = [
         'name' => 'required|string|exists:tags,name',
         'tag' => 'required|string',
@@ -135,7 +137,7 @@ class ShowTags extends Component
     {
         $tags = Tag::where('name', 'like', '%'.$this->search.'%')
             ->orWhere('server', 'like', '%'.$this->search.'%')
-            ->orderBy('id', 'DESC')->paginate(10);
+            ->orderBy('id', 'DESC')->paginate($this->per_page);
 
         return view('livewire.tags.show-tags')->with('tags', $tags);
     }
