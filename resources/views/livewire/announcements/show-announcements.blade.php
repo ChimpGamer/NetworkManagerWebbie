@@ -40,9 +40,7 @@
                     <th style="width: 65%">Message</th>
                     <th>Expires</th>
                     <th>Active</th>
-                    @can('edit_announcements')
-                        <th>Actions</th>
-                    @endcan
+                    <th>Actions</th>
                 </tr>
                 </thead>
 
