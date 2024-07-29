@@ -104,8 +104,8 @@
                     </div>
                     <div class="mb-3">
                         <label class="bold">Player</label>
-                        <input type="text" wire:model="playerUUID" class="form-control">
-                        @error('playerUUID') <span class="text-danger">{{ $message }}</span> @enderror
+                        <input type="text" wire:model="player" class="form-control">
+                        @error('player') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Punisher</label>
@@ -199,13 +199,13 @@
                     </div>
                     <div class="mb-3">
                         <label class="bold">Player</label>
-                        <input type="text" wire:model="playerUUID" class="form-control">
-                        @error('message') <span class="text-danger">{{ $message }}</span> @enderror
+                        <input type="text" wire:model="player" class="form-control">
+                        @error('player') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Punisher</label>
                         <input type="text" wire:model="punisherUUID" class="form-control">
-                        @error('sound') <span class="text-danger">{{ $message }}</span> @enderror
+                        @error('punisherUUID') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Time</label>

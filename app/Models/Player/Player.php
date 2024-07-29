@@ -128,6 +128,24 @@ class Player extends Model
         return $player->username;
     }
 
+    public static function getUUID($username)
+    {
+        if ($username == null) {
+            return null;
+        }
+        if ($username == 'CONSOLE') {
+            return 'f78a4d8d-d51b-4b39-98a3-230f2de0c670';
+        }
+        $player = Player::select('uuid')
+            ->where('username', $username)
+            ->first();
+        if ($player == null) {
+            return $player;
+        }
+
+        return $player->uuid;
+    }
+
     public static function getIP($uuid): ?string
     {
         $player = Player::select('ip')

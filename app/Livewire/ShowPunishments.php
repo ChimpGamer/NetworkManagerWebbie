@@ -8,6 +8,7 @@ use App\Models\Punishment;
 use App\Models\PunishmentType;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -24,8 +25,6 @@ class ShowPunishments extends Component
     public int $typeId;
 
     public ?string $typeName;
-
-    public ?string $playerUUID;
 
     public ?string $playerName;
 
@@ -60,15 +59,19 @@ class ShowPunishments extends Component
     public bool $isTemporary = false;
 
     public string $search = '';
+
     public int $per_page = 10;
 
     public int $deleteId;
+
+    /* ------------- MODAL FIELDS ------------- */
+    public ?string $player;
 
     protected function rules()
     {
         return [
             'typeId' => 'required|integer',
-            'playerUUID' => 'required|uuid|exists:players,uuid',
+            //'playerUUID' => 'required|uuid|exists:players,uuid',
             'punisherUUID' => 'required|uuid',
             'time' => 'required|date',
             'end' => $this->isTemporary ? 'required|date' : '',
@@ -139,10 +142,27 @@ class ShowPunishments extends Component
 
     public function createPunishment()
     {
-        $validatedData = $this->validate();
+        $isPlayerUUID = false;
+        if (Str::isUuid($this->player)) {
+            $isPlayerUUID = true;
+            $validatedData = $this->validate($this->rules() + ['player' => 'required|uuid|exists:players,uuid']);
+        } else {
+            $validatedData = $this->validate($this->rules() + ['player' => 'required|exists:players,username']);
+        }
+        $player = $validatedData['player'];
+        if (! $isPlayerUUID) {
+            $uuid = Player::getUUID($player);
+        } else {
+            $uuid = $player;
+        }
+        if ($uuid == null) {
+            session()->flash('error', "Could not find player $player!");
+            $this->closeModal('addPunishmentModal');
+
+            return;
+        }
 
         $type = PunishmentType::from($validatedData['typeId']);
-        $uuid = $validatedData['playerUUID'];
         $punisher = $validatedData['punisherUUID'];
         $time = Carbon::parse($validatedData['time'])->getPreciseTimestamp(3);
         $end = $type->isTemporary() ? Carbon::parse($validatedData['end'])->getPreciseTimestamp(3) : -1;
@@ -153,7 +173,7 @@ class ShowPunishments extends Component
 
         $ip = Player::getIP($uuid);
         if ($ip == null) {
-            session()->flash('error', "Could not find valid ip for use ${uuid}!");
+            session()->flash('error', "Could not find valid ip for use $uuid!");
             $this->closeModal('addPunishmentModal');
 
             return;
@@ -182,7 +202,7 @@ class ShowPunishments extends Component
 
         $this->punishmentId = $punishment->id;
         $this->typeId = $punishment->type->value;
-        $this->playerUUID = $punishment->uuid;
+        $this->player = $punishment->uuid;
         $this->punisherUUID = $punishment->punisher;
         $this->reason = $punishment->reason;
         $this->server = $punishment->server;
@@ -197,10 +217,28 @@ class ShowPunishments extends Component
 
     public function updatePunishment()
     {
-        $validatedData = $this->validate();
+        $isPlayerUUID = false;
+        if (Str::isUuid($this->player)) {
+            $isPlayerUUID = true;
+            $validatedData = $this->validate($this->rules() + ['player' => 'required|uuid|exists:players,uuid']);
+        } else {
+            $validatedData = $this->validate($this->rules() + ['player' => 'required|exists:players,username']);
+        }
+        $player = $validatedData['player'];
+        if (! $isPlayerUUID) {
+            $uuid = Player::getUUID($player);
+        } else {
+            $uuid = $player;
+        }
+        if ($uuid == null) {
+            session()->flash('error', "Could not find player $player!");
+            $this->closeModal('addPunishmentModal');
+
+            return;
+        }
+
         $id = $this->punishmentId;
         $type = PunishmentType::from($validatedData['typeId']);
-        $uuid = $validatedData['playerUUID'];
         $punisher = $validatedData['punisherUUID'];
         $time = Carbon::parse($validatedData['time'])->getPreciseTimestamp(3);
         $end = $type->isTemporary() ? Carbon::parse($validatedData['end'])->getPreciseTimestamp(3) : -1;
@@ -268,7 +306,7 @@ class ShowPunishments extends Component
     private function resetInput()
     {
         $this->typeId = -1;
-        $this->playerUUID = '';
+        $this->player = '';
         $this->playerName = '';
         $this->punisherUUID = '';
         $this->punisherName = '';
