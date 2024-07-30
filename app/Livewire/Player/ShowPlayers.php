@@ -24,7 +24,7 @@ class ShowPlayers extends Component
     public function render(): View
     {
         $players = Player::where('username', 'like', '%'.$this->search.'%')
-            ->orWhere('ip', '=', $this->search)
+            ->orWhere('ip', 'like', '%' . $this->search . '%')
             ->orWhere('uuid', '=', $this->search)
             ->orderBy('firstlogin', 'DESC')
             ->paginate($this->per_page);
