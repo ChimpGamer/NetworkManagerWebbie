@@ -53,9 +53,9 @@
                 @forelse ($punishments as $punishment)
                     <tr>
                         <td>@if ($punishment->active)
-                                <i class="fas fa-check-circle fa-lg"></i>
+                                <i class="fas fa-exclamation-circle fa-lg text-danger"></i>
                             @else
-                                <i class="fas fa-exclamation-circle fa-lg"></i>
+                                <i class="fas fa-check-circle fa-lg text-success"></i>
                             @endif {{ $punishment->id }}</td>
                         <td>{{ $punishment->type->name() }}</td>
                         <td><a href="/players/{{$punishment->uuid}}">{{ $punishment->getPlayerName() }}</a></td>
