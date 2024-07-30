@@ -118,7 +118,7 @@
                 </a>
             @endcan
             @can('view_chatlogs')
-                <a href="/chatlog"
+                <a href="/chatlogs"
                    data-mdb-ripple-init
                    class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'chatlogs.')) active @endif">
                     <i class="fas fa-comments fa-fw me-3"></i><span>ChatLogs</span>
