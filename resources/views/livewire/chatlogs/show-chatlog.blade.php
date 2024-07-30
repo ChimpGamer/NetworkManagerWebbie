@@ -37,6 +37,7 @@
                 <thead>
                 <tr>
                     <th>Player</th>
+                    <th>Message</th>
                     <th>Server</th>
                     <th>Time</th>
                 </tr>
@@ -47,6 +48,7 @@
                         <td>
                             <x-player-link :uuid="$chatMessage->uuid" :username="$chatMessage->username"/>
                         </td>
+                        <td>{{ $chatMessage->message }}</td>
                         <td>{{ $chatMessage->server }}</td>
                         <td>{{ $chatMessage->time }}</td>
                     </tr>
