@@ -3,7 +3,7 @@
 @section('content')
 
     <div>
-        @livewire('show-chatlog', ['chatLog' => $chatLog])
+        @livewire('show-chat-log', ['chatLog' => $chatLog])
     </div>
 
 @endsection
