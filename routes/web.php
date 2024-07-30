@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatLogsController;
 use App\Http\Controllers\Modules\AnnouncementsController;
 use App\Http\Controllers\Modules\CommandBlockerController;
 use App\Http\Controllers\Modules\FilterController;
@@ -63,6 +64,7 @@ Route::resource('helpop', HelpOPController::class);
 Route::resource('accounts', AccountsController::class);
 Route::resource('chat', ChatController::class);
 Route::resource('tags', TagsController::class);
+Route::resource('chatlogs', ChatLogsController::class);
 
 //Route::resource('permissions', PermissionsController::class);
 Route::prefix('permissions')->controller(PermissionsController::class)->group(function () {

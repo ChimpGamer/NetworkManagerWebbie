@@ -104,7 +104,6 @@
             @can('view_helpop')
                 @if($this->isModuleEnabled('module_helpop'))
                     <a href="/helpop"
-
                        data-mdb-ripple-init
                        class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'helpop')) active @endif">
                         <i class="fas fa-question fa-fw me-3"></i><span>HelpOP</span>
@@ -113,10 +112,16 @@
             @endcan
             @can('view_chat')
                 <a href="/chat"
-
                    data-mdb-ripple-init
-                   class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'chat')) active @endif">
+                   class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'chat.')) active @endif">
                     <i class="fas fa-comments fa-fw me-3"></i><span>Chat</span>
+                </a>
+            @endcan
+            @can('view_chatlogs')
+                <a href="/chatlog"
+                   data-mdb-ripple-init
+                   class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'chatlogs.')) active @endif">
+                    <i class="fas fa-comments fa-fw me-3"></i><span>ChatLogs</span>
                 </a>
             @endcan
             @can('view_tags')
