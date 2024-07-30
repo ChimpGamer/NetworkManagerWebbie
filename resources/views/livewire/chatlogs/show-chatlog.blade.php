@@ -18,7 +18,7 @@
                     <h5 class="mb-0 text-center">
                         <strong>ChatLog {{ $chatLog->uuid }}</strong>
                         <br />
-                        <strong>Created by {{ $chatLog->creatorName() }}</strong>
+                        <strong>Created by {{ $chatLog->creatorName() }} on {{ $chatLog->timeFormatted() }}</strong>
                     </h5>
                 </div>
                 <div class="col-md-auto ms-auto" wire:ignore>

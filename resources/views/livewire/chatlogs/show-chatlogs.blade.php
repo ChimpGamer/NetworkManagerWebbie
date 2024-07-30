@@ -56,7 +56,7 @@
                             <x-player-link :uuid="$chatLog->tracked" :username="$chatLog->tracked_player_username"/>
                         </td>
                         <td>{{ $chatLog->server }}</td>
-                        <td>{{ $chatLog->time }}</td>
+                        <td>{{ $chatLog->timeFormatted() }}</td>
                         @can('edit_chatlog')
                             <td>
                                 <button type="button" style="background: transparent; border: none;"

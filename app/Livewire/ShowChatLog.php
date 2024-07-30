@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use App\Models\Chat\ChatLog;
 use App\Models\Chat\ChatMessage;
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
@@ -32,10 +34,11 @@ class ShowChatLog extends Component
 
     public function render(): View|Application|Factory
     {
+        $timeMinus12H = Carbon::createFromTimestampMs($this->chatLog->time)->subHours(12)->getTimestampMs();
         $chatMessages = ChatMessage::join('players', 'chat.uuid', 'players.uuid')
             ->select('chat.uuid', 'chat.type', 'chat.message', 'chat.server', 'chat.time', 'players.username')
-            ->where('chat.uuid', $this->chatLog->uuid)
-            ->where('time', '<=', '/%')
+            ->where('chat.uuid', $this->chatLog->tracked)
+            ->whereBetween('chat.time', [$timeMinus12H, $this->chatLog->time])
             ->where('message', 'not like', '/%')
             ->where(function (Builder $query) {
                 $query->where('message', 'like', '%'.$this->search.'%')

@@ -6,7 +6,6 @@ use App\Helpers\TimeUtils;
 use App\Models\Player\Player;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ChatLog extends Model
@@ -52,7 +51,9 @@ class ChatLog extends Model
      *
      * @var array
      */
-    protected $casts = [];
+    protected $casts = [
+        'time' => 'int',
+    ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -80,10 +81,8 @@ class ChatLog extends Model
         return Player::getName($this->tracked);
     }
 
-    protected function time(): Attribute
+    public function timeFormatted(): string
     {
-        return Attribute::make(
-            get: fn (string $value) => TimeUtils::formatTimestamp($value)
-        );
+        return TimeUtils::formatTimestamp($this->time);
     }
 }
