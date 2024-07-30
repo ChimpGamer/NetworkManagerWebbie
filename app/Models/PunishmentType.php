@@ -45,8 +45,8 @@ enum PunishmentType: int
     {
         return match ($this) {
             PunishmentType::GTEMPBAN, PunishmentType::TEMPBAN, PunishmentType::GTEMPIPBAN, PunishmentType::TEMPIPBAN,
-            PunishmentType::GTEMPMUTE, PunishmentType::GTEMPIPMUTE, PunishmentType::TEMPMUTE, PunishmentType::TEMPIPMUTE
-            => true,
+            PunishmentType::GTEMPMUTE, PunishmentType::GTEMPIPMUTE, PunishmentType::TEMPMUTE, PunishmentType::TEMPIPMUTE,
+            PunishmentType::WARN => true,
             default => false
         };
     }
