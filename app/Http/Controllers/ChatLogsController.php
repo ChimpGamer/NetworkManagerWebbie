@@ -28,6 +28,9 @@ class ChatLogsController extends Controller
     public function show(string $uuid): View
     {
         $chatLog = ChatLog::find($uuid); // Shitty work around. For some reason ChatLog $chatLog didn't work as parameters.
+        if ($chatLog === null) {
+            abort(404);
+        }
         $this->authorize('view_chatlogs');
 
         return view('chatlogs.show', ['chatLog' => $chatLog]);
