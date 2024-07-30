@@ -59,8 +59,9 @@ class ShowChatLogs extends Component
             ->select('chatlogs.uuid', 'chatlogs.creator', 'chatlogs.tracked', 'chatlogs.server', 'chatlogs.time', 'creator_player.username as creator_player_username', 'tracked_player.username as tracked_player_username')
             ->where(function (Builder $query) {
                 $query->where('creator_player.username', 'like', '%'.$this->search.'%')
-                    ->where('tracked_player.username', 'like', '%'.$this->search.'%')
-                    ->orWhere('server', 'like', '%'.$this->search.'%');
+                    ->orWhere('tracked_player.username', 'like', '%'.$this->search.'%')
+                    ->orWhere('server', 'like', '%'.$this->search.'%')
+                    ->orWhere('chatlogs.uuid', 'like', '%'.$this->search.'%');
             })
             ->orderBy('time', 'DESC')->paginate($this->per_page);
 
