@@ -53,6 +53,9 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "post-create-user": [
+            "@php artisan app:create-user"
         ]
     },
     "extra": {
