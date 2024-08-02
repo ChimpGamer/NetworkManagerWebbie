@@ -72,6 +72,9 @@
                     }
                 }
             },
+            time: {
+                useUTC: false
+            },
             legend: {
                 enabled: false
             },
