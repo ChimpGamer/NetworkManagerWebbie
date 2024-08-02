@@ -242,29 +242,25 @@ class Player extends Model
         return Player::where('ip', $this->ip)->where('uuid', '!=', $this->uuid)->get();
     }
 
-    public function getMostUsedVersions(): array
+    public function getMostUsedVersions()
     {
-        $total = DB::table('logins')
+        $result = DB::table('logins')
+            ->select(DB::raw('DISTINCT(version) as version, count(*) AS count, COUNT(*) * 100.0 / sum(COUNT(*)) over() as percentage'))
             ->where('version', '<>', 0)
             ->where('uuid', $this->uuid)
-            ->count();
-
-        $data = DB::table('logins')
-            ->selectRaw('DISTINCT(version) as version, count(version) AS versionUse')
-            ->where('version', '<>', 0)
-            ->where('uuid', $this->uuid)
+            ->orderBy('count', 'DESC')
             ->groupBy('version')
             ->get();
 
         $labels = [];
         $values = [];
-        foreach ($data as $item) {
+        foreach ($result as $item) {
             $protocolVersion = ProtocolVersion::tryFrom($item->version);
             $version = $protocolVersion == null ? 'snapshot' : $protocolVersion->name();
-            $labels[] = $version;
-            $values[] = $item->versionUse / $total;
-        }
 
+            $labels[] = $version;
+            $values[] = $item->percentage;
+        }
         return ['labels' => $labels, 'values' => $values];
     }
 
