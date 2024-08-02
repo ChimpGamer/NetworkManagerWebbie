@@ -113,7 +113,7 @@ class ShowPunishments extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields);
-        if ($fields == 'search') {
+        if ($fields == 'search' || $fields == 'per_page') {
             $this->resetPage();
 
             return;
