@@ -336,9 +336,12 @@ class ShowPunishments extends Component
 
     public function render(): View
     {
-        $punishments = Punishment::where('id', 'like', '%'.$this->search.'%')
-            ->orWhere('ip', 'like', '%'.$this->search.'%')
-            ->orWhere('server', 'like', '%'.$this->search.'%')
+        $punishments = Punishment::join('players', 'punishments.uuid', 'players.uuid')
+            ->select('id', 'type', 'punishments.uuid', 'players.username', 'punisher', 'time', 'punishments.ip', 'punishments.server', 'reason', 'active')
+            ->where('id', 'like', '%'.$this->search.'%')
+            ->orWhere('players.username', 'like', '%'.$this->search.'%')
+            ->orWhere('punishments.ip', 'like', '%'.$this->search.'%')
+            ->orWhere('punishments.server', 'like', '%'.$this->search.'%')
             ->orWhere('reason', 'like', '%'.$this->search.'%')
             ->orderBy('id', 'DESC')->paginate($this->per_page);
 
