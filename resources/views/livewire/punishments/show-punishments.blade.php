@@ -58,7 +58,7 @@
                                 <i class="fas fa-check-circle fa-lg text-success"></i>
                             @endif {{ $punishment->id }}</td>
                         <td>{{ $punishment->type->name() }}</td>
-                        <td><a href="/players/{{$punishment->uuid}}">{{ $punishment->getPlayerName() }}</a></td>
+                        <td><a href="/players/{{$punishment->uuid}}">{{ $punishment->username }}</a></td>
                         <td>{{ $punishment->getPunisherName() }}</td>
                         <td>{!! $punishment->reason !!}</td>
                         <td>{{ $punishment->getTimeFormatted() }}</td>
