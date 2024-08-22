@@ -36,7 +36,8 @@
                 <thead>
                 <tr>
                     <th>Player</th>
-                    <th>FirstLogin</th>
+                    <th>First login</th>
+                    <th>Last login</th>
                     <th>Online</th>
                     <th>Actions</th>
                 </tr>
@@ -47,6 +48,7 @@
                     <tr>
                         <td><x-player-link :uuid="$player->uuid" :username="$player->username" /></td>
                         <td>{{ $player->getTimestampFormatted($player->firstlogin) }}</td>
+                        <td>{{ $player->getTimestampFormatted($player->lastlogin) }}</td>
                         <td>@if ($player->online)
                                 <i class="fas fa-check-circle fa-lg" style="color:green"></i>
                             @else
