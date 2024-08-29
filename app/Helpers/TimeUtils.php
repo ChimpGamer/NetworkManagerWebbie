@@ -9,7 +9,7 @@ class TimeUtils
 {
     public static function formatTimestamp(float $timestamp): string
     {
-        return Carbon::createFromTimestampMs($timestamp)->format('Y-m-d H:i:s');
+        return Carbon::createFromTimestampMs($timestamp)->toDateTimeString();
     }
 
     public static function millisToReadableFormat($millis): string
