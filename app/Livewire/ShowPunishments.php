@@ -40,6 +40,8 @@ class ShowPunishments extends Component
 
     public ?string $end;
 
+    public ?string $ip;
+
     public ?string $timeFormatted;
 
     public ?string $endFormatted;
@@ -205,6 +207,7 @@ class ShowPunishments extends Component
         $this->player = $punishment->uuid;
         $this->punisherUUID = $punishment->punisher;
         $this->reason = $punishment->reason;
+        $this->ip = $punishment->ip;
         $this->server = $punishment->server;
         $this->time = Carbon::createFromTimestamp($punishment->time / 1000);
         $this->end = $punishment->end == -1 ? -1 : Carbon::createFromTimestamp($punishment->end / 1000);
@@ -236,6 +239,7 @@ class ShowPunishments extends Component
 
             return;
         }
+        $hasUUIDChanged = $this->player != $uuid;
 
         $id = $this->punishmentId;
         $type = PunishmentType::from($validatedData['typeId']);
@@ -246,6 +250,17 @@ class ShowPunishments extends Component
         $server = $validatedData['server'];
         $silent = $validatedData['silent'];
         $active = $validatedData['active'];
+        $ip = $this->ip;
+
+        if ($hasUUIDChanged) {
+            $ip = Player::getIP($uuid);
+            if ($ip == null) {
+                session()->flash('error', "Could not find valid ip for use $uuid!");
+                $this->closeModal('addPunishmentModal');
+
+                return;
+            }
+        }
 
         Punishment::where('id', $id)->update([
             'type' => $type,
@@ -254,6 +269,7 @@ class ShowPunishments extends Component
             'time' => $time,
             'end' => $end,
             'reason' => $reason,
+            'ip' => $ip,
             'server' => $server,
             'silent' => $silent,
             'active' => $active,
