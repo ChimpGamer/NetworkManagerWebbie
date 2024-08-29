@@ -39,6 +39,12 @@
                         <p>{{ $endFormatted }}</p>
                     </div>
                 @endif
+                @can('show_ip')
+                    <div class="mb-3">
+                        <strong>IP Address</strong>
+                        <p>{{ $endFormatted }}</p>
+                    </div>
+                @endcan
                 <div class="mb-3">
                     <strong>Reason</strong>
                     <p>{!! $reason !!}</p>
