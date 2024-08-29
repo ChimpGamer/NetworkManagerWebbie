@@ -42,7 +42,7 @@
                 @can('show_ip')
                     <div class="mb-3">
                         <strong>IP Address</strong>
-                        <p>{{ $endFormatted }}</p>
+                        <p>{{ $ip }}</p>
                     </div>
                 @endcan
                 <div class="mb-3">
