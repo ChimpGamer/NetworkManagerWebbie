@@ -102,6 +102,7 @@ class ShowPunishments extends Component
         $this->end = $punishment->end;
         $this->timeFormatted = TimeUtils::formatTimestamp($this->time);
         $this->endFormatted = TimeUtils::formatTimestamp($this->end);
+        $this->ip = $punishment->ip;
 
         $this->unbanner = $punishment->unbanner;
         $this->unbannerName = $punishment->getUnbannerName();
