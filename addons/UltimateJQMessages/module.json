@@ -1,0 +1,11 @@
+{
+    "name": "UltimateJQMessages",
+    "alias": "ultimatejqmessages",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Addons\\UltimateJQMessages\\App\\Providers\\UltimateJQMessagesServiceProvider"
+    ],
+    "files": []
+}
