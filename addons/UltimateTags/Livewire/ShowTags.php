@@ -50,7 +50,7 @@ class ShowTags extends Component
     {
         // name has to be unique.
         $validatedData = $this->validate([
-            'name' => 'required|string|unique:Modules\UltimateTags\App\Models\Tag,name',
+            'name' => 'required|string|unique:Addons\UltimateTags\App\Models\Tag,name',
             'tag' => 'required|string',
             'description' => 'string|nullable',
             'permission' => 'string|nullable',
