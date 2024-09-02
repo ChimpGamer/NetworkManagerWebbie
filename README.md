@@ -1,7 +1,7 @@
 <p align="center"><img src="https://imgur.com/wUhBSGv.png" width="400" alt="NetworkManager Logo"></p>
 
 ## Requirements
-1. PHP 8.1 or 8.2
+1. PHP 8.1, 8.2 or 8.3
 2. Nginx, Apache or some other web server software that supports php. Nginx is the favorite here!
 3. Composer
 4. Git
