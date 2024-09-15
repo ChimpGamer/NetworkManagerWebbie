@@ -12,8 +12,8 @@ use Livewire\WithPagination;
 
 class ShowGroupMembers extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -32,6 +32,7 @@ class ShowGroupMembers extends Component
     public Group $group;
 
     public string $search = '';
+
     public int $per_page = 10;
 
     protected function rules()
