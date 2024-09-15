@@ -14,6 +14,7 @@ class ShowPlayers extends Component
     protected string $paginationTheme = 'bootstrap';
 
     public string $search = '';
+
     public int $per_page = 10;
 
     public function updated()
@@ -24,7 +25,7 @@ class ShowPlayers extends Component
     public function render(): View
     {
         $players = Player::where('username', 'like', '%'.$this->search.'%')
-            ->orWhere('ip', 'like', '%' . $this->search . '%')
+            ->orWhere('ip', 'like', '%'.$this->search.'%')
             ->orWhere('country', 'like', '%' . $this->search . '%')
             ->orWhere('uuid', '=', $this->search)
             ->orderBy('firstlogin', 'DESC')
