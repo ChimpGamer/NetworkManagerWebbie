@@ -6,6 +6,7 @@ use App\Models\PunishmentTemplate;
 use App\Models\PunishmentType;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -48,6 +49,12 @@ class ShowPunishmentTemplates extends Component
             'server' => 'string|nullable',
             'reason' => 'required|string',
         ];
+    }
+
+    #[Computed]
+    public function punishmentTypeCases(): array
+    {
+        return PunishmentType::cases();
     }
 
     public function showPunishmentTemplate(PunishmentTemplate $template)

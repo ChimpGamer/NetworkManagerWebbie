@@ -51,15 +51,14 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Name</label>
-                        <input type="text" wire:model.live="name" class="form-control">
+                        <input type="text" wire:model="name" class="form-control">
                         @error('name') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Type</label>
-                        <select name="type" class="form-control" wire:model.live="typeId">
-                            @foreach(\App\Models\PunishmentType::cases() as $punishmentType)
-                                <option
-                                    value="{{$punishmentType}}">{{ $punishmentType->name() }}</option>
+                        <select name="type" class="form-control" wire:model="typeId">
+                            @foreach($this->punishmentTypeCases as $punishmentType)
+                                <option value="{{$punishmentType}}">{{ $punishmentType->name() }}</option>
                             @endforeach
                         </select>
                         @error('typeId') <span class="text-danger">{{ $message }}</span> @enderror
@@ -67,20 +66,20 @@
                     @if($isTemporary)
                         <div class="mb-3">
                             <label class="bold">Duration</label>
-                            <input type="number" wire:model.live="duration" class="form-control">
+                            <input type="number" wire:model="duration" class="form-control">
                             @error('duration') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     @endif
                     @if(!$isGlobal)
                         <div class="mb-3">
                             <label class="bold">Server</label>
-                            <input type="text" wire:model.live="server" class="form-control">
+                            <input type="text" wire:model="server" class="form-control">
                             @error('server') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     @endif
                     <div class="mb-3">
                         <label class="bold">Reason</label>
-                        <input type="text" wire:model.live="reason" class="form-control">
+                        <input type="text" wire:model="reason" class="form-control">
                         @error('reason') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
@@ -109,13 +108,13 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Name</label>
-                        <input type="text" wire:model.live="name" class="form-control">
+                        <input type="text" wire:model="name" class="form-control">
                         @error('name') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Type</label>
-                        <select name="type" class="form-control" wire:model.live="typeId">
-                            @foreach(\App\Models\PunishmentType::cases() as $punishmentType)
+                        <select name="type" class="form-control" wire:model="typeId">
+                            @foreach($this->punishmentTypeCases as $punishmentType)
                                 <option
                                     value="{{$punishmentType}}">{{ $punishmentType->name() }}</option>
                             @endforeach
@@ -125,20 +124,20 @@
                     @if($isTemporary)
                         <div class="mb-3">
                             <label class="bold">Duration</label>
-                            <input type="number" wire:model.live="duration" class="form-control">
+                            <input type="number" wire:model="duration" class="form-control">
                             @error('duration') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     @endif
                     @if(!$isGlobal)
                         <div class="mb-3">
                             <label class="bold">Server</label>
-                            <input type="text" wire:model.live="server" class="form-control">
+                            <input type="text" wire:model="server" class="form-control">
                             @error('server') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     @endif
                     <div class="mb-3">
                         <label class="bold">Reason</label>
-                        <input type="text" wire:model.live="reason" class="form-control">
+                        <input type="text" wire:model="reason" class="form-control">
                         @error('reason') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
