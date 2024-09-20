@@ -126,6 +126,7 @@
         autosave_restore_when_empty: true,
         promotion: false,
         branding: false,
+        license_key: 'gpl',
         setup: (editor) => {
             editor.on('init', () => {
                 editor.getContainer().style.transition = 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out';
@@ -141,7 +142,7 @@
             });
             editor.on('change', () => {
                 editor.save();
-                @this.set('message', editor.getContent());
+                $wire.$set('message', editor.getContent());
             });
         }
     });
