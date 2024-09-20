@@ -75,6 +75,13 @@ class ShowTicket extends Component
             'uuid' => $uuid,
             'time' => Carbon::now()->getTimestampMs(),
         ]);
+        $this->ticket->update([
+            'last_answer' => $uuid,
+            'last_update' => Carbon::now()->getTimestampMs(),
+            'closed_on' => null,
+            'closed_by' => null,
+            'active' => true,
+        ]);
         $this->ticket->refresh();
     }
 
