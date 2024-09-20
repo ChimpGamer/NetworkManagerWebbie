@@ -34,7 +34,7 @@ class ShowTicket extends Component
             return $item->username;
         })->toArray());
         $assigned_to = $this->ticket->assigned_to;
-        if ($assigned_to != null) {
+        if ($assigned_to != null && !in_array($assigned_to, $this->assignOptions)) {
             $this->assignOptions[] = $assigned_to;
         }
     }
