@@ -1,4 +1,11 @@
 <div>
+    @if (session()->has('message'))
+        <h5 class="alert alert-success">{{ session('message') }}</h5>
+    @endif
+    @if (session()->has('error'))
+        <h5 class="alert alert-danger">{{ session('error') }}</h5>
+    @endif
+
     <div class="d-flex">
         <div x-data="{ open: false }" class="me-auto">
             <button @click="open = ! open" @keydown.escape="open = false" class="btn btn-outline-primary"
@@ -77,7 +84,14 @@
     </div>
 
     <br/>
-    <button type="submit" class="btn btn-primary" wire:click="sendMessage" onclick="tinyMCE.activeEditor.setContent('');">Send message</button>
+    <div class="d-flex">
+        <div class="me-auto">
+            <button type="submit" class="btn btn-primary" wire:click="sendMessage" onclick="tinyMCE.activeEditor.setContent('');">Send Message</button>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-danger" wire:click="closeTicket">Close Ticket</button>
+        </div>
+    </div>
     <hr class="hr">
     <div class="col-12">
         @foreach($ticket->ticketMessages->sortByDesc('id') as $ticketMessage)

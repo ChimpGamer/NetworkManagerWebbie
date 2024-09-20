@@ -66,6 +66,7 @@ class ShowTicket extends Component
         $message = $validatedData['message'];
         $uuid = Auth::check() ? Auth::user()->getUUID() : null;
         if ($uuid == null) {
+            session()->flash('error', "Your username doesn't seem to be a mc username or hasn't joined the server yet.");
             return;
         }
         TicketMessage::create([
@@ -75,6 +76,23 @@ class ShowTicket extends Component
             'time' => Carbon::now()->getTimestampMs(),
         ]);
         $this->ticket->refresh();
+    }
+
+    public function closeTicket(): void
+    {
+        $uuid = Auth::check() ? Auth::user()->getUUID() : null;
+        if ($uuid == null) {
+            session()->flash('error', "Your username doesn't seem to be a mc username or hasn't joined the server yet.");
+            return;
+        }
+        $this->ticket->update([
+            'last_update' => Carbon::now()->getTimestampMs(),
+            'closed_on' => Carbon::now()->getTimestampMs(),
+            'closed_by' => $uuid,
+            'active' => false,
+        ]);
+        $this->ticket->refresh();
+        session()->flash('message', "The ticket was successfully closed.");
     }
 
     public function render(): View
