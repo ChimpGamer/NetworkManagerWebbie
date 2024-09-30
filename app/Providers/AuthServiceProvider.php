@@ -72,6 +72,7 @@ class AuthServiceProvider extends ServiceProvider
 
             'view_motd',
             'edit_motd',
+            'view_command_log',
         ];
         // Set Permissions
         foreach ($permissions as $permission) {

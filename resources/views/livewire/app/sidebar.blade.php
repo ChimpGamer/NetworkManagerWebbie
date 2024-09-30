@@ -144,6 +144,13 @@
                     </a>
                 @endif
             @endcan
+            @can('view_command_log')
+                <a href="/commandlog"
+                   data-mdb-ripple-init
+                   class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'commandlog')) active @endif">
+                    <i class="fas fa-terminal fa-fw me-3"></i><span>Command Log</span>
+                </a>
+            @endcan
             @can('view_network')
                 @if(Auth::user()->can('view_motd') && $this->isModuleEnabled('motd_enabled'))
                     <a href="/motd"
