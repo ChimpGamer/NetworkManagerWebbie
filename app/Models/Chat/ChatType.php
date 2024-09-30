@@ -7,6 +7,9 @@ enum ChatType: int
     case CHAT = 1;
     case PM = 2;
     case PARTY = 3;
+    case STAFFCHAT = 4;
+    case ADMINCHAT = 5;
+    case FRIENDS = 6;
 
     public function name(): string
     {
@@ -19,6 +22,9 @@ enum ChatType: int
             ChatType::CHAT => 'Chat',
             ChatType::PM => 'PM',
             ChatType::PARTY => 'Party',
+            ChatType::STAFFCHAT => 'Staff Chat',
+            ChatType::ADMINCHAT => 'Admin Chat',
+            ChatType::FRIENDS => 'Friends',
         };
     }
 }

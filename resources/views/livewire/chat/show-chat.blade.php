@@ -19,6 +19,9 @@
                             <option value="1">Chat</option>
                             <option value="2">PM</option>
                             <option value="3">Party</option>
+                            <option value="4">Staff Chat</option>
+                            <option value="5">Admin Chat</option>
+                            <option value="6">Friends</option>
                         </select>
                     </label>
                 </div>
@@ -41,7 +44,7 @@
                 <thead>
                 <tr>
                     <th>Username</th>
-                    @if($type == 2)
+                    @if($type == 2 || $type == 6)
                         <th>Receiver</th>
                     @endif
                     <th>Type</th>
@@ -55,7 +58,7 @@
                     @php
                         $message = $chatMessage->message;
                         $receiver = null;
-                        if ($type == 2) {
+                        if ($type == 2 || $type == 6) {
                             $receiver = strtok($message, " ");
                             $message = Str::replaceFirst($receiver, '', $message);
                         }
@@ -63,7 +66,7 @@
 
                     <tr>
                         <td><x-player-link :uuid="$chatMessage->uuid" :username="$chatMessage->username" /></td>
-                        @if($type == 2)
+                        @if($type == 2 || $type == 6)
                             <th>{{ $receiver }}</th>
                         @endif
                         <td>{{ $chatMessage->type->name() }}</td>
