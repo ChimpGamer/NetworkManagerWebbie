@@ -149,7 +149,7 @@ class ShowServerGroups extends Component
 
     public function render(): View
     {
-        $serverGroups = ServerGroup::where('groupname', 'like', '%'.$this->search.'%')->orderBy('id', 'ASC')->paginate($this->per_page);
+        $serverGroups = ServerGroup::where('groupname', 'like', '%'.$this->search.'%')->orderBy('id', 'ASC')->paginate($this->per_page, pageName: 'servergroups-page');
 
         return view('livewire.servers.show-server-groups')->with('servergroups', $serverGroups);
     }

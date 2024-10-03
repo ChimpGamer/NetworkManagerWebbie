@@ -171,7 +171,7 @@ class ShowServers extends Component
 
     public function render(): View
     {
-        $servers = Server::where('servername', 'like', '%'.$this->search.'%')->orderBy('id', 'ASC')->paginate($this->per_page);
+        $servers = Server::where('servername', 'like', '%'.$this->search.'%')->orderBy('id', 'ASC')->paginate($this->per_page, pageName: 'servers-page');
 
         return view('livewire.servers.show-servers')->with('servers', $servers);
     }
