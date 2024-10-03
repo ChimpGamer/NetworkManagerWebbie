@@ -10,8 +10,8 @@ use Livewire\WithPagination;
 
 class ShowServers extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -34,6 +34,7 @@ class ShowServers extends Component
     public bool $online;
 
     public string $search = '';
+
     public int $per_page = 10;
 
     public int $deleteId;
@@ -72,7 +73,7 @@ class ShowServers extends Component
     {
         $this->validateOnly($fields);
         if ($fields == 'search') {
-            $this->resetPage();
+            $this->resetPage(pageName: 'servers-page');
 
             return;
         }

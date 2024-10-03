@@ -50,7 +50,7 @@ class ShowServerGroups extends Component
     public function updated($name, $value): void
     {
         if ($name == 'search') {
-            $this->resetPage();
+            $this->resetPage(pageName: 'serversgroup-page');
         }
     }
 
