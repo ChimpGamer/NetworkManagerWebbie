@@ -9,7 +9,7 @@ class TimeUtils
 {
     public static function formatTimestamp(float $timestamp): string
     {
-        return Carbon::createFromTimestampMs($timestamp)->toDateTimeString();
+        return Carbon::createFromTimestampMs($timestamp, config('app.timezone', 'UTC'))->toDateTimeString();
     }
 
     public static function millisToReadableFormat($millis): string
