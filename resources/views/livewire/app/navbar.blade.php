@@ -28,12 +28,14 @@
                     @endif
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                    <li>
-                        <div class="dropdown-header" style="color: inherit !important;">
-                            <p style="font-size:0.875rem;line-height: 1.25rem;margin:0;">Signed in as</p>
-                            <p style="font-weight: 500; font-size:0.875rem;line-height: 1.25rem;margin:0;">{{ Auth::user()->username }}</p>
-                        </div>
-                    </li>
+                    @if (Auth::check())
+                        <li>
+                            <div class="dropdown-header" style="color: inherit !important;">
+                                <p style="font-size:0.875rem;line-height: 1.25rem;margin:0;">Signed in as</p>
+                                <p style="font-weight: 500; font-size:0.875rem;line-height: 1.25rem;margin:0;">{{ Auth::user()->username }}</p>
+                            </div>
+                        </li>
+                    @endif
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <a class="dropdown-item" href="/profile"><i class="fa-solid fa-user"></i> My profile</a>

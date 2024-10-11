@@ -19,6 +19,7 @@ use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\MOTDController;
 use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ServerStatsController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Webpanel\AccountsController;
 use App\Http\Controllers\Webpanel\AuthenticationController;
@@ -67,6 +68,7 @@ Route::resource('chat', ChatController::class);
 Route::resource('tags', TagsController::class);
 Route::resource('chatlogs', ChatLogsController::class);
 Route::resource('commandlog', CommandLogController::class);
+Route::resource('serverstats', ServerStatsController::class);
 
 //Route::resource('permissions', PermissionsController::class);
 Route::prefix('permissions')->controller(PermissionsController::class)->group(function () {
