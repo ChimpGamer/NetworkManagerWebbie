@@ -13,7 +13,7 @@
 
                    data-mdb-ripple-init
                    class="list-group-item list-group-item-action py-2 @if(request()->routeIs('analytics.*')) active @endif"><i
-                        class="fas fa-chart-line fa-fw me-3"></i><span>Analytics</span></a>
+                        class="fas fa-chart-simple fa-fw me-3"></i><span>Analytics</span></a>
             @endcan
             @can('view_players')
                 <a href="/players"
