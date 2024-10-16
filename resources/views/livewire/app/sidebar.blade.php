@@ -12,14 +12,14 @@
                 <a href="/analytics"
 
                    data-mdb-ripple-init
-                   class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'analytics')) active @endif"><i
+                   class="list-group-item list-group-item-action py-2 @if(request()->routeIs('analytics.*')) active @endif"><i
                         class="fas fa-chart-line fa-fw me-3"></i><span>Analytics</span></a>
             @endcan
             @can('view_players')
                 <a href="/players"
 
                    data-mdb-ripple-init
-                   class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'players')) active @endif">
+                   class="list-group-item list-group-item-action py-2 @if(request()->routeIs('players.*')) active @endif">
                     <i class="fas fa-users fa-fw me-3"></i><span>Players</span>
                 </a>
             @endcan
@@ -28,7 +28,7 @@
                     <a href="/punishments"
 
                        data-mdb-ripple-init
-                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'punishments')) active @endif">
+                       class="list-group-item list-group-item-action py-2 @if(request()->routeIs('punishments.*')) active @endif">
                         <i class="fas fa-lock fa-fw me-3"></i><span>Punishments</span>
                     </a>
                 @endif
@@ -38,7 +38,7 @@
                     <a href="/announcements"
 
                        data-mdb-ripple-init
-                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'announcements')) active @endif">
+                       class="list-group-item list-group-item-action py-2 @if(request()->routeIs('announcements.*')) active @endif">
                         <i class="fas fa-bullhorn fa-fw me-3"></i><span>Announcements</span>
                     </a>
                 @endif
@@ -48,7 +48,7 @@
                     <a href="/servers"
 
                        data-mdb-ripple-init
-                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'servers')) active @endif">
+                       class="list-group-item list-group-item-action py-2 @if(request()->routeIs('servers.*')) active @endif">
                         <i class="fas fa-server fa-fw me-3"></i><span>Servers</span>
                     </a>
                 @endif
@@ -58,7 +58,7 @@
                     <a href="/punishment_templates"
 
                        data-mdb-ripple-init
-                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'punishment_templates')) active @endif">
+                       class="list-group-item list-group-item-action py-2 @if(request()->routeIs('punishment_templates.*')) active @endif">
                         <i class="fas fa-file-lines fa-fw me-3"></i><span>Punishment Templates</span>
                     </a>
                 @endif
@@ -67,7 +67,7 @@
                 <a href="/languages"
 
                    data-mdb-ripple-init
-                   class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'languages')) active @endif">
+                   class="list-group-item list-group-item-action py-2 @if(request()->routeIs('languages.*')) active @endif">
                     <i class="fas fa-language fa-fw me-3"></i><span>Languages</span>
                 </a>
             @endcan
@@ -76,7 +76,7 @@
                     <a href="/permissions"
 
                        data-mdb-ripple-init
-                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'permissions')) active @endif">
+                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'punishments')) active @endif">
                         <i class="fas fa-lock fa-fw me-3"></i><span>Permissions</span>
                     </a>
                 @endif
@@ -86,7 +86,7 @@
                     <a href="/filter"
 
                        data-mdb-ripple-init
-                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'filter')) active @endif">
+                       class="list-group-item list-group-item-action py-2 @if(request()->routeIs('filter.*')) active @endif">
                         <i class="fas fa-filter-circle-xmark fa-fw me-3"></i><span>Filter</span>
                     </a>
                 @endif
@@ -96,7 +96,7 @@
                     <a href="/commandblocker"
 
                        data-mdb-ripple-init
-                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'commandblocker')) active @endif">
+                       class="list-group-item list-group-item-action py-2 @if(request()->routeIs('commandblocker.*')) active @endif">
                         <i class="fas fa-ban fa-fw me-3"></i><span>Command Blocker</span>
                     </a>
                 @endif
@@ -105,7 +105,7 @@
                 @if($this->isModuleEnabled('module_helpop'))
                     <a href="/helpop"
                        data-mdb-ripple-init
-                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'helpop')) active @endif">
+                       class="list-group-item list-group-item-action py-2 @if(request()->routeIs('helpop.*')) active @endif">
                         <i class="fas fa-question fa-fw me-3"></i><span>HelpOP</span>
                     </a>
                 @endif
@@ -113,14 +113,14 @@
             @can('view_chat')
                 <a href="/chat"
                    data-mdb-ripple-init
-                   class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'chat.')) active @endif">
+                   class="list-group-item list-group-item-action py-2 @if(request()->routeIs('chat.*')) active @endif">
                     <i class="fas fa-comments fa-fw me-3"></i><span>Chat</span>
                 </a>
             @endcan
             @can('view_chatlogs')
                 <a href="/chatlogs"
                    data-mdb-ripple-init
-                   class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'chatlogs.')) active @endif">
+                   class="list-group-item list-group-item-action py-2 @if(request()->routeIs('chatlogs.*')) active @endif">
                     <i class="fas fa-comments fa-fw me-3"></i><span>ChatLogs</span>
                 </a>
             @endcan
@@ -129,7 +129,7 @@
                     <a href="/tags"
 
                        data-mdb-ripple-init
-                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'tags')) active @endif">
+                       class="list-group-item list-group-item-action py-2 @if(request()->routeIs('tags.*')) active @endif">
                         <i class="fas fa-tags fa-fw me-3"></i><span>Tags</span>
                     </a>
                 @endif
@@ -147,7 +147,7 @@
             @can('view_command_log')
                 <a href="/commandlog"
                    data-mdb-ripple-init
-                   class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'commandlog')) active @endif">
+                   class="list-group-item list-group-item-action py-2 @if(request()->routeIs('commandlog.*')) active @endif">
                     <i class="fas fa-terminal fa-fw me-3"></i><span>Command Log</span>
                 </a>
             @endcan
@@ -156,21 +156,21 @@
                     <a href="/motd"
 
                        data-mdb-ripple-init
-                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'motd')) active @endif">
+                       class="list-group-item list-group-item-action py-2 @if(request()->routeIs('motd.*')) active @endif">
                         <i class="fas fa-message fa-fw me-3"></i><span>MOTD</span>
                     </a>
                 @endif
                 <a href="/settings"
 
                    data-mdb-ripple-init
-                   class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'settings')) active @endif">
+                   class="list-group-item list-group-item-action py-2 @if(request()->routeIs('settings.*')) active @endif">
                     <i class="fas fa-gear fa-fw me-3"></i><span>Settings</span>
                 </a>
                 @can('manage_groups_and_accounts')
                     <a href="/accounts"
 
                        data-mdb-ripple-init
-                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'accounts')) active @endif">
+                       class="list-group-item list-group-item-action py-2 @if(request()->routeIs('accounts.*')) active @endif">
                         <i class="fas fa-users fa-fw me-3"></i><span>Groups & Accounts</span>
                     </a>
                 @endcan
@@ -191,7 +191,7 @@
                         <li class="list-group-item py-1">
                             <a href="/{{ $module->getLowerName() }}"
                                data-mdb-ripple-init
-                               class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), $module->getLowerName())) active @endif">
+                               class="list-group-item list-group-item-action py-2 @if(request()->routeIs($module->getLowerName() . '.*')) active @endif">
                                 <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>{{ $module->getName() }}</span>
                             </a>
                         </li>
