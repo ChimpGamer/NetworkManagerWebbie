@@ -160,6 +160,12 @@
                         <i class="fas fa-message fa-fw me-3"></i><span>MOTD</span>
                     </a>
                 @endif
+                <a href="/serverstats"
+
+                   data-mdb-ripple-init
+                   class="list-group-item list-group-item-action py-2 @if(request()->routeIs('serverstats.*')) active @endif">
+                   <i class="fas fa-chart-line fa-fw me-3"></i><span>Server Stats</span>
+                </a>
                 <a href="/settings"
 
                    data-mdb-ripple-init
