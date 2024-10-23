@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Group;
 use App\Models\User;
 use Illuminate\Console\Command;
 
@@ -26,16 +27,23 @@ class CreateUser extends Command
      */
     public function handle(): void
     {
-        $this->info('It is highly recommended to use your own ONLINE minecraft username!');
-        $username = $this->ask('What is the username?');
-        $password = $this->secret('What is the password?');
+        $this->warn('This command will create a user with administrator privileges.');
+        if ($this->confirm('Do you wish to continue?')) {
+            $this->info('It is highly recommended to use your own ONLINE minecraft username!');
+            $username = $this->ask('What is the username?');
+            $password = $this->secret('What is the password?');
 
-        User::create([
-           'username' => $username,
-           'password' => $password,
-           'usergroup' => 'administrator',
-        ]);
+            Group::firstOrCreate(
+                ['name' => 'administrator'], ['administrator' => true]
+            );
 
-        $this->info("User $username was created");
+            User::create([
+                'username' => $username,
+                'password' => $password,
+                'usergroup' => 'administrator',
+            ]);
+
+            $this->info("User $username was created");
+        }
     }
 }
