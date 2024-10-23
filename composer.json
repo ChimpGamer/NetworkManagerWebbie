@@ -15,7 +15,8 @@
         "laravel/ui": "^4.0",
         "livewire/livewire": "^3.4",
         "mhmiton/laravel-modules-livewire": "^3.0.0",
-        "nwidart/laravel-modules": "^11.0"
+        "nwidart/laravel-modules": "^11.0",
+        "power-components/livewire-powergrid": "^6.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
