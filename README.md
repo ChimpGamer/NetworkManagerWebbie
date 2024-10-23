@@ -12,12 +12,18 @@
 3. Execute ``git clone https://github.com/ChimpGamer/NetworkManagerWebbie.git networkmanager`` to clone the repository.
 4. Enter the directory by executing ``cd networkmanager``
 5. Configure nginx to direct all requests to the ban list application. See [Nginx Configuration Example](#Nginx-Configuration-Example).
-6. Run the ``composer install --optimize-autoloader --no-dev``
+6. Run the ``composer install post-root-package-install --optimize-autoloader --no-dev``
 7. Make sure to set the owner of the networkmanager folder to www-data:www-data by executing ``sudo chown -R www-data:www-data /var/www/networkmanager``
 8. Rename ``.env.example`` to ``.env`` by executing ``mv .env.example .env``.
 9. Configure the settings in the .env file.
 10. Execute ``php artisan key:generate``
 11. You should now be able to browse to networkmanager.example.com (The Server name in your webserver configuration)
+
+## Create user
+To start the user creation process which will create an administrator account, you run: 
+```shell
+php artisan nm:create-user
+```
 
 ## Optimizations
 To improve performance there are a few things you can do. Caching! Cache the config, routes and views. You can do this by running these commands:
