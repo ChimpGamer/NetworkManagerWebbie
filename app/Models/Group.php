@@ -68,6 +68,12 @@ class Group extends Model
         'view_pre_punishments',
         'edit_pre_punishments',
         'show_ip',
+
+        'edit_settings',
+        'manage_groups_and_accounts',
+        'view_motd',
+        'edit_motd',
+        'view_command_log',
     ];
 
     /**
@@ -116,6 +122,12 @@ class Group extends Model
         'view_pre_punishments' => 'boolean',
         'edit_pre_punishments' => 'boolean',
         'view_accounts' => 'boolean',
+
+        'edit_settings' => 'boolean',
+        'manage_groups_and_accounts' => 'boolean',
+        'view_motd' => 'boolean',
+        'edit_motd' => 'boolean',
+        'view_command_log' => 'boolean',
     ];
 
     /**
