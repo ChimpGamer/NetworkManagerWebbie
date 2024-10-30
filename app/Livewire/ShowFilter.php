@@ -17,7 +17,9 @@ class ShowFilter extends Component
     public int $filterId;
 
     public ?string $name;
+
     public ?string $description;
+
     public ?string $word;
 
     public ?string $replacement;
@@ -27,6 +29,7 @@ class ShowFilter extends Component
     public bool $enabled;
 
     public string $search = '';
+
     public int $per_page = 10;
 
     protected $rules = [
@@ -147,8 +150,10 @@ class ShowFilter extends Component
 
     public function render()
     {
-        $filters = Filter::where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('word', 'like', '%' . $this->search . '%')->orderBy('id', 'DESC')->paginate($this->per_page);
+        $filters = Filter::where('name', 'like', '%'.$this->search.'%')
+            ->orWhere('word', 'like', '%'.$this->search.'%')
+            ->orWhere('description', 'like', '%'.$this->search.'%')
+            ->orderBy('id', 'DESC')->paginate($this->per_page);
 
         return view('livewire.filter.show-filter')->with('filters', $filters);
     }
