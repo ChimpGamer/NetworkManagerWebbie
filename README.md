@@ -75,7 +75,7 @@ First enter the folder that contains the web files. Then run the following comma
 ```shell
 php artisan down
 git pull
-composer install --no-dev
+composer install --no-dev --optimize-autoloader
 php artisan optimize:clear
 php artisan config:cache
 php artisan route:cache
