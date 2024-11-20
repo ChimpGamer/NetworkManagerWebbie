@@ -83,18 +83,18 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover text-nowrap">
+                        <table class="table table-hover">
                             <tbody>
                             <tr>
-                                <th scope="row">Average Playtime</th>
+                                <th scope="row" class="text-nowrap">Average Playtime</th>
                                 <td>{{$player->getAveragePlaytime()}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Player normally joins at</th>
+                                <th scope="row" class="text-nowrap">Player normally joins at</th>
                                 <td>{{$player->getAverageDailyLogin()}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Additional Accounts</th>
+                                <th scope="row" class="text-nowrap">Additional Accounts</th>
                                 <td>
                                     @foreach($player->getAltAccounts() as $alt)
                                         <a href="/players/{{$alt->uuid}}">{{$alt->username}}</a>

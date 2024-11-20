@@ -12,7 +12,7 @@
 3. Execute ``git clone https://github.com/ChimpGamer/NetworkManagerWebbie.git networkmanager`` to clone the repository.
 4. Enter the directory by executing ``cd networkmanager``
 5. Configure nginx to direct all requests to the ban list application. See [Nginx Configuration Example](#Nginx-Configuration-Example).
-6. Run the ``composer install post-root-package-install --optimize-autoloader --no-dev``
+6. Run the ``composer install --optimize-autoloader --no-dev``
 7. Make sure to set the owner of the networkmanager folder to www-data:www-data by executing ``sudo chown -R www-data:www-data /var/www/networkmanager``
 8. Rename ``.env.example`` to ``.env`` by executing ``mv .env.example .env``.
 9. Configure the settings in the .env file.
@@ -75,7 +75,7 @@ First enter the folder that contains the web files. Then run the following comma
 ```shell
 php artisan down
 git pull
-composer install --no-dev
+composer install --no-dev --optimize-autoloader
 php artisan optimize:clear
 php artisan config:cache
 php artisan route:cache
