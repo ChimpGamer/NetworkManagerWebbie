@@ -2760,16 +2760,16 @@
         },
         {
             "name": "power-components/livewire-powergrid",
-            "version": "v6.0.6",
+            "version": "v6.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Power-Components/livewire-powergrid.git",
-                "reference": "8e85ef25552f6cc945d8e995744168094dccfb02"
+                "reference": "941cf2572e507c53191d5da835b37e457329f27c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Power-Components/livewire-powergrid/zipball/8e85ef25552f6cc945d8e995744168094dccfb02",
-                "reference": "8e85ef25552f6cc945d8e995744168094dccfb02",
+                "url": "https://api.github.com/repos/Power-Components/livewire-powergrid/zipball/941cf2572e507c53191d5da835b37e457329f27c",
+                "reference": "941cf2572e507c53191d5da835b37e457329f27c",
                 "shasum": ""
             },
             "require": {
@@ -2827,7 +2827,7 @@
             "homepage": "https://github.com/power-components/livewire-powergrid",
             "support": {
                 "issues": "https://github.com/Power-Components/livewire-powergrid/issues",
-                "source": "https://github.com/Power-Components/livewire-powergrid/tree/v6.0.6"
+                "source": "https://github.com/Power-Components/livewire-powergrid/tree/v6.1.5"
             },
             "funding": [
                 {
@@ -2835,7 +2835,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-19T19:54:08+00:00"
+            "time": "2024-11-18T19:52:42+00:00"
         },
         {
             "name": "psr/clock",
