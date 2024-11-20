@@ -95,12 +95,12 @@
 </div>
 
 <!-- Update Punishment Modal -->
-<div wire:ignore.self class="modal fade" id="editTemplateModal" tabindex="-1"
-     aria-labelledby="editTemplateModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="editPunishmentTemplateModal" tabindex="-1"
+     aria-labelledby="editPunishmentTemplateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editTemplateModalLabel">Edit Punishment Template</h5>
+                <h5 class="modal-title" id="editPunishmentTemplateModalLabel">Edit Punishment Template</h5>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -163,7 +163,7 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete punishment template {{ $deleteId }}?</p>
+                <p>Are you sure you want to delete punishment template {{ $deleteId }} ({{ $deleteName }})?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" wire:click="closeModal" class="btn btn-secondary" data-mdb-dismiss="modal">Close

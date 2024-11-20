@@ -36,6 +36,7 @@ class ShowPunishmentTemplates extends Component
     public bool $isTemporary;
 
     public int $deleteId;
+    public ?string $deleteName;
 
     public string $search = '';
     public int $per_page = 10;
@@ -57,15 +58,17 @@ class ShowPunishmentTemplates extends Component
         return PunishmentType::cases();
     }
 
-    public function showPunishmentTemplate(PunishmentTemplate $template)
+    #[\Livewire\Attributes\On('info')]
+    public function showPunishmentTemplate($rowId)
     {
+        $punishmentTemplate = PunishmentTemplate::find($rowId);
         //dump($template);
-        $this->templateId = $template->id;
-        $this->name = $template->name;
-        $this->type = $template->type->name();
-        $this->duration = $template->duration;
-        $this->reason = $template->reason;
-        $this->server = $template->server;
+        $this->templateId = $punishmentTemplate->id;
+        $this->name = $punishmentTemplate->name;
+        $this->type = $punishmentTemplate->type->name();
+        $this->duration = $punishmentTemplate->duration;
+        $this->reason = $punishmentTemplate->reason;
+        $this->server = $punishmentTemplate->server;
     }
 
     public function updated($fields)
@@ -112,19 +115,21 @@ class ShowPunishmentTemplates extends Component
         $this->closeModal('addTemplateModal');
     }
 
-    public function editTemplate(PunishmentTemplate $template)
+    #[\Livewire\Attributes\On('edit')]
+    public function editTemplate($rowId)
     {
+        $punishmentTemplate = PunishmentTemplate::find($rowId);
         $this->resetInput();
 
-        $this->templateId = $template->id;
-        $this->name = $template->name;
-        $this->typeId = $template->type->value;
-        $this->duration = $template->duration;
-        $this->server = $template->server;
-        $this->reason = $template->reason;
+        $this->templateId = $punishmentTemplate->id;
+        $this->name = $punishmentTemplate->name;
+        $this->typeId = $punishmentTemplate->type->value;
+        $this->duration = $punishmentTemplate->duration;
+        $this->server = $punishmentTemplate->server;
+        $this->reason = $punishmentTemplate->reason;
 
-        $this->isGlobal = $template->type->isGlobal();
-        $this->isTemporary = $template->type->isTemporary();
+        $this->isGlobal = $punishmentTemplate->type->isGlobal();
+        $this->isTemporary = $punishmentTemplate->type->isTemporary();
     }
 
     public function updateTemplate()
@@ -147,9 +152,12 @@ class ShowPunishmentTemplates extends Component
         $this->closeModal('editTemplateModal');
     }
 
-    public function deletePunishmentTemplate(PunishmentTemplate $punishmentTemplate)
+    #[\Livewire\Attributes\On('delete')]
+    public function deletePunishmentTemplate($rowId)
     {
+        $punishmentTemplate = PunishmentTemplate::find($rowId);
         $this->deleteId = $punishmentTemplate->id;
+        $this->deleteName = $punishmentTemplate->name;
     }
 
     public function delete()
