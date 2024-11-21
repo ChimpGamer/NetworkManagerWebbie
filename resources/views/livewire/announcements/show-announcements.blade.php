@@ -1,10 +1,10 @@
 <div>
     @include('livewire.announcements.announcement-modals')
 
-    @if (session()->has('message'))
+    @if (session('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
     @endif
-    @if (session()->has('error'))
+    @if (session('error'))
         <h5 class="alert alert-danger">{{ session('error') }}</h5>
     @endif
 

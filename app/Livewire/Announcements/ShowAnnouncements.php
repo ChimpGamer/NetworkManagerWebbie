@@ -121,6 +121,7 @@ class ShowAnnouncements extends Component
 
         session()->flash('message', 'Successfully Created Announcement');
         $this->closeModal('addAnnouncementModal');
+        $this->refreshTable();
     }
 
     #[On('edit')]
@@ -171,6 +172,7 @@ class ShowAnnouncements extends Component
 
         session()->flash('message', 'Announcement Updated Successfully');
         $this->closeModal('editAnnouncementModal');
+        $this->refreshTable();
     }
 
     public function closeModal(?string $modalId = null): void
@@ -210,8 +212,14 @@ class ShowAnnouncements extends Component
     public function delete(): void
     {
         $this->authorize('edit_announcements');
-        Announcement::find($this->deleteId)->delete();
+        Announcement::find($this->deleteId)?->delete();
         $this->resetInput();
+        $this->refreshTable();
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-announcements-table');
     }
 
     public function render(): View

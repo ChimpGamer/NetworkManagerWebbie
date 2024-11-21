@@ -192,6 +192,7 @@ class ShowPunishments extends Component
 
         session()->flash('message', 'Punishment Created Successfully');
         $this->closeModal('addPunishmentModal');
+        $this->refreshTable();
     }
 
     #[On('edit')]
@@ -280,6 +281,7 @@ class ShowPunishments extends Component
 
         session()->flash('message', 'Punishment Updated Successfully');
         $this->closeModal('editPunishmentModal');
+        $this->refreshTable();
     }
 
     #[On('unban')]
@@ -319,6 +321,7 @@ class ShowPunishments extends Component
 
         session()->flash('message', 'Punishment Updated Successfully');
         $this->closeModal('unbanPunishmentModal');
+        $this->refreshTable();
     }
 
     public function closeModal(?string $modalId = null): void
@@ -359,17 +362,27 @@ class ShowPunishments extends Component
 
             return;
         }
-        if ($punishment->active) {
+
+        // TODO: Prevent deleting punishment when punishment is still active.
+        /*if ($punishment->active) {
             session()->flash('error', 'Punishment #'.$rowId.' is still active! Undo the punishment before you delete it!');
+            usleep(99559);
+            $this->closeModal('deletePunishmentModal');
 
             return;
-        }
+        }*/
         $this->deleteId = $punishment->id;
     }
 
     public function delete(): void
     {
-        Punishment::find($this->deleteId)->delete();
+        Punishment::find($this->deleteId)?->delete();
+        $this->refreshTable();
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-punishments-table');
     }
 
     public function render(): View

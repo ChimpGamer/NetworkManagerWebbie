@@ -7,6 +7,7 @@ use App\Models\PunishmentType;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ShowPunishmentTemplates extends Component
@@ -52,7 +53,7 @@ class ShowPunishmentTemplates extends Component
         return PunishmentType::cases();
     }
 
-    #[\Livewire\Attributes\On('info')]
+    #[On('info')]
     public function showPunishmentTemplate($rowId): void
     {
         $punishmentTemplate = PunishmentTemplate::find($rowId);
@@ -105,9 +106,10 @@ class ShowPunishmentTemplates extends Component
 
         session()->flash('message', 'Successfully Created Template');
         $this->closeModal('addTemplateModal');
+        $this->refreshTable();
     }
 
-    #[\Livewire\Attributes\On('edit')]
+    #[On('edit')]
     public function editTemplate($rowId): void
     {
         $punishmentTemplate = PunishmentTemplate::find($rowId);
@@ -146,9 +148,10 @@ class ShowPunishmentTemplates extends Component
 
         session()->flash('message', 'Successfully Updated Template');
         $this->closeModal('editTemplateModal');
+        $this->refreshTable();
     }
 
-    #[\Livewire\Attributes\On('delete')]
+    #[On('delete')]
     public function deletePunishmentTemplate($rowId): void
     {
         $punishmentTemplate = PunishmentTemplate::find($rowId);
@@ -163,6 +166,7 @@ class ShowPunishmentTemplates extends Component
     public function delete(): void
     {
         PunishmentTemplate::find($this->deleteId)?->delete();
+        $this->refreshTable();
     }
 
     public function closeModal(?string $modalId = null): void
@@ -181,6 +185,11 @@ class ShowPunishmentTemplates extends Component
         $this->duration = -1;
         $this->reason = '';
         $this->server = null;
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-punishment-templates-table');
     }
 
     public function render(): View
