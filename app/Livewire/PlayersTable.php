@@ -52,9 +52,9 @@ final class PlayersTable extends PowerGridComponent
             ->add('online')
             ->add('online_label', function ($item) {
                 if ($item->online) {
-                    return '<i class="fas fa-check-circle fa-lg" style="color:green"></i>';
+                    return '<i class="fas fa-check-circle fa-lg text-success"></i>';
                 } else {
-                    return '<i class="fas fa-xmark-circle fa-lg" style="color:red"></i>';
+                    return '<i class="fas fa-xmark-circle fa-lg text-danger"></i>';
                 }
             });
     }
