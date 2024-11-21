@@ -4,14 +4,13 @@ namespace App\Livewire;
 
 use App\Models\PunishmentTemplate;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
-use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridFields;
+use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
 final class PunishmentTemplatesTable extends PowerGridComponent
 {
@@ -41,13 +40,13 @@ final class PunishmentTemplatesTable extends PowerGridComponent
             ->add('type_name', fn ($item) => $item->type->name)
             ->add('duration')
             ->add('server')
-            ->add('reason')
-            ;
+            ->add('reason');
     }
 
     public function columns(): array
     {
         $canEdit = auth()->user()->can('edit_pre_punishments');
+
         return [
             Column::make('ID', 'id')
                 ->searchable()
@@ -72,7 +71,7 @@ final class PunishmentTemplatesTable extends PowerGridComponent
                 ->sortable(),
 
             Column::action('Action')
-                ->hidden(!$canEdit, !$canEdit)
+                ->hidden(! $canEdit, ! $canEdit),
         ];
     }
 
@@ -88,21 +87,21 @@ final class PunishmentTemplatesTable extends PowerGridComponent
     {
         return [
             Button::add('info')
-                ->attributes(['data-mdb-ripple-init' => '','data-mdb-modal-init' => '','data-mdb-target' => '#showPunishmentTemplateModal'])
+                ->attributes(['data-mdb-ripple-init' => '', 'data-mdb-modal-init' => '', 'data-mdb-target' => '#showPunishmentTemplateModal'])
                 ->slot('<i class="material-icons text-info">info</i>')
                 ->can(auth()->user()->can('edit_pre_punishments'))
                 ->id()
                 ->class('bg-transparent border-0')
                 ->dispatch('info', ['rowId' => $row->id]),
             Button::add('edit')
-                ->attributes(['data-mdb-ripple-init' => '','data-mdb-modal-init' => '','data-mdb-target' => '#editPunishmentTemplateModal'])
+                ->attributes(['data-mdb-ripple-init' => '', 'data-mdb-modal-init' => '', 'data-mdb-target' => '#editPunishmentTemplateModal'])
                 ->slot('<i class="material-icons text-warning">edit</i>')
                 ->can(auth()->user()->can('edit_pre_punishments'))
                 ->id()
                 ->class('bg-transparent border-0')
                 ->dispatch('edit', ['rowId' => $row->id]),
             Button::add('delete')
-                ->attributes(['data-mdb-ripple-init' => '','data-mdb-modal-init' => '','data-mdb-target' => '#deletePunishmentTemplateModal'])
+                ->attributes(['data-mdb-ripple-init' => '', 'data-mdb-modal-init' => '', 'data-mdb-target' => '#deletePunishmentTemplateModal'])
                 ->slot('<i class="material-icons text-danger">delete</i>')
                 ->can(auth()->user()->can('edit_pre_punishments'))
                 ->id()

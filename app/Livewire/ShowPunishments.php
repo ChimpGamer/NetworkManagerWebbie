@@ -11,15 +11,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowPunishments extends Component
 {
-    use WithPagination;
-
-    protected string $paginationTheme = 'bootstrap';
-
     public int $punishmentId;
 
     public int $typeId;
@@ -60,16 +56,12 @@ class ShowPunishments extends Component
 
     public bool $isTemporary = false;
 
-    public string $search = '';
-
-    public int $per_page = 10;
-
     public int $deleteId;
 
     /* ------------- MODAL FIELDS ------------- */
     public ?string $player;
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'typeId' => 'required|integer',
@@ -90,8 +82,16 @@ class ShowPunishments extends Component
         return PunishmentType::cases();
     }
 
-    public function showPunishment(Punishment $punishment)
+    #[On('info')]
+    public function showPunishment($rowId): void
     {
+        $punishment = Punishment::find($rowId);
+        if ($punishment == null) {
+            session()->flash('error', 'Punishment #'.$rowId.' not found');
+
+            return;
+        }
+
         $this->punishmentId = $punishment->id;
         $this->typeName = $punishment->type->name();
         $this->playerName = $punishment->getPlayerName();
@@ -113,14 +113,9 @@ class ShowPunishments extends Component
         $this->active = $punishment->active;
     }
 
-    public function updated($fields)
+    public function updated($fields): void
     {
         $this->validateOnly($fields);
-        if ($fields == 'search' || $fields == 'per_page') {
-            $this->resetPage();
-
-            return;
-        }
 
         $type = PunishmentType::from($this->typeId);
         $this->isGlobal = $type->isGlobal();
@@ -133,7 +128,7 @@ class ShowPunishments extends Component
         }
     }
 
-    public function addPunishment()
+    public function addPunishment(): void
     {
         $this->resetInput();
         $this->typeId = 1; // Set type to 1 by default.
@@ -143,7 +138,7 @@ class ShowPunishments extends Component
         $this->punisherUUID = Auth::check() ? Auth::user()->getUUID() : null;
     }
 
-    public function createPunishment()
+    public function createPunishment(): void
     {
         $isPlayerUUID = false;
         if (Str::isUuid($this->player)) {
@@ -199,8 +194,15 @@ class ShowPunishments extends Component
         $this->closeModal('addPunishmentModal');
     }
 
-    public function editPunishment(Punishment $punishment)
+    #[On('edit')]
+    public function editPunishment($rowId): void
     {
+        $punishment = Punishment::find($rowId);
+        if ($punishment == null) {
+            session()->flash('error', 'Punishment #'.$rowId.' not found');
+
+            return;
+        }
         $this->resetInput();
 
         $this->punishmentId = $punishment->id;
@@ -219,7 +221,7 @@ class ShowPunishments extends Component
         $this->active = $punishment->active;
     }
 
-    public function updatePunishment()
+    public function updatePunishment(): void
     {
         $isPlayerUUID = false;
         if (Str::isUuid($this->player)) {
@@ -280,14 +282,21 @@ class ShowPunishments extends Component
         $this->closeModal('editPunishmentModal');
     }
 
-    public function unban(Punishment $punishment)
+    #[On('unban')]
+    public function unban($rowId): void
     {
+        $punishment = Punishment::find($rowId);
+        if ($punishment == null) {
+            session()->flash('error', 'Punishment #'.$rowId.' not found');
+
+            return;
+        }
         $this->resetInput();
 
         $this->punishmentId = $punishment->id;
     }
 
-    public function handleUnban()
+    public function handleUnban(): void
     {
         $validatedData = $this->validate([
             'unbanReason' => 'required|string',
@@ -312,7 +321,7 @@ class ShowPunishments extends Component
         $this->closeModal('unbanPunishmentModal');
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -320,7 +329,7 @@ class ShowPunishments extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->typeId = -1;
         $this->player = '';
@@ -341,27 +350,30 @@ class ShowPunishments extends Component
         $this->active = false;
     }
 
-    public function deletePunishment(Punishment $punishment)
+    #[On('delete')]
+    public function deletePunishment($rowId): void
     {
+        $punishment = Punishment::find($rowId);
+        if ($punishment == null) {
+            session()->flash('error', 'Punishment #'.$rowId.' not found');
+
+            return;
+        }
+        if ($punishment->active) {
+            session()->flash('error', 'Punishment #'.$rowId.' is still active! Undo the punishment before you delete it!');
+
+            return;
+        }
         $this->deleteId = $punishment->id;
     }
 
-    public function delete()
+    public function delete(): void
     {
         Punishment::find($this->deleteId)->delete();
     }
 
     public function render(): View
     {
-        $punishments = Punishment::join('players', 'punishments.uuid', 'players.uuid')
-            ->select('id', 'type', 'punishments.uuid', 'players.username', 'punisher', 'time', 'punishments.ip', 'punishments.server', 'reason', 'active')
-            ->where('id', 'like', '%'.$this->search.'%')
-            ->orWhere('players.username', 'like', '%'.$this->search.'%')
-            ->orWhere('punishments.ip', 'like', '%'.$this->search.'%')
-            ->orWhere('punishments.server', 'like', '%'.$this->search.'%')
-            ->orWhere('reason', 'like', '%'.$this->search.'%')
-            ->orderBy('id', 'DESC')->paginate($this->per_page);
-
-        return view('livewire.punishments.show-punishments')->with('punishments', $punishments);
+        return view('livewire.punishments.show-punishments');
     }
 }

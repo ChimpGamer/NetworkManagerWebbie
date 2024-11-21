@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Blade;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
-use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
 final class PlayersTable extends PowerGridComponent
 {
@@ -18,6 +18,7 @@ final class PlayersTable extends PowerGridComponent
     public ?string $primaryKeyAlias = 'uuid';
 
     public string $sortField = 'firstlogin';
+
     public string $sortDirection = 'desc';
 
     public function setUp(): array
@@ -40,7 +41,7 @@ final class PlayersTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('uuid', function ($item) {
-                return Blade::render('<x-player-link uuid="' . $item->uuid . '" username="' . $item->username . '" />');
+                return Blade::render('<x-player-link uuid="'.$item->uuid.'" username="'.$item->username.'" />');
             })
             ->add('firstlogin', function ($item) {
                 return TimeUtils::formatTimestamp($item->firstlogin);

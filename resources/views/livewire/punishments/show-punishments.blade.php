@@ -10,6 +10,22 @@
 
     <div class="card">
         <div class="card-header">
+            <div class="row mt-2 align-items-center text-center">
+                <div class="col-md-12">
+                    <h5 class="mb-0">
+                        <strong>Punishments</strong>
+                    </h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body border-0 shadow table-responsive">
+            <livewire:punishments-table/>
+        </div>
+    </div>
+
+    {{--<div class="card">
+        <div class="card-header">
             <div class="row mt-2 justify-content-between text-center">
                 <div class="col-md-auto me-auto">
                     <label>Show
@@ -91,7 +107,7 @@
             </table>
             {{ $punishments->links() }}
         </div>
-    </div>
+    </div>--}}
     @can('edit_punishments')
         <div class="p-4">
             <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addPunishmentModal"
