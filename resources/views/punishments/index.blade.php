@@ -3,7 +3,7 @@
 @section('content')
 
     <div>
-        <livewire:show-punishments>
+        <livewire:punishments.show-punishments>
     </div>
 
 @endsection

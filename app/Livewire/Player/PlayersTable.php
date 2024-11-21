@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Player;
 
 use App\Helpers\TimeUtils;
 use App\Models\Player\Player;

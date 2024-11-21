@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Punishments;
 
 use App\Models\Punishment;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,7 +44,7 @@ final class PunishmentsTable extends PowerGridComponent
                     return '<i class="fas fa-check-circle fa-lg text-success"></i> '.$id;
                 }
             })
-            ->add('type_name', fn ($item) => $item->type->name)
+            ->add('type_name', fn ($item) => $item->type->name())
             ->add('player', fn ($item) => Blade::render('<x-player-link uuid="'.$item->uuid.'" username="'.$item->getPlayerName().'" />'))
             ->add('punisher', fn ($item) => $item->getPunisherName())
             ->add('time', fn ($item) => $item->getTimeFormatted())

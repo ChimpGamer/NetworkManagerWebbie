@@ -20,7 +20,7 @@
         </div>
 
         <div class="card-body border-0 shadow table-responsive">
-            <livewire:punishments-table/>
+            <livewire:punishments.punishments-table/>
         </div>
     </div>
 

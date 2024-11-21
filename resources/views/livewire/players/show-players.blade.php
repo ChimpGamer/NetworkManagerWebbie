@@ -16,7 +16,7 @@
         </div>
 
         <div class="card-body border-0 shadow table-responsive">
-            <livewire:players-table/>
+            <livewire:player.players-table/>
         </div>
     </div>
 </div>
