@@ -4,15 +4,12 @@ namespace App\Livewire;
 
 use App\Models\Filter;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowFilter extends Component
 {
     use AuthorizesRequests;
-    use WithPagination;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public int $filterId;
 
@@ -28,11 +25,7 @@ class ShowFilter extends Component
 
     public bool $enabled;
 
-    public string $search = '';
-
-    public int $per_page = 10;
-
-    protected $rules = [
+    protected array $rules = [
         'name' => 'required|string|alpha_dash|max:128',
         'description' => 'string|nullable',
         'word' => 'required|string',
@@ -41,15 +34,16 @@ class ShowFilter extends Component
         'enabled' => 'required|boolean',
     ];
 
-    public function updated($name, $value): void
+    #[On('info')]
+    public function showFilter($rowId): void
     {
-        if ($name == 'search') {
-            $this->resetPage();
-        }
-    }
+        $filter = Filter::find($rowId);
+        if ($filter == null) {
+            session()->flash('error', 'Filter #'.$rowId.' not found');
 
-    public function showFilter(Filter $filter): void
-    {
+            return;
+        }
+
         $this->filterId = $filter->id;
         $this->name = $filter->name;
         $this->description = $filter->description;
@@ -59,12 +53,12 @@ class ShowFilter extends Component
         $this->enabled = $filter->enabled;
     }
 
-    public function addFilter()
+    public function addFilter(): void
     {
         $this->resetInput();
     }
 
-    public function createFilter()
+    public function createFilter(): void
     {
         $this->authorize('edit_filter');
         $validatedData = $this->validate();
@@ -83,10 +77,19 @@ class ShowFilter extends Component
         ]);
         session()->flash('message', 'Successfully Added Filter');
         $this->closeModal('addFilterModal');
+        $this->refreshTable();
     }
 
-    public function editFilter(Filter $filter)
+    #[On('edit')]
+    public function editFilter($rowId): void
     {
+        $filter = Filter::find($rowId);
+        if ($filter == null) {
+            session()->flash('error', 'Filter #'.$rowId.' not found');
+
+            return;
+        }
+
         $this->filterId = $filter->id;
         $this->name = $filter->name;
         $this->description = $filter->description;
@@ -96,7 +99,7 @@ class ShowFilter extends Component
         $this->enabled = $filter->enabled;
     }
 
-    public function updateFilter()
+    public function updateFilter(): void
     {
         $this->authorize('edit_filter');
         $validatedData = $this->validate();
@@ -115,21 +118,31 @@ class ShowFilter extends Component
         ]);
         session()->flash('message', 'Filter Updated Successfully');
         $this->closeModal('editFilterModal');
+        $this->refreshTable();
     }
 
-    public function deleteFilter(Filter $filter)
+    #[On('delete')]
+    public function deleteFilter($rowId): void
     {
+        $filter = Filter::find($rowId);
+        if ($filter == null) {
+            session()->flash('error', 'Filter #'.$rowId.' not found');
+
+            return;
+        }
+
         $this->filterId = $filter->id;
     }
 
-    public function delete()
+    public function delete(): void
     {
         $this->authorize('edit_filter');
-        Filter::find($this->filterId)->delete();
+        Filter::find($this->filterId)?->delete();
         $this->resetInput();
+        $this->refreshTable();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -137,7 +150,7 @@ class ShowFilter extends Component
         }
     }
 
-    public function resetInput()
+    public function resetInput(): void
     {
         $this->filterId = -1;
         $this->name = null;
@@ -148,13 +161,13 @@ class ShowFilter extends Component
         $this->enabled = false;
     }
 
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-filters-table');
+    }
+
     public function render()
     {
-        $filters = Filter::where('name', 'like', '%'.$this->search.'%')
-            ->orWhere('word', 'like', '%'.$this->search.'%')
-            ->orWhere('description', 'like', '%'.$this->search.'%')
-            ->orderBy('id', 'DESC')->paginate($this->per_page);
-
-        return view('livewire.filter.show-filter')->with('filters', $filters);
+        return view('livewire.filter.show-filter');
     }
 }
