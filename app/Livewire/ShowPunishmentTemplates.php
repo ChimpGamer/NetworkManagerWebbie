@@ -8,14 +8,10 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowPunishmentTemplates extends Component
 {
     use AuthorizesRequests;
-    use WithPagination;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public int $templateId;
 
@@ -36,12 +32,10 @@ class ShowPunishmentTemplates extends Component
     public bool $isTemporary;
 
     public int $deleteId;
+
     public ?string $deleteName;
 
-    public string $search = '';
-    public int $per_page = 10;
-
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'name' => 'required|string',
@@ -59,9 +53,13 @@ class ShowPunishmentTemplates extends Component
     }
 
     #[\Livewire\Attributes\On('info')]
-    public function showPunishmentTemplate($rowId)
+    public function showPunishmentTemplate($rowId): void
     {
         $punishmentTemplate = PunishmentTemplate::find($rowId);
+        if ($punishmentTemplate == null) {
+            session()->flash('error', 'Punishment template not found');
+            return;
+        }
         //dump($template);
         $this->templateId = $punishmentTemplate->id;
         $this->name = $punishmentTemplate->name;
@@ -71,15 +69,9 @@ class ShowPunishmentTemplates extends Component
         $this->server = $punishmentTemplate->server;
     }
 
-    public function updated($fields)
+    public function updated($fields): void
     {
         $this->validateOnly($fields);
-        if ($fields == 'search') {
-            $this->resetPage();
-
-            return;
-        }
-
         $type = PunishmentType::from($this->typeId);
         $this->isGlobal = $type->isGlobal();
         $this->isTemporary = $type->isTemporary();
@@ -91,12 +83,12 @@ class ShowPunishmentTemplates extends Component
         }
     }
 
-    public function addTemplate()
+    public function addTemplate(): void
     {
         $this->resetInput();
     }
 
-    public function createTemplate()
+    public function createTemplate(): void
     {
         $this->authorize('edit_pre_punishments');
         $validatedData = $this->validate();
@@ -116,9 +108,13 @@ class ShowPunishmentTemplates extends Component
     }
 
     #[\Livewire\Attributes\On('edit')]
-    public function editTemplate($rowId)
+    public function editTemplate($rowId): void
     {
         $punishmentTemplate = PunishmentTemplate::find($rowId);
+        if ($punishmentTemplate == null) {
+            session()->flash('error', 'Punishment template not found');
+            return;
+        }
         $this->resetInput();
 
         $this->templateId = $punishmentTemplate->id;
@@ -132,7 +128,7 @@ class ShowPunishmentTemplates extends Component
         $this->isTemporary = $punishmentTemplate->type->isTemporary();
     }
 
-    public function updateTemplate()
+    public function updateTemplate(): void
     {
         $this->authorize('edit_pre_punishments');
         $validatedData = $this->validate();
@@ -153,19 +149,23 @@ class ShowPunishmentTemplates extends Component
     }
 
     #[\Livewire\Attributes\On('delete')]
-    public function deletePunishmentTemplate($rowId)
+    public function deletePunishmentTemplate($rowId): void
     {
         $punishmentTemplate = PunishmentTemplate::find($rowId);
+        if ($punishmentTemplate == null) {
+            session()->flash('error', 'Punishment template not found');
+            return;
+        }
         $this->deleteId = $punishmentTemplate->id;
         $this->deleteName = $punishmentTemplate->name;
     }
 
-    public function delete()
+    public function delete(): void
     {
-        PunishmentTemplate::find($this->deleteId)->delete();
+        PunishmentTemplate::find($this->deleteId)?->delete();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -173,7 +173,7 @@ class ShowPunishmentTemplates extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->name = '';
         $this->type = '';
@@ -185,8 +185,6 @@ class ShowPunishmentTemplates extends Component
 
     public function render(): View
     {
-        $punishmentTemplates = PunishmentTemplate::where('id', 'like', '%'.$this->search.'%')->paginate($this->per_page);
-
-        return view('livewire.punishment_templates.show-punishment-templates')->with('punishmentTemplates', $punishmentTemplates);
+        return view('livewire.punishment_templates.show-punishment-templates');
     }
 }
