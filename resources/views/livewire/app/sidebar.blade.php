@@ -76,7 +76,7 @@
                     <a href="/permissions"
 
                        data-mdb-ripple-init
-                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'punishments')) active @endif">
+                       class="list-group-item list-group-item-action py-2 @if(Str::startsWith(Route::currentRouteName(), 'permissions')) active @endif">
                         <i class="fas fa-lock fa-fw me-3"></i><span>Permissions</span>
                     </a>
                 @endif
