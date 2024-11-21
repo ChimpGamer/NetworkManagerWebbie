@@ -3,7 +3,7 @@
 @section('content')
 
     <div>
-        <livewire:show-announcements>
+        <livewire:announcements.show-announcements>
     </div>
 
 @endsection
