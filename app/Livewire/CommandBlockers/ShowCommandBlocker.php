@@ -1,23 +1,22 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\CommandBlockers;
 
 use App\Models\CommandBlocker;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowCommandBlocker extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public int $commandBlockerId;
 
     public ?string $name;
+
     public ?string $description;
+
     public ?string $command;
 
     public ?string $server;
@@ -28,10 +27,7 @@ class ShowCommandBlocker extends Component
 
     public bool $enabled;
 
-    public string $search = '';
-    public int $per_page = 10;
-
-    protected $rules = [
+    protected array $rules = [
         'name' => 'required|string|alpha_dash|max:128',
         'description' => 'string|nullable',
         'command' => 'required|string',
@@ -41,15 +37,16 @@ class ShowCommandBlocker extends Component
         'enabled' => 'required|boolean',
     ];
 
-    public function updated($name, $value): void
+    #[On('info')]
+    public function showCommandBlock($rowId): void
     {
-        if ($name == 'search') {
-            $this->resetPage();
-        }
-    }
+        $commandBlocker = CommandBlocker::find($rowId);
+        if ($commandBlocker == null) {
+            session()->flash('error', 'Command Blocker #'.$rowId.' not found');
 
-    public function showCommandBlock(CommandBlocker $commandBlocker): void
-    {
+            return;
+        }
+
         $this->commandBlockerId = $commandBlocker->id;
         $this->name = $commandBlocker->name;
         $this->description = $commandBlocker->description;
@@ -60,12 +57,12 @@ class ShowCommandBlocker extends Component
         $this->enabled = $commandBlocker->enabled;
     }
 
-    public function addCommandBlocker()
+    public function addCommandBlocker(): void
     {
         $this->resetInput();
     }
 
-    public function createCommandBlocker()
+    public function createCommandBlocker(): void
     {
         $this->authorize('edit_commandblocker');
         $validatedData = $this->validate();
@@ -87,10 +84,19 @@ class ShowCommandBlocker extends Component
         ]);
         session()->flash('message', 'Successfully Added CommandBlocker');
         $this->closeModal('addCommandBlockerModal');
+        $this->refreshTable();
     }
 
-    public function editCommandBlocker(CommandBlocker $commandBlocker)
+    #[On('edit')]
+    public function editCommandBlocker($rowId): void
     {
+        $commandBlocker = CommandBlocker::find($rowId);
+        if ($commandBlocker == null) {
+            session()->flash('error', 'Command Blocker #'.$rowId.' not found');
+
+            return;
+        }
+
         $this->commandBlockerId = $commandBlocker->id;
         $this->name = $commandBlocker->name;
         $this->description = $commandBlocker->description;
@@ -101,7 +107,7 @@ class ShowCommandBlocker extends Component
         $this->enabled = $commandBlocker->enabled;
     }
 
-    public function updateCommandBlocker()
+    public function updateCommandBlocker(): void
     {
         $this->authorize('edit_commandblocker');
         $validatedData = $this->validate();
@@ -123,22 +129,31 @@ class ShowCommandBlocker extends Component
         ]);
         session()->flash('message', 'CommandBlocker Updated Successfully');
         $this->closeModal('editCommandBlockerModal');
+        $this->refreshTable();
     }
 
-    public function deleteCommandBlocker(CommandBlocker $commandBlocker)
+    #[On('delete')]
+    public function deleteCommandBlocker($rowId): void
     {
+        $commandBlocker = CommandBlocker::find($rowId);
+        if ($commandBlocker == null) {
+            session()->flash('error', 'Command Blocker #'.$rowId.' not found');
+
+            return;
+        }
         $this->commandBlockerId = $commandBlocker->id;
     }
 
-    public function delete()
+    public function delete(): void
     {
         $this->authorize('edit_commandblocker');
         CommandBlocker::find($this->commandBlockerId)->delete();
         session()->flash('message', 'CommandBlocker Deleted Successfully');
         $this->closeModal('deleteCommandBlockerModal');
+        $this->refreshTable();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -146,7 +161,7 @@ class ShowCommandBlocker extends Component
         }
     }
 
-    public function resetInput()
+    public function resetInput(): void
     {
         $this->commandBlockerId = -1;
         $this->name = null;
@@ -158,11 +173,13 @@ class ShowCommandBlocker extends Component
         $this->enabled = false;
     }
 
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-command-blockers-table');
+    }
+
     public function render()
     {
-        $blockedCommands = CommandBlocker::where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('command', 'like', '%' . $this->search . '%')->orderBy('id', 'DESC')->paginate($this->per_page);
-
-        return view('livewire.commandblocker.show-commandblocker')->with('blockedcommands', $blockedCommands);
+        return view('livewire.commandblocker.show-commandblocker');
     }
 }

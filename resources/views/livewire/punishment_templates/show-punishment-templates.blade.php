@@ -20,7 +20,7 @@
         </div>
 
         <div class="card-body border-0 shadow table-responsive">
-            <livewire:punishment-templates-table />
+            <livewire:punishment-templates.punishment-templates-table />
         </div>
     </div>
     @can('edit_pre_punishments')

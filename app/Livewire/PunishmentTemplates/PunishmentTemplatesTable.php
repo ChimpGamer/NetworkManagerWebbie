@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\PunishmentTemplates;
 
 use App\Models\PunishmentTemplate;
 use Illuminate\Database\Eloquent\Builder;
