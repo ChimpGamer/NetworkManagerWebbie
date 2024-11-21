@@ -20,7 +20,7 @@
         </div>
 
         <div class="card-body border-0 shadow table-responsive">
-            <livewire:commandblockers.commandblockers-table/>
+            <livewire:command-blockers.commandblockers-table/>
         </div>
     </div>
     @can('edit_commandblocker')
