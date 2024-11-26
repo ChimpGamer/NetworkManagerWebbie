@@ -6,6 +6,7 @@ use App\Helpers\TimeUtils;
 use App\Models\Player\Player;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Punishment extends Model
 {
@@ -73,6 +74,11 @@ class Punishment extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function player(): HasOne
+    {
+        return $this->hasOne(Player::class, 'uuid', 'uuid');
+    }
 
     public function getPlayerName()
     {

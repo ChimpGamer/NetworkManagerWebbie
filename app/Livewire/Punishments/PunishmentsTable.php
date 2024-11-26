@@ -30,7 +30,16 @@ final class PunishmentsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Punishment::query();
+        return Punishment::query()->with('player');
+    }
+
+    public function relationSearch(): array
+    {
+        return [
+            'player' => [
+                'username',
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields
@@ -45,7 +54,7 @@ final class PunishmentsTable extends PowerGridComponent
                 }
             })
             ->add('type_name', fn ($item) => $item->type->name())
-            ->add('player', fn ($item) => Blade::render('<x-player-link uuid="'.$item->uuid.'" username="'.$item->getPlayerName().'" />'))
+            ->add('player', fn ($item) => Blade::render('<x-player-link uuid="'.$item->uuid.'" username="'.$item->player->username.'" />'))
             ->add('punisher', fn ($item) => $item->getPunisherName())
             ->add('time', fn ($item) => $item->getTimeFormatted())
             ->add('reason');
