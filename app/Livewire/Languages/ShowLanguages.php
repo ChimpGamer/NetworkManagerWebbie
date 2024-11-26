@@ -6,19 +6,13 @@ use App\Models\Language;
 use App\Models\LanguageMessage;
 use App\Models\Value;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowLanguages extends Component
 {
-    use WithPagination;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public ?string $name;
-
-    public string $search = '';
-    public int $per_page = 10;
 
     public int $deleteId;
 
@@ -37,13 +31,6 @@ class ShowLanguages extends Component
         ];
     }
 
-    public function updated($name, $value): void
-    {
-        if ($name == 'search') {
-            $this->resetPage();
-        }
-    }
-
     public function mount(): void
     {
         $this->defaultLanguage = Language::getByName(Value::getValueByVariable('setting_language_default')->value);
@@ -54,7 +41,7 @@ class ShowLanguages extends Component
         $this->resetInput();
     }
 
-    public function createLanguage()
+    public function createLanguage(): void
     {
         $validatedData = $this->validate();
 
@@ -73,9 +60,10 @@ class ShowLanguages extends Component
 
         session()->flash('message', 'Successfully Added Language');
         $this->closeModal('addLanguageModal');
+        $this->refreshTable();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -83,13 +71,14 @@ class ShowLanguages extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->deleteId = -1;
         $this->name = null;
     }
 
-    public function deleteLanguage(Language $language)
+    #[On('delete')]
+    public function deleteLanguage(Language $language): void
     {
         if ($this->isProtectedLanguage($language)) {
             session()->flash('warning-message', 'The '.$language->name.' language cannot be deleted!');
@@ -101,7 +90,7 @@ class ShowLanguages extends Component
         $this->name = $language->name;
     }
 
-    public function delete()
+    public function delete(): void
     {
         $language = Language::find($this->deleteId);
         if ($this->isProtectedLanguage($language)) {
@@ -112,7 +101,8 @@ class ShowLanguages extends Component
         }
 
         $language->delete();
-        $this->resetInput();
+        $this->closeModal('deleteLanguageModal');
+        $this->refreshTable();
     }
 
     public function addLanguageMessage(): void
@@ -139,17 +129,20 @@ class ShowLanguages extends Component
 
     public function isProtectedLanguage(Language $language): bool
     {
-        if ($language->id == 1) {
+        if ($language->id === 1) {
             return true;
         }
 
         return $this->defaultLanguage?->id == $language->id;
     }
 
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-languages-table');
+    }
+
     public function render(): View
     {
-        $languages = Language::where('name', 'like', '%'.$this->search.'%')->orderBy('id', 'ASC')->paginate($this->per_page);
-
-        return view('livewire.languages.show-languages')->with('languages', $languages);
+        return view('livewire.languages.show-languages');
     }
 }

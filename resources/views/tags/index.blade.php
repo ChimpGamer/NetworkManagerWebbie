@@ -3,7 +3,7 @@
 @section('content')
 
     <div>
-        @livewire('show-tags')
+        @livewire('tags.show-tags')
     </div>
 
 @endsection

@@ -7,6 +7,7 @@ use App\Models\Player\Player;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 
 class Ticket extends Model
@@ -78,6 +79,10 @@ class Ticket extends Model
     public function ticketMessages(): HasOneOrMany
     {
         return $this->hasMany(TicketMessage::class, 'ticket_id', 'id');
+    }
+
+    public function creatorPlayer(): HasOne {
+        return $this->hasOne(Player::class, 'uuid', 'creator');
     }
 
     public function getCreatorName()
