@@ -5,15 +5,12 @@ namespace App\Livewire\Servers;
 use App\Models\Server;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowServers extends Component
 {
     use AuthorizesRequests;
-    use WithPagination;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public int $serverId;
 
@@ -33,13 +30,9 @@ class ShowServers extends Component
 
     public bool $online;
 
-    public string $search = '';
-
-    public int $per_page = 10;
-
     public int $deleteId;
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'servername' => 'required|string|min:3',
@@ -52,8 +45,16 @@ class ShowServers extends Component
         ];
     }
 
-    public function showServer(Server $server)
+    #[On('info')]
+    public function showServer($rowId): void
     {
+        $server = Server::find($rowId);
+        if ($server == null) {
+            session()->flash('error', 'Server $'.$rowId.' not found');
+
+            return;
+        }
+
         $this->serverId = $server->id;
         $this->servername = $server->servername;
         $this->displayname = $server->displayname;
@@ -69,18 +70,15 @@ class ShowServers extends Component
         $this->online = $server->online;
     }
 
-    public function updated($fields)
+    public function editServer($rowId): void
     {
-        $this->validateOnly($fields);
-        if ($fields == 'search') {
-            $this->resetPage(pageName: 'servers-page');
+        $server = Server::find($rowId);
+        if ($server == null) {
+            session()->flash('error', 'Server $'.$rowId.' not found');
 
             return;
         }
-    }
 
-    public function editServer(Server $server)
-    {
         $this->resetInput();
 
         $this->serverId = $server->id;
@@ -93,7 +91,7 @@ class ShowServers extends Component
         $this->restricted = $server->restricted;
     }
 
-    public function updateServer()
+    public function updateServer(): void
     {
         $this->authorize('edit_servers');
         $validatedData = $this->validate();
@@ -111,9 +109,10 @@ class ShowServers extends Component
         ]);
         session()->flash('message', 'Server Updated Successfully');
         $this->closeModal('editServerModal');
+        $this->refreshTable();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -121,7 +120,7 @@ class ShowServers extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->servername = '';
         $this->displayname = '';
@@ -132,25 +131,33 @@ class ShowServers extends Component
         $this->restricted = false;
     }
 
-    public function deleteServer(Server $server)
+    public function deleteServer($rowId): void
     {
+        $server = Server::find($rowId);
+        if ($server == null) {
+            session()->flash('error', 'Server $'.$rowId.' not found');
+
+            return;
+        }
+
         $this->deleteId = $server->id;
         $this->servername = $server->servername;
     }
 
-    public function delete()
+    public function delete(): void
     {
         $this->authorize('edit_servers');
-        Server::find($this->deleteId)->delete();
+        Server::find($this->deleteId)?->delete();
         $this->servername = '';
+        $this->refreshTable();
     }
 
-    public function addServer()
+    public function addServer(): void
     {
         $this->resetInput();
     }
 
-    public function createServer()
+    public function createServer(): void
     {
         $validatedData = $this->validate();
 
@@ -168,12 +175,16 @@ class ShowServers extends Component
 
         session()->flash('message', 'Successfully Added Server');
         $this->closeModal('addServerModal');
+        $this->refreshTable();
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-servers-table');
     }
 
     public function render(): View
     {
-        $servers = Server::where('servername', 'like', '%'.$this->search.'%')->orderBy('id', 'ASC')->paginate($this->per_page, pageName: 'servers-page');
-
-        return view('livewire.servers.show-servers')->with('servers', $servers);
+        return view('livewire.servers.show-servers');
     }
 }
