@@ -81,7 +81,8 @@ class Ticket extends Model
         return $this->hasMany(TicketMessage::class, 'ticket_id', 'id');
     }
 
-    public function creatorPlayer(): HasOne {
+    public function creatorPlayer(): HasOne
+    {
         return $this->hasOne(Player::class, 'uuid', 'creator');
     }
 
