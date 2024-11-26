@@ -36,7 +36,11 @@ final class TicketsTable extends PowerGridComponent
 
     public function relationSearch(): array
     {
-        return [];
+        return [
+            'creatorPlayer' => [
+                'username',
+            ],
+        ];
     }
 
     public function fields(): PowerGridFields
