@@ -53,6 +53,7 @@ final class LanguagesTable extends PowerGridComponent
                 ->searchable(),
 
             Column::action('Action')
+                ->headerAttribute('text-center'),
         ];
     }
 

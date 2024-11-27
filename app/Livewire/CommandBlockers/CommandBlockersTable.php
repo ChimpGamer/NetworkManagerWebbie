@@ -78,7 +78,8 @@ final class CommandBlockersTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::action('Action'),
+            Column::action('Action')
+                ->headerAttribute('text-center'),
         ];
     }
 

@@ -64,6 +64,7 @@ final class TagsTable extends PowerGridComponent
                 ->searchable(),
 
             Column::action('Action')
+                ->headerAttribute('text-center'),
         ];
     }
 

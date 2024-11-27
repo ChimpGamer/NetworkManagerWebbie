@@ -99,6 +99,7 @@ final class TicketsTable extends PowerGridComponent
                 ->sortable(),
 
             Column::action('Action')
+                ->headerAttribute('text-center'),
         ];
     }
 
@@ -110,7 +111,7 @@ final class TicketsTable extends PowerGridComponent
                 ->slot('<i class="material-icons text-info">info</i>')
                 ->can(auth()->user()->can('view_tickets'))
                 ->id()
-                ->class('bg-transparent border-0')
+                ->class('bg-transparent border-0 justify-content-center')
                 ->route('tickets.ticket', ['ticket' => $row])
         ];
     }

@@ -75,6 +75,7 @@ final class PunishmentTemplatesTable extends PowerGridComponent
                 ->sortable(),
 
             Column::action('Action')
+                ->headerAttribute('text-center')
                 ->hidden(! $canEdit, ! $canEdit),
         ];
     }
