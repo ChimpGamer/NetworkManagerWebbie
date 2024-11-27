@@ -64,19 +64,27 @@ final class PlayersTable extends PowerGridComponent
         return [
             Column::make('Player', 'uuid')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
 
             Column::make('Firstlogin', 'firstlogin')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
 
             Column::make('Lastlogin', 'lastlogin')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
 
             Column::make('Online', 'online_label', 'online')
                 ->sortable()
-                ->searchable(),
+                ->searchable()
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
         ];
     }
 }
