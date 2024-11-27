@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\TimeUtils;
 use App\Models\Player\Player;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -78,6 +79,16 @@ class Punishment extends Model
     public function player(): HasOne
     {
         return $this->hasOne(Player::class, 'uuid', 'uuid');
+    }
+
+    public function expires(): ?string {
+        $end = $this->end;
+        if ($end <= 0) {
+            return 'Never';
+        }
+        return TimeUtils::millisToReadableFormat(
+            Carbon::now()->diffInMilliseconds(Carbon::createFromTimestampMs($end))
+        );
     }
 
     public function getPlayerName()

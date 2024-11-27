@@ -21,7 +21,8 @@ final class PunishmentsTable extends PowerGridComponent
     {
         return [
             PowerGrid::header()
-                ->showSearchInput(),
+                ->showSearchInput()
+                ->showToggleColumns(),
             PowerGrid::footer()
                 ->showPerPage()
                 ->showRecordCount(),
@@ -57,6 +58,7 @@ final class PunishmentsTable extends PowerGridComponent
             ->add('player', fn ($item) => Blade::render('<x-player-link uuid="'.$item->uuid.'" username="'.$item->player->username.'" />'))
             ->add('punisher', fn ($item) => $item->getPunisherName())
             ->add('time', fn ($item) => $item->getTimeFormatted())
+            ->add('expires', fn ($item) => $item->expires())
             ->add('reason');
     }
 
@@ -82,6 +84,11 @@ final class PunishmentsTable extends PowerGridComponent
             Column::make('Time', 'time')
                 ->sortable()
                 ->searchable(),
+
+            Column::make('Expires', 'expires')
+                ->sortable()
+                ->searchable()
+                ->hidden(true, false),
 
             Column::make('Reason', 'reason')
                 ->sortable()
