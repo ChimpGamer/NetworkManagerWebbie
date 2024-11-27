@@ -18,7 +18,7 @@
                     <p>{{ $type }}</p>
                 </div>
                 <div class="mb-3">
-                    <strong>Duration</strong>
+                    <strong>Duration (Seconds)</strong>
                     <p>{{ $duration }}</p>
                 </div>
                 <div class="mb-3">
@@ -56,7 +56,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="bold">Type</label>
-                        <select name="type" class="form-control" wire:model="typeId">
+                        <select name="type" class="form-control" wire:model.change="typeId">
                             @foreach($this->punishmentTypeCases as $punishmentType)
                                 <option value="{{$punishmentType}}">{{ $punishmentType->name() }}</option>
                             @endforeach
@@ -65,8 +65,8 @@
                     </div>
                     @if($isTemporary)
                         <div class="mb-3">
-                            <label class="bold">Duration</label>
-                            <input type="number" wire:model="duration" class="form-control">
+                            <label class="bold">Duration (Seconds)</label>
+                            <input type="number" wire:model="duration" class="form-control" placeholder="Duration in seconds...">
                             @error('duration') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     @endif
@@ -113,7 +113,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="bold">Type</label>
-                        <select name="type" class="form-control" wire:model="typeId">
+                        <select name="type" class="form-control" wire:model.change="typeId">
                             @foreach($this->punishmentTypeCases as $punishmentType)
                                 <option
                                     value="{{$punishmentType}}">{{ $punishmentType->name() }}</option>
@@ -123,8 +123,8 @@
                     </div>
                     @if($isTemporary)
                         <div class="mb-3">
-                            <label class="bold">Duration</label>
-                            <input type="number" wire:model="duration" class="form-control">
+                            <label class="bold">Duration (Seconds)</label>
+                            <input type="number" wire:model="duration" class="form-control" placeholder="Duration in seconds...">
                             @error('duration') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     @endif
