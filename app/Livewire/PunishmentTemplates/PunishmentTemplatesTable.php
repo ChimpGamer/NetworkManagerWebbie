@@ -8,7 +8,6 @@ use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
-use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
@@ -38,7 +37,12 @@ final class PunishmentTemplatesTable extends PowerGridComponent
             ->add('id')
             ->add('name')
             ->add('type_name', fn ($item) => $item->type->name)
-            ->add('duration')
+            ->add('duration_formatted', function (PunishmentTemplate $model) {
+                if ($model->duration <= 0) {
+                    return 'Permanent';
+                }
+                return $model->duration / 1000;
+            })
             ->add('server')
             ->add('reason');
     }
@@ -60,7 +64,7 @@ final class PunishmentTemplatesTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Duration', 'duration')
+            Column::make('Duration', 'duration_formatted', 'duration')
                 ->searchable()
                 ->sortable(),
             Column::make('Server', 'server')
