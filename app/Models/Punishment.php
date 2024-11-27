@@ -81,14 +81,31 @@ class Punishment extends Model
         return $this->hasOne(Player::class, 'uuid', 'uuid');
     }
 
+    public function ends(): Carbon
+    {
+        return TimeUtils::fromTimestampMs($this->end);
+    }
+
     public function expires(): ?string {
         $end = $this->end;
         if ($end <= 0) {
             return 'Never';
         }
-        return TimeUtils::millisToReadableFormat(
-            Carbon::now()->diffInMilliseconds(Carbon::createFromTimestampMs($end))
-        );
+        return $this->ends()->fromNow();
+    }
+
+    public function expiresTooltip(): string
+    {
+        $end = $this->ends();
+        if ($end->isPast()) {
+            return 'Expired ' . $end->ago();
+        } else {
+            return 'Expires in ' . $end->fromNow();
+        }
+    }
+
+    public function getEndFormatted(): string {
+        return TimeUtils::formatTimestamp($this->end);
     }
 
     public function getPlayerName()
