@@ -63,7 +63,7 @@ class ShowPunishmentTemplates extends Component
         $this->templateId = $template->id;
         $this->name = $template->name;
         $this->type = $template->type->name();
-        $this->duration = $template->duration;
+        $this->duration = $template->duration / 1000;
         $this->reason = $template->reason;
         $this->server = $template->server;
     }
@@ -119,7 +119,7 @@ class ShowPunishmentTemplates extends Component
         $this->templateId = $template->id;
         $this->name = $template->name;
         $this->typeId = $template->type->value;
-        $this->duration = $template->duration;
+        $this->duration = $template->duration / 1000;
         $this->server = $template->server;
         $this->reason = $template->reason;
 
@@ -138,7 +138,7 @@ class ShowPunishmentTemplates extends Component
         PunishmentTemplate::where('id', $this->templateId)->update([
             'name' => $validatedData['name'],
             'type' => $type,
-            'duration' => $validatedData['duration'],
+            'duration' => $validatedData['duration'] * 1000,
             'server' => $validatedData['server'],
             'reason' => $validatedData['reason'],
         ]);

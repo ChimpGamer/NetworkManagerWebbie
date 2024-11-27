@@ -56,7 +56,7 @@
                             @if($template->duration == -1)
                                 Permanent
                             @else
-                                {{ $template->duration }}
+                                {{ $template->duration / 1000 }}
                             @endif
                         </td>
                         <td>
