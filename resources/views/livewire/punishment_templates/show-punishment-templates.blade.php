@@ -8,21 +8,9 @@
         <h5 class="alert alert-danger">{{ session('error') }}</h5>
     @endif
 
-    <div class="card">
-        <div class="card-header">
-            <div class="row mt-2 align-items-center text-center">
-                <div class="col-md-12">
-                    <h5 class="mb-0">
-                        <strong>Punishment Templates</strong>
-                    </h5>
-                </div>
-            </div>
-        </div>
-
-        <div class="card-body border-0 shadow table-responsive">
-            <livewire:punishment-templates.punishment-templates-table />
-        </div>
-    </div>
+    <x-card-table title="Punishment Templates">
+        <livewire:punishment-templates.punishment-templates-table />
+    </x-card-table>
     @can('edit_pre_punishments')
         <div class="p-4">
             <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addTemplateModal"

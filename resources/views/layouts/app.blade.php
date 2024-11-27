@@ -53,6 +53,9 @@
 <!-- Alpine Tooltip -->
 <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js" defer></script>
 
+<!-- Alpine Truncate -->
+<script src="https://unpkg.com/@alpine-collective/toolkit-truncate@1.0.2/dist/cdn.min.js" defer></script>
+
 @yield('script')
 </body>
 </html>
