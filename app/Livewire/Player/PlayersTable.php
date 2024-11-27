@@ -68,6 +68,13 @@ final class PlayersTable extends PowerGridComponent
                 ->headerAttribute('text-center')
                 ->bodyAttribute('text-center'),
 
+            Column::make('player_name', 'username')
+                ->searchable()
+                ->hidden(),
+            Column::make('player_ip', 'ip')
+                ->searchable()
+                ->hidden(),
+
             Column::make('Firstlogin', 'firstlogin')
                 ->sortable()
                 ->searchable()
