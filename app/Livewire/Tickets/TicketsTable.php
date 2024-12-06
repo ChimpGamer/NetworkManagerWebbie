@@ -53,7 +53,7 @@ final class TicketsTable extends PowerGridComponent
                     return '<i class="fas fa-exclamation-circle fa-lg text-danger"></i> '.$model->id;
                 }
             })
-            ->add('creator_label', fn(Model $model) => $model->creatorPlayer->username)
+            ->add('creator_label', fn (Model $model) => $model->creatorPlayer->username)
             ->add('title')
             ->add('assigned_to', function (Ticket $model) {
                 if (empty($model->assigned_to)) {
@@ -64,8 +64,7 @@ final class TicketsTable extends PowerGridComponent
             })
             ->add('creation_formatted', fn (Ticket $model) => TimeUtils::formatTimestamp($model->creation))
             ->add('last_update_formatted', fn (Ticket $model) => TimeUtils::formatTimestamp($model->last_update))
-            ->add('priority_label', fn(Ticket $model) => $model->priority->name())
-            ;
+            ->add('priority_label', fn (Ticket $model) => $model->priority->name());
     }
 
     public function columns(): array
@@ -112,7 +111,7 @@ final class TicketsTable extends PowerGridComponent
                 ->can(auth()->user()->can('view_tickets'))
                 ->id()
                 ->class('bg-transparent border-0 justify-content-center')
-                ->route('tickets.ticket', ['ticket' => $row])
+                ->route('tickets.ticket', ['ticket' => $row]),
         ];
     }
 }
