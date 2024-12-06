@@ -103,7 +103,7 @@ class ShowServerGroups extends Component
         return Server::select('id', 'servername')->get();
     }
 
-    #[On('edit-servergroup')]
+    #[On('edit-server-group')]
     public function editServerGroup($rowId): void
     {
         $serverGroup = ServerGroup::find($rowId);
@@ -122,7 +122,7 @@ class ShowServerGroups extends Component
         $this->serversSelection = $this->currentServers->pluck('id')->toArray();
     }
 
-    public function updateServerGroup()
+    public function updateServerGroup(): void
     {
         $this->authorize('edit_servers');
         $validatedData = $this->validate();
