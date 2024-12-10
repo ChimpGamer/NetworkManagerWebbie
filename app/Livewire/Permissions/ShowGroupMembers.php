@@ -7,15 +7,12 @@ use App\Models\Permissions\GroupMember;
 use App\Models\Permissions\PermissionPlayer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowGroupMembers extends Component
 {
     use AuthorizesRequests;
-    use WithPagination;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public ?int $memberId;
 
@@ -31,11 +28,7 @@ class ShowGroupMembers extends Component
 
     public Group $group;
 
-    public string $search = '';
-
-    public int $per_page = 10;
-
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'memberUUID' => 'required|uuid|exists:players,uuid',
@@ -44,19 +37,12 @@ class ShowGroupMembers extends Component
         ];
     }
 
-    public function updated($name, $value): void
-    {
-        if ($name == 'search') {
-            $this->resetPage();
-        }
-    }
-
-    public function addGroupMember()
+    public function addGroupMember(): void
     {
         $this->resetInput();
     }
 
-    public function createGroupMember()
+    public function createGroupMember(): void
     {
         $validatedData = $this->validate();
         $server = empty($validatedData['server']) ? '' : $validatedData['server'];
@@ -86,22 +72,31 @@ class ShowGroupMembers extends Component
         $this->closeModal('addGroupMemberModal');
     }
 
-    public function deleteGroupMember(GroupMember $groupMember, PermissionPlayer $permissionPlayer)
+    #[On('delete')]
+    public function deleteGroupMember($rowId): void
     {
         $this->authorize('edit_permissions');
+
+        $groupMember = GroupMember::find($rowId);
+        if ($groupMember == null) {
+            session()->flash('error', 'GroupMember #'.$rowId.' not found');
+
+            return;
+        }
+        $permissionPlayer = $groupMember->permissionPlayer;
 
         $this->memberId = $groupMember->id;
         $this->groupName = $this->group->name;
         $this->memberName = $permissionPlayer->name;
     }
 
-    public function delete()
+    public function delete(): void
     {
         GroupMember::find($this->memberId)->delete();
         $this->resetInput();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -109,7 +104,7 @@ class ShowGroupMembers extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->memberId = null;
         $this->memberName = null;
@@ -121,13 +116,6 @@ class ShowGroupMembers extends Component
 
     public function render(): View
     {
-        $groupMembers = GroupMember::where('groupid', $this->group->id)
-            ->where(function ($query) {
-                $query->orWhere('playeruuid', 'like', '%'.$this->search.'%')
-                    ->orWhere('server', 'like', '%'.$this->search.'%');
-            })
-            ->orderBy('id', 'ASC')->paginate($this->per_page);
-
-        return view('livewire.permissions.show-group-members')->with('members', $groupMembers);
+        return view('livewire.permissions.show-group-members');
     }
 }

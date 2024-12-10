@@ -41,7 +41,7 @@ class PermissionPlayer extends Model
         'uuid',
         'name',
         'prefix',
-        'suffix'
+        'suffix',
     ];
 
     /**
@@ -59,7 +59,7 @@ class PermissionPlayer extends Model
      * @var array
      */
     protected $dates = [
-        'expires'
+        'expires',
     ];
 
     /**
@@ -69,12 +69,12 @@ class PermissionPlayer extends Model
      */
     public $timestamps = false;
 
-    function willExpire(): bool
+    public function willExpire(): bool
     {
         return $this->expires != null;
     }
 
-    function hasExpired(): bool
+    public function hasExpired(): bool
     {
         return $this->willExpire() && $this->expires->isPast();
     }

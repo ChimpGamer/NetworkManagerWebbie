@@ -53,7 +53,7 @@ class GroupMember extends Model
      * @var array
      */
     protected $dates = [
-        'expires'
+        'expires',
     ];
 
     /**
@@ -73,12 +73,12 @@ class GroupMember extends Model
         return $this->hasOne(PermissionPlayer::class, 'uuid', 'playeruuid');
     }
 
-    function willExpire(): bool
+    public function willExpire(): bool
     {
         return $this->expires != null;
     }
 
-    function hasExpired(): bool
+    public function hasExpired(): bool
     {
         return $this->willExpire() && $this->expires->isPast();
     }

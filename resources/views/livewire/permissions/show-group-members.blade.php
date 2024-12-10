@@ -1,14 +1,18 @@
 <div>
     @include('livewire.permissions.permission-group-members-modals')
 
-    @if (session()->has('message'))
+    @if (session('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
     @endif
-    @if(session()->has('error'))
+    @if(session('error'))
         <h5 class="alert alert-danger">{{ session('error') }}</h5>
     @endif
 
-    <div class="card">
+    <x-card-table title="Members of {{ $group->name }}">
+        <livewire:permissions.group-members-table />
+    </x-card-table>
+
+    {{--<div class="card">
         <div class="card-header">
             <div class="row mt-2 justify-content-between text-center">
                 <div class="col-md-auto me-auto">
@@ -83,7 +87,7 @@
             </table>
             {{ $members->links() }}
         </div>
-    </div>
+    </div>--}}
     <div class="p-4">
         <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addGroupMemberModal"
                 wire:click="addGroupMember">
