@@ -64,6 +64,7 @@ class ShowGroupParents extends Component
 
         session()->flash('message', 'Successfully Created Group Parent');
         $this->closeModal('addGroupParentModal');
+        $this->refreshTable();
     }
 
     #[On('delete')]
@@ -85,6 +86,7 @@ class ShowGroupParents extends Component
     {
         GroupParent::find($this->parentId)->delete();
         $this->resetInput();
+        $this->refreshTable();
     }
 
     public function closeModal(?string $modalId = null): void
@@ -100,6 +102,11 @@ class ShowGroupParents extends Component
         $this->parentId = null;
         $this->groupName = null;
         $this->groups = [];
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-group-parents-table');
     }
 
     public function render(): View

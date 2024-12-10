@@ -13,7 +13,6 @@ use Livewire\WithPagination;
 class ShowPlayerPermissions extends Component
 {
     use AuthorizesRequests;
-    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -29,10 +28,7 @@ class ShowPlayerPermissions extends Component
 
     public PermissionPlayer $player;
 
-    public string $search = '';
-    public int $per_page = 10;
-
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'permission' => 'required|string',
@@ -40,14 +36,6 @@ class ShowPlayerPermissions extends Component
             'server' => 'string|nullable',
             'expires' => 'date|nullable',
         ];
-    }
-
-    public function updated($fields)
-    {
-        $this->validateOnly($fields);
-        if ($fields == 'search') {
-            $this->resetPage();
-        }
     }
 
     public function addPlayerPermission(): void
@@ -106,6 +94,7 @@ class ShowPlayerPermissions extends Component
 
         session()->flash('message', 'Successfully Created Player Permission');
         $this->closeModal('addPlayerPermissionModal');
+        $this->refreshTable();
     }
 
     #[On('edit')]
@@ -149,6 +138,7 @@ class ShowPlayerPermissions extends Component
         ]);
         session()->flash('message', 'Player Permission Updated Successfully');
         $this->closeModal('editPlayerPermissionModal');
+        $this->refreshTable();
     }
 
     #[On('delete')]
@@ -168,6 +158,7 @@ class ShowPlayerPermissions extends Component
     {
         PlayerPermission::find($this->permissionId)->delete();
         $this->resetInput();
+        $this->refreshTable();
     }
 
     private function permissionExists(PermissionPlayer $permissionPlayer, string $permission, string $server, string $world, $expires): bool
@@ -195,6 +186,11 @@ class ShowPlayerPermissions extends Component
         $this->world = null;
         $this->server = null;
         $this->expires = null;
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-permission-player-permissions-table');
     }
 
     public function render(): View

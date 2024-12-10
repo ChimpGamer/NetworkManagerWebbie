@@ -67,6 +67,7 @@ class ShowPlayerGroups extends Component
         ]);
         session()->flash('message', 'Successfully Created Player Group');
         $this->closeModal('addPlayerGroupModal');
+        $this->refreshTable();
     }
 
     #[On('edit')]
@@ -113,6 +114,7 @@ class ShowPlayerGroups extends Component
         ]);
         session()->flash('message', 'Player Group Updated Successfully');
         $this->closeModal('editPlayerGroupModal');
+        $this->refreshTable();
     }
 
     #[On('delete')]
@@ -135,6 +137,7 @@ class ShowPlayerGroups extends Component
     {
         GroupMember::find($this->memberId)->delete();
         $this->resetInput();
+        $this->refreshTable();
     }
 
     public function closeModal(?string $modalId = null): void
@@ -150,6 +153,11 @@ class ShowPlayerGroups extends Component
         $this->memberId = null;
         $this->memberName = null;
         $this->groupName = null;
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-permission-player-groups-table');
     }
 
     public function render(): View

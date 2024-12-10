@@ -71,6 +71,7 @@ class ShowGroups extends Component
 
         session()->flash('message', 'Successfully Created Group');
         $this->closeModal('addGroupModal');
+        $this->refreshTable();
     }
 
     #[On('edit')]
@@ -102,6 +103,7 @@ class ShowGroups extends Component
         ]);
         session()->flash('message', 'Group Updated Successfully');
         $this->closeModal('editGroupModal');
+        $this->refreshTable();
     }
 
     #[On('delete')]
@@ -127,6 +129,7 @@ class ShowGroups extends Component
         GroupSuffix::where('groupid', $this->groupId)->delete();
         GroupMember::where('groupid', $this->groupId)->delete();
         $this->resetInput();
+        $this->refreshTable();
     }
 
     public function closeModal(?string $modalId = null): void
@@ -143,6 +146,11 @@ class ShowGroups extends Component
         $this->name = null;
         $this->ladder = null;
         $this->rank = null;
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-groups-table');
     }
 
     public function render(): View

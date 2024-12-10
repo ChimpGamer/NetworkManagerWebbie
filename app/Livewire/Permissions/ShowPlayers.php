@@ -74,6 +74,7 @@ class ShowPlayers extends Component
         ]);
         session()->flash('message', 'Permission Player Updated Successfully');
         $this->closeModal('editPermissionPlayerModal');
+        $this->refreshTable();
     }
 
     public function closeModal(?string $modalId = null): void
@@ -90,6 +91,11 @@ class ShowPlayers extends Component
         $this->name = null;
         $this->prefix = null;
         $this->suffix = null;
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-permission-players-table');
     }
 
     public function render(): View

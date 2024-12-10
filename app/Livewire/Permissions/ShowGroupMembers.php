@@ -70,6 +70,7 @@ class ShowGroupMembers extends Component
         ]);
         session()->flash('message', 'Successfully Added Player to Group');
         $this->closeModal('addGroupMemberModal');
+        $this->refreshTable();
     }
 
     #[On('delete')]
@@ -94,6 +95,7 @@ class ShowGroupMembers extends Component
     {
         GroupMember::find($this->memberId)->delete();
         $this->resetInput();
+        $this->refreshTable();
     }
 
     public function closeModal(?string $modalId = null): void
@@ -112,6 +114,11 @@ class ShowGroupMembers extends Component
         $this->memberUUID = null;
         $this->server = null;
         $this->expires = null;
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-group-members-table');
     }
 
     public function render(): View

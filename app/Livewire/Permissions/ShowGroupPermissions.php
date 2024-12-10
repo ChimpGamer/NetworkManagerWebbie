@@ -91,6 +91,7 @@ class ShowGroupPermissions extends Component
 
         session()->flash('message', 'Successfully Created Group Permission');
         $this->closeModal('addGroupPermissionModal');
+        $this->refreshTable();
     }
 
     #[On('edit')]
@@ -134,6 +135,7 @@ class ShowGroupPermissions extends Component
         ]);
         session()->flash('message', 'Group Permission Updated Successfully');
         $this->closeModal('editGroupPermissionModal');
+        $this->refreshTable();
     }
 
     #[On('delete')]
@@ -154,6 +156,7 @@ class ShowGroupPermissions extends Component
     {
         GroupPermission::find($this->permissionId)->delete();
         $this->resetInput();
+        $this->refreshTable();
     }
 
     private function permissionExists(Group $group, string $permission, string $server, string $world, $expires): bool
@@ -181,6 +184,11 @@ class ShowGroupPermissions extends Component
         $this->world = null;
         $this->server = null;
         $this->expires = null;
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-group-permissions-table');
     }
 
     public function render(): View

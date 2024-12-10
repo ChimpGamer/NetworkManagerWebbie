@@ -47,6 +47,7 @@ class ShowGroupSuffixes extends Component
 
         session()->flash('message', 'Successfully Created Group Suffix');
         $this->closeModal('addGroupSuffixModal');
+        $this->refreshTable();
     }
 
     #[On('edit')]
@@ -76,6 +77,7 @@ class ShowGroupSuffixes extends Component
         ]);
         session()->flash('message', 'Group Suffix Updated Successfully');
         $this->closeModal('editGroupSuffixModal');
+        $this->refreshTable();
     }
 
     #[On('delete')]
@@ -96,6 +98,7 @@ class ShowGroupSuffixes extends Component
     {
         GroupSuffix::find($this->suffixId)->delete();
         $this->resetInput();
+        $this->refreshTable();
     }
 
     public function closeModal(?string $modalId = null): void
@@ -111,6 +114,11 @@ class ShowGroupSuffixes extends Component
         $this->suffixId = null;
         $this->suffix = null;
         $this->server = null;
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-group-suffixes-table');
     }
 
     public function render(): View

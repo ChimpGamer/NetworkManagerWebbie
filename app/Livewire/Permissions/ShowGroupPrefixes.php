@@ -47,6 +47,7 @@ class ShowGroupPrefixes extends Component
 
         session()->flash('message', 'Successfully Created Group Prefix');
         $this->closeModal('addGroupPrefixModal');
+        $this->refreshTable();
     }
 
     #[On('edit')]
@@ -76,6 +77,7 @@ class ShowGroupPrefixes extends Component
         ]);
         session()->flash('message', 'Group Prefix Updated Successfully');
         $this->closeModal('editGroupPrefixModal');
+        $this->refreshTable();
     }
 
     #[On('delete')]
@@ -96,6 +98,7 @@ class ShowGroupPrefixes extends Component
     {
         GroupPrefix::find($this->prefixId)->delete();
         $this->resetInput();
+        $this->refreshTable();
     }
 
     public function closeModal(?string $modalId = null): void
@@ -111,6 +114,11 @@ class ShowGroupPrefixes extends Component
         $this->prefixId = null;
         $this->prefix = null;
         $this->server = null;
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-group-prefixes-table');
     }
 
     public function render(): View
