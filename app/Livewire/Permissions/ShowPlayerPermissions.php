@@ -14,8 +14,6 @@ class ShowPlayerPermissions extends Component
 {
     use AuthorizesRequests;
 
-    protected string $paginationTheme = 'bootstrap';
-
     public ?int $permissionId;
 
     public ?string $permission;
