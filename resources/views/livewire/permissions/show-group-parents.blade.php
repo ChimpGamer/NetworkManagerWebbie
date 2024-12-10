@@ -1,14 +1,18 @@
 <div>
     @include('livewire.permissions.permission-group-parents-modals')
 
-    @if (session()->has('message'))
+    @if (session('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
     @endif
-    @if(session()->has('error'))
+    @if(session('error'))
         <h5 class="alert alert-danger">{{ session('error') }}</h5>
     @endif
 
-    <div class="card">
+    <x-card-table title="Parents of {{ $group->name }}">
+        <livewire:permissions.group-parents-table groupId="{{ $group->id }}" />
+    </x-card-table>
+
+    {{--<div class="card">
         <div class="card-header h5 text-center mb-0">
             <strong>Parents of {{ $group->name }}</strong>
         </div>
@@ -46,7 +50,7 @@
             </table>
             {{ $parents->links() }}
         </div>
-    </div>
+    </div>--}}
     @can('edit_permissions')
         <div class="p-4">
             <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addGroupParentModal"
