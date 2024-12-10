@@ -6,15 +6,12 @@ use App\Models\Permissions\Group;
 use App\Models\Permissions\GroupSuffix;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowGroupSuffixes extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public ?int $suffixId;
 
@@ -24,7 +21,7 @@ class ShowGroupSuffixes extends Component
 
     public Group $group;
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'suffix' => 'required|string',
@@ -32,20 +29,12 @@ class ShowGroupSuffixes extends Component
         ];
     }
 
-    public function updated($fields)
-    {
-        $this->validateOnly($fields);
-        if ($fields == 'search') {
-            $this->resetPage();
-        }
-    }
-
     public function addGroupSuffix(): void
     {
         $this->resetInput();
     }
 
-    public function createGroupSuffix()
+    public function createGroupSuffix(): void
     {
         $validatedData = $this->validate();
         $server = empty($validatedData['server']) ? '' : $validatedData['server'];
@@ -60,16 +49,23 @@ class ShowGroupSuffixes extends Component
         $this->closeModal('addGroupSuffixModal');
     }
 
-    public function editGroupSuffix(GroupSuffix $groupSuffix)
+    #[On('edit')]
+    public function editGroupSuffix($rowId): void
     {
         $this->resetInput();
+        $groupSuffix = GroupSuffix::find($rowId);
+        if ($groupSuffix == null) {
+            session()->flash('error', 'GroupSuffix #'.$rowId.' not found');
+
+            return;
+        }
 
         $this->suffixId = $groupSuffix->id;
         $this->suffix = $groupSuffix->suffix;
         $this->server = $groupSuffix->server;
     }
 
-    public function updateGroupSuffix()
+    public function updateGroupSuffix(): void
     {
         $validatedData = $this->validate();
         $server = empty($validatedData['server']) ? '' : $validatedData['server'];
@@ -82,19 +78,27 @@ class ShowGroupSuffixes extends Component
         $this->closeModal('editGroupSuffixModal');
     }
 
-    public function deleteGroupSuffix(GroupSuffix $groupSuffix)
+    #[On('delete')]
+    public function deleteGroupSuffix($rowId): void
     {
+        $groupSuffix = GroupSuffix::find($rowId);
+        if ($groupSuffix == null) {
+            session()->flash('error', 'GroupSuffix #'.$rowId.' not found');
+
+            return;
+        }
+
         $this->suffixId = $groupSuffix->id;
         $this->suffix = $groupSuffix->suffix;
     }
 
-    public function delete()
+    public function delete(): void
     {
         GroupSuffix::find($this->suffixId)->delete();
         $this->resetInput();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -102,7 +106,7 @@ class ShowGroupSuffixes extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->suffixId = null;
         $this->suffix = null;
@@ -111,8 +115,6 @@ class ShowGroupSuffixes extends Component
 
     public function render(): View
     {
-        $groupSuffixes = GroupSuffix::where('groupid', $this->group->id)->orderBy('id', 'ASC')->paginate(10);
-
-        return view('livewire.permissions.show-group-suffixes')->with('suffixes', $groupSuffixes);
+        return view('livewire.permissions.show-group-suffixes');
     }
 }
