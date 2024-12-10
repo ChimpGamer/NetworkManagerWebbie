@@ -46,7 +46,8 @@ final class GroupMembersTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('username', fn ($model) => $model->permissionPlayer->name)
             ->add('server', fn ($model) => empty($model->server) ? 'ALL' : $model->server)
-            ->add('expires', fn ($model) => empty($model->expired) ? 'Never' : $model->expired);
+            ->add('expires')
+            ->add('expires_label', fn ($model) => empty($model->expires) ? 'Never' : $model->expires);
     }
 
     public function columns(): array
@@ -60,7 +61,7 @@ final class GroupMembersTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Expires', 'expires')
+            Column::make('Expires', 'expires_label', 'expires')
                 ->sortable()
                 ->searchable(),
 
