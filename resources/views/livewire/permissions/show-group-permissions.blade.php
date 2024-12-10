@@ -1,14 +1,17 @@
 <div>
     @include('livewire.permissions.permission-group-permissions-modals')
 
-    @if (session()->has('message'))
+    @if (session('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
     @endif
-    @if(session()->has('error'))
+    @if(session('error'))
         <h5 class="alert alert-danger">{{ session('error') }}</h5>
     @endif
 
-    <div class="card">
+    <x-card-table title="Permissions of {{ $group->name }}">
+        <livewire:permissions.group-permissions-table groupId="{{ $group->id }}" />
+    </x-card-table>
+    {{--<div class="card">
         <div class="card-header">
             <div class="row mt-2 justify-content-between text-center">
                 <div class="col-md-auto me-auto">
@@ -97,7 +100,7 @@
             </table>
             {{ $permissions->links() }}
         </div>
-    </div>
+    </div>--}}
     @can('edit_permissions')
         <div class="p-4">
             <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init
