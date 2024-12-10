@@ -6,6 +6,7 @@ use App\Models\Permissions\PermissionPlayer;
 use App\Models\Permissions\PlayerPermission;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -54,7 +55,7 @@ class ShowPlayerPermissions extends Component
         $this->resetInput();
     }
 
-    public function createPlayerPermission()
+    public function createPlayerPermission(): void
     {
         $validatedData = $this->validate();
         $permission = $validatedData['permission'];
@@ -107,9 +108,16 @@ class ShowPlayerPermissions extends Component
         $this->closeModal('addPlayerPermissionModal');
     }
 
-    public function editPlayerPermission(PlayerPermission $playerPermission)
+    #[On('edit')]
+    public function editPlayerPermission($rowId): void
     {
         $this->resetInput();
+        $playerPermission = PlayerPermission::find($rowId);
+        if ($playerPermission == null) {
+            session()->flash('error', 'PlayerPermission #'.$rowId.' not found');
+
+            return;
+        }
 
         $this->permissionId = $playerPermission->id;
         $this->permission = $playerPermission->permission;
@@ -118,7 +126,7 @@ class ShowPlayerPermissions extends Component
         $this->expires = $playerPermission->expires;
     }
 
-    public function updatePlayerPermission()
+    public function updatePlayerPermission(): void
     {
         $validatedData = $this->validate();
         $permission = $validatedData['permission'];
@@ -143,13 +151,20 @@ class ShowPlayerPermissions extends Component
         $this->closeModal('editPlayerPermissionModal');
     }
 
-    public function deletePlayerPermission(PlayerPermission $playerPermission)
+    #[On('delete')]
+    public function deletePlayerPermission($rowId): void
     {
+        $playerPermission = PlayerPermission::find($rowId);
+        if ($playerPermission == null) {
+            session()->flash('error', 'PlayerPermission #'.$rowId.' not found');
+
+            return;
+        }
         $this->permissionId = $playerPermission->id;
         $this->permission = $playerPermission->permission;
     }
 
-    public function delete()
+    public function delete(): void
     {
         PlayerPermission::find($this->permissionId)->delete();
         $this->resetInput();
@@ -165,7 +180,7 @@ class ShowPlayerPermissions extends Component
             ->exists();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -173,7 +188,7 @@ class ShowPlayerPermissions extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->permissionId = null;
         $this->permission = null;
@@ -184,13 +199,6 @@ class ShowPlayerPermissions extends Component
 
     public function render(): View
     {
-        $playerPermissions = PlayerPermission::where('playeruuid', $this->player->uuid)
-            ->where(function ($query) {
-                $query->orWhere('permission', 'like', '%'.$this->search.'%')
-                    ->orWhere('world', 'like', '%'.$this->search.'%')
-                    ->orWhere('server', 'like', '%'.$this->search.'%');
-            })->orderBy('id', 'ASC')->paginate($this->per_page);
-
-        return view('livewire.permissions.show-player-permissions')->with('permissions', $playerPermissions);
+        return view('livewire.permissions.show-player-permissions');
     }
 }
