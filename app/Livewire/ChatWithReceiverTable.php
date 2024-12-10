@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Reactive;
 use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
@@ -95,6 +96,13 @@ final class ChatWithReceiverTable extends PowerGridComponent
             Column::make('Time', 'time_formatted', 'time')
                 ->sortable()
                 ->searchable(),
+        ];
+    }
+
+    public function filters(): array
+    {
+        return [
+            Filter::inputText('server'),
         ];
     }
 }
