@@ -6,15 +6,12 @@ use App\Models\Permissions\Group;
 use App\Models\Permissions\GroupPrefix;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowGroupPrefixes extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public ?int $prefixId;
 
@@ -24,7 +21,7 @@ class ShowGroupPrefixes extends Component
 
     public Group $group;
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'prefix' => 'required|string',
@@ -32,20 +29,12 @@ class ShowGroupPrefixes extends Component
         ];
     }
 
-    public function updated($fields)
-    {
-        $this->validateOnly($fields);
-        if ($fields == 'search') {
-            $this->resetPage();
-        }
-    }
-
     public function addGroupPrefix(): void
     {
         $this->resetInput();
     }
 
-    public function createGroupPrefix()
+    public function createGroupPrefix(): void
     {
         $validatedData = $this->validate();
         $server = empty($validatedData['server']) ? '' : $validatedData['server'];
@@ -60,16 +49,23 @@ class ShowGroupPrefixes extends Component
         $this->closeModal('addGroupPrefixModal');
     }
 
-    public function editGroupPrefix(GroupPrefix $groupPrefix)
+    #[On('edit')]
+    public function editGroupPrefix($rowId): void
     {
         $this->resetInput();
+        $groupPrefix = GroupPrefix::find($rowId);
+        if ($groupPrefix == null) {
+            session()->flash('error', 'GroupPrefix #'.$rowId.' not found');
+
+            return;
+        }
 
         $this->prefixId = $groupPrefix->id;
         $this->prefix = $groupPrefix->prefix;
         $this->server = $groupPrefix->server;
     }
 
-    public function updateGroupPrefix()
+    public function updateGroupPrefix(): void
     {
         $validatedData = $this->validate();
         $server = empty($validatedData['server']) ? '' : $validatedData['server'];
@@ -82,19 +78,27 @@ class ShowGroupPrefixes extends Component
         $this->closeModal('editGroupPrefixModal');
     }
 
-    public function deleteGroupPrefix(GroupPrefix $groupPrefix)
+    #[On('delete')]
+    public function deleteGroupPrefix($rowId): void
     {
+        $groupPrefix = GroupPrefix::find($rowId);
+        if ($groupPrefix == null) {
+            session()->flash('error', 'GroupPrefix #'.$rowId.' not found');
+
+            return;
+        }
+
         $this->prefixId = $groupPrefix->id;
         $this->prefix = $groupPrefix->prefix;
     }
 
-    public function delete()
+    public function delete(): void
     {
         GroupPrefix::find($this->prefixId)->delete();
         $this->resetInput();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -102,7 +106,7 @@ class ShowGroupPrefixes extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->prefixId = null;
         $this->prefix = null;
@@ -111,8 +115,6 @@ class ShowGroupPrefixes extends Component
 
     public function render(): View
     {
-        $groupPrefixes = GroupPrefix::where('groupid', $this->group->id)->orderBy('id', 'ASC')->paginate(10);
-
-        return view('livewire.permissions.show-group-prefixes')->with('prefixes', $groupPrefixes);
+        return view('livewire.permissions.show-group-prefixes');
     }
 }

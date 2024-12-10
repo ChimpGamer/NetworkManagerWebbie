@@ -1,65 +1,16 @@
 <div>
     @include('livewire.permissions.permission-group-prefixes-modals')
 
-    @if (session()->has('message'))
+    @if (session('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
     @endif
+    @if(session('error'))
+        <h5 class="alert alert-danger">{{ session('error') }}</h5>
+    @endif
 
-    <div class="card">
-        <div class="card-header h5 text-center mb-0">
-            <strong>Prefixes of {{ $group->name }}</strong>
-        </div>
-        <div class="card-body border-0 shadow table-responsive">
-            <table class="table text-center">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Prefix</th>
-                    <th>Server</th>
-                    @can('edit_permissions')
-                        <th>Actions</th>
-                    @endcan
-                </tr>
-                </thead>
-                <tbody>
-                @forelse($prefixes as $prefix)
-                    @php
-                        $server = $prefix->server;
-                        if (empty($server)) {
-                            $server = "ALL";
-                        }
-                    @endphp
-                    <tr>
-                        <td>{{ $prefix->id }}</td>
-                        <td>{{ $prefix->prefix }}</td>
-                        <td>{{ $server }}</td>
-                        @can('edit_permissions')
-                            <td>
-                                <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-ripple-init data-mdb-modal-init
-                                        data-mdb-target="#editGroupPrefixModal"
-                                        wire:click="editGroupPrefix({{$prefix->id}})">
-                                    <i class="material-icons text-warning">edit</i>
-                                </button>
-                                <button type="button" style="background: transparent; border: none;"
-                                        data-mdb-ripple-init data-mdb-modal-init
-                                        data-mdb-target="#deleteGroupPrefixModal"
-                                        wire:click="deleteGroupPrefix({{ $prefix->id }})">
-                                    <i class="material-icons text-danger">delete</i>
-                                </button>
-                            </td>
-                        @endcan
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="text-center">Sorry - No Data Found</td>
-                    </tr>
-                @endforelse
-                </tbody>
-            </table>
-            {{ $prefixes->links() }}
-        </div>
-    </div>
+    <x-card-table title="Prefixes of {{ $group->name }}">
+        <livewire:permissions.group-prefixes-table groupId="{{ $group->id }}" />
+    </x-card-table>
     @can('edit_permissions')
         <div class="p-4">
             <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addGroupPrefixModal"
