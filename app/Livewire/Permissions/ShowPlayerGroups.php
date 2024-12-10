@@ -7,15 +7,12 @@ use App\Models\Permissions\GroupMember;
 use App\Models\Permissions\PermissionPlayer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowPlayerGroups extends Component
 {
     use AuthorizesRequests;
-    use WithPagination;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public ?int $memberId;
 
@@ -27,10 +24,7 @@ class ShowPlayerGroups extends Component
 
     public array $groups = [];
 
-    public string $search = '';
-    public int $per_page = 10;
-
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'groupName' => 'string|required|exists:App\Models\Permissions\Group,name',
@@ -39,20 +33,13 @@ class ShowPlayerGroups extends Component
         ];
     }
 
-    public function updated($name, $value): void
-    {
-        if ($name == 'search') {
-            $this->resetPage();
-        }
-    }
-
-    public function addPlayerGroup()
+    public function addPlayerGroup(): void
     {
         $this->resetInput();
         $this->groups = Group::all()->toArray();
     }
 
-    public function createPlayerGroup()
+    public function createPlayerGroup(): void
     {
         $validatedData = $this->validate();
         $server = empty($validatedData['server']) ? '' : $validatedData['server'];
@@ -82,16 +69,23 @@ class ShowPlayerGroups extends Component
         $this->closeModal('addPlayerGroupModal');
     }
 
-    public function editPlayerGroup(GroupMember $groupMember, Group $group)
+    #[On('edit')]
+    public function editPlayerGroup($rowId): void
     {
         $this->resetInput();
+        $groupMember = GroupMember::find($rowId);
+        if ($groupMember == null) {
+            session()->flash('error', 'GroupMember #'.$rowId.' not found');
+
+            return;
+        }
 
         $this->memberId = $groupMember->id;
         $this->memberName = $this->player->name;
-        $this->groupName = $group->name;
+        $this->groupName = $groupMember->group->name;
     }
 
-    public function updatePlayerGroup()
+    public function updatePlayerGroup(): void
     {
         $validatedData = $this->validate();
         $server = empty($validatedData['server']) ? '' : $validatedData['server'];
@@ -121,22 +115,29 @@ class ShowPlayerGroups extends Component
         $this->closeModal('editPlayerGroupModal');
     }
 
-    public function deletePlayerGroup(GroupMember $groupMember, Group $group)
+    #[On('delete')]
+    public function deletePlayerGroup($rowId): void
     {
         $this->authorize('edit_permissions');
+        $groupMember = GroupMember::find($rowId);
+        if ($groupMember == null) {
+            session()->flash('error', 'GroupMember #'.$rowId.' not found');
+
+            return;
+        }
 
         $this->memberId = $groupMember->id;
-        $this->groupName = $group->name;
+        $this->groupName = $groupMember->group->name;
         $this->memberName = $this->player->name;
     }
 
-    public function delete()
+    public function delete(): void
     {
         GroupMember::find($this->memberId)->delete();
         $this->resetInput();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -144,7 +145,7 @@ class ShowPlayerGroups extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->memberId = null;
         $this->memberName = null;
@@ -153,12 +154,6 @@ class ShowPlayerGroups extends Component
 
     public function render(): View
     {
-        $playerGroups = GroupMember::where('playeruuid', $this->player->uuid)
-            ->where(function ($query) {
-                $query->orWhere('groupid', 'like', '%'.$this->search.'%')
-                    ->orWhere('server', 'like', '%'.$this->search.'%');
-            })->orderBy('id', 'ASC')->paginate($this->per_page);
-
-        return view('livewire.permissions.show-player-groups')->with('playerGroups', $playerGroups);
+        return view('livewire.permissions.show-player-groups');
     }
 }
