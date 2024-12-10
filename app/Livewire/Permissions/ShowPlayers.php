@@ -5,15 +5,12 @@ namespace App\Livewire\Permissions;
 use App\Models\Permissions\PermissionPlayer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowPlayers extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public ?string $playerUuid;
 
@@ -23,10 +20,7 @@ class ShowPlayers extends Component
 
     public ?string $suffix;
 
-    public string $search = '';
-    public int $per_page = 10;
-
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'prefix' => 'string',
@@ -34,24 +28,32 @@ class ShowPlayers extends Component
         ];
     }
 
-    public function updated($name, $value): void
+    #[On('info')]
+    public function showPlayer($rowId): void
     {
-        if ($name == 'search') {
-            $this->resetPage();
-        }
-    }
+        $permissionPlayer = PermissionPlayer::find($rowId);
+        if ($permissionPlayer == null) {
+            session()->flash('error', 'Permission Player #'.$rowId.' not found');
 
-    public function showPlayer(PermissionPlayer $permissionPlayer)
-    {
+            return;
+        }
+
         $this->playerUuid = $permissionPlayer->uuid;
         $this->name = $permissionPlayer->name;
         $this->prefix = $permissionPlayer->prefix;
         $this->suffix = $permissionPlayer->suffix;
     }
 
-    public function editPlayer(PermissionPlayer $permissionPlayer)
+    #[On('edit')]
+    public function editPlayer($rowId): void
     {
         $this->resetInput();
+        $permissionPlayer = PermissionPlayer::find($rowId);
+        if ($permissionPlayer == null) {
+            session()->flash('error', 'Permission Player #'.$rowId.' not found');
+
+            return;
+        }
 
         $this->playerUuid = $permissionPlayer->uuid;
         $this->name = $permissionPlayer->name;
@@ -59,7 +61,7 @@ class ShowPlayers extends Component
         $this->suffix = $permissionPlayer->suffix;
     }
 
-    public function updatePermissionPlayer()
+    public function updatePermissionPlayer(): void
     {
         $validatedData = $this->validate();
 
@@ -74,7 +76,7 @@ class ShowPlayers extends Component
         $this->closeModal('editPermissionPlayerModal');
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -82,7 +84,7 @@ class ShowPlayers extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->playerUuid = null;
         $this->name = null;
@@ -92,13 +94,6 @@ class ShowPlayers extends Component
 
     public function render(): View
     {
-        $players = PermissionPlayer::where(function ($query) {
-            $query->where('uuid', 'like', '%'.$this->search.'%')
-                ->orWhere('name', 'like', '%'.$this->search.'%')
-                ->orWhere('prefix', 'like', '%'.$this->search.'%')
-                ->orWhere('suffix', 'like', '%'.$this->search.'%');
-        })->orderBy('name', 'ASC')->paginate($this->per_page, pageName: 'players-page');
-
-        return view('livewire.permissions.show-players')->with('players', $players);
+        return view('livewire.permissions.show-players');
     }
 }
