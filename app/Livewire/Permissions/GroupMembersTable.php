@@ -14,6 +14,8 @@ final class GroupMembersTable extends PowerGridComponent
 {
     public string $tableName = 'group-members-table';
 
+    public int $groupId;
+
     public function setUp(): array
     {
         return [
@@ -27,7 +29,7 @@ final class GroupMembersTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return GroupMember::query()->with('permissionPlayer');
+        return GroupMember::query()->with('permissionPlayer')->where('groupid', $this->groupId);
     }
 
     public function relationSearch(): array
