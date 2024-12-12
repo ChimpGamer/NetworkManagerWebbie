@@ -83,6 +83,13 @@ final class PermissionPlayersTable extends PowerGridComponent
                 ->id()
                 ->class('bg-transparent border-0')
                 ->dispatchTo('permissions.show-players', 'edit', ['rowId' => $row->uuid]),
+            Button::add('delete')
+                ->attributes(['data-mdb-ripple-init' => '', 'data-mdb-modal-init' => '', 'data-mdb-target' => '#deletePermissionPlayerModal'])
+                ->slot('<i class="material-icons text-danger">delete</i>')
+                ->can(auth()->user()->can('edit_permissions'))
+                ->id()
+                ->class('bg-transparent border-0')
+                ->dispatchTo('permissions.show-players', 'delete', ['rowId' => $row->uuid]),
         ];
     }
 }

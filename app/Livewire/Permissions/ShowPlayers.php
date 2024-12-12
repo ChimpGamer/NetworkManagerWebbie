@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Permissions;
 
+use App\Models\Permissions\GroupMember;
 use App\Models\Permissions\PermissionPlayer;
+use App\Models\Permissions\PlayerPermission;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
@@ -74,6 +76,30 @@ class ShowPlayers extends Component
         ]);
         session()->flash('message', 'Permission Player Updated Successfully');
         $this->closeModal('editPermissionPlayerModal');
+        $this->refreshTable();
+    }
+
+    #[On('delete')]
+    public function deletePlayer($rowId): void
+    {
+        $this->resetInput();
+        $permissionPlayer = PermissionPlayer::find($rowId);
+        if ($permissionPlayer == null) {
+            session()->flash('error', 'Permission Player #'.$rowId.' not found');
+
+            return;
+        }
+
+        $this->playerUuid = $permissionPlayer->uuid;
+        $this->name = $permissionPlayer->name;
+    }
+
+    public function delete(): void
+    {
+        PermissionPlayer::find($this->playerUuid)->delete();
+        PlayerPermission::where('playeruuid', $this->playerUuid)->delete();
+        GroupMember::where('playeruuid', $this->playerUuid)->delete();
+        $this->resetInput();
         $this->refreshTable();
     }
 
