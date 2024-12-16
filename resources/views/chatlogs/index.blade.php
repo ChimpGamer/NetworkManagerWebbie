@@ -3,7 +3,7 @@
 @section('content')
 
     <div>
-        @livewire('show-chat-logs')
+        @livewire('chat-log.show-chat-logs')
     </div>
 
 @endsection
