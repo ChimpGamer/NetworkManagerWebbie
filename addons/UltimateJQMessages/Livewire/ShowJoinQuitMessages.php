@@ -4,17 +4,16 @@ namespace Addons\UltimateJQMessages\Livewire;
 
 use Addons\UltimateJQMessages\App\Models\JoinQuitMessage;
 use Addons\UltimateJQMessages\App\Models\JoinQuitMessageType;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowJoinQuitMessages extends Component
 {
-    use WithPagination;
-
-    protected string $paginationTheme = 'bootstrap';
-
     public int $jqMessageId;
 
     public ?string $name;
@@ -25,28 +24,18 @@ class ShowJoinQuitMessages extends Component
 
     public ?string $permission;
 
-    public string $search = '';
-    public int $per_page = 10;
-
     #[Computed]
     public function JoinQuitMessageTypeCases(): array
     {
         return JoinQuitMessageType::cases();
     }
 
-    public function updated($name, $value): void
-    {
-        if ($name == 'search') {
-            $this->resetPage();
-        }
-    }
-
-    public function addJQMessage()
+    public function addJQMessage(): void
     {
         $this->resetInput();
     }
 
-    public function createJQMessage()
+    public function createJQMessage(): void
     {
         // name has to be unique.
         $validatedData = $this->validate([
@@ -69,10 +58,19 @@ class ShowJoinQuitMessages extends Component
         ]);
         session()->flash('message', 'Successfully Added Join Quit Message');
         $this->closeModal('addJQMessageModal');
+        $this->refreshTable();
     }
 
-    public function editJQMessage(JoinQuitMessage $joinQuitMessage)
+    #[On('edit')]
+    public function editJQMessage($rowId): void
     {
+        $joinQuitMessage = JoinQuitMessage::find($rowId);
+        if ($joinQuitMessage == null) {
+            session()->flash('error', 'Join Quit Message #'.$rowId.' not found');
+
+            return;
+        }
+
         $this->jqMessageId = $joinQuitMessage->id;
         $this->name = $joinQuitMessage->name;
         $this->type = $joinQuitMessage->type;
@@ -80,7 +78,7 @@ class ShowJoinQuitMessages extends Component
         $this->permission = $joinQuitMessage->permission;
     }
 
-    public function updateJQMessage()
+    public function updateJQMessage(): void
     {
         $validatedData = $this->validate([
             'name' => 'required|string|exists:Addons\UltimateJQMessages\App\Models\JoinQuitMessage,name',
@@ -102,21 +100,31 @@ class ShowJoinQuitMessages extends Component
         ]);
         session()->flash('message', 'Join Quit Message Updated Successfully');
         $this->closeModal('editJQMessageModal');
+        $this->refreshTable();
     }
 
-    public function deleteJQMessage(JoinQuitMessage $joinQuitMessage)
+    #[On('delete')]
+    public function deleteJQMessage($rowId): void
     {
+        $joinQuitMessage = JoinQuitMessage::find($rowId);
+        if ($joinQuitMessage == null) {
+            session()->flash('error', 'Join Quit Message #'.$rowId.' not found');
+
+            return;
+        }
+
         $this->jqMessageId = $joinQuitMessage->id;
         $this->name = $joinQuitMessage->name;
     }
 
-    public function delete()
+    public function delete(): void
     {
         JoinQuitMessage::find($this->jqMessageId)->delete();
         $this->closeModal('deleteJQMessageModal');
+        $this->refreshTable();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -124,7 +132,7 @@ class ShowJoinQuitMessages extends Component
         }
     }
 
-    public function resetInput()
+    public function resetInput(): void
     {
         $this->jqMessageId = -1;
         $this->name = null;
@@ -133,12 +141,13 @@ class ShowJoinQuitMessages extends Component
         $this->permission = null;
     }
 
-    public function render()
+    private function refreshTable(): void
     {
-        $messages = JoinQuitMessage::where('name', 'like', '%'.$this->search.'%')
-            ->orWhere('type', 'like', '%'.$this->search.'%')
-            ->orderBy('id', 'DESC')->paginate($this->per_page);
+        $this->dispatch('pg:eventRefresh-join-quit-messages-table');
+    }
 
-        return view('ultimatejqmessages::livewire.show-join-quit-messages')->with('messages', $messages);
+    public function render(): View|Factory|Application
+    {
+        return view('ultimatejqmessages::livewire.show-join-quit-messages');
     }
 }
