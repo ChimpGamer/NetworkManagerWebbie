@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Helpers\TimeUtils;
+use App\Models\Player\Player;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class HelpOP extends Model
 {
@@ -63,10 +65,8 @@ class HelpOP extends Model
      */
     public $timestamps = false;
 
-    protected function time(): Attribute
+    public function player(): HasOne
     {
-        return Attribute::make(
-            get: fn (string $value) => TimeUtils::formatTimestamp($value)
-        );
+        return $this->hasOne(Player::class, 'uuid', 'requester');
     }
 }
