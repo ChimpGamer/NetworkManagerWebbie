@@ -115,10 +115,18 @@
         </div>
 
         <!-- Player Sessions -->
-        @livewire('player.show-player-sessions', ['player' => $player])
+        <div class="col-12">
+            <x-card-table title="Player Sessions">
+                @livewire('player.player-sessions-table', ['player' => $player])
+            </x-card-table>
+        </div>
 
         <!-- Player Punishments -->
-        @livewire('player.show-player-punishments', ['player' => $player])
+        <div class="col-12">
+            <x-card-table title="Player Punishments">
+                @livewire('player.player-punishments-table', ['player' => $player])
+            </x-card-table>
+        </div>
     </div>
 </div>
 

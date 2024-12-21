@@ -46,12 +46,12 @@ class Session extends Model
 
     public function formatStart(): string
     {
-        return TimeUtils::formatTimestamp($this->start);
+        return TimeUtils::fromTimestampMs($this->start);
     }
 
     public function formatEnd(): string
     {
-        return TimeUtils::formatTimestamp($this->end);
+        return TimeUtils::fromTimestampMs($this->end);
     }
 
     public function formatTime(): string
