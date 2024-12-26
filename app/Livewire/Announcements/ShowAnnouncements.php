@@ -13,8 +13,6 @@ class ShowAnnouncements extends Component
 {
     use AuthorizesRequests;
 
-    protected string $paginationTheme = 'bootstrap';
-
     public int $announcementId;
 
     public int $type;
