@@ -35,7 +35,7 @@ final class AnnouncementsTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('id')
-            ->add('message', fn (Announcement $model) => str($model->message)->limit(140))
+            ->add('message_limited', fn (Announcement $model) => str($model->message)->limit(150))
             ->add('expires_label', function (Announcement $model) {
                 if ($model->expires != null) {
                     return '<i class="fas fa-check-circle fa-lg text-success" x-data x-tooltip.raw="'.$model->expires.'"></i>';
@@ -59,7 +59,7 @@ final class AnnouncementsTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Message', 'message')
+            Column::make('Message', 'message_limited', 'message')
                 ->sortable()
                 ->searchable(),
 
