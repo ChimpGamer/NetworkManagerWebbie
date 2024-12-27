@@ -70,6 +70,7 @@ class ShowServers extends Component
         $this->online = $server->online;
     }
 
+    #[On('edit')]
     public function editServer($rowId): void
     {
         $server = Server::find($rowId);
@@ -131,6 +132,7 @@ class ShowServers extends Component
         $this->restricted = false;
     }
 
+    #[On('delete')]
     public function deleteServer($rowId): void
     {
         $server = Server::find($rowId);
