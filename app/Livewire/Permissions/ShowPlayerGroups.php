@@ -20,6 +20,10 @@ class ShowPlayerGroups extends Component
 
     public ?string $groupName;
 
+    public ?string $server;
+
+    public ?string $expires;
+
     public PermissionPlayer $player;
 
     public array $groups = [];
