@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    @if (session()->has('message'))
+    @if (session('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
     @endif
 </div>
