@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Filter;
 
 use App\Models\Filter;
 use Illuminate\Database\Eloquent\Builder;

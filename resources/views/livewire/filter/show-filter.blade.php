@@ -9,7 +9,7 @@
     @endif
 
     <x-card-table title="Filters">
-        <livewire:filters-table/>
+        <livewire:filter.filters-table/>
     </x-card-table>
     @can('edit_filter')
         <div class="p-4">

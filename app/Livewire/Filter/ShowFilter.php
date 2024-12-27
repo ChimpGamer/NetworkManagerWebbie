@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Filter;
 
 use App\Models\Filter;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -28,9 +28,9 @@ class ShowFilter extends Component
     protected array $rules = [
         'name' => 'required|string|alpha_dash|max:128',
         'description' => 'string|nullable',
-        'word' => 'required|string',
-        'replacement' => 'string|nullable',
-        'server' => 'string|nullable',
+        'word' => 'required|string|max:256',
+        'replacement' => 'string|nullable|max:64',
+        'server' => 'string|nullable|max:36',
         'enabled' => 'required|boolean',
     ];
 
