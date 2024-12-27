@@ -4,10 +4,13 @@ namespace App\Livewire\Accounts;
 
 use App\Models\Group;
 use App\Models\User;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ShowAccounts extends Component
@@ -24,7 +27,7 @@ class ShowAccounts extends Component
 
     public string $user_group = '';
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'username' => 'required|string|min:4',
@@ -44,13 +47,13 @@ class ShowAccounts extends Component
         return Group::all();
     }
 
-    public function addAccount()
+    public function addAccount(): void
     {
         $this->authorize('manage_groups_and_accounts');
         $this->resetInput();
     }
 
-    public function createAccount()
+    public function createAccount(): void
     {
         $this->authorize('manage_groups_and_accounts');
         $validatedData = $this->validate();
@@ -70,17 +73,23 @@ class ShowAccounts extends Component
         $this->closeModal('addAccountModal');
     }
 
-    public function editAccount(User $user)
+    #[On('edit')]
+    public function editAccount($rowId): void
     {
-        $this->authorize('manage_groups_and_accounts');
         $this->resetInput();
+        $user = User::find($rowId);
+        if ($user == null) {
+            session()->flash('error', 'Account $'.$rowId.' not found');
+
+            return;
+        }
 
         $this->user_id = $user->id;
         $this->username = $user->username;
         $this->user_group = $user->usergroup;
     }
 
-    public function updateAccount()
+    public function updateAccount(): void
     {
         $this->authorize('manage_groups_and_accounts');
         $validatedData = $this->validate($this->editRules);
@@ -92,26 +101,34 @@ class ShowAccounts extends Component
             'usergroup' => $userGroup,
         ]);
 
+        $this->refreshTable();
         session()->flash('message', 'Account Updated Successfully');
         $this->closeModal('editAccountModal');
     }
 
-    public function deleteAccount(User $user)
+    #[On('delete')]
+    public function deleteAccount($rowId): void
     {
-        $this->authorize('manage_groups_and_accounts');
+        $user = User::find($rowId);
+        if ($user == null) {
+            session()->flash('error', 'Account $'.$rowId.' not found');
+
+            return;
+        }
         $this->user_id = $user->id;
         $this->username = $user->username;
     }
 
-    public function delete()
+    public function delete(): void
     {
         $this->authorize('manage_groups_and_accounts');
         User::find($this->user_id)->delete();
 
         $this->resetInput();
+        $this->refreshTable();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -119,7 +136,7 @@ class ShowAccounts extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->reset(
             'user_id',
@@ -130,10 +147,13 @@ class ShowAccounts extends Component
         );
     }
 
-    public function render()
+    private function refreshTable(): void
     {
-        $users = User::all();
+        $this->dispatch('pg:eventRefresh-accounts-table');
+    }
 
-        return view('livewire.accounts.show-accounts', ['accounts' => $users]);
+    public function render(): View|Factory|Application
+    {
+        return view('livewire.accounts.show-accounts');
     }
 }
