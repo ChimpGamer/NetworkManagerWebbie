@@ -11,22 +11,22 @@
                             <label for="setting-label-{{ $setting->variable }}"
                                    class="col-sm-3 form-label">{{ $setting->variable }}</label>
                             <div class="col-sm-9">
-                                {{--@if($setting->isBooleanSetting())
-                                    <div class="d-flex">
-                                        <strong>Off</strong>
-                                        <div class="form-check form-switch ms-2">
-                                            <input id="setting-label-{{ $setting->variable }}" class="form-check-input" type="checkbox" role="switch"
-                                                   wire:model="settings.{{ $i }}.value" />
-                                            <label class="form-check-label" style="font-weight: bold;"
-                                                   for="setting-label-{{ $setting->variable }}"><strong>On</strong></label>
-                                        </div>
-                                    </div>
-                                @else
-                                    <input id="setting-label-{{ $setting->variable }}" class="form-control" type="text" wire:model="settings.{{ $i }}.value">
-                                @endif--}}
                                 @can('edit_settings')
-                                    <input id="setting-label-{{ $setting->variable }}" class="form-control" type="text"
-                                           wire:model="settings.{{ $i }}.value">
+                                    @if($setting->isBooleanSetting())
+                                        <div class="d-flex">
+                                            <strong>Off</strong>
+                                            <div class="form-check form-switch ms-2">
+                                                <input class="form-check-input" type="checkbox" role="switch" id="setting-label-{{ $setting->variable }}"
+                                                       wire:model.live="settings.{{ $i }}.value" />
+                                                <label class="form-check-label" style="font-weight: bold;"
+                                                       for="setting-label-{{ $setting->variable }}"><strong>On</strong></label>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <input id="setting-label-{{ $setting->variable }}" class="form-control" type="text" wire:model="settings.{{ $i }}.value">
+                                    @endif
+                                    {{--<input id="setting-label-{{ $setting->variable }}" class="form-control" type="text"
+                                           wire:model="settings.{{ $i }}.value">--}}
                                 @else
                                     <span>{{ $setting->value }}</span>
                                 @endcan
@@ -43,7 +43,7 @@
         </div>
     </div>
 
-    @if (session()->has('message'))
+    @if (session('message'))
         <h5 class="alert alert-success">{{ session('message') }}</h5>
     @endif
 </div>
