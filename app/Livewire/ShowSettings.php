@@ -15,9 +15,7 @@ class ShowSettings extends Component
 
     public $settings;
 
-    public $boolean = true;
-
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'settings.*.variable' => 'required|string',
@@ -25,30 +23,44 @@ class ShowSettings extends Component
         ];
     }
 
-    public function mount()
+    public function mount(): void
     {
-        $this->settings = Value::select('variable', 'value')
+        $settings = Value::select('variable', 'value')
             ->where('variable', 'like', '%'.$this->search.'%')
             ->orderBy('variable')
             ->get();
+
+        $this->settings = $settings->map(function ($value) {
+            if ($value->isBooleanSetting()) {
+                if ($value->value == '1') {
+                    $value->value = true;
+                } elseif ($value->value == '0') {
+                    $value->value = false;
+                }
+            }
+
+            return $value;
+        });
     }
 
-    public function save()
+    public function save(): void
     {
         $this->authorize('edit_settings');
         $this->validate();
 
-        $changedSettings = $this->settings->filter(function ($value) {
+        $changedSettings = $this->settings->map(function ($value) {
+            if ($value->isBooleanSetting()) {
+                if ($value->value) {
+                    $value->value = '1';
+                } else {
+                    $value->value = '0';
+                }
+            }
+
+            return $value;
+        })->filter(function ($value) {
             return $value->isDirty('value');
         })->values();
-        /*$changedSettings = $changedSettings->map(function ($value) {
-            if ($value->value) {
-                $value->value = 1;
-            } else {
-                $value->value = 0;
-            }
-            return $value;
-        });*/
         if ($changedSettings->isEmpty()) {
             return;
         }

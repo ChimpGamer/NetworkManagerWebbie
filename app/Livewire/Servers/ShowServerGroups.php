@@ -8,18 +8,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowServerGroups extends Component
 {
     use AuthorizesRequests;
-    use WithPagination;
-
-    protected string $paginationTheme = 'bootstrap';
-
-    public string $search = '';
-    public int $per_page = 10;
 
     public int $groupId;
 
@@ -37,7 +31,7 @@ class ShowServerGroups extends Component
 
     const BALANCE_METHODS = ['RANDOM', 'RANDOM_LOWEST', 'RANDOM_FILLER', 'PROGRESSIVE_LOWEST'];
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'groupname' => 'required|string|min:3',
@@ -47,15 +41,16 @@ class ShowServerGroups extends Component
         ];
     }
 
-    public function updated($name, $value): void
+    #[On('server-group-info')]
+    public function showServerGroup($rowId): void
     {
-        if ($name == 'search') {
-            $this->resetPage(pageName: 'serversgroup-page');
-        }
-    }
+        $serverGroup = ServerGroup::find($rowId);
+        if ($serverGroup == null) {
+            session()->flash('error', 'Server Group $'.$rowId.' not found');
 
-    public function showServerGroup(ServerGroup $serverGroup)
-    {
+            return;
+        }
+
         $this->groupId = $serverGroup->id;
         $this->groupname = $serverGroup->groupname;
         $this->balancemethod = $serverGroup->balancemethodtype;
@@ -63,20 +58,29 @@ class ShowServerGroups extends Component
         $this->currentServers = Server::whereIn('id', $serverGroup->servers)->get();
     }
 
-    public function deleteServerGroup(ServerGroup $serverGroup)
+    #[On('delete-server-group')]
+    public function deleteServerGroup($rowId): void
     {
+        $serverGroup = ServerGroup::find($rowId);
+        if ($serverGroup == null) {
+            session()->flash('error', 'Server Group $'.$rowId.' not found');
+
+            return;
+        }
+
         $this->deleteId = $serverGroup->id;
         $this->groupname = $serverGroup->groupname;
     }
 
-    public function delete()
+    public function delete(): void
     {
         $this->authorize('edit_servers');
-        ServerGroup::find($this->deleteId)->delete();
+        ServerGroup::find($this->deleteId)?->delete();
         $this->groupname = '';
+        $this->refreshTable();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -84,7 +88,7 @@ class ShowServerGroups extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->groupId = -1;
         $this->groupname = '';
@@ -94,12 +98,20 @@ class ShowServerGroups extends Component
     }
 
     #[Computed]
-    public function allServers(): Collection {
+    public function allServers(): Collection
+    {
         return Server::select('id', 'servername')->get();
     }
 
-    public function editServerGroup(ServerGroup $serverGroup)
+    #[On('edit-server-group')]
+    public function editServerGroup($rowId): void
     {
+        $serverGroup = ServerGroup::find($rowId);
+        if ($serverGroup == null) {
+            session()->flash('error', 'Server Group $'.$rowId.' not found');
+
+            return;
+        }
         $this->resetInput();
 
         $this->groupId = $serverGroup->id;
@@ -110,7 +122,7 @@ class ShowServerGroups extends Component
         $this->serversSelection = $this->currentServers->pluck('id')->toArray();
     }
 
-    public function updateServerGroup()
+    public function updateServerGroup(): void
     {
         $this->authorize('edit_servers');
         $validatedData = $this->validate();
@@ -124,14 +136,15 @@ class ShowServerGroups extends Component
         ]);
         session()->flash('message', 'Group Updated Successfully');
         $this->closeModal('editServerGroupModal');
+        $this->refreshTable();
     }
 
-    public function addServerGroup()
+    public function addServerGroup(): void
     {
         $this->resetInput();
     }
 
-    public function createServerGroup()
+    public function createServerGroup(): void
     {
         $validatedData = $this->validate();
 
@@ -145,12 +158,17 @@ class ShowServerGroups extends Component
 
         session()->flash('message', 'Successfully Added Server Group');
         $this->closeModal('addServerGroupModal');
+        $this->refreshTable();
+    }
+
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-server-groups-table');
     }
 
     public function render(): View
     {
-        $serverGroups = ServerGroup::where('groupname', 'like', '%'.$this->search.'%')->orderBy('id', 'ASC')->paginate($this->per_page, pageName: 'servergroups-page');
-
-        return view('livewire.servers.show-server-groups')->with('servergroups', $serverGroups);
+        return view('livewire.servers.show-server-groups');
     }
 }

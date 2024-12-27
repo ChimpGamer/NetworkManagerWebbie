@@ -26,6 +26,7 @@ class Value extends Model
      * @var string
      */
     protected $primaryKey = 'variable';
+
     protected $keyType = 'string';
 
     /**
@@ -96,6 +97,7 @@ class Value extends Model
         'setting_show_reports_onlogin',
         'setting_nickname_use_filter',
         'setting_notify_banned_player_join',
+        'module_playerignore',
     ];
 
     public function isBooleanSetting(): bool
@@ -103,6 +105,7 @@ class Value extends Model
         if (str_ends_with($this->variable, '_enabled')) {
             return true;
         }
+
         return in_array($this->variable, $this->booleanSettings);
     }
 

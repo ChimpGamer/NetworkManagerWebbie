@@ -11,7 +11,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Group</label>
-                        <input type="text" wire:model.blur="groupName" class="form-control" list="group-list">
+                        <input type="text" wire:model="groupName" class="form-control" list="group-list">
                         <datalist id="group-list">
                             @foreach($groups as $group)
                                 <option
@@ -24,12 +24,12 @@
                     </div>
                     <div class="mb-3">
                         <label class="bold">Server</label>
-                        <input type="text" wire:model.live="server" class="form-control">
+                        <input type="text" wire:model="server" class="form-control">
                         @error('server') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
                         <label class="bold">Expires</label>
-                        <input type="datetime-local" wire:model.live="expires" class="form-control">
+                        <input type="datetime-local" wire:model="expires" class="form-control">
                         @error('expires') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>

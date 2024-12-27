@@ -3,15 +3,14 @@
 namespace Addons\UltimateTags\Livewire;
 
 use Addons\UltimateTags\App\Models\Tag;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowTags extends Component
 {
-    use WithPagination;
-
-    protected string $paginationTheme = 'bootstrap';
-
     public int $tagId;
 
     public ?string $name;
@@ -24,8 +23,6 @@ class ShowTags extends Component
 
     public ?string $server;
 
-    public string $search = '';
-
     protected array $rules = [
         'name' => 'required|string|exists:Addons\UltimateTags\App\Models\Tag,name',
         'tag' => 'required|string',
@@ -34,19 +31,12 @@ class ShowTags extends Component
         'server' => 'string|nullable',
     ];
 
-    public function updated($name, $value): void
-    {
-        if ($name == 'search') {
-            $this->resetPage();
-        }
-    }
-
-    public function addTag()
+    public function addTag(): void
     {
         $this->resetInput();
     }
 
-    public function createTag()
+    public function createTag(): void
     {
         // name has to be unique.
         $validatedData = $this->validate([
@@ -72,10 +62,19 @@ class ShowTags extends Component
         ]);
         session()->flash('message', 'Successfully Added Tag');
         $this->closeModal('addTagModal');
+        $this->refreshTable();
     }
 
-    public function editTag(Tag $tag)
+    #[On('edit')]
+    public function editTag($rowId): void
     {
+        $tag = Tag::find($rowId);
+        if ($tag == null) {
+            session()->flash('error', 'Tag #'.$rowId.' not found');
+
+            return;
+        }
+
         $this->tagId = $tag->id;
         $this->name = $tag->name;
         $this->tag = $tag->tag;
@@ -84,7 +83,7 @@ class ShowTags extends Component
         $this->server = $tag->server;
     }
 
-    public function updateTag()
+    public function updateTag(): void
     {
         $validatedData = $this->validate();
 
@@ -103,21 +102,31 @@ class ShowTags extends Component
         ]);
         session()->flash('message', 'Tag Updated Successfully');
         $this->closeModal('editTagModal');
+        $this->refreshTable();
     }
 
-    public function deleteTag(Tag $tag)
+    #[On('delete')]
+    public function deleteTag($rowId): void
     {
+        $tag = Tag::find($rowId);
+        if ($tag == null) {
+            session()->flash('error', 'Tag #'.$rowId.' not found');
+
+            return;
+        }
+
         $this->tagId = $tag->id;
         $this->name = $tag->name;
     }
 
-    public function delete()
+    public function delete(): void
     {
         Tag::find($this->tagId)->delete();
         $this->closeModal('deleteTagModal');
+        $this->refreshTable();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -125,7 +134,7 @@ class ShowTags extends Component
         }
     }
 
-    public function resetInput()
+    public function resetInput(): void
     {
         $this->tagId = -1;
         $this->name = null;
@@ -135,12 +144,13 @@ class ShowTags extends Component
         $this->server = null;
     }
 
-    public function render()
+    private function refreshTable(): void
     {
-        $tags = Tag::where('name', 'like', '%'.$this->search.'%')
-            ->orWhere('server', 'like', '%'.$this->search.'%')
-            ->orderBy('id', 'DESC')->paginate(10);
+        $this->dispatch('pg:eventRefresh-tags-table');
+    }
 
-        return view('ultimatetags::livewire.show-tags')->with('tags', $tags);
+    public function render(): View|Factory|Application
+    {
+        return view('ultimatetags::livewire.show-tags');
     }
 }

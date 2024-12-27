@@ -3,49 +3,59 @@
 namespace App\Livewire;
 
 use App\Models\HelpOP;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowHelpOP extends Component
 {
     use AuthorizesRequests;
-    use WithPagination;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public int $helpOPId;
 
-    public string $search = '';
-
-    public int $per_page = 10;
-
-    public function deleteHelpOP(HelpOP $helpOP)
+    #[On('delete')]
+    public function deleteHelpOP($rowId): void
     {
+        $helpOP = HelpOP::find($rowId);
+        if ($helpOP == null) {
+            session()->flash('error', 'HelpOP #'.$rowId.' not found');
+
+            return;
+        }
         $this->helpOPId = $helpOP->id;
     }
 
-    public function delete()
+    public function delete(): void
     {
         $this->authorize('edit_helpop');
         HelpOP::find($this->helpOPId)->delete();
         $this->resetInput();
+        $this->refreshTable();
     }
 
-    public function resetInput()
+    public function resetInput(): void
     {
         $this->helpOPId = -1;
     }
 
-    public function render()
+    public function closeModal(?string $modalId = null): void
     {
-        $data = HelpOP::join('players', 'helpop.requester', '=', 'players.uuid')
-            ->select('helpop.*', 'players.username')
-            ->where('username', 'like', '%'.$this->search.'%')
-            ->orWhere('message', 'like', '%'.$this->search.'%')
-            ->orWhere('server', 'like', '%'.$this->search.'%')
-            ->orderBy('id', 'DESC')->paginate($this->per_page);
+        $this->resetInput();
+        if ($modalId != null) {
+            $this->dispatch('close-modal', $modalId);
+        }
+    }
 
-        return view('livewire.helpop.show-helpop')->with('data', $data);
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-helpop-table');
+    }
+
+    public function render(): View|Factory|Application
+    {
+        return view('livewire.helpop.show-helpop');
     }
 }

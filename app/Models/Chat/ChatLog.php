@@ -7,6 +7,7 @@ use App\Models\Player\Player;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ChatLog extends Model
 {
@@ -52,7 +53,7 @@ class ChatLog extends Model
      * @var array
      */
     protected $casts = [
-        'time' => 'int',
+
     ];
 
     /**
@@ -70,6 +71,16 @@ class ChatLog extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function creatorPlayer(): HasOne
+    {
+        return $this->hasOne(Player::class, 'uuid', 'creator');
+    }
+
+    public function trackedPlayer(): HasOne
+    {
+        return $this->hasOne(Player::class, 'uuid', 'tracked');
+    }
 
     public function creatorName(): string
     {

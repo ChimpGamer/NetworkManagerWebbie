@@ -3,7 +3,7 @@
 @section('content')
 
     <div>
-        @livewire('show-command-blocker')
+        @livewire('command-blockers.show-command-blocker')
     </div>
 
 @endsection

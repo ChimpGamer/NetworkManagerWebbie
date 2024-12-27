@@ -6,15 +6,12 @@ use App\Models\Permissions\Group;
 use App\Models\Permissions\GroupParent;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowGroupParents extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public ?int $parentId;
 
@@ -26,19 +23,11 @@ class ShowGroupParents extends Component
 
     public array $groups = [];
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'groupName' => 'required|string|exists:App\Models\Permissions\Group,name',
         ];
-    }
-
-    public function updated($fields)
-    {
-        $this->validateOnly($fields);
-        if ($fields == 'search') {
-            $this->resetPage();
-        }
     }
 
     public function addGroupParent(): void
@@ -47,7 +36,7 @@ class ShowGroupParents extends Component
         $this->groups = Group::all()->toArray();
     }
 
-    public function createGroupParent()
+    public function createGroupParent(): void
     {
         $validatedData = $this->validate();
         $group = Group::where('name', $validatedData['groupName'])->first();
@@ -75,22 +64,32 @@ class ShowGroupParents extends Component
 
         session()->flash('message', 'Successfully Created Group Parent');
         $this->closeModal('addGroupParentModal');
+        $this->refreshTable();
     }
 
-    public function deleteGroupParent(GroupParent $groupParent, Group $group)
+    #[On('delete')]
+    public function deleteGroupParent($rowId): void
     {
-        $this->parentId = $groupParent->id;
-        $this->parentName = $group->name;
+        $groupParent = GroupParent::find($rowId);
+        if ($groupParent == null) {
+            session()->flash('error', 'GroupParent #'.$rowId.' not found');
+
+            return;
+        }
+
+        $this->parentId = $rowId;
+        $this->parentName = $groupParent->parentGroup->name;
         $this->groupName = $this->group->name;
     }
 
-    public function delete()
+    public function delete(): void
     {
         GroupParent::find($this->parentId)->delete();
         $this->resetInput();
+        $this->refreshTable();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -98,17 +97,20 @@ class ShowGroupParents extends Component
         }
     }
 
-    public function resetInput()
+    public function resetInput(): void
     {
         $this->parentId = null;
         $this->groupName = null;
         $this->groups = [];
     }
 
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-group-parents-table');
+    }
+
     public function render(): View
     {
-        $groupParents = GroupParent::where('groupid', $this->group->id)->orderBy('id', 'ASC')->paginate(10);
-
-        return view('livewire.permissions.show-group-parents')->with('parents', $groupParents);
+        return view('livewire.permissions.show-group-parents');
     }
 }

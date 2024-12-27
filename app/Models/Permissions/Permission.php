@@ -4,8 +4,7 @@ namespace App\Models\Permissions;
 
 interface Permission
 {
+    public function willExpire(): bool;
 
-    function willExpire(): bool;
-
-    function hasExpired(): bool;
+    public function hasExpired(): bool;
 }

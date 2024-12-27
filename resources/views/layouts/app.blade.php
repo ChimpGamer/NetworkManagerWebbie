@@ -27,6 +27,8 @@
     <!-- Tippy -->
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css"/>
 
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     @stack('styles')
 </head>
 
@@ -50,6 +52,9 @@
 
 <!-- Alpine Tooltip -->
 <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js" defer></script>
+
+<!-- Alpine Truncate -->
+<script src="https://unpkg.com/@alpine-collective/toolkit-truncate@1.0.2/dist/cdn.min.js" defer></script>
 
 @yield('script')
 </body>

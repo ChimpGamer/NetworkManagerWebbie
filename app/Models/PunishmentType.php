@@ -51,6 +51,15 @@ enum PunishmentType: int
         };
     }
 
+    public function isIP(): bool
+    {
+        return match ($this) {
+            PunishmentType::GIPBAN, PunishmentType::GTEMPIPBAN,
+            PunishmentType::GIPMUTE, PunishmentType::GTEMPIPMUTE => true,
+            default => false,
+        };
+    }
+
     public static function getName(self $type): string
     {
         return match ($type) {
@@ -75,7 +84,6 @@ enum PunishmentType: int
             PunishmentType::WARN => 'Warn',
             PunishmentType::REPORT => 'Report',
             PunishmentType::NOTE => 'Note',
-            default => 'Unknown',
         };
     }
 }

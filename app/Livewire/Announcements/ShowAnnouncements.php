@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Announcements;
 
 use App\Models\Announcement;
 use App\Models\AnnouncementType;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowAnnouncements extends Component
 {
     use AuthorizesRequests;
-    use WithPagination;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public int $announcementId;
 
@@ -38,12 +35,9 @@ class ShowAnnouncements extends Component
 
     public ?string $typeName;
 
-    public string $search = '';
-    public int $per_page = 10;
-
     public int $deleteId;
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'type' => 'required|integer',
@@ -57,8 +51,16 @@ class ShowAnnouncements extends Component
         ];
     }
 
-    public function showAnnouncement(Announcement $announcement)
+    #[On('info')]
+    public function showAnnouncement($rowId): void
     {
+        $announcement = Announcement::find($rowId);
+        if ($announcement == null) {
+            session()->flash('error', 'Announcement $'.$rowId.' not found');
+
+            return;
+        }
+
         $this->announcementId = $announcement->id;
         $this->type = $announcement->type->value;
         $this->message = $announcement->message;
@@ -73,14 +75,9 @@ class ShowAnnouncements extends Component
         $this->typeName = $announcement->type->name();
     }
 
-    public function updated($fields)
+    public function updated($fields): void
     {
         $this->validateOnly($fields);
-        if ($fields == 'search' || $fields == 'per_page') {
-            $this->resetPage();
-
-            return;
-        }
 
         $type = AnnouncementType::from($this->type);
         if ($type->isGlobal()) {
@@ -91,14 +88,14 @@ class ShowAnnouncements extends Component
         }
     }
 
-    public function addAnnouncement()
+    public function addAnnouncement(): void
     {
         $this->resetInput();
         $this->type = 1; // Set type to 1 by default.
         $this->active = true; // Set active to true by default.
     }
 
-    public function createAnnouncement()
+    public function createAnnouncement(): void
     {
         $this->authorize('edit_announcements');
         $validatedData = $this->validate();
@@ -122,10 +119,18 @@ class ShowAnnouncements extends Component
 
         session()->flash('message', 'Successfully Created Announcement');
         $this->closeModal('addAnnouncementModal');
+        $this->refreshTable();
     }
 
-    public function editAnnouncement(Announcement $announcement)
+    #[On('edit')]
+    public function editAnnouncement($rowId): void
     {
+        $announcement = Announcement::find($rowId);
+        if ($announcement == null) {
+            session()->flash('error', 'Announcement $'.$rowId.' not found');
+
+            return;
+        }
         $this->resetInput();
 
         $this->announcementId = $announcement->id;
@@ -141,7 +146,7 @@ class ShowAnnouncements extends Component
         $this->active = $announcement->active;
     }
 
-    public function updateAnnouncement()
+    public function updateAnnouncement(): void
     {
         $this->authorize('edit_announcements');
         $validatedData = $this->validate();
@@ -165,9 +170,10 @@ class ShowAnnouncements extends Component
 
         session()->flash('message', 'Announcement Updated Successfully');
         $this->closeModal('editAnnouncementModal');
+        $this->refreshTable();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -175,7 +181,7 @@ class ShowAnnouncements extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->type = -1;
         $this->message = '';
@@ -189,25 +195,33 @@ class ShowAnnouncements extends Component
         $this->active = false;
     }
 
-    public function deleteAnnouncement(Announcement $announcement)
+    #[On('delete')]
+    public function deleteAnnouncement($rowId): void
     {
+        $announcement = Announcement::find($rowId);
+        if ($announcement == null) {
+            session()->flash('error', 'Announcement $'.$rowId.' not found');
+
+            return;
+        }
         $this->deleteId = $announcement->id;
     }
 
-    public function delete()
+    public function delete(): void
     {
         $this->authorize('edit_announcements');
-        Announcement::find($this->deleteId)->delete();
+        Announcement::find($this->deleteId)?->delete();
         $this->resetInput();
+        $this->refreshTable();
+    }
+
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-announcements-table');
     }
 
     public function render(): View
     {
-        $announcements = Announcement::where('id', 'like', '%'.$this->search.'%')
-            ->orWhere('message', 'like', '%'.$this->search.'%')
-            ->orWhere('server', 'like', '%'.$this->search.'%')
-            ->orderBy('id', 'ASC')->paginate($this->per_page);
-
-        return view('livewire.announcements.show-announcements')->with('announcements', $announcements);
+        return view('livewire.announcements.show-announcements');
     }
 }

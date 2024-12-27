@@ -6,15 +6,12 @@ use App\Models\Permissions\Group;
 use App\Models\Permissions\GroupPermission;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowGroupPermissions extends Component
 {
     use AuthorizesRequests;
-    use WithPagination;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public ?int $permissionId;
 
@@ -28,10 +25,7 @@ class ShowGroupPermissions extends Component
 
     public Group $group;
 
-    public string $search = '';
-    public int $per_page = 10;
-
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'permission' => 'required|string',
@@ -41,20 +35,12 @@ class ShowGroupPermissions extends Component
         ];
     }
 
-    public function updated($fields)
-    {
-        $this->validateOnly($fields);
-        if ($fields == 'search') {
-            $this->resetPage();
-        }
-    }
-
     public function addGroupPermission(): void
     {
         $this->resetInput();
     }
 
-    public function createGroupPermission()
+    public function createGroupPermission(): void
     {
         $validatedData = $this->validate();
         $permission = $validatedData['permission'];
@@ -105,11 +91,19 @@ class ShowGroupPermissions extends Component
 
         session()->flash('message', 'Successfully Created Group Permission');
         $this->closeModal('addGroupPermissionModal');
+        $this->refreshTable();
     }
 
-    public function editGroupPermission(GroupPermission $groupPermission)
+    #[On('edit')]
+    public function editGroupPermission($rowId): void
     {
         $this->resetInput();
+        $groupPermission = GroupPermission::find($rowId);
+        if ($groupPermission == null) {
+            session()->flash('error', 'GroupPermission #'.$rowId.' not found');
+
+            return;
+        }
 
         $this->permissionId = $groupPermission->id;
         $this->permission = $groupPermission->permission;
@@ -118,7 +112,7 @@ class ShowGroupPermissions extends Component
         $this->expires = $groupPermission->expires;
     }
 
-    public function updateGroupPermission()
+    public function updateGroupPermission(): void
     {
         $validatedData = $this->validate();
         $permission = $validatedData['permission'];
@@ -141,18 +135,28 @@ class ShowGroupPermissions extends Component
         ]);
         session()->flash('message', 'Group Permission Updated Successfully');
         $this->closeModal('editGroupPermissionModal');
+        $this->refreshTable();
     }
 
-    public function deleteGroupPermission(GroupPermission $groupPermission)
+    #[On('delete')]
+    public function deleteGroupPermission($rowId): void
     {
+        $groupPermission = GroupPermission::find($rowId);
+        if ($groupPermission == null) {
+            session()->flash('error', 'GroupPermission #'.$rowId.' not found');
+
+            return;
+        }
+
         $this->permissionId = $groupPermission->id;
         $this->permission = $groupPermission->permission;
     }
 
-    public function delete()
+    public function delete(): void
     {
         GroupPermission::find($this->permissionId)->delete();
         $this->resetInput();
+        $this->refreshTable();
     }
 
     private function permissionExists(Group $group, string $permission, string $server, string $world, $expires): bool
@@ -165,7 +169,7 @@ class ShowGroupPermissions extends Component
             ->exists();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -173,7 +177,7 @@ class ShowGroupPermissions extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->permissionId = null;
         $this->permission = null;
@@ -182,15 +186,13 @@ class ShowGroupPermissions extends Component
         $this->expires = null;
     }
 
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-group-permissions-table');
+    }
+
     public function render(): View
     {
-        $groupPermissions = GroupPermission::where('groupid', $this->group->id)
-            ->where(function ($query) {
-                $query->orWhere('permission', 'like', '%'.$this->search.'%')
-                    ->orWhere('world', 'like', '%'.$this->search.'%')
-                    ->orWhere('server', 'like', '%'.$this->search.'%');
-            })->orderBy('id', 'ASC')->paginate($this->per_page);
-
-        return view('livewire.permissions.show-group-permissions')->with('permissions', $groupPermissions);
+        return view('livewire.permissions.show-group-permissions');
     }
 }

@@ -3,7 +3,7 @@
 @section('content')
 
     <div>
-        @livewire('show-filter')
+        @livewire('filter.show-filter')
     </div>
 
 @endsection

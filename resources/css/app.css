@@ -1,0 +1,7 @@
+@import "../../vendor/power-components/livewire-powergrid/dist/bootstrap5.css";
+@import "flatpickr/dist/flatpickr.min.css";
+
+/* Fixes issue with blank time picker in powergrid when using dark mode. */
+.form-control:disabled, .form-control[readonly] {
+    background-color: transparent !important;
+}

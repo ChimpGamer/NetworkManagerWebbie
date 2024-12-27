@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Helpers\TimeUtils;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\Player\Player;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CommandLog extends Model
 {
@@ -64,10 +64,8 @@ class CommandLog extends Model
      */
     public $timestamps = false;
 
-    protected function time(): Attribute
+    public function player(): HasOne
     {
-        return Attribute::make(
-            get: fn (string $value) => TimeUtils::formatTimestamp($value)
-        );
+        return $this->hasOne(Player::class, 'uuid', 'uuid');
     }
 }

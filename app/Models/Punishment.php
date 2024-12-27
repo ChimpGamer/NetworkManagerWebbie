@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Helpers\TimeUtils;
 use App\Models\Player\Player;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Punishment extends Model
 {
@@ -73,6 +75,38 @@ class Punishment extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function player(): HasOne
+    {
+        return $this->hasOne(Player::class, 'uuid', 'uuid');
+    }
+
+    public function ends(): Carbon
+    {
+        return TimeUtils::fromTimestampMs($this->end);
+    }
+
+    public function expires(): ?string {
+        $end = $this->end;
+        if ($end <= 0) {
+            return 'Never';
+        }
+        return $this->ends()->fromNow();
+    }
+
+    public function expiresTooltip(): string
+    {
+        $end = $this->ends();
+        if ($end->isPast()) {
+            return 'Expired ' . $end->ago();
+        } else {
+            return 'Expires in ' . $end->fromNow();
+        }
+    }
+
+    public function getEndFormatted(): string {
+        return TimeUtils::formatTimestamp($this->end);
+    }
 
     public function getPlayerName()
     {

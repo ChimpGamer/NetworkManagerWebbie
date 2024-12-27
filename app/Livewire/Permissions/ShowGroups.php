@@ -10,15 +10,12 @@ use App\Models\Permissions\GroupPrefix;
 use App\Models\Permissions\GroupSuffix;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 class ShowGroups extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
-
-    protected string $paginationTheme = 'bootstrap';
 
     public ?int $groupId;
 
@@ -28,10 +25,7 @@ class ShowGroups extends Component
 
     public ?string $ladder;
 
-    public string $search = '';
-    public int $per_page = 10;
-
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'name' => 'required|string',
@@ -40,28 +34,28 @@ class ShowGroups extends Component
         ];
     }
 
-    public function updated($fields)
+    #[On('info')]
+    public function showGroup($rowId): void
     {
-        $this->validateOnly($fields);
-        if ($fields == 'search') {
-            $this->resetPage();
-        }
-    }
+        $group = Group::find($rowId);
+        if ($group == null) {
+            session()->flash('error', 'Group #'.$rowId.' not found');
 
-    public function showGroup(Group $group)
-    {
+            return;
+        }
+
         $this->groupId = $group->id;
         $this->name = $group->name;
         $this->ladder = $group->ladder;
         $this->rank = $group->rank;
     }
 
-    public function addGroup()
+    public function addGroup(): void
     {
         $this->resetInput();
     }
 
-    public function createGroup()
+    public function createGroup(): void
     {
         // name has to be unique.
         $validatedData = $this->validate([
@@ -77,11 +71,20 @@ class ShowGroups extends Component
 
         session()->flash('message', 'Successfully Created Group');
         $this->closeModal('addGroupModal');
+        $this->refreshTable();
     }
 
-    public function editGroup(Group $group)
+    #[On('edit')]
+    public function editGroup($rowId): void
     {
         $this->resetInput();
+
+        $group = Group::find($rowId);
+        if ($group == null) {
+            session()->flash('error', 'Group #'.$rowId.' not found');
+
+            return;
+        }
 
         $this->groupId = $group->id;
         $this->name = $group->name;
@@ -89,7 +92,7 @@ class ShowGroups extends Component
         $this->rank = $group->rank;
     }
 
-    public function updateGroup()
+    public function updateGroup(): void
     {
         $validatedData = $this->validate();
 
@@ -100,15 +103,24 @@ class ShowGroups extends Component
         ]);
         session()->flash('message', 'Group Updated Successfully');
         $this->closeModal('editGroupModal');
+        $this->refreshTable();
     }
 
-    public function deleteGroup(Group $group)
+    #[On('delete')]
+    public function deleteGroup($rowId): void
     {
+        $group = Group::find($rowId);
+        if ($group == null) {
+            session()->flash('error', 'Group #'.$rowId.' not found');
+
+            return;
+        }
+
         $this->groupId = $group->id;
         $this->name = $group->name;
     }
 
-    public function delete()
+    public function delete(): void
     {
         Group::find($this->groupId)->delete();
         GroupPermission::where('groupid', $this->groupId)->delete();
@@ -117,9 +129,10 @@ class ShowGroups extends Component
         GroupSuffix::where('groupid', $this->groupId)->delete();
         GroupMember::where('groupid', $this->groupId)->delete();
         $this->resetInput();
+        $this->refreshTable();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -127,7 +140,7 @@ class ShowGroups extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->groupId = null;
         $this->name = null;
@@ -135,14 +148,13 @@ class ShowGroups extends Component
         $this->rank = null;
     }
 
+    private function refreshTable(): void
+    {
+        $this->dispatch('pg:eventRefresh-groups-table');
+    }
+
     public function render(): View
     {
-        $groups = Group::where(function ($query) {
-            $query->where('name', 'like', '%'.$this->search.'%')
-                ->orWhere('ladder', 'like', '%'.$this->search.'%')
-                ->orWhere('rank', 'like', '%'.$this->search.'%');
-        })->orderBy('id', 'ASC')->paginate($this->per_page, pageName: 'groups-page');
-
-        return view('livewire.permissions.show-groups')->with('groups', $groups);
+        return view('livewire.permissions.show-groups');
     }
 }

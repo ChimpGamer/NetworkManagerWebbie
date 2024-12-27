@@ -7,9 +7,15 @@ use Carbon\CarbonInterval;
 
 class TimeUtils
 {
+
+    public static function fromTimestampMs(float $timestamp): Carbon
+    {
+        return Carbon::createFromTimestampMs($timestamp, config('app.timezone', 'UTC'));
+    }
+
     public static function formatTimestamp(float $timestamp): string
     {
-        return Carbon::createFromTimestampMs($timestamp, config('app.timezone', 'UTC'))->toDateTimeString();
+        return TimeUtils::fromTimestampMs($timestamp)->toDateTimeString();
     }
 
     public static function millisToReadableFormat($millis): string

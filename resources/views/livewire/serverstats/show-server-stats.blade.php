@@ -8,7 +8,7 @@
                         <strong>Advanced Server Analytics</strong>
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body border-0 shadow">
                     @livewire('server-stats.advanced-server-analytics', ['lazy' => true])
                 </div>
             </div>
