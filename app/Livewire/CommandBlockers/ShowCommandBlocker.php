@@ -30,8 +30,8 @@ class ShowCommandBlocker extends Component
     protected array $rules = [
         'name' => 'required|string|alpha_dash|max:128',
         'description' => 'string|nullable',
-        'command' => 'required|string',
-        'server' => 'string|nullable',
+        'command' => 'required|string|max:256',
+        'server' => 'string|nullable|max:36',
         'customMessage' => 'string|nullable',
         'bypasspermission' => 'boolean',
         'enabled' => 'required|boolean',
