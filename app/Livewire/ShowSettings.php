@@ -64,7 +64,6 @@ class ShowSettings extends Component
         if ($changedSettings->isEmpty()) {
             return;
         }
-        //dd($changedSettings);
         foreach ($changedSettings as $setting) {
             $setting->save();
         }
