@@ -55,13 +55,18 @@ final class PunishmentsTable extends PowerGridComponent
                 }
             })
             ->add('type_name', fn ($item) => $item->type->name())
-            ->add('player', fn ($item) => Blade::render('<x-player-link uuid="'.$item->uuid.'" username="'.$item->player->username.'" />'))
+            ->add('player', function ($item) {
+                if ($item->player == null) {
+                    return Blade::render('<x-player-link uuid="'.$item->uuid.'" />');
+                }
+                return Blade::render('<x-player-link uuid="'.$item->uuid.'" username="'.$item->player->username.'" />');
+            })
             ->add('punisher', fn ($item) => $item->getPunisherName())
             ->add('time', fn ($item) => $item->getTimeFormatted())
             ->add('end', function (Punishment $model) {
                 if ($model->type->isIP()) {
                     return '<span class="badge badge-danger">IP-Ban</span>';
-                } else if ($model->type->isTemporary()) {
+                } elseif ($model->type->isTemporary()) {
                     return '<span class="badge badge-warning" x-data x-tooltip.raw="'.$model->expiresTooltip().'">'.$model->getEndFormatted().'</span>';
                 } else {
                     return '<span class="badge badge-danger">Permanent</span>';
