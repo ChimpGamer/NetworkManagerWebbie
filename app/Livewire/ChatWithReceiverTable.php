@@ -19,6 +19,8 @@ final class ChatWithReceiverTable extends PowerGridComponent
 {
     public string $tableName = 'chat-with-receiver-table';
 
+    public string $sortDirection = 'desc';
+
     #[Reactive]
     public int $type;
 

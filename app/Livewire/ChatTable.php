@@ -17,6 +17,8 @@ final class ChatTable extends PowerGridComponent
 {
     public string $tableName = 'chat-table';
 
+    public string $sortDirection = 'desc';
+
     #[Reactive]
     public int $type;
 
