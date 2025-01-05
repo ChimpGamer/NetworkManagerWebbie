@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Chat\ChatMessage;
 use App\Models\Chat\ChatType;
+use App\Models\Player\Player;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Blade;
@@ -54,15 +55,20 @@ final class ChatWithReceiverTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('player', fn (ChatMessage $model) => Blade::render('<x-player-link uuid="'.$model->uuid.'" username="'.$model->player->username.'" />'))
             ->add('receiver', function (ChatMessage $model) {
-                $message = $model->message;
+                if (is_null($model->receiver)) {
+                    $message = $model->message;
 
-                return strtok($message, ' ');
+                    return strtok($message, ' ');
+                } else {
+                    // Change this later
+                    return Player::getName($model->receiver);
+                }
             })
             ->add('type_name', fn (ChatMessage $model) => $model->type->name())
             ->add('message', function (ChatMessage $model) {
                 $message = $model->message;
 
-                if ($model->type === ChatType::PM || $model->type === ChatType::FRIENDS) {
+                if (is_null($model->receiver) && ($model->type === ChatType::PM || $model->type === ChatType::FRIENDS)) {
                     $receiver = strtok($message, ' ');
 
                     return Str::replaceFirst($receiver, '', $message);
@@ -81,7 +87,7 @@ final class ChatWithReceiverTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Receiver', 'receiver', 'uuid'),
+            Column::make('Receiver', 'receiver', 'receiver'),
 
             Column::make('Type', 'type_name', 'type')
                 ->sortable()
@@ -104,6 +110,8 @@ final class ChatWithReceiverTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+            Filter::inputText('player')
+                ->filterRelation('player', 'username'),
             Filter::inputText('server'),
         ];
     }
