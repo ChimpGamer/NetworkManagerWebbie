@@ -2,7 +2,34 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="mb-0">Language {{$language->name}}</h4>
+                <div class="row mt-2 align-items-center text-center">
+                    <div class="col-md-auto me-auto">
+                        <h4 class="mb-0">Language {{$language->name}}</h4>
+                    </div>
+
+                    <div class="col-md-auto" x-init>
+                        <div class="col-md-auto ms-auto" wire:ignore x-data="{
+                            handleKeydown(e) {
+                                // 'cmd+k'
+                                if (e.keyCode == 75 && (e.metaKey == true || e.ctrlKey == true)) {
+                                    document.getElementById('languageMessageSearch').focus();
+                                    e.preventDefault()
+                                }
+
+                                // 'esc'
+                                if (e.keyCode == 27) {
+                                    document.getElementById('languageMessageSearch').blur();
+                                    e.preventDefault()
+                                }
+                            }
+                        }">
+                            <div class="form-outline w-auto d-inline-block" data-mdb-input-init>
+                                <input type="search" id="languageMessageSearch" class="form-control form-control-sm" @keydown.window="handleKeydown" wire:model.live="search"/>
+                                <label class="form-label" for="languageMessageSearch" style="font-family: Roboto, 'FontAwesome'">Search...</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
                 <form wire:submit="save">
