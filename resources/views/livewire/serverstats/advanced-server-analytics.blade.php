@@ -5,7 +5,6 @@
 @script
 <script>
     const data = @js($this->data);
-    console.log(data);
     Highcharts.setOptions({
         chart: {
             style: {
