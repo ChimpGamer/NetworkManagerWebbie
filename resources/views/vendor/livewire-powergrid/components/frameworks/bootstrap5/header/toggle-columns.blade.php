@@ -8,6 +8,7 @@
                 data-mdb-dropdown-init
                 data-mdb-ripple-init
                 aria-expanded="false"
+                wire:ignore.self
             >
                 <x-livewire-powergrid::icons.eye-off width="18" />
             </button>
