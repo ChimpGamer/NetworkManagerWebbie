@@ -48,6 +48,13 @@ class ShowLanguage extends Component
 
     public function render(): View
     {
-        return view('livewire.languages.show-language')->with('language', $this->language)->with('messages', $this->languageMessages);
+        $languageMessages = $this->languageMessages;
+
+        if (!empty($this->search)) {
+            $languageMessages = $languageMessages->filter(function ($message) {
+                return str_contains($message->key, $this->search);
+            });
+        }
+        return view('livewire.languages.show-language')->with('language', $this->language)->with('messages', $languageMessages);
     }
 }
