@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
@@ -93,6 +94,11 @@ class Player extends Model
     public function tag(): HasOne
     {
         return $this->hasOne(Tag::class, 'id', 'tagid');
+    }
+
+    public function ignoredPlayers(): HasMany
+    {
+        return $this->hasMany(IgnoredPlayer::class, 'uuid', 'uuid');
     }
 
     protected function playtime(): Attribute
@@ -261,6 +267,7 @@ class Player extends Model
             $labels[] = $version;
             $values[] = $item->percentage;
         }
+
         return ['labels' => $labels, 'values' => $values];
     }
 

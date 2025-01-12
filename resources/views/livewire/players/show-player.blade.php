@@ -117,14 +117,21 @@
         <!-- Player Sessions -->
         <div class="col-12">
             <x-card-table title="Player Sessions">
-                @livewire('player.player-sessions-table', ['player' => $player])
+                @livewire('player.player-sessions-table', ['player' => $player, 'lazy' => true])
             </x-card-table>
         </div>
 
         <!-- Player Punishments -->
         <div class="col-12">
             <x-card-table title="Player Punishments">
-                @livewire('player.player-punishments-table', ['player' => $player])
+                @livewire('player.player-punishments-table', ['player' => $player, 'lazy' => true])
+            </x-card-table>
+        </div>
+
+        <!-- Player Ignored List -->
+        <div class="col-6">
+            <x-card-table title="Ignored Players">
+                @livewire('player.ignored-players-table', ['player' => $player, 'lazy' => true])
             </x-card-table>
         </div>
     </div>
