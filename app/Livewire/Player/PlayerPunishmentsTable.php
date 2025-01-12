@@ -72,4 +72,17 @@ final class PlayerPunishmentsTable extends PowerGridComponent
                 ->searchable(),
         ];
     }
+
+    public function placeholder(): string
+    {
+        return <<<'HTML'
+            <div>
+                <div class="w-100 text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        HTML;
+    }
 }
