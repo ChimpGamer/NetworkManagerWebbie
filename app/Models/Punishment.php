@@ -81,16 +81,23 @@ class Punishment extends Model
         return $this->hasOne(Player::class, 'uuid', 'uuid');
     }
 
+    public function punisher(): HasOne
+    {
+        return $this->hasOne(Player::class, 'uuid', 'punisher');
+    }
+
     public function ends(): Carbon
     {
         return TimeUtils::fromTimestampMs($this->end);
     }
 
-    public function expires(): ?string {
+    public function expires(): ?string
+    {
         $end = $this->end;
         if ($end <= 0) {
             return 'Never';
         }
+
         return $this->ends()->fromNow();
     }
 
@@ -98,13 +105,14 @@ class Punishment extends Model
     {
         $end = $this->ends();
         if ($end->isPast()) {
-            return 'Expired ' . $end->ago();
+            return 'Expired '.$end->ago();
         } else {
-            return 'Expires in ' . $end->fromNow();
+            return 'Expires in '.$end->fromNow();
         }
     }
 
-    public function getEndFormatted(): string {
+    public function getEndFormatted(): string
+    {
         return TimeUtils::formatTimestamp($this->end);
     }
 
