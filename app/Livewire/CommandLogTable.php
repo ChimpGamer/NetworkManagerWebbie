@@ -61,19 +61,19 @@ class CommandLogTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Username', 'username')
+            Column::make(__('command-log.table.columns.username'), 'username')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Command', 'command')
+            Column::make(__('command-log.table.columns.command'), 'command')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Server', 'server')
+            Column::make(__('command-log.table.columns.server'), 'server')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Time', 'time_formatted', 'time')
+            Column::make(__('command-log.table.columns.time'), 'time_formatted', 'time')
                 ->sortable()
                 ->searchableRaw('DATE_FORMAT(FROM_UNIXTIME(time/ 1000), "%Y-%m-%d") like ?'),
         ];
