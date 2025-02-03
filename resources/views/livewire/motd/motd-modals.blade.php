@@ -3,39 +3,39 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addMotdModalLabel">Add Motd</h5>
+                <h5 class="modal-title" id="addMotdModalLabel">@lang('motd.modal.add.title')</h5>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <form wire:submit='createMotd'>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="bold">Text</label>
+                        <label class="bold">@lang('motd.modal.add.text-label')</label>
                         <textarea wire:model.live="text" class="form-control"></textarea>
                         @error('text') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="bold">Hover Description</label>
+                        <label class="bold">@lang('motd.modal.add.hover-description-label')</label>
                         <textarea wire:model.live="description" class="form-control"></textarea>
                         @error('description') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="bold">Custom Version</label>
+                        <label class="bold">@lang('motd.modal.add.custom-version-label')</label>
                         <input type="text" wire:model.live="customversion" class="form-control">
                         @error('customversion') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="bold">Favicon</label>
+                        <label class="bold">@lang('motd.modal.add.favicon-label')</label>
                         <input type="text" wire:model.live="faviconUrl" class="form-control">
                         @error('faviconUrl') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="bold">Expires</label>
+                        <label class="bold">@lang('motd.modal.add.expires-label')</label>
                         <input type="datetime-local" wire:model="expires" class="form-control">
                         @error('expires') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="bold">Maintenance Mode</label>
+                        <label class="bold">@lang('motd.modal.add.maintenance-mode-label')</label>
                         <div class="d-flex">
                             <strong>Off</strong>
                             <div class="form-check form-switch ms-2">
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="bold">Enabled</label>
+                        <label class="bold">@lang('motd.modal.add.enabled-label')</label>
                         <div class="d-flex">
                             <strong>Off</strong>
                             <div class="form-check form-switch ms-2">
@@ -64,14 +64,14 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a type="button" class="btn"
+                    <a type="button" class="btn btn-dark"
                        @if(!empty($text)) href="https://webui.advntr.dev/?mode=server_list&input={{urlencode($text)}}"
                        target="_blank" rel="noopener noreferrer" @endif>
-                        Click to preview
+                        @lang('motd.modal.add.preview-button')
                     </a>
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                            data-mdb-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
+                            data-mdb-dismiss="modal">@lang('motd.modal.close')</button>
+                    <button type="submit" class="btn btn-primary">@lang('motd.modal.add.submit-button')</button>
                 </div>
             </form>
         </div>
@@ -83,39 +83,39 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editMotdModalLabel">Edit Motd</h5>
+                <h5 class="modal-title" id="editMotdModalLabel">@lang('motd.modal.edit.title')</h5>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <form wire:submit='updateMotd'>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="bold">Text</label>
+                        <label class="bold">@lang('motd.modal.edit.text-label')</label>
                         <textarea wire:model.live="text" class="form-control"></textarea>
                         @error('text') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="bold">Hover Description</label>
+                        <label class="bold">@lang('motd.modal.edit.hover-description-label')</label>
                         <textarea wire:model.live="description" class="form-control"></textarea>
                         @error('description') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="bold">Custom Version</label>
+                        <label class="bold">@lang('motd.modal.edit.custom-version-label')</label>
                         <input type="text" wire:model.live="customversion" class="form-control">
                         @error('customversion') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="bold">Favicon</label>
+                        <label class="bold">@lang('motd.modal.edit.favicon-label')</label>
                         <input type="text" wire:model.live="faviconUrl" class="form-control">
                         @error('faviconUrl') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="bold">Expires</label>
+                        <label class="bold">@lang('motd.modal.edit.expires-label')</label>
                         <input type="datetime-local" wire:model="expires" class="form-control">
                         @error('expires') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
-                        <label class="bold">Maintenance Mode</label>
+                        <label class="bold">@lang('motd.modal.edit.maintenance-mode-label')</label>
                         <div class="d-flex">
                             <strong>Off</strong>
                             <div class="form-check form-switch ms-2">
@@ -129,7 +129,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="bold">Enabled</label>
+                        <label class="bold">@lang('motd.modal.edit.enabled-label')</label>
                         <div class="d-flex">
                             <strong>Off</strong>
                             <div class="form-check form-switch ms-2">
@@ -147,11 +147,11 @@
                     <a type="button" class="btn"
                        @if(!empty($text)) href="https://webui.advntr.dev/?mode=server_list&input={{urlencode($text)}}"
                        target="_blank" rel="noopener noreferrer" @endif>
-                        Click to preview
+                        @lang('motd.modal.edit.preview-button')
                     </a>
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                            data-mdb-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                            data-mdb-dismiss="modal">@lang('motd.modal.close')</button>
+                    <button type="submit" class="btn btn-primary">@lang('motd.modal.edit.submit-button')</button>
                 </div>
             </form>
         </div>
@@ -164,15 +164,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteMotdModalLabel">Delete MOTD Confirm</h5>
+                <h5 class="modal-title" id="deleteMotdModalLabel">@lang('motd.modal.delete.title')</h5>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete motd #{{ $motdId }}?</p>
+                <p>@lang('motd.modal.delete.text', ['motdId' => $motdId])</p>
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click="closeModal" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-                <button type="button" wire:click.prevent="delete()" class="btn btn-danger close-modal" data-mdb-dismiss="modal">Yes, Delete</button>
+                <button type="button" wire:click="closeModal" class="btn btn-secondary" data-mdb-dismiss="modal">@lang('motd.modal.close')</button>
+                <button type="button" wire:click.prevent="delete()" class="btn btn-danger close-modal" data-mdb-dismiss="modal">@lang('motd.modal.delete.submit-button')</button>
             </div>
         </div>
     </div>

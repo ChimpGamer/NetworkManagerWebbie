@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-header">
             <h5 class="mb-0 text-center">
-                <strong>MOTD</strong>
+                <strong>@lang('motd.title')</strong>
             </h5>
         </div>
 
@@ -12,8 +12,8 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Simple Preview</th>
-                    <th>Actions</th>
+                    <th>@lang('motd.simple-preview')</th>
+                    <th>@lang('motd.actions')</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -33,7 +33,7 @@
                         </td>
                         <td>
                             <a type="button" style="background: transparent; border: none;" x-data
-                               x-tooltip.raw="Click to preview"
+                               x-tooltip.raw="@lang('motd.preview.hover')"
                                href="https://webui.advntr.dev/?mode=server_list&input={{urlencode($motd->text)}}"
                                target="_blank" rel="noopener noreferrer">
                                 <i class="material-icons text-primary">travel_explore</i>
@@ -62,7 +62,7 @@
             <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init
                     data-mdb-target="#addMotdModal"
                     wire:click="addMotd">
-                <i style="font-size: 18px !important;" class="material-icons">add</i> Add MOTD
+                <i style="font-size: 18px !important;" class="material-icons">add</i> @lang('motd.add-motd')
             </button>
         </div>
     @endcan
