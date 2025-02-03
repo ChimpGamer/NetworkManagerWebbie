@@ -70,34 +70,34 @@ final class TicketsTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Id', 'id_label')
+            Column::make(__('tickets.table.columns.id'), 'id_label')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Creator', 'creator_label')
+            Column::make(__('tickets.table.columns.creator'), 'creator_label')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Title', 'title')
+            Column::make(__('tickets.table.columns.title'), 'title')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Assigned To', 'assigned_to')
+            Column::make(__('tickets.table.columns.assigned-to'), 'assigned_to')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Creation', 'creation_formatted', 'creation')
+            Column::make(__('tickets.table.columns.creation'), 'creation_formatted', 'creation')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Last update', 'last_update_formatted', 'last_update')
+            Column::make(__('tickets.table.columns.last-update'), 'last_update_formatted', 'last_update')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Priority', 'priority_label', 'priority')
+            Column::make(__('tickets.table.columns.priority'), 'priority_label', 'priority')
                 ->sortable(),
 
-            Column::action('Action')
+            Column::action(__('tickets.table.columns.actions'))
                 ->headerAttribute('text-center'),
         ];
     }

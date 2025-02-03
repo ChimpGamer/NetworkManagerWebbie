@@ -11,8 +11,8 @@ use Livewire\WithPagination;
 
 class ShowTickets extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -23,8 +23,8 @@ class ShowTickets extends Component
     public function render(): View
     {
         $tickets = Ticket::where(function (Builder $query) {
-            $query->where('title', 'like', '%' . $this->search . '%')
-            ->orWhere('message', 'like', '%' . $this->search . '%');
+            $query->where('title', 'like', '%'.$this->search.'%')
+                ->orWhere('message', 'like', '%'.$this->search.'%');
         })
             ->orderBy('last_update', 'DESC')
             ->paginate($this->per_page);

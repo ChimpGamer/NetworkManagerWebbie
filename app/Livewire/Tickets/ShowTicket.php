@@ -34,7 +34,7 @@ class ShowTicket extends Component
             return $item->username;
         })->toArray());
         $assigned_to = $this->ticket->assigned_to;
-        if ($assigned_to != null && !in_array($assigned_to, $this->assignOptions)) {
+        if ($assigned_to != null && ! in_array($assigned_to, $this->assignOptions)) {
             $this->assignOptions[] = $assigned_to;
         }
     }
@@ -67,6 +67,7 @@ class ShowTicket extends Component
         $uuid = Auth::check() ? Auth::user()->getUUID() : null;
         if ($uuid == null) {
             session()->flash('error', "Your username doesn't seem to be a mc username or hasn't joined the server yet.");
+
             return;
         }
         TicketMessage::create([
@@ -90,6 +91,7 @@ class ShowTicket extends Component
         $uuid = Auth::check() ? Auth::user()->getUUID() : null;
         if ($uuid == null) {
             session()->flash('error', "Your username doesn't seem to be a mc username or hasn't joined the server yet.");
+
             return;
         }
         $this->ticket->update([
@@ -99,7 +101,7 @@ class ShowTicket extends Component
             'active' => false,
         ]);
         $this->ticket->refresh();
-        session()->flash('message', "The ticket was successfully closed.");
+        session()->flash('message', __('ticket.notifications.closed-successfully', ['ticketId' => $this->ticket->id]));
     }
 
     public function render(): View

@@ -10,7 +10,7 @@
         <div x-data="{ open: false }" class="me-auto">
             <button @click="open = ! open" @keydown.escape="open = false" class="btn btn-outline-primary"
                     data-mdb-dropdown-initialized="true" aria-expanded="true">
-                <i class="fa-solid fa-user-tie"></i> {{$ticket->assigned_to ?? "Unassigned"}}
+                <i class="fa-solid fa-user-tie"></i> {{$ticket->assigned_to ?? __('ticket.unassigned')}}
             </button>
             <div x-cloak x-show="open" @click.away="open = false">
                 <ul class="dropdown-menu">
@@ -86,10 +86,10 @@
     <br/>
     <div class="d-flex">
         <div class="me-auto">
-            <button type="submit" class="btn btn-primary" wire:click="sendMessage" onclick="tinyMCE.activeEditor.setContent('');">Send Message</button>
+            <button type="submit" class="btn btn-primary" wire:click="sendMessage" onclick="tinyMCE.activeEditor.setContent('');">@lang('ticket.buttons.send-message')</button>
         </div>
         <div>
-            <button type="submit" class="btn btn-danger" wire:click="closeTicket">Close Ticket</button>
+            <button type="submit" class="btn btn-danger" wire:click="closeTicket">@lang('ticket.buttons.close-ticket')</button>
         </div>
     </div>
     <hr class="hr">
