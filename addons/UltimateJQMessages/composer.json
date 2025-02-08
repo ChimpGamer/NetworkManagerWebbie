@@ -1,0 +1,29 @@
+{
+    "name": "chimpgamer/ultimatejqmessages",
+    "description": "Addon for the UltimateJQMessages plugin https://polymart.org/resource/ultimatejqmessages.4815",
+    "authors": [
+        {
+            "name": "ChimpGamer",
+            "email": "chimpgamermc@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Addons\\UltimateJQMessages\\": "",
+            "Addons\\UltimateJQMessages\\App\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Addons\\UltimateJQMessages\\Tests\\": "tests/"
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "UltimateTags",
+    "alias": "ultimatetags",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Addons\\UltimateTags\\App\\Providers\\UltimateTagsServiceProvider"
+    ],
+    "files": []
+}

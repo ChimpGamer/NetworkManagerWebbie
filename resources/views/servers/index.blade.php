@@ -3,16 +3,10 @@
 @section('content')
 
     <div>
-        <livewire:show-servers>
+        @livewire('servers.show-servers')
+        <hr class="hr">
+        <br>
+        @livewire('servers.show-server-groups')
     </div>
 
 @endsection
-
-@section('script')
-<script>
-    window.addEventListener('close-modal', () => {
-        $('#editServerModal').modal('hide');
-    });
-</script>
-@endsection
-

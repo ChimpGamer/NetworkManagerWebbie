@@ -3,16 +3,8 @@
 @section('content')
 
     <div>
-        <livewire:show-announcements>
+        <livewire:announcements.show-announcements>
     </div>
 
-@endsection
-
-@section('script')
-<script>
-    window.addEventListener('close-modal', () => {
-        $('#editAnnouncementModal').modal('hide');
-    });
-</script>
 @endsection
 

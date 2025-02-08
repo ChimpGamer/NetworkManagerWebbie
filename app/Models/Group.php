@@ -68,6 +68,12 @@ class Group extends Model
         'view_pre_punishments',
         'edit_pre_punishments',
         'show_ip',
+
+        'edit_settings',
+        'manage_groups_and_accounts',
+        'view_motd',
+        'edit_motd',
+        'view_command_log',
     ];
 
     /**
@@ -77,7 +83,59 @@ class Group extends Model
      */
     protected $casts = [
         'administrator' => 'boolean',
+
+        'view_analytics' => 'boolean',
+        'view_punishments' => 'boolean',
+        'view_network' => 'boolean',
+        'view_players' => 'boolean',
+        'view_chat' => 'boolean',
+        'view_filter' => 'boolean',
+        'edit_filter' => 'boolean',
+        'edit_punishments' => 'boolean',
+        'show_ip' => 'boolean',
+        'edit_accounts' => 'boolean',
+        'view_addons' => 'boolean',
+        'view_tickets' => 'boolean',
+        'view_ticket' => 'boolean',
+        'respond_ticket' => 'boolean',
+        'close_ticket' => 'boolean',
+        'assign_ticket' => 'boolean',
+        'view_chatlogs' => 'boolean',
+        'view_permissions' => 'boolean',
+        'view_commandblocker' => 'boolean',
+        'edit_commandblocker' => 'boolean',
+        'view_announcements' => 'boolean',
+        'edit_announcements' => 'boolean',
+        'view_reports' => 'boolean',
+        'edit_reports' => 'boolean',
+        'view_helpop' => 'boolean',
+        'edit_chat' => 'boolean',
+        'view_tags' => 'boolean',
+        'edit_tags' => 'boolean',
+        'view_servers' => 'boolean',
+        'edit_servers' => 'boolean',
+        'edit_chatlog' => 'boolean',
+        'view_languages' => 'boolean',
+        'edit_languages' => 'boolean',
+        'edit_permissions' => 'boolean',
+        'edit_helpop' => 'boolean',
+        'view_pre_punishments' => 'boolean',
+        'edit_pre_punishments' => 'boolean',
+        'view_accounts' => 'boolean',
+
+        'edit_settings' => 'boolean',
+        'manage_groups_and_accounts' => 'boolean',
+        'view_motd' => 'boolean',
+        'edit_motd' => 'boolean',
+        'view_command_log' => 'boolean',
     ];
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * The users for the model.
@@ -134,7 +192,7 @@ class Group extends Model
     public function mapPermissionsToValues(array $permissions): array
     {
         return array_map(function (string $permission) {
-            return $this->isAdministrator() || boolval($this->getAttributeValue($permission));
+            return $this->isAdministrator() || $this->getAttributeValue($permission);
         }, $permissions);
     }
 }

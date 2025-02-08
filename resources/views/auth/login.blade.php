@@ -4,6 +4,10 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">
+                <div class="text-center p-4">
+                    <img src="{{ asset('images/full_logo.png') }}" class="img-fluid" alt="Logo">
+                </div>
+
                 @error('login')
                 <div class="row mb-0" style="padding-left: 12px; padding-right: 12px">
                     <span class="alert alert-danger">
@@ -25,8 +29,7 @@
                                 <div class="col-lg-8">
                                     <input id="username" type="text"
                                            class="form-control @error('username') is-invalid @enderror" name="username"
-                                           value="{{ old('username') }}" required autocomplete="email" autofocus>
-
+                                           value="{{ old('username') }}" required autocomplete="username" autofocus>
                                 </div>
                             </div>
 
@@ -37,7 +40,7 @@
                                 <div class="col-lg-8">
                                     <input id="password" type="password"
                                            class="form-control @error('password') is-invalid @enderror" name="password"
-                                           required autocomplete="current-password">
+                                           required autocomplete="password">
                                 </div>
                             </div>
 
@@ -61,8 +64,7 @@
                                     </button>
 
                                     @if (Route::has('password.request'))
-                                        <a class=" btn btn-link
-                                        " href="{{ route('password.request') }}">
+                                        <a class="btn btn-link" href="{{ route('password.request') }}">
                                             {{ __('Forgot Your Password?') }}
                                         </a>
                                     @endif

@@ -1,0 +1,29 @@
+{
+    "name": "nwidart/ultimatetags",
+    "description": "Addon for the UltimateTags plugin https://polymart.org/resource/ultimatetags.3765",
+    "authors": [
+        {
+            "name": "ChimpGamer",
+            "email": "chimpgamermc@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Addons\\UltimateTags\\": "",
+            "Addons\\UltimateTags\\App\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Addons\\UltimateTags\\Tests\\": "tests/"
+        }
+    }
+}

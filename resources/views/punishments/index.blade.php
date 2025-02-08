@@ -3,16 +3,7 @@
 @section('content')
 
     <div>
-        <livewire:show-punishments>
+        <livewire:punishments.show-punishments>
     </div>
 
 @endsection
-
-@section('script')
-<script>
-    window.addEventListener('close-modal', () => {
-        $('#editPunishmentModal').modal('hide');
-    });
-</script>
-@endsection
-
