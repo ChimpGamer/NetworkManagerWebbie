@@ -28,10 +28,14 @@ class TrustProxies extends Middleware
 
     public function __construct()
     {
-        $configProxies = config('app.trusted_proxies');
-
-        $this->proxies = $configProxies === null
-            ? null
-            : explode(',', $configProxies);
+        $trustedProxies = env('APP_TRUSTED_PROXIES', null);
+        
+        if ($trustedProxies === '*') {
+            $this->proxies = '*';
+        } elseif (empty($trustedProxies)) {
+            $this->proxies = null;
+        } else {
+            $this->proxies = explode(',', $trustedProxies);
+        }
     }
 }
