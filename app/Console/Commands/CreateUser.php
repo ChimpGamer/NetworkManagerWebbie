@@ -33,7 +33,7 @@ class CreateUser extends Command
             $username = $this->ask('What is the username?');
             $password = $this->secret('What is the password?');
 
-            if (!str($username)->test('^[a-zA-Z0-9_]')) {
+            if (!str($username)->test('/^[a-zA-Z0-9_]/')) {
                 $this->error('Invalid username.');
                 return;
             }
