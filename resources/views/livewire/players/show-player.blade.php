@@ -1,4 +1,95 @@
 <div>
+    <!-- Punish PLayer Modal -->
+    <x-modal id="punishPlayerModal" title="Punish Player" :hasForm="true" wire:submit.prevent="punish">
+        <div class="mb-3">
+            <label class="bold">Type</label>
+            <select name="type" class="form-control" wire:model.change="punishment.typeId">
+                @foreach($this->punishmentTypeCases as $punishmentType)
+                    <option
+                        value="{{$punishmentType}}">{{ $punishmentType->name() }}</option>
+                @endforeach
+            </select>
+            @error('punishment.typeId') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
+        <div class="mb-3">
+            <label class="bold">Punisher</label>
+            <input type="text" wire:model="punishment.punisherUUID" class="form-control">
+            @error('punishment.punisherUUID') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
+        <div class="mb-3">
+            <label class="bold">Time</label>
+            <input type="datetime-local" wire:model="punishment.time" class="form-control">
+            @error('punishment.time') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
+        @if($punishment->isTemporary)
+            <div class="mb-3">
+                <label class="bold">End</label>
+                <input type="datetime-local" wire:model="punishment.end" class="form-control">
+                @error('punishment.end') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+        @endif
+        <div class="mb-3">
+            <label class="bold">Reason</label>
+            <input type="text" wire:model="punishment.reason" class="form-control">
+            @error('punishment.reason') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
+        @if(!$punishment->isGlobal)
+            <div class="mb-3">
+                <label class="bold">Server</label>
+                <input type="text" wire:model=punishment."server" class="form-control">
+                @error('punishment.server') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+        @endif
+        <div class="mb-3">
+            <label class="bold">Silent</label>
+            <div class="d-flex">
+                <strong>Off</strong>
+                <div class="form-check form-switch ms-2">
+                    <input class="form-check-input" type="checkbox" role="switch" id="silentSwitch"
+                           wire:model="punishment.silent" />
+                    <label class="form-check-label" style="font-weight: bold;"
+                           for="silentSwitch"><strong>On</strong></label>
+                </div>
+                @error('punishment.silent') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="bold">Active</label>
+            <div class="d-flex">
+                <strong>Off</strong>
+                <div class="form-check form-switch ms-2">
+                    <input class="form-check-input" type="checkbox" role="switch"
+                           id="activeSwitch"
+                           wire:model="punishment.active" />
+                    <label class="form-check-label" style="font-weight: bold;"
+                           for="activeSwitch"><strong>On</strong></label>
+                </div>
+                @error('punishment.active') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+        </div>
+        <x-slot name="footer">
+            <button type="button" class="btn btn-secondary" wire:click="closeModal"
+                    data-mdb-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">PUNISH</button>
+        </x-slot>
+    </x-modal>
+
+    @if (session('message'))
+        <h5 class="alert alert-success">{{ session('message') }}</h5>
+    @endif
+
+    <div class="d-flex mb-2">
+        <div class="me-auto">
+
+        </div>
+        <div>
+            <button class="btn btn-warning btn-floating" x-data x-tooltip.raw="Punish player"
+                    data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#punishPlayerModal"
+            wire:click="punishPlayer"><i class="material-icons md-18">gavel</i></button>
+            <button class="btn btn-danger btn-floating" wire:click="deletePlayer" x-data x-tooltip.raw="Delete ALL player data!"><i class="material-icons md-18">delete</i></button>
+        </div>
+    </div>
+
     <div class="row gy-4">
         <!-- Player Information -->
         <div class="col-md-6">

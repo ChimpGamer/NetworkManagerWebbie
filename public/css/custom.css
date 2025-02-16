@@ -153,6 +153,8 @@ u {
     top: -1px;
 }
 
+.material-icons.md-18 { font-size: 18px !important; }
+
 /* Fix weird table color when using dark theme */
 [data-mdb-theme=dark] .table {
     --mdb-table-bg: var(--mdb-surface-bg) !important;
