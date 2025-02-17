@@ -5,7 +5,7 @@
         <h5 class="alert alert-danger">{{ session('error') }}</h5>
     @endif
 
-    <x-card-table title="Account Groups">
+    <x-card-table title="{{ __('accounts.account-groups.title') }}">
         <livewire:accounts.account-groups-table/>
     </x-card-table>
     @can('manage_groups_and_accounts')
@@ -13,7 +13,7 @@
             <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init
                     data-mdb-target="#addAccountGroupModal"
                     wire:click="addAccountGroup">
-                <i style="font-size: 18px !important;" class="material-icons">add</i> Add Account Group
+                <i style="font-size: 18px !important;" class="material-icons">add</i> @lang('accounts.account-groups.buttons.add')
             </button>
         </div>
     @endcan

@@ -2,7 +2,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="mb-0">Settings</h4>
+                <h4 class="mb-0">@lang('settings.title')</h4>
             </div>
             <div class="card-body">
                 <form wire:submit="save">
@@ -36,7 +36,7 @@
                     @endforeach
 
                     @can('edit_settings')
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">@lang('settings.buttons.save')</button>
                     @endcan
                     <div wire:dirty.class="is-dirty"></div>
                 </form>
