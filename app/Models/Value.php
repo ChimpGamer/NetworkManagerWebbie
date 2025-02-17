@@ -97,7 +97,7 @@ class Value extends Model
         'setting_show_reports_onlogin',
         'setting_nickname_use_filter',
         'setting_notify_banned_player_join',
-        'module_playerignore',
+        'module_friends',
     ];
 
     public function isBooleanSetting(): bool

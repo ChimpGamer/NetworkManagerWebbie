@@ -33,8 +33,9 @@ class CreateUser extends Command
             $username = $this->ask('What is the username?');
             $password = $this->secret('What is the password?');
 
-            if (!str($username)->test('/^[a-zA-Z0-9_]/')) {
+            if (! str($username)->test('/^[a-zA-Z0-9_]/')) {
                 $this->error('Invalid username.');
+
                 return;
             }
 
@@ -44,6 +45,7 @@ class CreateUser extends Command
 
             if (User::where('username', $username)->exists()) {
                 $this->error("User $username already exists in the database!");
+
                 return;
             }
             User::create([
