@@ -6,11 +6,21 @@
                     <label>Type:
                         <select class="form-select form-select-sm" style="display: inherit; width: auto" wire:model.change="type">
                             <option value="1">Chat</option>
-                            <option value="2">PM</option>
-                            <option value="3">Party</option>
-                            <option value="4">Staff Chat</option>
-                            <option value="5">Admin Chat</option>
-                            <option value="6">Friends</option>
+                            @can('view_chat_pm')
+                                <option value="2">PM</option>
+                            @endcan
+                            @can('view_chat_party')
+                                <option value="3">Party</option>
+                            @endcan
+                            @can('view_chat_staff_chat')
+                                <option value="4">Staff Chat</option>
+                            @endcan
+                            @can('view_chat_admin_chat')
+                                <option value="5">Admin Chat</option>
+                            @endcan
+                            @can('view_chat_friends')
+                                <option value="6">Friends</option>
+                            @endcan
                         </select>
                     </label>
                 </div>

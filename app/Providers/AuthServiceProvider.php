@@ -73,6 +73,11 @@ class AuthServiceProvider extends ServiceProvider
             'view_motd',
             'edit_motd',
             'view_command_log',
+            'view_chat_pm',
+            'view_chat_party',
+            'view_chat_staff_chat',
+            'view_chat_admin_chat',
+            'view_chat_friends',
         ];
         // Set Permissions
         foreach ($permissions as $permission) {
