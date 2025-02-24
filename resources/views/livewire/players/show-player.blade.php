@@ -83,10 +83,14 @@
 
         </div>
         <div>
-            <button class="btn btn-warning btn-floating" x-data x-tooltip.raw="Punish player"
-                    data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#punishPlayerModal"
-            wire:click="punishPlayer"><i class="material-icons md-18">gavel</i></button>
-            <button class="btn btn-danger btn-floating" wire:click="deletePlayer" x-data x-tooltip.raw="Delete ALL player data!"><i class="material-icons md-18">delete</i></button>
+            @can('punish_player')
+                <button class="btn btn-warning btn-floating" x-data x-tooltip.raw="Punish player"
+                        data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#punishPlayerModal"
+                        wire:click="punishPlayer"><i class="material-icons md-18">gavel</i></button>
+            @endcan
+            @can('delete_player')
+                <button class="btn btn-danger btn-floating" wire:click="deletePlayer" x-data x-tooltip.raw="Delete ALL player data!"><i class="material-icons md-18">delete</i></button>
+            @endcan
         </div>
     </div>
 

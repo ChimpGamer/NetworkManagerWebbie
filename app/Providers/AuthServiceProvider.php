@@ -78,6 +78,9 @@ class AuthServiceProvider extends ServiceProvider
             'view_chat_staff_chat',
             'view_chat_admin_chat',
             'view_chat_friends',
+
+            'punish_player',
+            'delete_player',
         ];
         // Set Permissions
         foreach ($permissions as $permission) {
