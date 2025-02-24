@@ -128,7 +128,7 @@
     <x-slot name="footer">
         <button type="button" class="btn btn-secondary" wire:click="closeModal"
                 data-mdb-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary">Update</button>
     </x-slot>
 </x-modal>
 

@@ -13,7 +13,7 @@
     </x-card-table>
     @can('edit_pre_punishments')
         <div class="p-4">
-            <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addTemplateModal"
+            <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#addPunishmentTemplateModal"
                     wire:click="addTemplate">
                 <i style="font-size: 18px !important;" class="material-icons">add</i> Add Template
             </button>
