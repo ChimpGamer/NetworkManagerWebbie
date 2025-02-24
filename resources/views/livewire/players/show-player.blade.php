@@ -96,7 +96,7 @@
             <div class="card">
                 <div class="card-header text-center py-3">
                     <h5 class="mb-0 text-center">
-                        <strong>Player Information</strong>
+                        <strong>@lang('player.player.information.title')</strong>
                     </h5>
                 </div>
                 <div class="card-body">
@@ -104,53 +104,53 @@
                         <table class="table table-hover text-nowrap">
                             <tbody>
                             <tr>
-                                <th scope="row">Username</th>
+                                <th scope="row">@lang('player.player.information.username')</th>
                                 <td>{{$player->username}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Nickname</th>
+                                <th scope="row">@lang('player.player.information.nickname')</th>
                                 <td>{{$player->nickname}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">UUID</th>
+                                <th scope="row">@lang('player.player.information.uuid')</th>
                                 <td>{{$player->uuid}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Latest Minecraft Version</th>
+                                <th scope="row">@lang('player.player.information.latest-minecraft-version')</th>
                                 <td>{{$player->version->name()}}</td>
                             </tr>
                             @can('show_ip')
                                 <tr>
-                                    <th scope="row">IP Address</th>
+                                    <th scope="row">@lang('player.player.information.ip-address')</th>
                                     <td>{{$player->ip}}</td>
                                 </tr>
                             @endcan
                             <tr>
-                                <th scope="row">Country</th>
+                                <th scope="row">@lang('player.player.information.country')</th>
                                 <td>{{$player->fullCountry()}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Tag</th>
+                                <th scope="row">@lang('player.player.information.tag')</th>
                                 <td>{{$player->tag?->name}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Joined</th>
+                                <th scope="row">@lang('player.player.information.first-login')</th>
                                 <td>{{$player->getTimestampFormatted($player->firstlogin)}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Last Login</th>
+                                <th scope="row">@lang('player.player.information.last-login')</th>
                                 <td>{{$player->getTimestampFormatted($player->lastlogin)}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Last Logout</th>
+                                <th scope="row">@lang('player.player.information.last-logout')</th>
                                 <td>{{$player->getTimestampFormatted($player->lastlogout)}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Playtime</th>
+                                <th scope="row">@lang('player.player.information.playtime')</th>
                                 <td>{{$player->playtime}}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Online</th>
+                                <th scope="row">@lang('player.player.information.online')</th>
                                 <td>@if ($player->online)
                                         <i class="fas fa-check-circle fa-lg" style="color:green"></i>
                                     @else
@@ -169,7 +169,7 @@
             <div class="card">
                 <div class="card-header text-center py-3">
                     <h5 class="mb-0 text-center">
-                        <strong>Player Statistics</strong>
+                        <strong>@lang('player.player.statistics.title')</strong>
                     </h5>
                 </div>
                 <div class="card-body">
@@ -177,15 +177,15 @@
                         <table class="table table-hover">
                             <tbody>
                             <tr>
-                                <th scope="row" class="text-nowrap">Average Playtime</th>
+                                <th scope="row" class="text-nowrap">@lang('player.player.statistics.average-playtime')</th>
                                 <td>{{$player->getAveragePlaytime()}}</td>
                             </tr>
                             <tr>
-                                <th scope="row" class="text-nowrap">Player normally joins at</th>
+                                <th scope="row" class="text-nowrap">@lang('player.player.statistics.normally-joins-at')</th>
                                 <td>{{$player->getAverageDailyLogin()}}</td>
                             </tr>
                             <tr>
-                                <th scope="row" class="text-nowrap">Additional Accounts</th>
+                                <th scope="row" class="text-nowrap">@lang('player.player.statistics.additional-accounts')</th>
                                 <td>
                                     @foreach($player->getAltAccounts() as $alt)
                                         <a href="/players/{{$alt->uuid}}">{{$alt->username}}</a>
@@ -207,21 +207,21 @@
 
         <!-- Player Sessions -->
         <div class="col-12">
-            <x-card-table title="Player Sessions">
+            <x-card-table title="{{ __('player.player.sessions.title') }}">
                 @livewire('player.player-sessions-table', ['player' => $player, 'lazy' => true])
             </x-card-table>
         </div>
 
         <!-- Player Punishments -->
         <div class="col-12">
-            <x-card-table title="Player Punishments">
+            <x-card-table title="{{ __('player.player.punishments.title') }}">
                 @livewire('player.player-punishments-table', ['player' => $player, 'lazy' => true])
             </x-card-table>
         </div>
 
         <!-- Player Ignored List -->
         <div class="col-6">
-            <x-card-table title="Ignored Players">
+            <x-card-table title="{{ __('player.player.ignored-players.title') }}">
                 @livewire('player.ignored-players-table', ['player' => $player, 'lazy' => true])
             </x-card-table>
         </div>

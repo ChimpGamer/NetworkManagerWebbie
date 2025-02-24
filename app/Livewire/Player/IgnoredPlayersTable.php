@@ -45,7 +45,7 @@ final class IgnoredPlayersTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Ignored Player', 'ignored_name'),
+            Column::make(__('player.player.ignored-players.table.columns.ignored-player'), 'ignored_name'),
         ];
     }
 

@@ -54,24 +54,24 @@ final class PlayerSessionsTable extends PowerGridComponent
         $hideIP = ! auth()->user()->can('show_ip');
 
         return [
-            Column::make('Start', 'start')
+            Column::make(__('player.player.sessions.table.columns.start'), 'start')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('End', 'end')
+            Column::make(__('player.player.sessions.table.columns.end'), 'end')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Time', 'time')
+            Column::make(__('player.player.sessions.table.columns.time'), 'time')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Ip', 'ip')
+            Column::make(__('player.player.sessions.table.columns.ip'), 'ip')
                 ->sortable()
                 ->searchable()
                 ->hidden($hideIP, $hideIP),
 
-            Column::make('Version', 'version_name', 'version')
+            Column::make(__('player.player.sessions.table.columns.version'), 'version_name', 'version')
                 ->sortable()
                 ->searchable(),
         ];

@@ -62,7 +62,7 @@ final class PlayersTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Player', 'uuid')
+            Column::make(__('player.players.table.columns.player'), 'uuid')
                 ->sortable()
                 ->searchable()
                 ->headerAttribute('text-center')
@@ -75,19 +75,19 @@ final class PlayersTable extends PowerGridComponent
                 ->searchable()
                 ->hidden(),
 
-            Column::make('Firstlogin', 'firstlogin')
+            Column::make(__('player.players.table.columns.first-login'), 'firstlogin')
                 ->sortable()
                 ->searchable()
                 ->headerAttribute('text-center')
                 ->bodyAttribute('text-center'),
 
-            Column::make('Lastlogin', 'lastlogin')
+            Column::make(__('player.players.table.columns.last-login'), 'lastlogin')
                 ->sortable()
                 ->searchable()
                 ->headerAttribute('text-center')
                 ->bodyAttribute('text-center'),
 
-            Column::make('Online', 'online_label', 'online')
+            Column::make(__('player.players.table.columns.online'), 'online_label', 'online')
                 ->sortable()
                 ->searchable()
                 ->headerAttribute('text-center')

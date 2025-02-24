@@ -55,19 +55,19 @@ final class PlayerPunishmentsTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Type', 'type_name', 'type')
+            Column::make(__('player.player.punishments.table.columns.type'), 'type_name', 'type')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Punisher', 'punisher_name', 'punisher')
+            Column::make(__('player.player.punishments.table.columns.punisher'), 'punisher_name', 'punisher')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Reason', 'reason')
+            Column::make(__('player.player.punishments.table.columns.reason'), 'reason')
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Time', 'time')
+            Column::make(__('player.player.punishments.table.columns.time'), 'time')
                 ->sortable()
                 ->searchable(),
         ];
