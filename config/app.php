@@ -58,6 +58,8 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    'trusted_proxies' => env('APP_TRUSTED_PROXIES', null),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
