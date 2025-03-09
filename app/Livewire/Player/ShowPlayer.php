@@ -6,7 +6,9 @@ use App\Livewire\Punishments\PunishmentForm;
 use App\Models\Permissions\GroupMember;
 use App\Models\Permissions\PermissionPlayer;
 use App\Models\Permissions\PlayerPermission;
+use App\Models\Player\Login;
 use App\Models\Player\Player;
+use App\Models\Player\Session;
 use App\Models\Punishment;
 use App\Models\PunishmentType;
 use Carbon\Carbon;
@@ -93,6 +95,8 @@ class ShowPlayer extends Component
         PlayerPermission::where('playeruuid', $this->player->uuid)->delete();
         PermissionPlayer::where('uuid', $this->player->uuid)->delete();
         Punishment::where('uuid', $this->player->uuid)->delete();
+        Session::where('uuid', $this->player->uuid)->delete();
+        Login::where('uuid', $this->player->uuid)->delete();
 
         return \redirect()->route('players.index');
     }
