@@ -63,8 +63,17 @@ return [
             'table' => [
                 'columns' => [
                     'ignored-player' => 'Ignored Player',
-                ]
-            ]
+                ],
+            ],
+        ],
+        'friends' => [
+            'title' => 'Player Friends',
+            'table' => [
+                'columns' => [
+                    'friend' => 'Friend',
+                    'since' => 'Since',
+                ],
+            ],
         ],
     ],
 ];

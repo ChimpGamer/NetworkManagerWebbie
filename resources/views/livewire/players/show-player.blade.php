@@ -229,6 +229,13 @@
                 @livewire('player.ignored-players-table', ['player' => $player, 'lazy' => true])
             </x-card-table>
         </div>
+
+        <!-- Player Friends List -->
+        <div class="col-6">
+            <x-card-table title="{{ __('player.player.friends.title') }}">
+                @livewire('player.player-friends-table', ['player' => $player, 'lazy' => true])
+            </x-card-table>
+        </div>
     </div>
 </div>
 
