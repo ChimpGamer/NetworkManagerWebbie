@@ -54,8 +54,10 @@ final class PlayerFriendsTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make(__('player.player.friends.table.columns.friend'), 'username'),
-            Column::make(__('player.player.friends.table.columns.since'), 'time'),
+            Column::make(__('player.player.friends.table.columns.friend'), 'username')
+                ->sortable(),
+            Column::make(__('player.player.friends.table.columns.since'), 'time')
+                ->sortable(),
         ];
     }
 
