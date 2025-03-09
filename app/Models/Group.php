@@ -34,6 +34,11 @@ class Group extends Model
         'view_network',
         'view_players',
         'view_chat',
+        'view_chat_pm',
+        'view_chat_party',
+        'view_chat_admin_chat',
+        'view_chat_staff_chat',
+        'view_chat_friends',
         'edit_chat',
         'view_filter',
         'edit_filter',
@@ -74,6 +79,10 @@ class Group extends Model
         'view_motd',
         'edit_motd',
         'view_command_log',
+
+
+        'punish_player',
+        'delete_player',
     ];
 
     /**
@@ -89,6 +98,11 @@ class Group extends Model
         'view_network' => 'boolean',
         'view_players' => 'boolean',
         'view_chat' => 'boolean',
+        'view_chat_pm' => 'boolean',
+        'view_chat_party' => 'boolean',
+        'view_chat_admin_chat' => 'boolean',
+        'view_chat_staff_chat' => 'boolean',
+        'view_chat_friends' => 'boolean',
         'view_filter' => 'boolean',
         'edit_filter' => 'boolean',
         'edit_punishments' => 'boolean',
@@ -128,6 +142,9 @@ class Group extends Model
         'view_motd' => 'boolean',
         'edit_motd' => 'boolean',
         'view_command_log' => 'boolean',
+
+        'punish_player' => 'boolean',
+        'delete_player' => 'boolean',
     ];
 
     /**
