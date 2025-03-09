@@ -86,7 +86,7 @@ class ShowPlayer extends Component
         $this->refreshPlayerPunishmentsTable();
     }
 
-    public function deletePlayer(): RedirectResponse
+    public function deletePlayer()
     {
         $this->player->delete();
         GroupMember::where('playeruuid', $this->player->uuid)->delete();
@@ -94,7 +94,7 @@ class ShowPlayer extends Component
         PermissionPlayer::where('uuid', $this->player->uuid)->delete();
         Punishment::where('uuid', $this->player->uuid)->delete();
 
-        return Redirect::route('players.index');
+        return \redirect()->route('players.index');
     }
 
     public function closeModal(?string $modalId = null): void
