@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Player\Player;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -127,13 +127,8 @@ class User extends Authenticatable
         return $this->group->hasAnyPermissions($permissions);
     }
 
-    public function getUUID()
+    public function getUUID(): ?string
     {
-        $player = DB::table('players')
-            ->select('uuid')
-            ->where('username', $this->username)
-            ->first();
-
-        return $player?->uuid;
+        return Player::getUUID($this->username);
     }
 }

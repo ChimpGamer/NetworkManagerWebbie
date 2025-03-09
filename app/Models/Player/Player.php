@@ -134,7 +134,7 @@ class Player extends Model
         return $player->username;
     }
 
-    public static function getUUID($username)
+    public static function getUUID($username): ?string
     {
         if ($username == null) {
             return null;
@@ -166,8 +166,8 @@ class Player extends Model
 
     public static function getMostPlayedVersions()
     {
-        $result = DB::table('players')
-            ->select(DB::raw('DISTINCT(version) as version, count(*) AS count, COUNT(*) * 100.0 / sum(COUNT(*)) over() as percentage'))
+        $result = DB::table('logins')
+            ->selectRaw('DISTINCT(version) as version, count(*) AS count, COUNT(*) * 100.0 / sum(COUNT(*)) over() as percentage')
             ->orderBy('count', 'desc')
             ->groupBy('version')
             ->get();
@@ -186,8 +186,7 @@ class Player extends Model
 
     public static function getMostUsedVirtualHosts()
     {
-        $result = DB::table('logins')
-            ->selectRaw('vhost, COUNT(DISTINCT uuid, vhost) as count, COUNT(DISTINCT uuid, vhost) * 100.0 / sum(COUNT(DISTINCT uuid, vhost)) over() as percentage')
+        $result = Login::selectRaw('vhost, COUNT(DISTINCT uuid, vhost) as count, COUNT(DISTINCT uuid, vhost) * 100.0 / sum(COUNT(DISTINCT uuid, vhost)) over() as percentage')
             ->groupBy('vhost')
             ->orderBy('count', 'desc')
             ->get();
@@ -203,8 +202,7 @@ class Player extends Model
 
     public function getAveragePlaytime(): string
     {
-        $data = DB::table('sessions')
-            ->select('time')
+        $data = Session::select('time')
             ->where('uuid', $this->uuid)
             ->get();
         $count = $data->count();
@@ -227,8 +225,7 @@ class Player extends Model
 
     public function getAverageDailyLogin(): string
     {
-        $data = DB::table('sessions')
-            ->select('start')
+        $data = Session::select('start')
             ->where('uuid', $this->uuid)
             ->groupBy('uuid')
             ->avg('start');
@@ -238,8 +235,7 @@ class Player extends Model
 
     public function getSessions(): \Illuminate\Support\Collection
     {
-        return DB::table('sessions')
-            ->where('uuid', $this->uuid)
+        return Session::where('uuid', $this->uuid)
             ->get();
     }
 
@@ -251,7 +247,7 @@ class Player extends Model
     public function getMostUsedVersions()
     {
         $result = DB::table('logins')
-            ->select(DB::raw('DISTINCT(version) as version, count(*) AS count, COUNT(*) * 100.0 / sum(COUNT(*)) over() as percentage'))
+            ->selectRaw('DISTINCT(version) as version, count(*) AS count, COUNT(*) * 100.0 / sum(COUNT(*)) over() as percentage')
             ->where('version', '<>', 0)
             ->where('uuid', $this->uuid)
             ->orderBy('count', 'DESC')
