@@ -3,6 +3,7 @@
 namespace App\Models\Player;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class IgnoredPlayer extends Model
 {
@@ -28,7 +29,6 @@ class IgnoredPlayer extends Model
     protected $fillable = [
         'uuid',
         'ignored_uuid',
-        'ignored_name',
     ];
 
     /**
@@ -37,4 +37,9 @@ class IgnoredPlayer extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function ignoredPlayer(): HasOne
+    {
+        return $this->hasOne(Player::class, 'uuid', 'ignored_uuid');
+    }
 }

@@ -16,7 +16,7 @@ final class IgnoredPlayersTable extends PowerGridComponent
 
     public ?string $primaryKeyAlias = 'uuid';
 
-    public string $sortField = 'ignored_name';
+    public string $sortField = 'players.username';
 
     public Player $player;
 
@@ -33,7 +33,10 @@ final class IgnoredPlayersTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return IgnoredPlayer::query()->where('uuid', $this->player->uuid);
+        return IgnoredPlayer::query()
+            ->join('players', 'players.uuid', '=', 'players_ignored.ignored_uuid')
+            ->select('players.username as ignored_name')
+            ->where('players_ignored.uuid', $this->player->uuid);
     }
 
     public function fields(): PowerGridFields
@@ -45,7 +48,16 @@ final class IgnoredPlayersTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make(__('player.player.ignored-players.table.columns.ignored-player'), 'ignored_name'),
+            Column::make(__('player.player.ignored-players.table.columns.ignored-player'), 'ignored_name', 'players.username'),
+        ];
+    }
+
+    public function relationSearch(): array
+    {
+        return [
+            'ignoredPlayer' => [
+                'username',
+            ],
         ];
     }
 
