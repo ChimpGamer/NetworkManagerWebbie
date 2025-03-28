@@ -6,6 +6,7 @@ use App\Helpers\CountryUtils;
 use App\Helpers\TimeUtils;
 use App\Models\ProtocolVersion;
 use App\Models\Tag;
+use App\Models\User;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
+use Nwidart\Modules\Facades\Module;
+use Ramsey\Uuid\Uuid;
 
 class Player extends Model
 {
@@ -104,6 +107,18 @@ class Player extends Model
     protected function playtime(): Attribute
     {
         return Attribute::make(get: fn (int $value) => TimeUtils::millisToReadableFormat($value));
+    }
+
+    public function tagNames(): string
+    {
+        if (Module::isEnabled('UltimateTags')) {
+            $user = \Addons\UltimateTags\App\Models\User::find(Uuid::fromString($this->uuid)->getBytes());
+            if ($user) {
+                return $user->tags->map(fn ($tag) => $tag->name)->implode(', ');
+            }
+        }
+
+        return $this->tag?->name;
     }
 
     public function fullCountry(): string

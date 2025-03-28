@@ -135,7 +135,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">@lang('player.player.information.tag')</th>
-                                <td>{{$player->tag?->name}}</td>
+                                <td>{{$player->tagNames()}}</td>
                             </tr>
                             <tr>
                                 <th scope="row">@lang('player.player.information.first-login')</th>
