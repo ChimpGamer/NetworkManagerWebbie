@@ -3,6 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\MOTD;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class ShowMotd extends Component
@@ -23,7 +27,7 @@ class ShowMotd extends Component
 
     public bool $enabled;
 
-    protected $rules = [
+    protected array $rules = [
         'text' => 'required|string',
         'description' => 'string',
         'customversion' => 'string',
@@ -33,12 +37,12 @@ class ShowMotd extends Component
         'enabled' => 'required|boolean',
     ];
 
-    public function addMotd()
+    public function addMotd(): void
     {
         $this->resetInput();
     }
 
-    public function createMotd()
+    public function createMotd(): void
     {
         $validatedData = $this->validate();
         $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
@@ -53,10 +57,11 @@ class ShowMotd extends Component
             'enabled' => $validatedData['enabled'],
         ]);
         session()->flash('message', 'Successfully Created Motd');
+        Log::driver('auditlog')->info(Auth::user()->username.' created a new MOTD');
         $this->closeModal('addMotdModal');
     }
 
-    public function editMotd(Motd $motd)
+    public function editMotd(Motd $motd): void
     {
         $this->motdId = $motd->id;
         $this->text = $motd->text;
@@ -68,7 +73,7 @@ class ShowMotd extends Component
         $this->enabled = $motd->enabled;
     }
 
-    public function updateMotd()
+    public function updateMotd(): void
     {
         $validatedData = $this->validate();
         $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
@@ -83,21 +88,23 @@ class ShowMotd extends Component
             'enabled' => $validatedData['enabled'],
         ]);
         session()->flash('message', 'Motd Updated Successfully');
+        Log::driver('auditlog')->info(Auth::user()->username.' updated MOTD '.$this->motdId);
         $this->closeModal('editMotdModal');
     }
 
-    public function deleteMotd(MOTD $motd)
+    public function deleteMotd(MOTD $motd): void
     {
         $this->motdId = $motd->id;
     }
 
-    public function delete()
+    public function delete(): void
     {
         MOTD::find($this->motdId)->delete();
+        Log::driver('auditlog')->info(Auth::user()->username.' deleted MOTD '.$this->motdId);
         $this->resetInput();
     }
 
-    public function closeModal(?string $modalId = null)
+    public function closeModal(?string $modalId = null): void
     {
         $this->resetInput();
         if ($modalId != null) {
@@ -105,7 +112,7 @@ class ShowMotd extends Component
         }
     }
 
-    private function resetInput()
+    private function resetInput(): void
     {
         $this->motdId = -1;
         $this->text = '';
@@ -117,7 +124,7 @@ class ShowMotd extends Component
         $this->enabled = true;
     }
 
-    public function render()
+    public function render(): View|Application
     {
         $motds = MOTD::all();
 

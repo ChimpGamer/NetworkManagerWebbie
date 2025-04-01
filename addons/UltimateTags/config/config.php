@@ -5,11 +5,11 @@ return [
 
     'storage' => [
         'driver' => 'mysql',
-        'host' => 'localhost',
-        'port' => 3306,
+        'host' => 'st02.cremers.local',
+        'port' => 3307,
         'database' => 'UltimateTags',
-        'username' => 'UltimateTags',
-        'password' => 'UltimateTags',
+        'username' => 'NetworkManager',
+        'password' => 'NetworkManager',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
         'options' => extension_loaded('pdo_mysql') ? array_filter([
