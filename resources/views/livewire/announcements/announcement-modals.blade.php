@@ -21,7 +21,7 @@
         <p>{{  $condition  }}</p>
     </div>
     <div class="mb-3">
-        <strong>Interval</strong>
+        <label>Interval (Overwrites global interval)</label>
         <p>{{  $interval  }}</p>
     </div>
     <div class="mb-3">
@@ -90,7 +90,7 @@
         @error('condition') <span class="text-danger">{{ $message }}</span> @enderror
     </div>
     <div class="mb-3">
-        <label>Interval</label>
+        <label>Interval (Overwrite global interval)</label>
         <input type="text" wire:model="interval" class="form-control">
         @error('interval') <span class="text-danger">{{ $message }}</span> @enderror
     </div>
@@ -167,7 +167,7 @@
         @error('condition') <span class="text-danger">{{ $message }}</span> @enderror
     </div>
     <div class="mb-3">
-        <label>Interval</label>
+        <label>Interval (Overwrite global interval)</label>
         <input type="text" wire:model="interval" class="form-control">
         @error('interval') <span class="text-danger">{{ $message }}</span> @enderror
     </div>
