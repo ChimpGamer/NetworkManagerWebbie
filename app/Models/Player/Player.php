@@ -109,7 +109,7 @@ class Player extends Model
         return Attribute::make(get: fn (int $value) => TimeUtils::millisToReadableFormat($value));
     }
 
-    public function tagNames(): string
+    public function tagNames(): ?string
     {
         if (Module::isEnabled('UltimateTags')) {
             $user = \Addons\UltimateTags\App\Models\User::find(Uuid::fromString($this->uuid)->getBytes());
