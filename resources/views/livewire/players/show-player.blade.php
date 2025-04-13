@@ -197,6 +197,10 @@
                                 </td>
                             </tr>
                             <tr>
+                                <th scope="row" class="text-nowrap">Ping</th>
+                                <td>{{$player->getPingDataAsString()}}</td>
+                            </tr>
+                            <tr>
                                 <th colspan="2">
                                     <div x-init="loadVersionsChart" id="mostUsedVersionsChart"></div>
                                 </th>

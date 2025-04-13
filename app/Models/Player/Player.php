@@ -279,6 +279,15 @@ class Player extends Model
         return $data;
     }
 
+    public function getPingDataAsString(): string
+    {
+        $playerPing = PlayerPing::where('uuid', $this->uuid)->get();
+        $min = $playerPing->min('min_ping');
+        $max = $playerPing->max('max_ping');
+        $avg = $playerPing->avg('avg_ping');
+        return "Avg $avg, Best $min, Worst $max";
+    }
+
     public function getTimestampFormatted($timestamp): string
     {
         return date('d-m-Y H:i:s', $timestamp / 1000);
