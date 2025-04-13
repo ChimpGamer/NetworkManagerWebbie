@@ -197,10 +197,9 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th></th>
-                                <td style="text-align:center; vertical-align:middle">
-                                    <canvas x-init="loadVersionsChart" id="mostUsedVersionsChart" style="position: relative; right: 20%"></canvas>
-                                </td>
+                                <th colspan="2">
+                                    <div x-init="loadVersionsChart" id="mostUsedVersionsChart"></div>
+                                </th>
                             </tr>
                             </tbody>
                         </table>
@@ -240,55 +239,70 @@
 </div>
 
 @assets
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
 @endassets
 
 @script
 <script>
+    Highcharts.setOptions({
+        chart: {
+            style: {
+                fontFamily: 'Roboto'
+            }
+        }
+    });
+    let data = @js($player->getMostUsedVersions());
+    let mdbTheme = document.documentElement.dataset.mdbTheme
+
     window.loadVersionsChart = () => {
-        // Your JS here.
-        const ctx = document.getElementById('mostUsedVersionsChart');
-
-        let data = @js($player->getMostUsedVersions());
-
-        let labels = data['labels'];
-        let values = data['values'];
-
-        new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: values
-                }]
+        Highcharts.chart('mostUsedVersionsChart', {
+            chart: {
+                backgroundColor: 'transparent',
+                //plotBackgroundColor: null,
+                //plotBorderWidth: null,
+                //plotShadow: false,
+                type: 'pie',
+                //height: 407
             },
-            options: {
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function (context) {
-                                let value = context.formattedValue;
-
-                                let sum = 0;
-                                let dataArr = context.chart.data.datasets[0].data;
-                                dataArr.map(data => {
-                                    sum += Number(data);
-                                });
-
-                                return (value * 100 / sum).toFixed(2) + '%';
-                            }
+            title: {
+                text: 'Most used Versions',
+                style: {
+                    color: mdbTheme === 'dark' ? 'white' : 'black'
+                }
+            },
+            tooltip: {
+                pointFormat: '<b>{point.percentage:.1f}%</b>',
+                backgroundColor: '#FFFFFF',
+                borderColor: '#FFFFFF',
+                borderRadius: 2,
+                borderWidth: 1,
+                style: {
+                    fontSize: '0.9em'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: false,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        distance: 20,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: mdbTheme === 'dark' ? 'white' : 'black',
+                            fontSize: '0.8em'
                         }
                     },
-                    legend: {
-                        display: false
-                    },
-                    title: {
-                        display: true,
-                        text: 'Most Used Versions'
-                    }
-                }
-            }
+                },
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: 'Versions',
+                colorByPoint: true,
+                data: data
+            }]
         });
     }
 </script>

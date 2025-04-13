@@ -12,9 +12,7 @@ use App\Models\Player\Session;
 use App\Models\Punishment;
 use App\Models\PunishmentType;
 use Carbon\Carbon;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -33,6 +31,7 @@ class ShowPlayer extends Component
     {
         $this->punishment->updated($fields);
     }
+
     #[Computed]
     public function punishmentTypeCases(): array
     {

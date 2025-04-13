@@ -6,7 +6,6 @@ use App\Helpers\CountryUtils;
 use App\Helpers\TimeUtils;
 use App\Models\ProtocolVersion;
 use App\Models\Tag;
-use App\Models\User;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -269,17 +268,15 @@ class Player extends Model
             ->groupBy('version')
             ->get();
 
-        $labels = [];
-        $values = [];
+        $data = [];
         foreach ($result as $item) {
             $protocolVersion = ProtocolVersion::tryFrom($item->version);
             $version = $protocolVersion == null ? 'snapshot' : $protocolVersion->name();
 
-            $labels[] = $version;
-            $values[] = $item->percentage;
+            $data[] = ['name' => $version, 'y' => (float) $item->percentage];
         }
 
-        return ['labels' => $labels, 'values' => $values];
+        return $data;
     }
 
     public function getTimestampFormatted($timestamp): string
