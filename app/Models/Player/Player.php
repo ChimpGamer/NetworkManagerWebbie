@@ -284,7 +284,7 @@ class Player extends Model
         $playerPing = PlayerPing::where('uuid', $this->uuid)->get();
         $min = $playerPing->min('min_ping');
         $max = $playerPing->max('max_ping');
-        $avg = $playerPing->avg('avg_ping');
+        $avg = round($playerPing->avg('avg_ping'), 2);
         return "Avg {$avg}ms, Best {$min}ms, Worst {$max}ms";
     }
 
