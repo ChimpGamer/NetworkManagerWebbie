@@ -285,7 +285,7 @@ class Player extends Model
         $min = $playerPing->min('min_ping');
         $max = $playerPing->max('max_ping');
         $avg = $playerPing->avg('avg_ping');
-        return "Avg $avg, Best $min, Worst $max";
+        return "Avg {$avg}ms, Best {$min}ms, Worst {$max}ms";
     }
 
     public function getTimestampFormatted($timestamp): string
