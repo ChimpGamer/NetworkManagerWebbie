@@ -8,7 +8,7 @@
         <h5 class="alert alert-danger">{{ session('error') }}</h5>
     @endif
 
-    <x-card-table title="Suffixes of {{ $group->name }}">
+    <x-card-table title="Suffixes of {{ $group->name }} group">
         <livewire:permissions.group-suffixes-table groupId="{{ $group->id }}"/>
     </x-card-table>
     @can('edit_permissions')

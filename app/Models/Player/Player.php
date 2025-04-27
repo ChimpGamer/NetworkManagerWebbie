@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
+use Nwidart\Modules\Facades\Module;
+use Ramsey\Uuid\Uuid;
 
 class Player extends Model
 {
@@ -104,6 +106,18 @@ class Player extends Model
     protected function playtime(): Attribute
     {
         return Attribute::make(get: fn (int $value) => TimeUtils::millisToReadableFormat($value));
+    }
+
+    public function tagNames(): ?string
+    {
+        if (Module::isEnabled('UltimateTags')) {
+            $user = \Addons\UltimateTags\App\Models\User::find(Uuid::fromString($this->uuid)->getBytes());
+            if ($user) {
+                return $user->tags->map(fn ($tag) => $tag->name)->implode(', ');
+            }
+        }
+
+        return $this->tag?->name;
     }
 
     public function fullCountry(): string
@@ -254,17 +268,24 @@ class Player extends Model
             ->groupBy('version')
             ->get();
 
-        $labels = [];
-        $values = [];
+        $data = [];
         foreach ($result as $item) {
             $protocolVersion = ProtocolVersion::tryFrom($item->version);
             $version = $protocolVersion == null ? 'snapshot' : $protocolVersion->name();
 
-            $labels[] = $version;
-            $values[] = $item->percentage;
+            $data[] = ['name' => $version, 'y' => (float) $item->percentage];
         }
 
-        return ['labels' => $labels, 'values' => $values];
+        return $data;
+    }
+
+    public function getPingDataAsString(): string
+    {
+        $playerPing = PlayerPing::where('uuid', $this->uuid)->get();
+        $min = $playerPing->min('min_ping');
+        $max = $playerPing->max('max_ping');
+        $avg = round($playerPing->avg('avg_ping'), 2);
+        return "Avg {$avg}ms, Best {$min}ms, Worst {$max}ms";
     }
 
     public function getTimestampFormatted($timestamp): string

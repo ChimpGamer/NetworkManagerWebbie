@@ -24,6 +24,7 @@ class ShowAnnouncements extends Component
     public ?string $server;
 
     public ?string $condition;
+    public ?string $interval;
 
     public ?string $expires;
 
@@ -45,6 +46,7 @@ class ShowAnnouncements extends Component
             'sound' => 'string|nullable',
             'server' => 'string|nullable',
             'condition' => 'string|nullable',
+            'interval' => 'string|nullable',
             'expires' => 'date|nullable',
             'permission' => 'required|boolean',
             'active' => 'required|boolean',
@@ -67,6 +69,7 @@ class ShowAnnouncements extends Component
         $this->sound = $announcement->sound;
         $this->server = $announcement->server;
         $this->condition = $announcement->condition;
+        $this->interval = $announcement->interval;
         $this->expires = $announcement->expires;
 
         $this->permission = $announcement->permission;
@@ -103,6 +106,7 @@ class ShowAnnouncements extends Component
         $sound = empty($validatedData['sound']) ? null : $validatedData['sound'];
         $server = empty($validatedData['server']) ? null : $validatedData['server'];
         $condition = empty($validatedData['condition']) ? null : $validatedData['condition'];
+        $interval = empty($validatedData['interval']) ? null : $validatedData['interval'];
         $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
 
         Announcement::create([
@@ -111,6 +115,7 @@ class ShowAnnouncements extends Component
             'sound' => $sound,
             'server' => $server,
             'condition' => $condition,
+            'interval' => $interval,
             'expires' => $expires,
 
             'permission' => $validatedData['permission'],
@@ -138,7 +143,8 @@ class ShowAnnouncements extends Component
         $this->message = $announcement->message;
         $this->sound = $announcement->sound;
         $this->server = $announcement->server;
-        $this->condition = $announcement->condition;
+        $this->interval = $announcement->condition;
+        $this->condition = $announcement->interval;
         $this->expires = $announcement->expires != null ? $announcement->expires->toDateTimeLocalString() : $announcement->expires;
 
         $this->showServerInput = ! $announcement->type->isGlobal();
@@ -154,6 +160,7 @@ class ShowAnnouncements extends Component
         $sound = empty($validatedData['sound']) ? null : $validatedData['sound'];
         $server = empty($validatedData['server']) ? null : $validatedData['server'];
         $condition = empty($validatedData['condition']) ? null : $validatedData['condition'];
+        $interval = empty($validatedData['interval']) ? null : $validatedData['interval'];
         $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
 
         Announcement::where('id', $this->announcementId)->update([
@@ -162,6 +169,7 @@ class ShowAnnouncements extends Component
             'sound' => $sound,
             'server' => $server,
             'condition' => $condition,
+            'interval' => $interval,
             'expires' => $expires,
 
             'permission' => $validatedData['permission'],
@@ -188,6 +196,7 @@ class ShowAnnouncements extends Component
         $this->sound = null;
         $this->server = null;
         $this->condition = null;
+        $this->interval = null;
         $this->expires = null;
 
         $this->showServerInput = false;
