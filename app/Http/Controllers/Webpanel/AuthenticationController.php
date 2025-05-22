@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Webpanel;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -118,6 +119,8 @@ class AuthenticationController extends Controller
      */
     protected function authenticated(Request $request, User $user): RedirectResponse
     {
+        $user->last_login = Carbon::now();
+        $user->save();
         return redirect()->intended();
     }
 

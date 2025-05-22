@@ -45,6 +45,7 @@ class User extends Authenticatable
         'password',
         'usergroup',
         'notifications',
+        'last_login',
     ];
 
     /**
