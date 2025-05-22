@@ -282,8 +282,8 @@ class Player extends Model
     public function getPingDataAsString(): string
     {
         $playerPing = PlayerPing::where('uuid', $this->uuid)->get();
-        $min = $playerPing->min('min_ping');
-        $max = $playerPing->max('max_ping');
+        $min = $playerPing->min('min_ping') ?? 0;
+        $max = $playerPing->max('max_ping') ?? 0;
         $avg = round($playerPing->avg('avg_ping'), 2);
         return "Avg {$avg}ms, Best {$min}ms, Worst {$max}ms";
     }
