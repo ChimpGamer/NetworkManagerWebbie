@@ -89,7 +89,7 @@ class AuthenticationController extends Controller
      */
     protected function credentials(Request $request): array
     {
-        return $request->only('username', 'password');
+        return array_merge($request->only('username', 'password'), ['is_active' => 1]);
     }
 
     /**
