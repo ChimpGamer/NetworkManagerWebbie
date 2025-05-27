@@ -27,6 +27,8 @@ class ShowAccounts extends Component
 
     public string $user_group = '';
 
+    public bool $is_active = false;
+
     protected function rules(): array
     {
         return [
@@ -39,6 +41,7 @@ class ShowAccounts extends Component
     protected array $editRules = [
         'username' => 'required|string|min:4',
         'user_group' => 'required|string|exists:App\Models\Group,name',
+        'is_active' => 'required|boolean',
     ];
 
     #[Computed]
@@ -87,6 +90,7 @@ class ShowAccounts extends Component
         $this->user_id = $user->id;
         $this->username = $user->username;
         $this->user_group = $user->usergroup;
+        $this->is_active = $user->is_active;
     }
 
     public function updateAccount(): void
@@ -99,6 +103,7 @@ class ShowAccounts extends Component
         User::where('id', $this->user_id)->update([
             'username' => $username,
             'usergroup' => $userGroup,
+            'is_active' => $validatedData['is_active'],
         ]);
 
         $this->refreshTable();

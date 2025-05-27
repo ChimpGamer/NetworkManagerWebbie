@@ -75,6 +75,13 @@
                         </select>
                         @error('user_group') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" wire:model.live="is_active" />
+                            <label class="form-check-label" style="font-weight: bold;" for="flexSwitchCheckChecked">Activated</label>
+                        </div>
+                        @error('is_active') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" wire:click="closeModal"
