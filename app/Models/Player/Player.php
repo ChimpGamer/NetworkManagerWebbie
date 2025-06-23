@@ -6,6 +6,7 @@ use App\Helpers\CountryUtils;
 use App\Helpers\TimeUtils;
 use App\Models\ProtocolVersion;
 use App\Models\Tag;
+use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
@@ -71,6 +72,9 @@ class Player extends Model
     protected $casts = [
         'language' => 'integer',
         'tagid' => 'integer',
+        'firstlogin' => 'integer',
+        'lastlogin' => 'integer',
+        'lastlogout' => 'integer',
 
         'online' => 'boolean',
     ];
@@ -81,9 +85,7 @@ class Player extends Model
      * @var array
      */
     protected $dates = [
-        'firstlogin',
-        'lastlogin',
-        'lastlogout',
+
     ];
 
     /**
@@ -253,9 +255,28 @@ class Player extends Model
             ->get();
     }
 
+    /**
+     * Finds players with the same ip
+     * but to make it more accurate to only search for
+     * those who have been online for the last 30 days
+     *
+     * @return Collection with player objects of alt accounts
+     */
     public function getAltAccounts(): Collection
     {
-        return Player::where('ip', $this->ip)->where('uuid', '!=', $this->uuid)->get();
+        $last30DaysMs = Carbon::now()->subDays(30)->getTimestampMs();
+        $altUUIDs = Login::select('uuid')
+            ->where('uuid', '!=', $this->uuid)
+            ->where('ip', $this->ip)
+            ->where('time', '>', $last30DaysMs)
+            ->distinct()
+            ->get();
+
+        if ($altUUIDs->isEmpty()) {
+            return Collection::empty();
+        }
+
+        return Player::whereIn('uuid', $altUUIDs)->get();
     }
 
     public function getMostUsedVersions()
@@ -281,7 +302,7 @@ class Player extends Model
 
     public function getPingDataAsString(): string
     {
-        $playerPing = PlayerPing::where('uuid', $this->uuid)->get();
+        $playerPing = PlayerPing::select('min_ping', 'max_ping', 'avg_ping')->where('uuid', $this->uuid)->get();
         $min = $playerPing->min('min_ping') ?? 0;
         $max = $playerPing->max('max_ping') ?? 0;
         $avg = round($playerPing->avg('avg_ping'), 2);
