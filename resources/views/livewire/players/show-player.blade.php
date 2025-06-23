@@ -1,4 +1,24 @@
 <div>
+    <!-- Delete Player Modal -->
+    <div wire:ignore.self class="modal fade" id="deletePlayerModal" tabindex="-1" aria-labelledby="deletePlayerModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deletePlayerModalLabel">Delete Player Confirm</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete ALL data of player the {{ $player->username }} ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" wire:click="closeModal" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                    <button type="button" wire:click.prevent="deletePlayer()" class="btn btn-danger close-modal" data-mdb-dismiss="modal">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Punish PLayer Modal -->
     <x-modal id="punishPlayerModal" title="Punish Player" :hasForm="true" wire:submit.prevent="punish">
         <div class="mb-3">
@@ -89,7 +109,7 @@
                         wire:click="punishPlayer"><i class="material-icons md-18">gavel</i></button>
             @endcan
             @can('delete_player')
-                <button class="btn btn-danger btn-floating" wire:click="deletePlayer" x-data x-tooltip.raw="Delete ALL player data!"><i class="material-icons md-18">delete</i></button>
+                <button class="btn btn-danger btn-floating" data-mdb-modal-init data-mdb-target="#deletePlayerModal" x-data x-tooltip.raw="Delete ALL player data!"><i class="material-icons md-18">delete</i></button>
             @endcan
         </div>
     </div>
