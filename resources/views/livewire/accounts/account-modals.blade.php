@@ -1,3 +1,39 @@
+<!-- Show Account Modal -->
+<div wire:ignore.self class="modal fade" id="showAccountModal" tabindex="-1" aria-labelledby="showAccountModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="showAccountModalLabel">Show Account</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <strong>Username</strong>
+                    <p>{{ $username }}</p>
+                </div>
+                <div class="mb-3">
+                    <strong>User Group</strong>
+                    <p>{{ $user_group }}</p>
+                </div>
+                <div class="mb-3">
+                    <strong>Last Login</strong>
+                    <p>{{ $last_login }}</p>
+                </div>
+                <div class="mb-3">
+                    <strong>Active</strong>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" @checked(old('is_active', $is_active)) disabled />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Add Account Modal -->
 <div wire:ignore.self class="modal fade" id="addAccountModal" tabindex="-1"
      aria-labelledby="addAccountModalLabel" aria-hidden="true">
@@ -76,9 +112,9 @@
                         @error('user_group') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="mb-3">
+                        <strong>Active</strong>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" wire:model.live="is_active" />
-                            <label class="form-check-label" style="font-weight: bold;" for="flexSwitchCheckChecked">Activated</label>
                         </div>
                         @error('is_active') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>

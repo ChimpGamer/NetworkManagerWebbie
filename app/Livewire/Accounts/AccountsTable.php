@@ -57,6 +57,12 @@ final class AccountsTable extends PowerGridComponent
     public function actions(User $row): array
     {
         return [
+            Button::add('info')
+                ->attributes(['data-mdb-ripple-init' => '', 'data-mdb-modal-init' => '', 'data-mdb-target' => '#showAccountModal'])
+                ->slot('<i class="material-icons text-info">info</i>')
+                ->id()
+                ->class('bg-transparent border-0')
+                ->dispatch('info', ['rowId' => $row->id]),
             Button::add('edit')
                 ->attributes(['data-mdb-ripple-init' => '', 'data-mdb-modal-init' => '', 'data-mdb-target' => '#editAccountModal'])
                 ->slot('<i class="material-icons text-warning">edit</i>')

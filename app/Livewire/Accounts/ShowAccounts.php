@@ -27,6 +27,8 @@ class ShowAccounts extends Component
 
     public string $user_group = '';
 
+    public string $last_login = '0';
+
     public bool $is_active = false;
 
     protected function rules(): array
@@ -74,6 +76,24 @@ class ShowAccounts extends Component
 
         session()->flash('message', 'Successfully Added Account');
         $this->closeModal('addAccountModal');
+    }
+
+    #[On('info')]
+    public function showAccount($rowId): void
+    {
+        $this->resetInput();
+        $user = User::find($rowId);
+        if ($user == null) {
+            session()->flash('error', 'Account $'.$rowId.' not found');
+
+            return;
+        }
+
+        $this->user_id = $user->id;
+        $this->username = $user->username;
+        $this->user_group = $user->usergroup;
+        $this->last_login = $user->last_login;
+        $this->is_active = $user->is_active;
     }
 
     #[On('edit')]

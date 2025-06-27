@@ -69,6 +69,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'last_login',
+    ];
+
+    /**
      * The model's default values for attributes.
      *
      * @var array
