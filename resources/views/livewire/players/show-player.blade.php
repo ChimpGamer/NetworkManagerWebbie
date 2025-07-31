@@ -212,7 +212,18 @@
                                 <th scope="row" class="text-nowrap">@lang('player.player.statistics.additional-accounts')</th>
                                 <td>
                                     @foreach($player->getAltAccounts() as $alt)
-                                        <a href="/players/{{$alt->uuid}}">{{$alt->username}}</a>
+                                        @php
+                                            if ($player->online) {
+                                                $online = '<i class="fas fa-check-circle fa-lg" style="color:green"></i>';
+                                            } else {
+                                                $online = '<i class="fas fa-xmark-circle fa-lg" style="color:red"></i>';
+                                            }
+                                        @endphp
+                                        <a href="/players/{{$alt->uuid}}" x-data x-tooltip="{
+                                        content: 'NickName: {{$alt->nickname}}<br>Version: {{$alt->version->name()}}@can('show_ip')<br>IP: {{$alt->ip}} @endcan<br>First Login: {{$player->getTimestampFormatted($alt->firstlogin)}}<br>Last Login: {{$player->getTimestampFormatted($alt->lastlogin)}}<br>Last Logout: {{$player->getTimestampFormatted($alt->lastlogout)}}<br>Online: {{$online}}',
+                                        allowHTML: true,
+                                        appendTo: $root
+                                        }">{{$alt->username}}</a>
                                     @endforeach
                                 </td>
                             </tr>
