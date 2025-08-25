@@ -15,6 +15,14 @@
                     </span>
                 </div>
                 @enderror
+                
+                @error('oauth')
+                <div class="row mb-0" style="padding-left: 12px; padding-right: 12px">
+                    <span class="alert alert-danger">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                </div>
+                @enderror
                 <div class="card">
                     <div class="card-header">{{ __('Login') }}</div>
 
@@ -71,6 +79,67 @@
                                 </div>
                             </div>
                         </form>
+                        
+                        <!-- OAuth Login Section -->
+                        @if(config('services.google.client_id') || config('services.github.client_id') || config('services.discord.client_id'))
+                            <div class="oauth-section mt-4">
+                                <div class="text-center mb-3">
+                                    <span class="text-muted">Or continue with</span>
+                                </div>
+                                
+                                <!-- Invite Code Input (for invite-only mode) -->
+                                @if(config('oauth.registration.mode') === 'invite_only')
+                                    <div class="mb-3">
+                                        <label for="invite_code" class="form-label text-muted small">Invitation Code</label>
+                                        <input type="text" class="form-control form-control-sm" id="invite_code" name="invite_code" 
+                                               placeholder="Enter your invitation code" value="{{ request('invite_code') }}">
+                                        <div class="form-text">Required for OAuth registration</div>
+                                    </div>
+                                @endif
+                                
+                                <div class="d-grid gap-2">
+                                    @if(config('services.google.client_id'))
+                                        <a href="{{ route('oauth.redirect', 'google') }}{{ config('oauth.registration.mode') === 'invite_only' && request('invite_code') ? '?invite_code=' . request('invite_code') : '' }}" 
+                                           class="btn btn-{{ \App\Http\Controllers\Webpanel\OAuthController::getProviderButtonColor('google') }} btn-sm oauth-btn" data-provider="google">
+                                            <i class="fab fa-google me-2"></i> Google
+                                        </a>
+                                    @endif
+                                    @if(config('services.github.client_id'))
+                                        <a href="{{ route('oauth.redirect', 'github') }}{{ config('oauth.registration.mode') === 'invite_only' && request('invite_code') ? '?invite_code=' . request('invite_code') : '' }}" 
+                                           class="btn btn-{{ \App\Http\Controllers\Webpanel\OAuthController::getProviderButtonColor('github') }} btn-sm oauth-btn" data-provider="github">
+                                            <i class="fab fa-github me-2"></i> GitHub
+                                        </a>
+                                    @endif
+                                    @if(config('services.discord.client_id'))
+                                        <a href="{{ route('oauth.redirect', 'discord') }}{{ config('oauth.registration.mode') === 'invite_only' && request('invite_code') ? '?invite_code=' . request('invite_code') : '' }}" 
+                                           class="btn btn-{{ \App\Http\Controllers\Webpanel\OAuthController::getProviderButtonColor('discord') }} btn-sm oauth-btn" data-provider="discord">
+                                            <i class="fab fa-discord me-2"></i> Discord
+                                        </a>
+                                    @endif
+                                </div>
+                                
+                                @if(config('oauth.registration.mode') === 'invite_only')
+                                    <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const inviteInput = document.getElementById('invite_code');
+                                        const oauthBtns = document.querySelectorAll('.oauth-btn');
+                                        
+                                        function updateOAuthLinks() {
+                                            const inviteCode = inviteInput.value.trim();
+                                            oauthBtns.forEach(btn => {
+                                                const provider = btn.dataset.provider;
+                                                const baseUrl = `{{ url('/auth') }}/${provider}/redirect`;
+                                                btn.href = inviteCode ? `${baseUrl}?invite_code=${encodeURIComponent(inviteCode)}` : baseUrl;
+                                            });
+                                        }
+                                        
+                                        inviteInput.addEventListener('input', updateOAuthLinks);
+                                        updateOAuthLinks(); // Initial update
+                                    });
+                                    </script>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

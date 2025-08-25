@@ -6,7 +6,7 @@
     </div>
     <div class="mb-3">
         <strong>Display Name</strong>
-        <p>{!! $displayname !!}</p>
+        <p>{!! \App\Helpers\HtmlSanitizer::sanitize($displayname) !!}</p>
     </div>
     <div class="mb-3">
         <strong>IP Address</strong>
@@ -18,7 +18,7 @@
     </div>
     <div class="mb-3">
         <strong>MOTD</strong>
-        <p>{!! $motd !!}</p>
+        <p>{!! \App\Helpers\HtmlSanitizer::sanitize($motd) !!}</p>
     </div>
     <div class="mb-3">
         <strong>Allowed Versions</strong>

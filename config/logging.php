@@ -122,6 +122,13 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/audit.log'),
         ],
+
+        'security' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/security.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 30,
+        ],
     ],
 
 ];

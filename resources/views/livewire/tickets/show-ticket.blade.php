@@ -107,7 +107,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    {!! $ticketMessage->message !!}
+                    {!! \App\Helpers\HtmlSanitizer::sanitize($ticketMessage->message) !!}
                 </div>
             </div>
             <hr class="hr">
@@ -124,7 +124,7 @@
                 </div>
             </div>
             <div class="card-body">
-                {!! $ticket->message !!}
+                {!! \App\Helpers\HtmlSanitizer::sanitize($ticket->message) !!}
             </div>
         </div>
     </div>

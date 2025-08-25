@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Webpanel;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -38,59 +39,21 @@ class AuthenticationController extends Controller
     /**
      * Authenticate the user.
      *
-     * @param Request $request
+     * @param LoginRequest $request
      * @return JsonResponse|RedirectResponse
      */
-    public function login(Request $request): JsonResponse|RedirectResponse
+    public function login(LoginRequest $request): JsonResponse|RedirectResponse
     {
-        $this->validateLogin($request);
+        $request->authenticate();
 
-        if ($this->attemptLogin($request)) {
-            if ($request->hasSession()) {
-                $request->session()->put('auth.password_confirmed_at', time());
-            }
-
-            return $this->sendLoginResponse($request);
+        if ($request->hasSession()) {
+            $request->session()->put('auth.password_confirmed_at', time());
         }
 
-        return redirect()->back()->withErrors(['login' => 'Invalid login details']);
+        return $this->sendLoginResponse($request);
     }
 
-    /**
-     * Validate the user login request.
-     *
-     * @return void
-     *
-     */
-    protected function validateLogin(Request $request): void
-    {
-        $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ]);
-    }
 
-    /**
-     * Attempt to log the user into the application.
-     *
-     * @param Request $request
-     * @return bool
-     */
-    protected function attemptLogin(Request $request): bool
-    {
-        return $this->guard()->attempt($this->credentials($request), $request->boolean('remember'));
-    }
-
-    /**
-     * Get the needed authorization credentials from the request.
-     *
-     * @param Request $request
-     * @return array
-     */
-    protected function credentials(Request $request): array
-    {
-        return array_merge($request->only('username', 'password'), ['is_active' => 1]);
-    }
 
     /**
      * Send the response after the user was authenticated.

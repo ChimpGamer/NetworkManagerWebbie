@@ -18,7 +18,7 @@
     </div>
     <div class="mb-3">
         <strong>Reason</strong>
-        <p>{!!  $reason  !!}</p>
+        <p>{!! \App\Helpers\HtmlSanitizer::sanitize($reason) !!}</p>
     </div>
     <x-slot name="footer">
         <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
