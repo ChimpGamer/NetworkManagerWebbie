@@ -109,6 +109,11 @@ class SecurityLogger
      */
     private function logSuspiciousActivity(Request $request, Response $response)
     {
+        // Skip security checks for legitimate Livewire OAuth requests
+        if ($this->isLegitimateOAuthRequest($request)) {
+            return;
+        }
+
         $suspiciousPatterns = [
             // SQL injection attempts
             '/union.*select/i',
@@ -153,10 +158,61 @@ class SecurityLogger
             }
         }
 
-        // Log multiple failed requests from same IP
-        if ($response->getStatusCode() >= 400) {
+        // Log multiple failed requests from same IP (but skip OAuth requests)
+        if ($response->getStatusCode() >= 400 && !$this->isOAuthRoute($request)) {
             $this->checkForBruteForce($request);
         }
+    }
+
+    /**
+     * Check if this is a legitimate OAuth-related request
+     */
+    private function isLegitimateOAuthRequest(Request $request): bool
+    {
+        // Check if this is an OAuth callback route
+        $routeName = $request->route()?->getName();
+        if ($routeName === 'oauth.callback' || $routeName === 'oauth.redirect' || $routeName === 'oauth.link') {
+            return true;
+        }
+
+        // Check if this is a Livewire update request for OAuth components
+        if ($routeName === 'livewire.update') {
+            // Check if the request contains OAuth provider components
+            $requestData = $request->all();
+            if (!isset($requestData['components'])) {
+                return false;
+            }
+
+            $components = $requestData['components'];
+            foreach ($components as $component) {
+                if (isset($component['snapshot'])) {
+                    $snapshot = json_decode($component['snapshot'], true);
+                    if (isset($snapshot['memo']['name']) && 
+                        $snapshot['memo']['name'] === 'profile.show-oauth-providers') {
+                        return true;
+                    }
+                }
+                
+                if (isset($component['calls'])) {
+                    foreach ($component['calls'] as $call) {
+                        if (isset($call['method']) && $call['method'] === 'linkProvider') {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if this is an OAuth route
+     */
+    private function isOAuthRoute(Request $request): bool
+    {
+        $routeName = $request->route()?->getName();
+        return in_array($routeName, ['oauth.callback', 'oauth.redirect', 'oauth.link']);
     }
 
     /**

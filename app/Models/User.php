@@ -238,14 +238,39 @@ class User extends Authenticatable
      */
     public function linkOAuthProvider(string $provider, array $oauthUser): UserOAuthProvider
     {
-        return $this->oauthProviders()->create([
-            'provider' => $provider,
-            'provider_id' => $oauthUser['id'],
-            'provider_email' => $oauthUser['email'] ?? null,
-            'provider_avatar' => $oauthUser['avatar'] ?? null,
-            'provider_data' => $oauthUser,
-            'linked_at' => now(),
-        ]);
+        try {
+            \Log::info('Attempting to create OAuth provider record', [
+                'user_id' => $this->id,
+                'provider' => $provider,
+                'provider_id' => $oauthUser['id'],
+                'provider_email' => $oauthUser['email'] ?? null,
+            ]);
+            
+            $result = $this->oauthProviders()->create([
+                'provider' => $provider,
+                'provider_id' => $oauthUser['id'],
+                'provider_email' => $oauthUser['email'] ?? null,
+                'provider_avatar' => $oauthUser['avatar'] ?? null,
+                'provider_data' => $oauthUser,
+                'linked_at' => now(),
+            ]);
+            
+            \Log::info('OAuth provider record created successfully', [
+                'oauth_provider_id' => $result->id,
+                'user_id' => $this->id,
+                'provider' => $provider,
+            ]);
+            
+            return $result;
+        } catch (\Exception $e) {
+            \Log::error('Failed to create OAuth provider record', [
+                'user_id' => $this->id,
+                'provider' => $provider,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
+        }
     }
 
     /**

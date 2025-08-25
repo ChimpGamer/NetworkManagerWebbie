@@ -59,7 +59,6 @@ Route::controller(OAuthController::class)->prefix('auth')->group(function () {
     // OAuth Provider Linking Routes (for authenticated users)
     Route::middleware('auth')->group(function () {
         Route::get('/link/{provider}', 'redirectToProviderForLinking')->name('oauth.link');
-        Route::get('/link/{provider}/callback', 'handleProviderLinkingCallback')->name('oauth.link.callback');
     });
 });
 

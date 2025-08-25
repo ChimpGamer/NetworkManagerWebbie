@@ -75,6 +75,12 @@ class OAuthController extends Controller
                 ->withErrors(['oauth' => 'Unsupported OAuth provider.']);
         }
 
+        // Check if we're in linking mode and redirect to linking handler
+        if ($request->session()->has('oauth_linking_mode') && $request->session()->has('oauth_linking_user_id')) {
+            $request->session()->flash('debug_message', 'OAuth callback received for ' . $provider . ' - Linking mode detected');
+            return $this->handleProviderLinkingCallback($provider, $request);
+        }
+
         try {
             // Check if OAuth system is globally enabled
             if (!config('oauth.enabled')) {
@@ -226,13 +232,10 @@ class OAuthController extends Controller
             // Store linking flag in session
             $request->session()->put('oauth_linking_mode', true);
             $request->session()->put('oauth_linking_user_id', Auth::id());
+            $request->session()->flash('debug_message', 'OAuth linking session started for ' . $provider . ' - User ID: ' . Auth::id());
 
-            // Set the callback URL for linking
-            $linkingCallbackUrl = route('oauth.link.callback', ['provider' => $provider]);
-            
-            return Socialite::driver($provider)
-                ->redirectUrl($linkingCallbackUrl)
-                ->redirect();
+            // Use the same callback URL as regular OAuth but with linking session data
+            return Socialite::driver($provider)->redirect();
         } catch (Exception $e) {
             return redirect()->route('profile.index')
                 ->withErrors(['oauth' => 'OAuth configuration error. Please contact administrator.']);
@@ -279,6 +282,8 @@ class OAuthController extends Controller
 
             $oauthUser = Socialite::driver($provider)->user();
             
+            $request->session()->flash('debug_message', 'OAuth user data retrieved: ID=' . $oauthUser->getId() . ', Email=' . $oauthUser->getEmail());
+            
             // Check if this OAuth account is already linked to another user
             $existingOAuthProvider = UserOAuthProvider::findByProvider($provider, $oauthUser->getId());
             if ($existingOAuthProvider) {
@@ -310,7 +315,14 @@ class OAuthController extends Controller
                 'avatar' => $oauthUser->getAvatar(),
             ];
             
-            $user->linkOAuthProvider($provider, $oauthData);
+            try {
+                $request->session()->flash('debug_message', 'Attempting to link OAuth provider: ' . $provider . ' for user ID: ' . $user->id);
+                $oauthProvider = $user->linkOAuthProvider($provider, $oauthData);
+                $request->session()->flash('debug_message', 'OAuth provider linked successfully: Provider=' . $provider . ', DB ID=' . $oauthProvider->id);
+            } catch (\Exception $linkException) {
+                $request->session()->flash('debug_message', 'OAuth linking failed: ' . $linkException->getMessage());
+                throw $linkException;
+            }
             
             // Update user avatar and email if not set
             $user->update([
