@@ -6,9 +6,7 @@
         <h5 class="alert alert-danger">{{ session('error') }}</h5>
     @endif
 
-    <div class="row gy-4">
-        <div class="col-md-6">
-            <div class="card">
+    <div class="card">
                 <div class="card-header text-center">
                     <h5 class="mb-0 text-center">
                         <strong>@lang('profile.change-password.title')</strong>
@@ -40,6 +38,4 @@
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
 </div>

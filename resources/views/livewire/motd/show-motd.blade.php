@@ -25,10 +25,10 @@
                                 <div class="server-name">Minecraft Server <span id="ping" class="ping">@if(empty($motd->customversion))
                                             143/200
                                         @else
-                                            {!! $motd->customversion !!}
+                                            {!! \App\Helpers\HtmlSanitizer::sanitize($motd->customversion) !!}
                                         @endif</span>
                                 </div>
-                                <span class="preview_motd" wire:modal="motd.text">{!! $motd->text !!}</span>
+                                <span class="preview_motd" wire:modal="motd.text">{!! \App\Helpers\HtmlSanitizer::sanitize($motd->text) !!}</span>
                             </div>
                         </td>
                         <td>

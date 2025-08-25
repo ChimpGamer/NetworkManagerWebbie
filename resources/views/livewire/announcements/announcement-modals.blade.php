@@ -6,7 +6,7 @@
     </div>
     <div class="mb-3">
         <strong>Message</strong>
-        <p>{!! $message !!}</p>
+        <p>{!! \App\Helpers\HtmlSanitizer::sanitize($message) !!}</p>
     </div>
     <div class="mb-3">
         <strong>Sound</strong>

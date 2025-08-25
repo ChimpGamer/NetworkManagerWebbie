@@ -47,7 +47,7 @@
                 @endcan
                 <div class="mb-3">
                     <strong>Reason</strong>
-                    <p>{!! $reason !!}</p>
+                    <p>{!! \App\Helpers\HtmlSanitizer::sanitize($reason) !!}</p>
                 </div>
                 <div class="mb-3">
                     <strong>Silent</strong>

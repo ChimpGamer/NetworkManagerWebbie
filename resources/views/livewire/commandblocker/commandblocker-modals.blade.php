@@ -27,7 +27,7 @@
                 </div>
                 <div class="mb-3">
                     <strong>Custom Message</strong>
-                    <p>{!!  $customMessage  !!}</p>
+                    <p>{!! \App\Helpers\HtmlSanitizer::sanitize($customMessage) !!}</p>
                 </div>
                 <div class="mb-3">
                     <label class="bold">Bypass Permission</label>

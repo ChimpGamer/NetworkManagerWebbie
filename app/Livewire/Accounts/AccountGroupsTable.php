@@ -55,14 +55,14 @@ final class AccountGroupsTable extends PowerGridComponent
             Button::add('edit-group')
                 ->attributes(['data-mdb-ripple-init' => '', 'data-mdb-modal-init' => '', 'data-mdb-target' => '#editAccountGroupModal'])
                 ->slot('<i class="material-icons text-warning">edit</i>')
-                ->can(auth()->user()->can('manage_groups_and_accounts'))
+                ->can('manage_groups_and_accounts')
                 ->id()
                 ->class('bg-transparent border-0')
                 ->dispatch('edit-group', ['rowId' => $row->id]),
             Button::add('delete-group')
                 ->attributes(['data-mdb-ripple-init' => '', 'data-mdb-modal-init' => '', 'data-mdb-target' => '#deleteAccountGroupModal'])
                 ->slot('<i class="material-icons text-danger">delete</i>')
-                ->can(auth()->user()->can('manage_groups_and_accounts'))
+                ->can('manage_groups_and_accounts')
                 ->id()
                 ->class('bg-transparent border-0')
                 ->dispatch('delete-group', ['rowId' => $row->id]),

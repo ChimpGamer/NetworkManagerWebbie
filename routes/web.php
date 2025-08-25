@@ -23,6 +23,7 @@ use App\Http\Controllers\ServerStatsController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Webpanel\AccountsController;
 use App\Http\Controllers\Webpanel\AuthenticationController;
+use App\Http\Controllers\Webpanel\OAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,6 +49,17 @@ Route::controller(AuthenticationController::class)->group(function () {
     Route::post('/logincreatetest', 'logincreatetest')->name('logincreatetest');*/
     Route::post('/login', 'login')->name('login');
     Route::post('/logout', 'logout')->name('logout');
+});
+
+// OAuth Routes
+Route::controller(OAuthController::class)->prefix('auth')->group(function () {
+    Route::get('/{provider}', 'redirectToProvider')->name('oauth.redirect');
+    Route::get('/{provider}/callback', 'handleProviderCallback')->name('oauth.callback');
+    
+    // OAuth Provider Linking Routes (for authenticated users)
+    Route::middleware('auth')->group(function () {
+        Route::get('/link/{provider}', 'redirectToProviderForLinking')->name('oauth.link');
+    });
 });
 
 Route::resource('servers', ServersController::class);
@@ -88,4 +100,25 @@ Route::prefix('permissions')->controller(PermissionsController::class)->group(fu
 Route::prefix('tickets')->controller(TicketsController::class)->group(function () {
     Route::get('/', 'index')->name('tickets');
     Route::get('/{ticket}', 'ticket')->name('tickets.ticket');
+});
+
+// OAuth Invite Management Routes
+Route::prefix('admin/oauth-invites')->controller(App\Http\Controllers\Admin\OAuthInviteController::class)->group(function () {
+    Route::get('/', 'index')->name('admin.oauth-invites.index');
+    Route::get('/create', 'create')->name('admin.oauth-invites.create');
+    Route::post('/', 'store')->name('admin.oauth-invites.store');
+    Route::get('/{oauthInvite}', 'show')->name('admin.oauth-invites.show');
+    Route::delete('/{oauthInvite}', 'destroy')->name('admin.oauth-invites.destroy');
+    Route::post('/cleanup', 'cleanup')->name('admin.oauth-invites.cleanup');
+    Route::get('/{oauthInvite}/url', 'generateUrl')->name('admin.oauth-invites.url');
+});
+
+// User Approval Management Routes
+Route::prefix('admin/user-approvals')->controller(App\Http\Controllers\Admin\UserApprovalController::class)->group(function () {
+    Route::get('/', 'index')->name('admin.user-approvals.index');
+    Route::get('/{user}', 'show')->name('admin.user-approvals.show');
+    Route::post('/{user}/approve', 'approve')->name('admin.user-approvals.approve');
+    Route::post('/{user}/reject', 'reject')->name('admin.user-approvals.reject');
+    Route::post('/bulk-approve', 'bulkApprove')->name('admin.user-approvals.bulk-approve');
+    Route::post('/bulk-reject', 'bulkReject')->name('admin.user-approvals.bulk-reject');
 });
