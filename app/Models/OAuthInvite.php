@@ -11,6 +11,9 @@ class OAuthInvite extends Model
 {
     use HasFactory;
 
+    protected $connection = 'manager';
+    protected $table = 'oauth_invites';
+
     protected $fillable = [
         'code',
         'email',
@@ -48,6 +51,14 @@ class OAuthInvite extends Model
     }
 
     /**
+     * Relationship: User who used the invite (alias for user)
+     */
+    public function usedBy()
+    {
+        return $this->belongsTo(User::class, 'used_by');
+    }
+
+    /**
      * Generate a unique invite code
      */
     public static function generateCode(): string
@@ -62,18 +73,22 @@ class OAuthInvite extends Model
     /**
      * Create a new invite
      */
-    public static function createInvite(array $data): self
-    {
+    public static function createInvite(
+        ?string $email = null,
+        ?Carbon $expiresAt = null,
+        bool $singleUse = true,
+        int $maxUses = 1,
+        int $createdBy = null,
+        ?array $metadata = null
+    ): self {
         $invite = new self();
         $invite->code = self::generateCode();
-        $invite->email = $data['email'] ?? null;
-        $invite->created_by = $data['created_by'];
-        $invite->expires_at = isset($data['expires_days']) 
-            ? Carbon::now()->addDays($data['expires_days']) 
-            : null;
-        $invite->single_use = $data['single_use'] ?? true;
-        $invite->max_uses = $data['max_uses'] ?? 1;
-        $invite->metadata = $data['metadata'] ?? null;
+        $invite->email = $email;
+        $invite->created_by = $createdBy;
+        $invite->expires_at = $expiresAt;
+        $invite->single_use = $singleUse;
+        $invite->max_uses = $maxUses;
+        $invite->metadata = $metadata;
         
         $invite->save();
         return $invite;

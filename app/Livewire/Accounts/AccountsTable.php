@@ -66,14 +66,14 @@ final class AccountsTable extends PowerGridComponent
             Button::add('edit')
                 ->attributes(['data-mdb-ripple-init' => '', 'data-mdb-modal-init' => '', 'data-mdb-target' => '#editAccountModal'])
                 ->slot('<i class="material-icons text-warning">edit</i>')
-                ->can(auth()->user()->can('manage_groups_and_accounts'))
+                ->can('manage_groups_and_accounts')
                 ->id()
                 ->class('bg-transparent border-0')
                 ->dispatch('edit', ['rowId' => $row->id]),
             Button::add('delete')
                 ->attributes(['data-mdb-ripple-init' => '', 'data-mdb-modal-init' => '', 'data-mdb-target' => '#deleteAccountModal'])
                 ->slot('<i class="material-icons text-danger">delete</i>')
-                ->can(auth()->user()->can('manage_groups_and_accounts'))
+                ->can('manage_groups_and_accounts')
                 ->id()
                 ->class('bg-transparent border-0')
                 ->dispatch('delete', ['rowId' => $row->id]),

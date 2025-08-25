@@ -93,12 +93,13 @@ class OAuthInviteController extends Controller
         }
         
         try {
+            $expiresHours = (int) $request->expires_hours;
             $invite = OAuthInvite::createInvite(
-                email: $request->email,
-                expiresAt: now()->addHours($request->expires_hours),
-                singleUse: $request->boolean('single_use'),
-                maxUses: $request->single_use ? 1 : $request->max_uses,
-                createdBy: auth()->id()
+                $request->email,
+                now()->addHours($expiresHours),
+                $request->boolean('single_use'),
+                $request->single_use ? 1 : (int) $request->max_uses,
+                auth()->user()->id
             );
             
             return redirect()->route('admin.oauth-invites.index')

@@ -4,6 +4,35 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | OAuth System Control
+    |--------------------------------------------------------------------------
+    |
+    | Global OAuth system enable/disable and individual provider controls
+    |
+    */
+
+    /*
+    | Enable/disable the entire OAuth system
+    */
+    'enabled' => env('OAUTH_ENABLED', true),
+
+    /*
+    | Individual OAuth provider controls
+    */
+    'providers' => [
+        'google' => [
+            'enabled' => env('OAUTH_GOOGLE_ENABLED', true),
+        ],
+        'github' => [
+            'enabled' => env('OAUTH_GITHUB_ENABLED', true),
+        ],
+        'discord' => [
+            'enabled' => env('OAUTH_DISCORD_ENABLED', true),
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | OAuth Registration Control
     |--------------------------------------------------------------------------
     |

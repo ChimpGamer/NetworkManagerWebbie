@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('oauth_invites', function (Blueprint $table) {
+        Schema::connection('manager')->create('oauth_invites', function (Blueprint $table) {
             $table->id();
             $table->string('code', 32)->unique(); // Invite code
             $table->string('email')->nullable(); // Optional: restrict to specific email
-            $table->unsignedBigInteger('created_by'); // Admin who created the invite
-            $table->unsignedBigInteger('used_by')->nullable(); // User who used the invite
+            $table->integer('created_by'); // Admin who created the invite
+            $table->integer('used_by')->nullable(); // User who used the invite
             $table->timestamp('expires_at')->nullable(); // Expiration date
             $table->timestamp('used_at')->nullable(); // When it was used
             $table->boolean('single_use')->default(true); // Can only be used once
@@ -25,10 +25,14 @@ return new class extends Migration
             $table->json('metadata')->nullable(); // Additional data (restrictions, etc.)
             $table->timestamps();
             
-            $table->foreign('created_by')->references('id')->on('accounts')->onDelete('cascade');
-            $table->foreign('used_by')->references('id')->on('accounts')->onDelete('set null');
             $table->index(['code', 'expires_at']);
             $table->index('email');
+        });
+        
+        // Add foreign keys separately
+        Schema::connection('manager')->table('oauth_invites', function (Blueprint $table) {
+            $table->foreign('created_by')->references('id')->on('accounts')->onDelete('cascade');
+            $table->foreign('used_by')->references('id')->on('accounts')->onDelete('set null');
         });
     }
 
@@ -37,6 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('oauth_invites');
+        Schema::connection('manager')->dropIfExists('oauth_invites');
     }
 };

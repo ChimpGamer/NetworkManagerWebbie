@@ -55,6 +55,12 @@ Route::controller(AuthenticationController::class)->group(function () {
 Route::controller(OAuthController::class)->prefix('auth')->group(function () {
     Route::get('/{provider}', 'redirectToProvider')->name('oauth.redirect');
     Route::get('/{provider}/callback', 'handleProviderCallback')->name('oauth.callback');
+    
+    // OAuth Provider Linking Routes (for authenticated users)
+    Route::middleware('auth')->group(function () {
+        Route::get('/link/{provider}', 'redirectToProviderForLinking')->name('oauth.link');
+        Route::get('/link/{provider}/callback', 'handleProviderLinkingCallback')->name('oauth.link.callback');
+    });
 });
 
 Route::resource('servers', ServersController::class);
@@ -98,7 +104,7 @@ Route::prefix('tickets')->controller(TicketsController::class)->group(function (
 });
 
 // OAuth Invite Management Routes
-Route::prefix('oauth-invites')->controller(App\Http\Controllers\Admin\OAuthInviteController::class)->group(function () {
+Route::prefix('admin/oauth-invites')->controller(App\Http\Controllers\Admin\OAuthInviteController::class)->group(function () {
     Route::get('/', 'index')->name('admin.oauth-invites.index');
     Route::get('/create', 'create')->name('admin.oauth-invites.create');
     Route::post('/', 'store')->name('admin.oauth-invites.store');
@@ -109,7 +115,7 @@ Route::prefix('oauth-invites')->controller(App\Http\Controllers\Admin\OAuthInvit
 });
 
 // User Approval Management Routes
-Route::prefix('user-approvals')->controller(App\Http\Controllers\Admin\UserApprovalController::class)->group(function () {
+Route::prefix('admin/user-approvals')->controller(App\Http\Controllers\Admin\UserApprovalController::class)->group(function () {
     Route::get('/', 'index')->name('admin.user-approvals.index');
     Route::get('/{user}', 'show')->name('admin.user-approvals.show');
     Route::post('/{user}/approve', 'approve')->name('admin.user-approvals.approve');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Webpanel;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserOAuthProvider;
 use App\Models\OAuthInvite;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class OAuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except(['logout', 'redirectToProviderForLinking', 'handleProviderLinkingCallback']);
     }
 
     /**
@@ -37,6 +38,18 @@ class OAuthController extends Controller
         if (!in_array($provider, $this->supportedProviders)) {
             return redirect()->route('auth.login')
                 ->withErrors(['oauth' => 'Unsupported OAuth provider.']);
+        }
+
+        // Check if OAuth system is globally enabled
+        if (!config('oauth.enabled')) {
+            return redirect()->route('auth.login')
+                ->withErrors(['oauth' => 'OAuth authentication is currently disabled.']);
+        }
+
+        // Check if specific provider is enabled
+        if (!config("oauth.providers.{$provider}.enabled")) {
+            return redirect()->route('auth.login')
+                ->withErrors(['oauth' => ucfirst($provider) . ' OAuth is currently disabled.']);
         }
 
         try {
@@ -63,6 +76,18 @@ class OAuthController extends Controller
         }
 
         try {
+            // Check if OAuth system is globally enabled
+            if (!config('oauth.enabled')) {
+                return redirect()->route('auth.login')
+                    ->withErrors(['oauth' => 'OAuth authentication is currently disabled.']);
+            }
+
+            // Check if specific provider is enabled
+            if (!config("oauth.providers.{$provider}.enabled")) {
+                return redirect()->route('auth.login')
+                    ->withErrors(['oauth' => ucfirst($provider) . ' OAuth is currently disabled.']);
+            }
+
             // Check if OAuth registration is enabled
             if (!config('oauth.registration.enabled')) {
                 return redirect()->route('auth.login')
@@ -79,23 +104,19 @@ class OAuthController extends Controller
 
             $oauthUser = Socialite::driver($provider)->user();
             
-            // Try to find existing user by OAuth provider
-            $user = User::findByOAuth($provider, $oauthUser->getId());
+            // Check if this OAuth account is already linked to any user
+            $existingOAuthProvider = UserOAuthProvider::findByProvider($provider, $oauthUser->getId());
             
-            if ($user) {
-                // Existing user - just update and login
-                $user->update([
-                    'avatar' => $oauthUser->getAvatar(),
-                    'last_login' => now(),
-                ]);
-                
-                // Check if user is active
-                if (!$user->is_active) {
+            if ($existingOAuthProvider) {
+                // OAuth account is already linked to a user
+                if (Auth::check() && Auth::id() !== $existingOAuthProvider->user_id) {
+                    // Different user is logged in, show error
                     return redirect()->route('auth.login')
-                        ->withErrors(['oauth' => 'Your account has been deactivated. Please contact administrator.']);
+                        ->with('error', __('This :provider account is already linked to another user.', ['provider' => $this->getProviderDisplayName($provider)]));
                 }
                 
-                Auth::login($user, true);
+                // Log in the existing user
+                Auth::login($existingOAuthProvider->user, true);
                 RateLimiter::clear($key);
                 $request->session()->regenerate();
                 return redirect()->intended('/');
@@ -125,8 +146,8 @@ class OAuthController extends Controller
                 'avatar' => $oauthUser->getAvatar(),
             ];
 
-            // Create new user
-            $user = User::createOrUpdateFromOAuth($provider, $userData);
+            // Create new user with multi-provider support
+            $user = User::createFromOAuth($provider, $userData);
             
             // Handle invite usage if applicable
             if ($request->has('invite_code')) {
@@ -157,9 +178,150 @@ class OAuthController extends Controller
             return redirect()->intended('/');
 
         } catch (Exception $e) {
+            \Log::error('OAuth authentication failed', [
+                'provider' => $provider,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             RateLimiter::hit($key, config('oauth.security.rate_limit.decay_minutes', 60) * 60);
             return redirect()->route('auth.login')
-                ->withErrors(['oauth' => 'OAuth authentication failed. Please try again.']);
+                ->withErrors(['oauth' => 'OAuth authentication failed: ' . $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Redirect to OAuth provider for linking to existing account
+     */
+    public function redirectToProviderForLinking(Request $request, string $provider): RedirectResponse
+    {
+        if (!Auth::check()) {
+            return redirect()->route('auth.login')
+                ->withErrors(['oauth' => 'You must be logged in to link OAuth providers.']);
+        }
+
+        if (!in_array($provider, $this->supportedProviders)) {
+            return redirect()->route('profile.index')
+                ->withErrors(['oauth' => 'Unsupported OAuth provider.']);
+        }
+
+        // Check if OAuth system is globally enabled
+        if (!config('oauth.enabled')) {
+            return redirect()->route('profile.index')
+                ->withErrors(['oauth' => 'OAuth authentication is currently disabled.']);
+        }
+
+        // Check if specific provider is enabled
+        if (!config("oauth.providers.{$provider}.enabled")) {
+            return redirect()->route('profile.index')
+                ->withErrors(['oauth' => ucfirst($provider) . ' OAuth is currently disabled.']);
+        }
+
+        try {
+            // Store linking flag in session
+            $request->session()->put('oauth_linking_mode', true);
+            $request->session()->put('oauth_linking_user_id', Auth::id());
+
+            // Set the callback URL for linking
+            $linkingCallbackUrl = route('oauth.link.callback', ['provider' => $provider]);
+            
+            return Socialite::driver($provider)
+                ->redirectUrl($linkingCallbackUrl)
+                ->redirect();
+        } catch (Exception $e) {
+            return redirect()->route('profile.index')
+                ->withErrors(['oauth' => 'OAuth configuration error. Please contact administrator.']);
+        }
+    }
+
+    /**
+     * Handle OAuth callback for linking to existing account
+     */
+    public function handleProviderLinkingCallback(string $provider, Request $request): RedirectResponse
+    {
+        if (!in_array($provider, $this->supportedProviders)) {
+            return redirect()->route('profile.index')
+                ->withErrors(['oauth' => 'Unsupported OAuth provider.']);
+        }
+
+        // Check if we're in linking mode
+        if (!$request->session()->has('oauth_linking_mode') || !$request->session()->has('oauth_linking_user_id')) {
+            return redirect()->route('profile.index')
+                ->withErrors(['oauth' => 'Invalid linking session.']);
+        }
+
+        $userId = $request->session()->get('oauth_linking_user_id');
+        $user = User::find($userId);
+
+        if (!$user || !Auth::check() || Auth::id() !== $userId) {
+            $request->session()->forget(['oauth_linking_mode', 'oauth_linking_user_id']);
+            return redirect()->route('auth.login')
+                ->withErrors(['oauth' => 'Invalid linking session. Please log in again.']);
+        }
+
+        try {
+            // Check if OAuth system is globally enabled
+            if (!config('oauth.enabled')) {
+                return redirect()->route('profile.index')
+                    ->withErrors(['oauth' => 'OAuth authentication is currently disabled.']);
+            }
+
+            // Check if specific provider is enabled
+            if (!config("oauth.providers.{$provider}.enabled")) {
+                return redirect()->route('profile.index')
+                    ->withErrors(['oauth' => ucfirst($provider) . ' OAuth is currently disabled.']);
+            }
+
+            $oauthUser = Socialite::driver($provider)->user();
+            
+            // Check if this OAuth account is already linked to another user
+            $existingOAuthProvider = UserOAuthProvider::findByProvider($provider, $oauthUser->getId());
+            if ($existingOAuthProvider) {
+                if ($existingOAuthProvider->user_id !== $user->id) {
+                    $request->session()->forget(['oauth_linking_mode', 'oauth_linking_user_id']);
+                    return redirect()->route('profile.index')
+                        ->withErrors(['oauth' => 'This ' . ucfirst($provider) . ' account is already linked to another user.']);
+                } else {
+                    // OAuth account is already linked to current user
+                    $request->session()->forget(['oauth_linking_mode', 'oauth_linking_user_id']);
+                    return redirect()->route('profile.index')
+                        ->with('message', ucfirst($provider) . ' is already linked to your account!');
+                }
+            }
+
+            // Check if user already has this provider linked
+            if ($user->hasOAuthProvider($provider)) {
+                $request->session()->forget(['oauth_linking_mode', 'oauth_linking_user_id']);
+                return redirect()->route('profile.index')
+                    ->with('message', ucfirst($provider) . ' is already linked to your account!');
+            }
+
+            // Link the OAuth provider to the current user
+            $oauthData = [
+                'id' => $oauthUser->getId(),
+                'name' => $oauthUser->getName(),
+                'nickname' => $oauthUser->getNickname(),
+                'email' => $oauthUser->getEmail(),
+                'avatar' => $oauthUser->getAvatar(),
+            ];
+            
+            $user->linkOAuthProvider($provider, $oauthData);
+            
+            // Update user avatar and email if not set
+            $user->update([
+                'avatar' => $user->avatar ?: $oauthUser->getAvatar(),
+                'email' => $user->email ?: $oauthUser->getEmail(),
+            ]);
+
+            $request->session()->forget(['oauth_linking_mode', 'oauth_linking_user_id']);
+            
+            return redirect()->route('profile.index')
+                ->with('message', ucfirst($provider) . ' has been successfully linked to your account!')
+                ->with('refresh_oauth', true);
+
+        } catch (Exception $e) {
+            $request->session()->forget(['oauth_linking_mode', 'oauth_linking_user_id']);
+            return redirect()->route('profile.index')
+                ->withErrors(['oauth' => 'OAuth linking failed. Please try again.']);
         }
     }
 
@@ -256,5 +418,48 @@ class OAuthController extends Controller
             'discord' => 'primary',
             default => 'secondary'
         };
+    }
+
+    /**
+     * Unlink an OAuth provider from the current user
+     */
+    public function unlinkProvider(string $provider, Request $request): RedirectResponse
+    {
+        if (!Auth::check()) {
+            return redirect()->route('auth.login')
+                ->withErrors(['oauth' => 'You must be logged in to unlink OAuth providers.']);
+        }
+
+        if (!in_array($provider, $this->supportedProviders)) {
+            return redirect()->route('profile.index')
+                ->withErrors(['oauth' => 'Unsupported OAuth provider.']);
+        }
+
+        $user = Auth::user();
+        
+        // Check if user has this provider linked
+        if (!$user->hasOAuthProvider($provider)) {
+            return redirect()->route('profile.index')
+                ->withErrors(['oauth' => ucfirst($provider) . ' is not linked to your account.']);
+        }
+
+        // Prevent unlinking if it's the only authentication method
+        $linkedProviders = $user->getLinkedProviders();
+        $hasPassword = !empty($user->password) && $user->password !== bin2hex(random_bytes(32));
+        
+        if (count($linkedProviders) === 1 && !$hasPassword) {
+            return redirect()->route('profile.index')
+                ->withErrors(['oauth' => 'Cannot unlink ' . ucfirst($provider) . ' as it is your only authentication method. Please set a password first.']);
+        }
+
+        // Unlink the provider
+        if ($user->unlinkOAuthProvider($provider)) {
+            return redirect()->route('profile.index')
+                ->with('message', ucfirst($provider) . ' has been successfully unlinked from your account.')
+                ->with('refresh_oauth', true);
+        } else {
+            return redirect()->route('profile.index')
+                ->withErrors(['oauth' => 'Failed to unlink ' . ucfirst($provider) . '. Please try again.']);
+        }
     }
 }

@@ -179,6 +179,18 @@
                        class="list-group-item list-group-item-action py-2 @if(request()->routeIs('accounts.*')) active @endif">
                         <i class="fas fa-users fa-fw me-3"></i><span>Groups & Accounts</span>
                     </a>
+                    <a href="/admin/oauth-invites"
+
+                       data-mdb-ripple-init
+                       class="list-group-item list-group-item-action py-2 @if(request()->routeIs('admin.oauth-invites.*')) active @endif">
+                        <i class="fas fa-envelope fa-fw me-3"></i><span>OAuth Invites</span>
+                    </a>
+                    <a href="/admin/user-approvals"
+
+                       data-mdb-ripple-init
+                       class="list-group-item list-group-item-action py-2 @if(request()->routeIs('admin.user-approvals.*')) active @endif">
+                        <i class="fas fa-user-check fa-fw me-3"></i><span>User Approvals</span>
+                    </a>
                 @endcan
             @endcan
 

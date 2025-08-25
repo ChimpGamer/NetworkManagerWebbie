@@ -81,7 +81,7 @@
                         </form>
                         
                         <!-- OAuth Login Section -->
-                        @if(config('services.google.client_id') || config('services.github.client_id') || config('services.discord.client_id'))
+                        @if(config('oauth.enabled') && (config('services.google.client_id') || config('services.github.client_id') || config('services.discord.client_id')))
                             <div class="oauth-section mt-4">
                                 <div class="text-center mb-3">
                                     <span class="text-muted">Or continue with</span>
@@ -98,19 +98,19 @@
                                 @endif
                                 
                                 <div class="d-grid gap-2">
-                                    @if(config('services.google.client_id'))
+                                    @if(config('services.google.client_id') && config('oauth.providers.google.enabled'))
                                         <a href="{{ route('oauth.redirect', 'google') }}{{ config('oauth.registration.mode') === 'invite_only' && request('invite_code') ? '?invite_code=' . request('invite_code') : '' }}" 
                                            class="btn btn-{{ \App\Http\Controllers\Webpanel\OAuthController::getProviderButtonColor('google') }} btn-sm oauth-btn" data-provider="google">
                                             <i class="fab fa-google me-2"></i> Google
                                         </a>
                                     @endif
-                                    @if(config('services.github.client_id'))
+                                    @if(config('services.github.client_id') && config('oauth.providers.github.enabled'))
                                         <a href="{{ route('oauth.redirect', 'github') }}{{ config('oauth.registration.mode') === 'invite_only' && request('invite_code') ? '?invite_code=' . request('invite_code') : '' }}" 
                                            class="btn btn-{{ \App\Http\Controllers\Webpanel\OAuthController::getProviderButtonColor('github') }} btn-sm oauth-btn" data-provider="github">
                                             <i class="fab fa-github me-2"></i> GitHub
                                         </a>
                                     @endif
-                                    @if(config('services.discord.client_id'))
+                                    @if(config('services.discord.client_id') && config('oauth.providers.discord.enabled'))
                                         <a href="{{ route('oauth.redirect', 'discord') }}{{ config('oauth.registration.mode') === 'invite_only' && request('invite_code') ? '?invite_code=' . request('invite_code') : '' }}" 
                                            class="btn btn-{{ \App\Http\Controllers\Webpanel\OAuthController::getProviderButtonColor('discord') }} btn-sm oauth-btn" data-provider="discord">
                                             <i class="fab fa-discord me-2"></i> Discord
@@ -119,18 +119,49 @@
                                 </div>
                                 
                                 @if(config('oauth.registration.mode') === 'invite_only')
+                                    <div class="text-center mt-2">
+                                        <small class="text-muted oauth-notice" style="display: none;">Please enter an invitation code to enable OAuth login</small>
+                                    </div>
+                                @endif
+                                
+                                @if(config('oauth.registration.mode') === 'invite_only')
                                     <script>
                                     document.addEventListener('DOMContentLoaded', function() {
                                         const inviteInput = document.getElementById('invite_code');
                                         const oauthBtns = document.querySelectorAll('.oauth-btn');
+                                        const oauthNotice = document.querySelector('.oauth-notice');
                                         
                                         function updateOAuthLinks() {
                                             const inviteCode = inviteInput.value.trim();
+                                            const hasInviteCode = inviteCode.length > 0;
+                                            
                                             oauthBtns.forEach(btn => {
                                                 const provider = btn.dataset.provider;
-                                                const baseUrl = `{{ url('/auth') }}/${provider}/redirect`;
-                                                btn.href = inviteCode ? `${baseUrl}?invite_code=${encodeURIComponent(inviteCode)}` : baseUrl;
+                                                const baseUrl = `{{ url('/auth') }}/${provider}`;
+                                                
+                                                if (hasInviteCode) {
+                                                    // Enable button
+                                                    btn.href = `${baseUrl}?invite_code=${encodeURIComponent(inviteCode)}`;
+                                                    btn.classList.remove('disabled');
+                                                    btn.style.pointerEvents = 'auto';
+                                                    btn.style.opacity = '1';
+                                                    btn.removeAttribute('tabindex');
+                                                    btn.removeAttribute('aria-disabled');
+                                                } else {
+                                                    // Disable button
+                                                    btn.href = '#';
+                                                    btn.classList.add('disabled');
+                                                    btn.style.pointerEvents = 'none';
+                                                    btn.style.opacity = '0.6';
+                                                    btn.setAttribute('tabindex', '-1');
+                                                    btn.setAttribute('aria-disabled', 'true');
+                                                }
                                             });
+                                            
+                                            // Show/hide notice
+                                            if (oauthNotice) {
+                                                oauthNotice.style.display = hasInviteCode ? 'none' : 'block';
+                                            }
                                         }
                                         
                                         inviteInput.addEventListener('input', updateOAuthLinks);

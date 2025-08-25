@@ -125,7 +125,7 @@ class SecurityLogger
             
             // Path traversal
             '/\.\.\//',
-            '/\.\.\\\\//',
+            '/\.\.\\\\\//',
             
             // Command injection
             '/;\s*(cat|ls|pwd|whoami|id|uname)/i',
