@@ -129,6 +129,12 @@ class OAuthController extends Controller
                 $request->session()->forget('oauth_invite_code');
             }
             
+            // Check if invite code is required for new registrations
+            if (!$request->has('invite_code') && config('oauth.registration.mode') === 'invite_only') {
+                return redirect()->route('auth.login')
+                    ->withErrors(['oauth' => 'An invitation code is required to register with OAuth. Please contact an administrator.']);
+            }
+            
             // New user registration - check restrictions
             $restrictionCheck = $this->checkRegistrationRestrictions($oauthUser, $request);
             if ($restrictionCheck !== true) {

@@ -209,12 +209,12 @@
                                     <div class="row text-center">
                                         <div class="col-6">
                                             <div class="border-end">
-                                                <h4 class="text-primary">{{ $user->created_at->diffInDays() }}</h4>
+                                                <h4 class="text-primary">{{ floor($user->created_at->diffInDays()) }}</h4>
                                                 <small class="text-muted">Days Since Registration</small>
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <h4 class="text-info">{{ $user->last_login ? $user->last_login->diffInDays() : 'Never' }}</h4>
+                                            <h4 class="text-info">{{ $user->last_login ? floor($user->last_login->diffInDays()) : 'Never' }}</h4>
                                             <small class="text-muted">Days Since Last Login</small>
                                         </div>
                                     </div>

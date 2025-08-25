@@ -34,15 +34,19 @@ final class AccountsTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('username')
-            ->add('usergroup');
+            ->add('usergroup')
+            ->add('username_link', function (User $user) {
+                return '<a href="/admin/user-approvals/' . $user->id . '" style="color: inherit; text-decoration: none;">' . $user->username . '</a>';
+            });
     }
 
     public function columns(): array
     {
         return [
-            Column::make('User', 'username')
+            Column::make('User', 'username_link', 'username')
                 ->searchable()
-                ->sortable(),
+                ->sortable()
+                ->bodyAttribute('style="cursor: pointer;"'),
 
             Column::make('Group', 'usergroup')
                 ->searchable()
@@ -58,11 +62,10 @@ final class AccountsTable extends PowerGridComponent
     {
         return [
             Button::add('info')
-                ->attributes(['data-mdb-ripple-init' => '', 'data-mdb-modal-init' => '', 'data-mdb-target' => '#showAccountModal'])
                 ->slot('<i class="material-icons text-info">info</i>')
                 ->id()
                 ->class('bg-transparent border-0')
-                ->dispatch('info', ['rowId' => $row->id]),
+                ->attributes(['onclick' => "window.location.href='/admin/user-approvals/{$row->id}'"]),
             Button::add('edit')
                 ->attributes(['data-mdb-ripple-init' => '', 'data-mdb-modal-init' => '', 'data-mdb-target' => '#editAccountModal'])
                 ->slot('<i class="material-icons text-warning">edit</i>')

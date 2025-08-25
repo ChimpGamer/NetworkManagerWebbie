@@ -120,7 +120,7 @@
                                 
                                 @if(config('oauth.registration.mode') === 'invite_only')
                                     <div class="text-center mt-2">
-                                        <small class="text-muted oauth-notice" style="display: none;">Please enter an invitation code to enable OAuth login</small>
+                                        <small class="text-muted oauth-notice" style="display: none;">Invitation code required for new registrations. Existing users can login without a code.</small>
                                     </div>
                                 @endif
                                 
@@ -139,26 +139,20 @@
                                                 const provider = btn.dataset.provider;
                                                 const baseUrl = `{{ url('/auth') }}/${provider}`;
                                                 
+                                                // Always enable OAuth buttons - backend will handle existing users
                                                 if (hasInviteCode) {
-                                                    // Enable button
                                                     btn.href = `${baseUrl}?invite_code=${encodeURIComponent(inviteCode)}`;
-                                                    btn.classList.remove('disabled');
-                                                    btn.style.pointerEvents = 'auto';
-                                                    btn.style.opacity = '1';
-                                                    btn.removeAttribute('tabindex');
-                                                    btn.removeAttribute('aria-disabled');
                                                 } else {
-                                                    // Disable button
-                                                    btn.href = '#';
-                                                    btn.classList.add('disabled');
-                                                    btn.style.pointerEvents = 'none';
-                                                    btn.style.opacity = '0.6';
-                                                    btn.setAttribute('tabindex', '-1');
-                                                    btn.setAttribute('aria-disabled', 'true');
+                                                    btn.href = baseUrl;
                                                 }
+                                                btn.classList.remove('disabled');
+                                                btn.style.pointerEvents = 'auto';
+                                                btn.style.opacity = '1';
+                                                btn.removeAttribute('tabindex');
+                                                btn.removeAttribute('aria-disabled');
                                             });
                                             
-                                            // Show/hide notice
+                                            // Show/hide notice based on invite code
                                             if (oauthNotice) {
                                                 oauthNotice.style.display = hasInviteCode ? 'none' : 'block';
                                             }
