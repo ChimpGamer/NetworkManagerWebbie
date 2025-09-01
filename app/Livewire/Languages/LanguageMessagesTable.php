@@ -5,6 +5,7 @@ namespace App\Livewire\Languages;
 use App\Models\Language;
 use App\Models\LanguageMessage;
 use Illuminate\Database\Eloquent\Builder;
+use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
@@ -41,6 +42,7 @@ final class LanguageMessagesTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('key')
             ->add('message')
+            //->add('message', fn (LanguageMessage $model) => $model->message)
             ->add('plugin');
     }
 
@@ -53,13 +55,16 @@ final class LanguageMessagesTable extends PowerGridComponent
 
             Column::make('Message', 'message')
                 ->sortable()
-                ->searchable()
-                ->editOnClick(hasPermission: auth()->user()->can('edit_languages')),
+                ->searchable(),
+                //->editOnClick(hasPermission: auth()->user()->can('edit_languages')),
 
             Column::make('Plugin', 'plugin')
                 ->sortable()
                 ->searchable()
                 ->hidden(isForceHidden: false),
+
+            Column::action('Action')
+                ->headerAttribute('text-center'),
         ];
     }
 
@@ -72,8 +77,21 @@ final class LanguageMessagesTable extends PowerGridComponent
         ];
     }
 
+    public function actions(LanguageMessage $row): array
+    {
+        return [
+            Button::add('edit')
+                ->attributes(['data-mdb-ripple-init' => '', 'data-mdb-modal-init' => '', 'data-mdb-target' => '#editLanguageMessageModal'])
+                ->slot('<i class="material-icons text-warning">edit</i>')
+                ->can(auth()->user()->can('edit_languages'))
+                ->id()
+                ->class('bg-transparent border-0')
+                ->dispatch('edit', ['languageMessage' => $row])
+        ];
+    }
+
     public function onUpdatedEditable(string|int $id, string $field, string $value): void
     {
-        LanguageMessage::query()->find($id)->update([$field => e($value)]);
+        LanguageMessage::query()->find($id)->update([$field => $value]);
     }
 }
