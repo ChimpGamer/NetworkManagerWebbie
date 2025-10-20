@@ -50,6 +50,7 @@ final class PlayersTable extends PowerGridComponent
                 return TimeUtils::formatTimestamp($item->lastlogin);
             })
             ->add('online')
+            ->add('country')
             ->add('online_label', function ($item) {
                 if ($item->online) {
                     return '<i class="fas fa-check-circle fa-lg text-success"></i>';
@@ -84,6 +85,13 @@ final class PlayersTable extends PowerGridComponent
             Column::make(__('player.players.table.columns.last-login'), 'lastlogin')
                 ->sortable()
                 ->searchable()
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
+
+            Column::make('Country', 'country')
+                ->sortable()
+                ->searchable()
+                ->hidden(true, false)
                 ->headerAttribute('text-center')
                 ->bodyAttribute('text-center'),
 
