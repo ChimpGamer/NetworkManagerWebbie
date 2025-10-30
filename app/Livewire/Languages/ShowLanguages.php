@@ -31,6 +31,12 @@ class ShowLanguages extends Component
         ];
     }
 
+    protected array $messageRules = [
+        'key' => 'required|string|unique:language_messages,key|max:64',
+        'plugin' => 'required|string|max:36',
+        'version' => 'required|string|max:8',
+    ];
+
     public function mount(): void
     {
         $this->defaultLanguage = Language::getByName(Value::getValueByVariable('setting_language_default')->value);
@@ -107,11 +113,7 @@ class ShowLanguages extends Component
 
     public function addLanguageMessage(): void
     {
-        $validatedData = $this->validate([
-            'key' => 'required|string|unique:language_messages,key',
-            'plugin' => 'required|string',
-            'version' => 'required|string',
-        ]);
+        $validatedData = $this->validate($this->messageRules);
 
         foreach (Language::all() as $language) {
             LanguageMessage::insert([
