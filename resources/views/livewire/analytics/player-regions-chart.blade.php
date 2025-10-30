@@ -4,19 +4,17 @@
             <div x-init="loadCountriesChart" id="countries"></div>
         </div>
         <div class="col-8">
-            <div x-init="loadPlayerRegionsChart" id="map"></div>
+            <div x-init="await loadPlayerRegionsChart" id="map"></div>
         </div>
     </div>
 </div>
 
 @assets
 <script src="https://code.highcharts.com/maps/modules/map.js"></script>
-<script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
 @endassets
 
 @script
 <script>
-    const data = @js($this->mapData);
     const countryNames = @js($this->countryNames);
     const countryPlayers = @js($this->countryPlayers);
     Highcharts.setOptions({
@@ -90,46 +88,51 @@
         });
     }
 
-    window.loadPlayerRegionsChart = () => {
-        Highcharts.mapChart('map', {
-            chart: {
-                map: 'custom/world',
-                backgroundColor: 'transparent',
-                animation: false
-            },
-            title: {
-                text: '',
-                align: 'left'
-            },
-            legend: {
-                enabled: false
-            },
-            credits: {
-                enabled: false
-            },
-            tooltip: {
-                backgroundColor: '#FFFFFF',
-                borderColor: '#FFFFFF',
-                borderRadius: 2,
-                borderWidth: 1
-            },
-            mapNavigation: {
-                enabled: false,
-                buttonOptions: {
-                    verticalAlign: 'bottom'
-                }
-            },
-            series: [{
-                name: 'Players',
-                joinBy: ['iso-a2', 'code'],
-                data: data,
-                color: '#2196F3',
-                tooltip: {
-                    pointFormat: '<b>{point.name}</b>: {point.z} players',
-                    headerFormat: ''
-                }
-            }]
-        });
+    window.loadPlayerRegionsChart = async () => {
+        await fetch('https://code.highcharts.com/mapdata/custom/world.geo.json')
+            .then(response => response.json())
+            .then(mapData => {
+                const data = @js($this->mapData);
+                Highcharts.mapChart('map', {
+                    chart: {
+                        map: mapData,
+                        backgroundColor: 'transparent',
+                        animation: false
+                    },
+                    title: {
+                        text: '',
+                        align: 'left'
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#FFFFFF',
+                        borderColor: '#FFFFFF',
+                        borderRadius: 2,
+                        borderWidth: 1
+                    },
+                    mapNavigation: {
+                        enabled: false,
+                        buttonOptions: {
+                            verticalAlign: 'bottom'
+                        }
+                    },
+                    series: [{
+                        name: 'Players',
+                        joinBy: ['iso-a2', 'code'],
+                        data: data,
+                        color: '#2196F3',
+                        tooltip: {
+                            pointFormat: '<b>{point.name}</b>: {point.z} players',
+                            headerFormat: ''
+                        }
+                    }]
+                });
+            })
     };
 </script>
 @endscript
