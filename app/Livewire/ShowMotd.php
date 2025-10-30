@@ -47,7 +47,7 @@ class ShowMotd extends Component
         $validatedData = $this->validate();
         $expires = empty($validatedData['expires']) ? null : $validatedData['expires'];
 
-        MOTD::create([
+        $motd = MOTD::create([
             'text' => $validatedData['text'],
             'description' => $validatedData['description'],
             'customversion' => $validatedData['customversion'],
@@ -56,7 +56,7 @@ class ShowMotd extends Component
             'maintenance_mode' => $validatedData['maintenance_mode'],
             'enabled' => $validatedData['enabled'],
         ]);
-        session()->flash('message', 'Successfully Created Motd');
+        session()->flash('message', 'Successfully Created Motd '.$motd->id);
         Log::driver('auditlog')->info(Auth::user()->username.' created a new MOTD');
         $this->closeModal('addMotdModal');
     }
