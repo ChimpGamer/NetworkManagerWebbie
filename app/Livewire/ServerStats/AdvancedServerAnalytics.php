@@ -17,48 +17,50 @@ use Livewire\Component;
 #[Lazy]
 class AdvancedServerAnalytics extends Component
 {
+     private const GLOBAL_SERVER_NAME = 'global';
+    private const ANALYTICS_PERIOD_DAYS = 30;
 
-    function getServerData(array $serversData, string $name): ?ServerData
+    /**
+     * Finds a server in the server collection by name
+     */
+    private function findServerByName(array $serversData, string $name): ?ServerData
     {
-        foreach ($serversData as $server) {
-            if ($server->getName() == $name) {
-                return $server;
-            }
-        }
-        return null;
+        return collect($serversData)
+            ->first(fn(ServerData $server) => $server->getName() === $name);
     }
 
-    function addData(ServerData $server, int $count, float $time): void
+    /**
+     * Adds time series data point to server statistics
+     */
+    private function addTimeSeriesData(ServerData $server, int $playerCount, float $timestamp): void
     {
-        $server->data[] = new TimeData($time, $count);
+        $server->data[] = new TimeData($timestamp, $playerCount);
     }
 
     #[Computed]
     public function data(): Collection
     {
         $serversData = array();
-        $res = ServerAnalytic::select('TIME', 'SERVERS', 'ONLINE')->where('TIME', '>', Carbon::now()->subDays(30)->getTimestampMs())
+        $analyticsData = ServerAnalytic::select('TIME', 'SERVERS', 'ONLINE')
+            ->where('TIME', '>', Carbon::now()->subDays(self::ANALYTICS_PERIOD_DAYS)->getTimestampMs())
             ->orderBy('TIME')
             ->get();
 
-        foreach ($res as $item) {
-            $serversJson = json_decode($item->SERVERS, true);
-            $time = $item->TIME;
-            $globalServerData = $this->getServerData($serversData, 'global');
-            if ($globalServerData == null) {
-                $globalServerData = new ServerData('global');
-                $serversData[] = $globalServerData;
-            }
-            $this->addData($globalServerData, $item->ONLINE, $time);
 
-            foreach ($serversJson as $server) {
-                $serverName = $server['name'];
-                $serverData = $this->getServerData($serversData, $serverName);
-                if ($serverData == null) {
-                    $serverData = new ServerData($serverName);
-                    $serversData[] = $serverData;
-                }
-                $this->addData($serverData, $server['players'], $time);
+        foreach ($analyticsData as $analytic) {
+            $serversJson = json_decode($analytic->SERVERS, true);
+            $timestamp = $analytic->TIME;
+
+            $globalServer = $this->findServerByName($serversData, self::GLOBAL_SERVER_NAME)
+                ?? $serversData[] = new ServerData(self::GLOBAL_SERVER_NAME);
+            $this->addTimeSeriesData($globalServer, $analytic->ONLINE, $timestamp);
+
+            foreach ($serversJson as $serverInfo) {
+                $serverName = $serverInfo['name'];
+
+                $server = $this->findServerByName($serversData, $serverName)
+                    ?? $serversData[] = new ServerData($serverName);
+                $this->addTimeSeriesData($server, $serverInfo['players'], $timestamp);
             }
         }
 

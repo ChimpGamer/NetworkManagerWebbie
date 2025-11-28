@@ -3,9 +3,8 @@
 namespace App\Livewire\Dashboard;
 
 use App\Models\Player\Player;
-use App\Models\Player\Session;
-use App\Models\ServerAnalytic;
 use Carbon\Carbon;
+use Illuminate\View\View;
 use Livewire\Attributes\Lazy;
 use Livewire\Component;
 
@@ -15,13 +14,13 @@ class MapChart extends Component
 
     public $data;
 
-    public function mount()
+    public function mount(): void
     {
         $this->data = Player::selectRaw('DISTINCT(country) as code, count(*) AS z')
             ->where('firstlogin', '>', Carbon::now()->subDays(60)->getTimestampMs())->groupBy('code')->get();
     }
 
-    public function placeholder()
+    public function placeholder(): string
     {
         return <<<'HTML'
             <div>
@@ -34,7 +33,7 @@ class MapChart extends Component
         HTML;
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.dashboard.map-chart');
     }

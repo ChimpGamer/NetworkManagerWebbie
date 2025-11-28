@@ -63,8 +63,12 @@
             },
 
             yAxis: {
-                title: '',
+                title: {
+                    text: ''
+                },
                 gridLineDashStyle: 'dot',
+                gridLineWidth: 0,
+                minorGridLineWidth: 0,
                 labels: {
                     style: {
                         color: '#B6B6B6',
@@ -73,6 +77,8 @@
                 }
             },
             xAxis: {
+                gridLineWidth: 0,
+                minorGridLineWidth: 0,
                 labels: {
                     style: {
                         color: '#B6B6B6',
@@ -80,7 +86,9 @@
                     }
                 }
             },
-
+            time: {
+                useUTC: false
+            },
             plotOptions: {
                 series: {
                     marker: {
