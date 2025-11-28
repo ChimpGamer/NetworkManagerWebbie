@@ -44,10 +44,10 @@ final class PlayersTable extends PowerGridComponent
             ->add('uuid', function ($item) {
                 return Blade::render('<x-player-link uuid="'.$item->uuid.'" username="'.$item->username.'" />');
             })
-            ->add('firstlogin', function ($item) {
+            ->add('firstlogin_formatted', function ($item) {
                 return TimeUtils::formatTimestamp($item->firstlogin);
             })
-            ->add('lastlogin', function ($item) {
+            ->add('lastlogin_formatted', function ($item) {
                 return TimeUtils::formatTimestamp($item->lastlogin);
             })
             ->add('online')
@@ -77,13 +77,13 @@ final class PlayersTable extends PowerGridComponent
                 ->searchable()
                 ->hidden(),
 
-            Column::make(__('player.players.table.columns.first-login'), 'firstlogin')
+            Column::make(__('player.players.table.columns.first-login'), 'firstlogin_formatted', 'firstlogin')
                 ->sortable()
                 ->searchable()
                 ->headerAttribute('text-center')
                 ->bodyAttribute('text-center'),
 
-            Column::make(__('player.players.table.columns.last-login'), 'lastlogin')
+            Column::make(__('player.players.table.columns.last-login'), 'lastlogin_formatted', 'lastlogin')
                 ->sortable()
                 ->searchable()
                 ->headerAttribute('text-center')
