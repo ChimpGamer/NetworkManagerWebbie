@@ -28,9 +28,9 @@ class ShowMotd extends Component
     public bool $enabled;
 
     protected array $rules = [
-        'text' => 'required|string',
+        'text' => 'required|string|max:384',
         'description' => 'string',
-        'customversion' => 'string',
+        'customversion' => 'string|max:128',
         'faviconUrl' => 'url:http,https|ends_with:png,jpg',
         'expires' => 'date|nullable',
         'maintenance_mode' => 'required|boolean',
