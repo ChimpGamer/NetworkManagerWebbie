@@ -98,6 +98,7 @@ class Value extends Model
         'setting_nickname_use_filter',
         'setting_notify_banned_player_join',
         'module_friends',
+        'setting_friends_return_to_settings_after_toggle'
     ];
 
     public function isBooleanSetting(): bool
