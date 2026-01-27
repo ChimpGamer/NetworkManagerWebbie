@@ -60,7 +60,7 @@
                 animation: true,
                 valueDecimals: false,
                 formatter: function () {
-                    return '<b>' + this.y + '</b> Players from <b>' + this.x + '</b>';
+                    return '<b>' + this.y + '</b> Players from <b>' + this.key + '</b>';
                 }
             },
             plotOptions: {
