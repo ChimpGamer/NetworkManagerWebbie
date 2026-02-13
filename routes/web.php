@@ -22,8 +22,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServerStatsController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Webpanel\AccountsController;
-use App\Http\Controllers\Webpanel\AuthenticationController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Features;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,13 +42,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::controller(AuthenticationController::class)->group(function () {
-    Route::get('/login', 'loginView')->name('auth.login');
-    /*Route::get('/logincreatetest', 'logincreatetestView')->name('auth.logincreatetest');
-    Route::post('/logincreatetest', 'logincreatetest')->name('logincreatetest');*/
-    Route::post('/login', 'login')->name('login');
-    Route::post('/logout', 'logout')->name('logout');
-});
+Route::get('/login', function () { return view('auth.login'); })->name('login');
 
 Route::resource('servers', ServersController::class);
 Route::resource('announcements', AnnouncementsController::class);
@@ -89,3 +83,13 @@ Route::prefix('tickets')->controller(TicketsController::class)->group(function (
     Route::get('/', 'index')->name('tickets');
     Route::get('/{ticket}', 'ticket')->name('tickets.ticket');
 });
+
+if (Features::enabled(Features::twoFactorAuthentication())) {
+    Route::get('/two-factor-challenge', function () {
+        return view('auth.two-factor-challenge');
+    })->middleware(['guest'])->name('two-factor.login');
+}
+
+Route::get('/user/confirm-password', function () {
+    return view('auth.passwords.confirm');
+})->middleware('auth')->name('password.confirm');

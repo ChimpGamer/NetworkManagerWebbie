@@ -41,5 +41,8 @@
                 </form>
             </div>
         </div>
+        <div class="col-md-6">
+            @livewire('profile.two-factor-settings')
+        </div>
     </div>
 </div>

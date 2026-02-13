@@ -8,13 +8,13 @@
                     <img src="{{ asset('images/full_logo.png') }}" class="img-fluid" alt="Logo">
                 </div>
 
-                @error('login')
-                <div class="row mb-0" style="padding-left: 12px; padding-right: 12px">
-                    <span class="alert alert-danger">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                </div>
-                @enderror
+                @if($errors->any())
+                    <div class="row mb-0" style="padding-left: 12px; padding-right: 12px">
+                        <span class="alert alert-danger">
+                            <strong>{{ $errors->first() }}</strong>
+                        </span>
+                    </div>
+                @endif
                 <div class="card">
                     <div class="card-header">{{ __('Login') }}</div>
 
