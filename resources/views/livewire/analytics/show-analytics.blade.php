@@ -54,7 +54,3 @@
         </x-card-table>
     </section>
 </div>
-
-@section('script')
-    <script src="https://code.highcharts.com/stock/highstock.js"></script>
-@endsection

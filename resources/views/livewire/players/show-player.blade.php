@@ -273,10 +273,6 @@
     </div>
 </div>
 
-@assets
-<script src="https://code.highcharts.com/stock/highstock.js"></script>
-@endassets
-
 @script
 <script>
     Highcharts.setOptions({

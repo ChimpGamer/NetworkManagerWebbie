@@ -15,8 +15,3 @@
         </div>
     </section>
 </div>
-
-@section('script')
-    <script src="https://code.highcharts.com/stock/highstock.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-@endsection
