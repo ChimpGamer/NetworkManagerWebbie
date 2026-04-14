@@ -35,6 +35,7 @@ class Announcement extends Model
         'sound',
         'server',
         'condition',
+        'interval',
         'expires',
         'permission',
         'active'
