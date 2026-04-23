@@ -49,6 +49,12 @@
                             <button class="dropdown-item" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
                         </form>
                     </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <div class="dropdown-center">
+                            <p class="text-center fw-bold">NetworkManager {{ config('app.version') }}</p>
+                        </div>
+                    </li>
                 </ul>
             </li>
         </ul>
