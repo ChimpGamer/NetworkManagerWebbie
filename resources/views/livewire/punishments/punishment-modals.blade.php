@@ -100,7 +100,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Type</label>
-                        <select name="type" class="form-control" wire:model.change="typeId">
+                        <select name="type" class="form-control" wire:model.live.change="typeId">
                             @foreach($this->punishmentTypeCases as $punishmentType)
                                 <option
                                     value="{{$punishmentType}}">{{ $punishmentType->name() }}</option>
@@ -195,7 +195,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="bold">Type</label>
-                        <select name="type" class="form-control" wire:model.change="typeId">
+                        <select name="type" class="form-control" wire:model.live.change="typeId">
                             @foreach($this->punishmentTypeCases as $punishmentType)
                                 <option
                                     value="{{$punishmentType}}">{{ $punishmentType->name() }}</option>
