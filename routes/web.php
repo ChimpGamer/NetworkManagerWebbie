@@ -40,8 +40,6 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 });*/
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Route::controller(AuthenticationController::class)->group(function () {
     Route::get('/login', 'loginView')->name('auth.login');
     /*Route::get('/logincreatetest', 'logincreatetestView')->name('auth.logincreatetest');
@@ -50,42 +48,50 @@ Route::controller(AuthenticationController::class)->group(function () {
     Route::post('/logout', 'logout')->name('logout');
 });
 
-Route::resource('servers', ServersController::class);
-Route::resource('announcements', AnnouncementsController::class);
-Route::resource('punishments', PunishmentsController::class);
-Route::resource('punishment_templates', PunishmentTemplatesController::class);
-Route::resource('analytics', AnalyticsController::class);
-Route::resource('players', PlayersController::class);
-Route::resource('settings', SettingsController::class);
-Route::resource('languages', LanguagesController::class);
-Route::resource('profile', ProfileController::class);
-Route::resource('motd', MOTDController::class);
-Route::resource('filter', FilterController::class);
-Route::resource('commandblocker', CommandBlockerController::class);
-Route::resource('helpop', HelpOPController::class);
-Route::resource('accounts', AccountsController::class);
-Route::resource('chat', ChatController::class);
-Route::resource('tags', TagsController::class);
-Route::resource('chatlogs', ChatLogsController::class);
-Route::resource('commandlog', CommandLogController::class);
-Route::resource('serverstats', ServerStatsController::class);
+Route::middleware('auth')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
-//Route::resource('permissions', PermissionsController::class);
-Route::prefix('permissions')->controller(PermissionsController::class)->group(function () {
-    Route::get('/', 'index')->name('permissions');
-    Route::prefix('group/{group}')->group(function () {
-        Route::get('permissions', 'groupPermissions')->name('permissions.group.permissions');
-        Route::get('prefixes', 'groupPrefixes')->name('permissions.group.prefixes');
-        Route::get('suffixes', 'groupSuffixes')->name('permissions.group.suffixes');
-        Route::get('parents', 'groupParents')->name('permissions.group.parents');
-        Route::get('members', 'groupMembers')->name('permissions.group.members');
+    foreach ([
+        'servers' => ServersController::class,
+        'announcements' => AnnouncementsController::class,
+        'punishments' => PunishmentsController::class,
+        'punishment_templates' => PunishmentTemplatesController::class,
+        'analytics' => AnalyticsController::class,
+        'players' => PlayersController::class,
+        'settings' => SettingsController::class,
+        'languages' => LanguagesController::class,
+        'profile' => ProfileController::class,
+        'motd' => MOTDController::class,
+        'filter' => FilterController::class,
+        'commandblocker' => CommandBlockerController::class,
+        'helpop' => HelpOPController::class,
+        'accounts' => AccountsController::class,
+        'chat' => ChatController::class,
+        'tags' => TagsController::class,
+        'chatlogs' => ChatLogsController::class,
+        'commandlog' => CommandLogController::class,
+        'serverstats' => ServerStatsController::class,
+    ] as $uri => $controller) {
+        Route::resource($uri, $controller);
+    }
+
+    Route::prefix('permissions')->controller(PermissionsController::class)->group(function () {
+        Route::get('/', 'index')->name('permissions');
+        Route::prefix('group/{group}')->whereNumber('group')->group(function () {
+            Route::get('permissions', 'groupPermissions')->name('permissions.group.permissions');
+            Route::get('prefixes', 'groupPrefixes')->name('permissions.group.prefixes');
+            Route::get('suffixes', 'groupSuffixes')->name('permissions.group.suffixes');
+            Route::get('parents', 'groupParents')->name('permissions.group.parents');
+            Route::get('members', 'groupMembers')->name('permissions.group.members');
+        });
+        Route::prefix('player/{player}')->whereUuid('player')->group(function () {
+            Route::get('permissions', 'playerPermissions')->name('permissions.player.permissions');
+            Route::get('groups', 'playerGroups')->name('permissions.player.groups');
+        });
     });
-    Route::prefix('player/{player}')->group(function () {
-        Route::get('permissions', 'playerPermissions')->name('permissions.player.permissions');
-        Route::get('groups', 'playerGroups')->name('permissions.player.groups');
+
+    Route::prefix('tickets')->controller(TicketsController::class)->group(function () {
+        Route::get('/', 'index')->name('tickets');
+        Route::get('/{ticket}', 'ticket')->whereNumber('ticket')->name('tickets.ticket');
     });
-});
-Route::prefix('tickets')->controller(TicketsController::class)->group(function () {
-    Route::get('/', 'index')->name('tickets');
-    Route::get('/{ticket}', 'ticket')->name('tickets.ticket');
 });

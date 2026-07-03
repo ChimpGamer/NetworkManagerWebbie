@@ -14,6 +14,4 @@ use Addons\UltimateTags\App\Http\Controllers\UltimateTagsController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('ultimatetags', UltimateTagsController::class)->names('ultimatetags');
-});
+Route::middleware('auth')->resource('ultimatetags', UltimateTagsController::class)->names('ultimatetags');

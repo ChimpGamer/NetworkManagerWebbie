@@ -14,6 +14,4 @@ use Addons\UltimateJQMessages\App\Http\Controllers\UltimateJQMessagesController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('ultimatejqmessages', UltimateJQMessagesController::class)->names('ultimatejqmessages');
-});
+Route::middleware('auth')->resource('ultimatejqmessages', UltimateJQMessagesController::class)->names('ultimatejqmessages');
