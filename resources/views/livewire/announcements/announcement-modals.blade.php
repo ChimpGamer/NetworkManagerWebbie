@@ -21,7 +21,7 @@
         <p>{{  $condition  }}</p>
     </div>
     <div class="mb-3">
-        <label>Interval (Overwrites global interval)</label>
+        <strong>Interval (Overwrites global interval)</strong>
         <p>{{  $interval  }}</p>
     </div>
     <div class="mb-3">
