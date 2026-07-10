@@ -38,7 +38,10 @@ final class ChatWithReceiverTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return ChatMessage::query()->with('player')->where('type', $this->type);
+        return ChatMessage::query()
+            ->select(['id', 'uuid', 'receiver', 'type', 'message', 'server', 'time'])
+            ->with('player', fn ($query) => $query->select('uuid', 'username'))
+            ->with('player')->where('type', $this->type);
     }
 
     public function relationSearch(): array
