@@ -14,7 +14,7 @@ class Sidebar extends Component
 
     public function mount(): void
     {
-        $this->values = Value::where('value', 1)->get();
+        $this->values = Value::select('variable')->where('value', 1)->get();
     }
 
     #[Computed]
