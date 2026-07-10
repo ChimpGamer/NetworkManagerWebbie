@@ -34,7 +34,7 @@ final class LanguageMessagesTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return LanguageMessage::query()->where('language_id', $this->language->id);
+        return LanguageMessage::query()->select(['id', 'key', 'message', 'plugin'])->where('language_id', $this->language->id);
     }
 
     public function fields(): PowerGridFields
