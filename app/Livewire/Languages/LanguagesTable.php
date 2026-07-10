@@ -31,7 +31,7 @@ final class LanguagesTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Language::query();
+        return Language::query()->select('id', 'name');
     }
 
     public function fields(): PowerGridFields
