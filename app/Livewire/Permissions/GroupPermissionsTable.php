@@ -29,7 +29,9 @@ final class GroupPermissionsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return GroupPermission::query()->where('groupid', $this->groupId);
+        return GroupPermission::query()
+            ->select('id', 'permission', 'server', 'world', 'expires')
+            ->where('groupid', $this->groupId);
     }
 
     public function fields(): PowerGridFields
