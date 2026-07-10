@@ -41,8 +41,13 @@ final class LanguageMessagesTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('key')
-            ->add('message')
-            //->add('message', fn (LanguageMessage $model) => $model->message)
+            ->add('message', function (LanguageMessage $model) {
+                $message = $model->message;
+                if (strlen($message) > 100) {
+                    return '<span x-data x-tooltip.raw="' . e($message) . '">' . e(str($message)->limit()) . '</span>';
+                }
+                return e($message);
+            })
             ->add('plugin');
     }
 
