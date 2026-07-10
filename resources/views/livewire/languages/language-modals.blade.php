@@ -13,7 +13,7 @@
 </x-modal>
 
 <!-- Delete Language Modal -->
-<x-modal id="deleteFilterModal" title="Delete Language Confirm">
+<x-modal id="deleteLanguageModal" title="Delete Language Confirm">
     <p>Are you sure you want to delete the {{ $name }} language?</p>
     <x-slot name="footer">
         <button type="button" wire:click="closeModal" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
