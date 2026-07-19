@@ -75,7 +75,7 @@ class CommandLogTable extends PowerGridComponent
 
             Column::make(__('command-log.table.columns.time'), 'time_formatted', 'time')
                 ->sortable()
-                ->searchableRaw('DATE_FORMAT(FROM_UNIXTIME(time/ 1000), "%Y-%m-%d") like ?'),
+                ->searchableRaw('DATE_FORMAT(FROM_UNIXTIME(time/ 1000), "%Y-%m-%d %H:%i:%s") like ?'),
         ];
     }
 
