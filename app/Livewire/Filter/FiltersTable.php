@@ -15,6 +15,7 @@ final class FiltersTable extends PowerGridComponent
     public string $tableName = 'filters-table';
 
     public string $sortDirection = 'desc';
+    private int $wordLimit = 80;
 
     public function setUp(): array
     {
@@ -44,7 +45,13 @@ final class FiltersTable extends PowerGridComponent
                 }
             })
             ->add('name')
-            ->add('word')
+            ->add('word', function (Filter $model) {
+                $message = $model->word;
+                if (strlen($message) > $this->wordLimit) {
+                    return '<span x-data x-tooltip.raw="' . e($message) . '">' . e(str($message)->limit($this->wordLimit)) . '</span>';
+                }
+                return e($message);
+            })
             ->add('replacement')
             ->add('server');
     }

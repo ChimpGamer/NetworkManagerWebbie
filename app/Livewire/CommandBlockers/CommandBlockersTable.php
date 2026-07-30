@@ -16,6 +16,8 @@ final class CommandBlockersTable extends PowerGridComponent
 
     public string $sortDirection = 'desc';
 
+    private int $commandLimit = 75;
+
     public function setUp(): array
     {
         return [
@@ -44,7 +46,13 @@ final class CommandBlockersTable extends PowerGridComponent
                 }
             })
             ->add('name')
-            ->add('command')
+            ->add('command', function (CommandBlocker $model) {
+                $message = $model->command;
+                if (strlen($message) > $this->commandLimit) {
+                    return '<span x-data x-tooltip.raw="' . e($message) . '">' . e(str($message)->limit($this->commandLimit)) . '</span>';
+                }
+                return e($message);
+            })
             ->add('server')
             ->add('bypasspermission_label', function (CommandBlocker $model) {
                 if ($model->bypasspermission) {
