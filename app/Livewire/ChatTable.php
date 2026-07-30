@@ -6,7 +6,7 @@ use App\Models\Chat\ChatMessage;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Blade;
-use Livewire\Attributes\Reactive;
+use Livewire\Attributes\Modelable;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
@@ -19,7 +19,7 @@ final class ChatTable extends PowerGridComponent
 
     public string $sortDirection = 'desc';
 
-    #[Reactive]
+    #[Modelable]
     public int $type;
 
     public function setUp(): array

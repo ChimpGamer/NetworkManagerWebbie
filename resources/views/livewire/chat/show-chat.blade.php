@@ -34,9 +34,9 @@
 
         <div class="card-body border-0 shadow table-responsive">
             @if ($this->type == 2 || $this->type === 6)
-                <livewire:chat-with-receiver-table type="{{ $this->type }}" />
+                @livewire('chat-with-receiver-table', ['type' => $this->type])
             @else
-                <livewire:chat-table type="{{ $this->type }}" />
+                @livewire('chat-table', ['type' => $this->type])
             @endif
         </div>
     </div>
