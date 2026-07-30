@@ -88,6 +88,8 @@ final class ChatTable extends PowerGridComponent
     public function filters(): array
     {
         return [
+            Filter::inputText('player')
+                ->filterRelation('player', 'username'),
             Filter::inputText('server'),
         ];
     }
