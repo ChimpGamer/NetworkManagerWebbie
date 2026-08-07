@@ -44,7 +44,7 @@ class HomeController extends Controller
         $start = Carbon::today()->getTimestampMs();
         $time = Session::select('time')->where('start', '>', $start)->sum('time');
         try {
-            return CarbonInterval::millisecond($time)->cascade()->forHumans(['short' => true, 'options' => 0]);
+            return CarbonInterval::millisecond($time)->cascade()->forHumans(['short' => true, 'minimumUnit' => 'minute', 'options' => 0]);
         } catch (\Exception $ex) {
             return $ex->getMessage();
         }
