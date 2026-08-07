@@ -50,7 +50,7 @@ class CommandLogTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('username', function (CommandLog $model) {
+            ->add('player', function (CommandLog $model) {
                 return Blade::render('<x-player-link uuid="'.$model->uuid.'" username="'.$model->player->username.'" />');
             })
             ->add('command')
@@ -61,7 +61,7 @@ class CommandLogTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make(__('command-log.table.columns.username'), 'username')
+            Column::make(__('command-log.table.columns.username'), 'player', 'uuid')
                 ->sortable()
                 ->searchable(),
 
@@ -75,13 +75,16 @@ class CommandLogTable extends PowerGridComponent
 
             Column::make(__('command-log.table.columns.time'), 'time_formatted', 'time')
                 ->sortable()
-                ->searchableRaw('DATE_FORMAT(FROM_UNIXTIME(time/ 1000), "%Y-%m-%d") like ?'),
+                ->searchableRaw('DATE_FORMAT(FROM_UNIXTIME(time/ 1000), "%Y-%m-%d %H:%i:%s") like ?'),
         ];
     }
 
     public function filters(): array
     {
         return [
+            Filter::inputText('player')
+                ->filterRelation('player', 'username'),
+            Filter::inputText('command'),
             Filter::inputText('server'),
         ];
     }

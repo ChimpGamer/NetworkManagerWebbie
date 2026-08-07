@@ -45,7 +45,7 @@
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete {{ $memberName }} as a member from {{ $groupName }}?</p>
+                <p>Are you sure you want to delete {{ $memberName }} as a member from the permission group {{ $groupName }}?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" wire:click="closeModal" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>

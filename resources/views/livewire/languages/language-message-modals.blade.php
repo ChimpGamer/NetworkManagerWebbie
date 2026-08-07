@@ -2,7 +2,7 @@
 <x-modal id="editLanguageMessageModal" title="Edit Language Message {{ $languageMessageKey }}" :hasForm="true" wire:submit.prevent="updateLanguageMessage">
     <div class="mb-3">
         <label class="bold">Message</label>
-        <input type="text" wire:model.live="languageMessage" class="form-control">
+        <textarea wire:model.live="languageMessage" class="form-control"></textarea>
         @error('languageMessage') <span class="text-danger">{{ $message }}</span> @enderror
     </div>
     <x-slot name="footer">

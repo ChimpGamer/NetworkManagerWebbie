@@ -4,7 +4,7 @@
             <div class="row mt-2 align-items-center text-center">
                 <div class="col-md-auto me-auto">
                     <label>Type:
-                        <select class="form-select form-select-sm" style="display: inherit; width: auto" wire:model.change="type">
+                        <select class="form-select form-select-sm" style="display: inherit; width: auto" wire:model.change.live="type">
                             <option value="1">Chat</option>
                             @can('view_chat_pm')
                                 <option value="2">PM</option>
@@ -34,9 +34,9 @@
 
         <div class="card-body border-0 shadow table-responsive">
             @if ($this->type == 2 || $this->type === 6)
-                <livewire:chat-with-receiver-table type="{{ $this->type }}" />
+                @livewire('chat-with-receiver-table', ['type' => $this->type])
             @else
-                <livewire:chat-table type="{{ $this->type }}" />
+                @livewire('chat-table', ['type' => $this->type])
             @endif
         </div>
     </div>

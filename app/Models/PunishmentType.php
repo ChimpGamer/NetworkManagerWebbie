@@ -86,4 +86,9 @@ enum PunishmentType: int
             PunishmentType::NOTE => 'Note',
         };
     }
+
+    public function labelPowergridFilter(): string
+    {
+        return $this->name();
+    }
 }

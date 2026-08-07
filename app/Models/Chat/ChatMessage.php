@@ -35,6 +35,7 @@ class ChatMessage extends Model
     protected $fillable = [
         'id',
         'uuid',
+        'receiver',
         'type',
         'message',
         'server',
@@ -70,6 +71,11 @@ class ChatMessage extends Model
     public function player(): HasOne
     {
         return $this->hasOne(Player::class, 'uuid', 'uuid');
+    }
+
+    public function receiverPlayer(): HasOne
+    {
+        return $this->hasOne(Player::class, 'uuid', 'receiver');
     }
 
     /*protected function time(): Attribute

@@ -28,7 +28,7 @@ final class AnnouncementsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Announcement::query();
+        return Announcement::query()->select(['id', 'message', 'expires', 'active']);
     }
 
     public function fields(): PowerGridFields

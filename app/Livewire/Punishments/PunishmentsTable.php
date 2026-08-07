@@ -31,7 +31,8 @@ final class PunishmentsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Punishment::query()->with('player');
+        return Punishment::query()->with('player', fn ($query) => $query->select('uuid', 'username'))
+            ->select(['id', 'type', 'uuid', 'punisher', 'time', 'end', 'reason', 'active']);
     }
 
     public function relationSearch(): array

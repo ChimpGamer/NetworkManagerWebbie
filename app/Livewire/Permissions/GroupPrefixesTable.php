@@ -29,7 +29,9 @@ final class GroupPrefixesTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return GroupPrefix::query()->where('groupid', $this->groupId);
+        return GroupPrefix::query()
+            ->select('id', 'prefix', 'server')
+            ->where('groupid', $this->groupId);
     }
 
     public function fields(): PowerGridFields

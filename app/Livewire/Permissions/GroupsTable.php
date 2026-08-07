@@ -27,7 +27,7 @@ final class GroupsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Group::query();
+        return Group::query()->select('id', 'name', 'ladder', 'rank');
     }
 
     public function fields(): PowerGridFields

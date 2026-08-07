@@ -29,7 +29,9 @@ final class GroupSuffixesTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return GroupSuffix::query()->where('groupid', $this->groupId);
+        return GroupSuffix::query()
+            ->select('id', 'suffix', 'server')
+            ->where('groupid', $this->groupId);
     }
 
     public function fields(): PowerGridFields
