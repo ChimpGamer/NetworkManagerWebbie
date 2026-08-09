@@ -13,6 +13,12 @@
         <p>{{ $last_login }}</p>
     </div>
     <div class="mb-3">
+        <strong>2FA Enabled</strong>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" @checked(old('twoFactorAuthEnabled', $twoFactorAuthEnabled)) disabled />
+        </div>
+    </div>
+    <div class="mb-3">
         <strong>Active</strong>
         <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" @checked(old('is_active', $is_active)) disabled />

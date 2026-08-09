@@ -29,6 +29,7 @@ class ShowAccounts extends Component
 
     public string $last_login = '0';
 
+    public bool $twoFactorAuthEnabled = false;
     public bool $is_active = false;
 
     protected function rules(): array
@@ -94,6 +95,7 @@ class ShowAccounts extends Component
         $this->user_group = $user->usergroup;
         $this->last_login = $user->last_login;
         $this->is_active = $user->is_active;
+        $this->twoFactorAuthEnabled = ! is_null($user->two_factor_confirmed_at);
     }
 
     #[On('edit')]
