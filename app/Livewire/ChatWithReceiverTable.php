@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
-use Livewire\Attributes\Reactive;
+use Livewire\Attributes\Modelable;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Facades\PowerGrid;
@@ -22,7 +22,7 @@ final class ChatWithReceiverTable extends PowerGridComponent
 
     public string $sortDirection = 'desc';
 
-    #[Reactive]
+    #[Modelable]
     public int $type;
 
     public function setUp(): array
@@ -38,13 +38,20 @@ final class ChatWithReceiverTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return ChatMessage::query()->with('player')->where('type', $this->type);
+        return ChatMessage::query()
+            ->select(['id', 'uuid', 'receiver', 'type', 'message', 'server', 'time'])
+            ->with('player', fn ($query) => $query->select('uuid', 'username'))
+            ->with('receiverPlayer', fn ($query) => $query->select('uuid', 'username'))
+            ->where('type', $this->type);
     }
 
     public function relationSearch(): array
     {
         return [
             'player' => [
+                'username',
+            ],
+            'receiverPlayer' => [
                 'username',
             ],
         ];
@@ -54,14 +61,18 @@ final class ChatWithReceiverTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('player', fn (ChatMessage $model) => Blade::render('<x-player-link uuid="'.$model->uuid.'" username="'.$model->player->username.'" />'))
-            ->add('receiver', function (ChatMessage $model) {
+            ->add('receiverPlayer', function (ChatMessage $model) {
                 if (is_null($model->receiver)) {
-                    $message = $model->message;
+                    $username = strtok($model->message, ' ');
+                    $uuid = Player::getUUID($username);
 
-                    return strtok($message, ' ');
+                    if ($uuid) {
+                        return Blade::render('<x-player-link uuid="'.$uuid.'" username="'.$username.'" />');
+                    }
+
+                    return $username;
                 } else {
-                    // Change this later
-                    return Player::getName($model->receiver);
+                    return Blade::render('<x-player-link uuid="'.$model->receiver.'" username="'.$model->receiverPlayer->username.'" />');
                 }
             })
             ->add('type_name', fn (ChatMessage $model) => $model->type->name())
@@ -87,7 +98,9 @@ final class ChatWithReceiverTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('Receiver', 'receiver', 'receiver'),
+            Column::make('Receiver', 'receiverPlayer', 'receiver')
+                ->sortable()
+                ->searchable(),
 
             Column::make('Type', 'type_name', 'type')
                 ->sortable()
@@ -112,6 +125,8 @@ final class ChatWithReceiverTable extends PowerGridComponent
         return [
             Filter::inputText('player')
                 ->filterRelation('player', 'username'),
+            Filter::inputText('receiver')
+                ->filterRelation('receiverPlayer', 'username'),
             Filter::inputText('server'),
         ];
     }

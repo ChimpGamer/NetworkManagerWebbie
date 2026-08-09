@@ -23,7 +23,7 @@
     <x-modal id="punishPlayerModal" title="Punish Player" :hasForm="true" wire:submit.prevent="punish">
         <div class="mb-3">
             <label class="bold">Type</label>
-            <select name="type" class="form-control" wire:model.change="punishment.typeId">
+            <select name="type" class="form-control" wire:model.live.change="punishment.typeId">
                 @foreach($this->punishmentTypeCases as $punishmentType)
                     <option
                         value="{{$punishmentType}}">{{ $punishmentType->name() }}</option>
@@ -272,10 +272,6 @@
         </div>
     </div>
 </div>
-
-@assets
-<script src="https://code.highcharts.com/stock/highstock.js"></script>
-@endassets
 
 @script
 <script>

@@ -30,7 +30,10 @@ final class GroupParentsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return GroupParent::query()->where('groupid', $this->groupId);
+        return GroupParent::query()
+            ->select(['id', 'groupid', 'parentgroupid'])
+            ->with('parentGroup', fn ($query) => $query->select(['id', 'name']))
+            ->where('groupid', $this->groupId);
     }
 
     public function fields(): PowerGridFields

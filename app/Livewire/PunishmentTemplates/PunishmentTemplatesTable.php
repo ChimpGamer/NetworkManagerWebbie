@@ -3,6 +3,7 @@
 namespace App\Livewire\PunishmentTemplates;
 
 use App\Models\PunishmentTemplate;
+use App\Models\PunishmentType;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -84,6 +85,8 @@ final class PunishmentTemplatesTable extends PowerGridComponent
     {
         return [
             Filter::inputText('name'),
+            Filter::enumSelect('type_name', 'type')
+                ->dataSource(PunishmentType::cases()),
             Filter::inputText('reason'),
         ];
     }

@@ -9,10 +9,6 @@
     </div>
 </div>
 
-@assets
-<script src="https://code.highcharts.com/maps/modules/map.js"></script>
-@endassets
-
 @script
 <script>
     const countryNames = @js($this->countryNames);

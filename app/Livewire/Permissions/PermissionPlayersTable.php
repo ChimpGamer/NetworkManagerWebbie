@@ -32,7 +32,7 @@ final class PermissionPlayersTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return PermissionPlayer::query();
+        return PermissionPlayer::query()->select('uuid', 'name', 'prefix', 'suffix');
     }
 
     public function fields(): PowerGridFields

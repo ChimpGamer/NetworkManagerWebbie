@@ -34,15 +34,20 @@ final class LanguageMessagesTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return LanguageMessage::query()->where('language_id', $this->language->id);
+        return LanguageMessage::query()->select(['id', 'key', 'message', 'plugin'])->where('language_id', $this->language->id);
     }
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
             ->add('key')
-            ->add('message')
-            //->add('message', fn (LanguageMessage $model) => $model->message)
+            ->add('message', function (LanguageMessage $model) {
+                $message = $model->message;
+                if (strlen($message) > 100) {
+                    return '<span x-data x-tooltip.raw="' . e($message) . '">' . e(str($message)->limit()) . '</span>';
+                }
+                return e($message);
+            })
             ->add('plugin');
     }
 

@@ -29,7 +29,10 @@ final class PermissionPlayerGroupsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return GroupMember::query()->where('playeruuid', $this->uuid);
+        return GroupMember::query()
+            ->select(['id', 'playeruuid', 'groupid', 'server', 'expires'])
+            ->with('group', fn ($query) => $query->select('id', 'name'))
+            ->where('playeruuid', $this->uuid);
     }
 
     public function fields(): PowerGridFields
