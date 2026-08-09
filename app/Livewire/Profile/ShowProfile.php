@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Livewire\Component;
 
-class ShowChangePassword extends Component
+class ShowProfile extends Component
 {
     public ?string $oldPassword;
 
@@ -47,6 +47,6 @@ class ShowChangePassword extends Component
 
     public function render(): View
     {
-        return view('livewire.profile.show-change-password');
+        return view('livewire.profile.show-profile');
     }
 }

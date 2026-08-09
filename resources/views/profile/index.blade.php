@@ -3,7 +3,7 @@
 @section('content')
 
     <div>
-        @livewire('profile.show-change-password')
+        @livewire('profile.show-profile')
     </div>
 
 @endsection
