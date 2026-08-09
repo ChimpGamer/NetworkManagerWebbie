@@ -9,6 +9,7 @@
         "ext-pdo": "*",
         "ext-pdo_mysql": "*",
         "guzzlehttp/guzzle": "^7.2",
+        "laravel/fortify": "^1.37",
         "laravel/framework": "^13.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^3.0",
