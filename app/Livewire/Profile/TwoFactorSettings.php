@@ -4,7 +4,6 @@ namespace App\Livewire\Profile;
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Laravel\Fortify\Actions\ConfirmPassword;
 use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\EnableTwoFactorAuthentication;
@@ -36,9 +35,9 @@ class TwoFactorSettings extends Component
     {
         $user = Auth::user();
 
-        $this->enabled = ! is_null($user->two_factor_secret);
-        $this->qrCode = $this->enabled ? $user->twoFactorQrCodeSvg() : null;
-        $this->twoFactorSecret = $this->enabled && $this->confirming ? decrypt($user->two_factor_secret) : null;
+        $this->enabled = ! is_null($user->two_factor_confirmed_at);
+        $this->qrCode = ! is_null($user->two_factor_secret) ? $user->twoFactorQrCodeSvg() : null;
+        $this->twoFactorSecret = ! is_null($user->two_factor_secret) && $this->confirming ? decrypt($user->two_factor_secret) : null;
     }
 
     public function enable(EnableTwoFactorAuthentication $enable): void

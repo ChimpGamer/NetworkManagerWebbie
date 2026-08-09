@@ -22,8 +22,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServerStatsController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Webpanel\AccountsController;
-use App\Http\Controllers\Webpanel\AuthenticationController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Features;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,16 +40,13 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 });*/
 
-Route::controller(AuthenticationController::class)->group(function () {
-    Route::get('/login', 'loginView')->name('auth.login');
-    /*Route::get('/logincreatetest', 'logincreatetestView')->name('auth.logincreatetest');
-    Route::post('/logincreatetest', 'logincreatetest')->name('logincreatetest');*/
-    Route::post('/login', 'login')->name('login');
-    Route::post('/logout', 'logout')->name('logout');
-});
+Route::get('/login', function () { return view('auth.login'); })->name('login');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/user/confirm-password', function () {
+        return view('auth.passwords.confirm');
+    })->name('password.confirm');
 
     foreach ([
         'servers' => ServersController::class,
@@ -95,3 +92,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/{ticket}', 'ticket')->whereNumber('ticket')->name('tickets.ticket');
     });
 });
+
+if (Features::enabled(Features::twoFactorAuthentication())) {
+    Route::get('/two-factor-challenge', function () {
+        return view('auth.two-factor-challenge');
+    })->middleware('guest')->name('two-factor.login');
+}

@@ -33,11 +33,19 @@
         <div class="card-body">
 
             @if (! $enabled)
-                <p class="text-muted">Two-factor authentication adds an extra layer of security to your account.</p>
+                @if ($confirming)
+                    <p class="text-muted">Please confirm your 2FA setup.</p>
 
-                <button class="btn btn-primary" data-mdb-modal-init data-mdb-target="#enable2faModal">
-                    Enable Two-Factor Authentication
-                </button>
+                    <button class="btn btn-primary" data-mdb-modal-init data-mdb-target="#confirm2faModal">
+                        Confirm Two-Factor Authentication
+                    </button>
+                @else
+                    <p class="text-muted">Two-factor authentication adds an extra layer of security to your account.</p>
+
+                    <button class="btn btn-primary" data-mdb-modal-init data-mdb-target="#enable2faModal">
+                        Enable Two-Factor Authentication
+                    </button>
+                @endif
             @else
                 <div class="mb-3">
                     <strong>Status:</strong> <span class="text-success">Enabled</span>
