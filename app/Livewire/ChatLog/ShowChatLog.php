@@ -44,7 +44,7 @@ class ShowChatLog extends Component
                 $query->where('message', 'like', '%'.$this->search.'%')
                     ->orWhere('server', 'like', '%'.$this->search.'%');
             })
-            ->orderBy('id', 'DESC')
+            ->orderByDesc('id')
             ->limit(100)
             ->paginate($this->per_page);
 

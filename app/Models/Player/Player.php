@@ -184,7 +184,7 @@ class Player extends Model
     {
         $result = DB::table('logins')
             ->selectRaw('DISTINCT(version) as version, count(*) AS count, COUNT(*) * 100.0 / sum(COUNT(*)) over() as percentage')
-            ->orderBy('count', 'desc')
+            ->orderByDesc('count')
             ->groupBy('version')
             ->get();
 
@@ -204,7 +204,7 @@ class Player extends Model
     {
         $result = Login::selectRaw('vhost, COUNT(DISTINCT uuid, vhost) as count, COUNT(DISTINCT uuid, vhost) * 100.0 / sum(COUNT(DISTINCT uuid, vhost)) over() as percentage')
             ->groupBy('vhost')
-            ->orderBy('count', 'desc')
+            ->orderByDesc('count')
             ->get();
 
         return $result->map(function ($item) {
@@ -285,7 +285,7 @@ class Player extends Model
             ->selectRaw('DISTINCT(version) as version, count(*) AS count, COUNT(*) * 100.0 / sum(COUNT(*)) over() as percentage')
             ->where('version', '<>', 0)
             ->where('uuid', $this->uuid)
-            ->orderBy('count', 'DESC')
+            ->orderByDesc('count')
             ->groupBy('version')
             ->get();
 
