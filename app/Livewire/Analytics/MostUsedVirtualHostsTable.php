@@ -26,7 +26,7 @@ final class MostUsedVirtualHostsTable extends PowerGridComponent
     {
         return Login::query()->selectRaw('vhost, COUNT(DISTINCT uuid, vhost) as count, COUNT(DISTINCT uuid, vhost) * 100.0 / sum(COUNT(DISTINCT uuid, vhost)) over() as percentage')
             ->groupBy('vhost')
-            ->orderBy('count', 'desc')
+            ->orderByDesc('count')
             ->get();
     }
 

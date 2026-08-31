@@ -26,7 +26,7 @@ class ShowTickets extends Component
             $query->where('title', 'like', '%'.$this->search.'%')
                 ->orWhere('message', 'like', '%'.$this->search.'%');
         })
-            ->orderBy('last_update', 'DESC')
+            ->orderByDesc('last_update')
             ->paginate($this->per_page);
 
         return view('livewire.tickets.show-tickets')->with('tickets', $tickets);

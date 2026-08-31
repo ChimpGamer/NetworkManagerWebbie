@@ -26,7 +26,7 @@ final class MostPlayedVersionsTable extends PowerGridComponent
     {
         return Player::query()->selectRaw('DISTINCT(version) as version, count(*) AS count, COUNT(*) * 100.0 / sum(COUNT(*)) over() as percentage')
             ->groupBy('version')
-            ->orderBy('count', 'desc')
+            ->orderByDesc('count')
             ->get();
     }
 

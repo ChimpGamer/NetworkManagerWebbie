@@ -21,7 +21,7 @@ class PlayerRegionsChart extends Component
     #[Computed]
     public function countriesData()
     {
-        return Player::selectRaw('DISTINCT(country) as country, count(*) AS count')->groupBy('country')->orderBy('count', 'DESC')->limit(15)->get();
+        return Player::selectRaw('DISTINCT(country) as country, count(*) AS count')->groupBy('country')->orderByDesc('count')->limit(15)->get();
     }
 
     #[Computed]

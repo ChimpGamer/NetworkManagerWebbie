@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'version' => '3.6.0',
+    'version' => '3.7.0',
 
     /*
     |--------------------------------------------------------------------------
@@ -205,6 +205,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        App\Providers\FortifyServiceProvider::class,
     ],
 
     /*

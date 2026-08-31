@@ -27,7 +27,8 @@ final class AccountsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return User::query();
+        return User::query()
+            ->select('id', 'username', 'usergroup');
     }
 
     public function fields(): PowerGridFields

@@ -32,7 +32,7 @@ final class HelpOPTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return HelpOP::query()
-            ->with('player')
+            ->with('player', fn ($query) => $query->select('uuid', 'username'))
             ->selectRaw('nm_helpop.id, nm_helpop.requester, nm_helpop.message, nm_helpop.server, FROM_UNIXTIME(nm_helpop.time / 1000) as time');
     }
 

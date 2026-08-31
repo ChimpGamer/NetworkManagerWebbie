@@ -5,7 +5,6 @@ namespace App\Livewire\Dashboard;
 use App\Models\Player\Player;
 use App\Models\Player\Session;
 use App\Models\ServerAnalytic;
-use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
@@ -15,33 +14,36 @@ use Livewire\Component;
 class PlayerStatisticsChart extends Component
 {
     #[Computed]
-    public function newPlayers()
+    public function newPlayers(): array
     {
         return Player::selectRaw('cast(from_unixtime(firstlogin/1000) as date) as day, count(*) as amount')
-            ->where('firstlogin', '>', Carbon::now()->subDays(60)->getTimestampMs())->groupBy('day')->get()
-            ->map(function (Player $player) {
-                return [(float) strtotime($player->day) * 1000, (int) $player->amount];
-            });
+            ->where('firstlogin', '>', now()->subDays(60)->getTimestampMs())
+            ->groupBy('day')
+            ->get()
+            ->map(fn ($player) => [(float) strtotime($player->day) * 1000, (int) $player->amount])
+            ->all();
     }
 
     #[Computed]
-    public function sessions()
+    public function sessions(): array
     {
         return Session::selectRaw('cast(from_unixtime(start/1000) as date) as day, count(*) as amount')
-            ->where('start', '>', Carbon::now()->subDays(60)->getTimestampMs())->groupBy('day')->get()
-            ->map(function (Session $session) {
-                return [(float) strtotime($session->day) * 1000, (int) $session->amount];
-            });
+            ->where('start', '>', now()->subDays(60)->getTimestampMs())
+            ->groupBy('day')
+            ->get()
+            ->map(fn ($session) => [(float) strtotime($session->day) * 1000, (int) $session->amount])
+            ->all();
     }
 
     #[Computed]
-    public function playerPeak()
+    public function playerPeak(): array
     {
         return ServerAnalytic::selectRaw('cast(from_unixtime(time/1000) as date) as day, MAX(online) as amount')
-            ->where('time', '>', Carbon::now()->subDays(60)->getTimestampMs())->groupBy('day')->get()
-            ->map(function (ServerAnalytic $serverAnalytic) {
-                return [(float) strtotime($serverAnalytic->day) * 1000, (int) $serverAnalytic->amount];
-            });
+            ->where('time', '>', now()->subDays(60)->getTimestampMs())
+            ->groupBy('day')
+            ->get()
+            ->map(fn ($serverAnalytic) => [(float) strtotime($serverAnalytic->day) * 1000, (int) $serverAnalytic->amount])
+            ->all();
     }
 
     public function placeholder(): string

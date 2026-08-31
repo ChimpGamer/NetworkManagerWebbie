@@ -31,7 +31,9 @@ final class PlayerSessionsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Session::query()->where('uuid', $this->player->uuid);
+        return Session::query()
+            ->select('start', 'end', 'time', 'ip', 'version')
+            ->where('uuid', $this->player->uuid);
     }
 
     public function relationSearch(): array
