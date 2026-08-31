@@ -13,13 +13,14 @@ use Livewire\Component;
 class OnlinePlayersChart extends Component
 {
     #[Computed]
-    public function data()
+    public function data(): array
     {
-        return ServerAnalytic::select('TIME', 'ONLINE')->where('TIME', '>', Carbon::now()->subDays(30)->getTimestampMs())
+        return ServerAnalytic::query()
+            ->where('TIME', '>', now()->subDays(30)->getTimestampMs())
             ->orderBy('TIME')
-            ->get()->map(function (ServerAnalytic $serverAnalytic) {
-                return array_values($serverAnalytic->attributesToArray()); // Remove keys (no idea if there is a better way)
-            });
+            ->get(['TIME', 'ONLINE'])
+            ->map(fn ($analytic) => [$analytic->TIME, $analytic->ONLINE])
+            ->all();
     }
 
     public function placeholder(): string
