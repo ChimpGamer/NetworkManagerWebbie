@@ -3,7 +3,6 @@
 namespace App\Livewire\Dashboard;
 
 use App\Models\Player\Player;
-use Carbon\Carbon;
 use Illuminate\View\View;
 use Livewire\Attributes\Lazy;
 use Livewire\Component;
@@ -17,7 +16,7 @@ class MapChart extends Component
     public function mount(): void
     {
         $this->data = Player::selectRaw('DISTINCT(country) as code, count(*) AS z')
-            ->where('firstlogin', '>', Carbon::now()->subDays(60)->getTimestampMs())->groupBy('code')->get();
+            ->where('firstlogin', '>', now()->subDays(60)->getTimestampMs())->groupBy('code')->get();
     }
 
     public function placeholder(): string

@@ -30,7 +30,8 @@ final class FiltersTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Filter::query();
+        return Filter::query()
+            ->select('id', 'name', 'word', 'replacement', 'server', 'enabled');
     }
 
     public function fields(): PowerGridFields

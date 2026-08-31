@@ -31,7 +31,7 @@ final class TicketsTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Ticket::query()->with('creatorPlayer');
+        return Ticket::query()->with('creatorPlayer', fn ($query) => $query->select('uuid', 'username'));
     }
 
     public function relationSearch(): array

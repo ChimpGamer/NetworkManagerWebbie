@@ -3,7 +3,6 @@
 namespace App\Livewire\Analytics;
 
 use App\Models\ServerAnalytic;
-use Carbon\Carbon;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;

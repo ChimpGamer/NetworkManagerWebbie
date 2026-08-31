@@ -34,7 +34,7 @@ class CommandLogTable extends PowerGridComponent
     public function datasource(): Builder
     {
         return CommandLog::query()
-            ->with('player')
+            ->with('player', fn ($query) => $query->select('uuid', 'username'))
             ->selectRaw('nm_command_log.uuid, nm_command_log.command, nm_command_log.server, FROM_UNIXTIME(nm_command_log.time / 1000) as time');
     }
 
