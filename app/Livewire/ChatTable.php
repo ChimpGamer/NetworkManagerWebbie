@@ -81,7 +81,7 @@ final class ChatTable extends PowerGridComponent
 
             Column::make('Time', 'time_formatted', 'time')
                 ->sortable()
-                ->searchable(),
+                ->searchableRaw('DATE_FORMAT(FROM_UNIXTIME(time/ 1000), "%Y-%m-%d %H:%i:%s") like ?'),
         ];
     }
 
@@ -90,6 +90,7 @@ final class ChatTable extends PowerGridComponent
         return [
             Filter::inputText('player')
                 ->filterRelation('player', 'username'),
+            Filter::inputText('message'),
             Filter::inputText('server'),
         ];
     }

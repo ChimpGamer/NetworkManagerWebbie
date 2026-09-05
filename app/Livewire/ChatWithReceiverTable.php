@@ -116,7 +116,7 @@ final class ChatWithReceiverTable extends PowerGridComponent
 
             Column::make('Time', 'time_formatted', 'time')
                 ->sortable()
-                ->searchable(),
+                ->searchableRaw('DATE_FORMAT(FROM_UNIXTIME(time/ 1000), "%Y-%m-%d %H:%i:%s") like ?'),
         ];
     }
 
@@ -127,6 +127,7 @@ final class ChatWithReceiverTable extends PowerGridComponent
                 ->filterRelation('player', 'username'),
             Filter::inputText('receiver')
                 ->filterRelation('receiverPlayer', 'username'),
+            Filter::inputText('message'),
             Filter::inputText('server'),
         ];
     }
