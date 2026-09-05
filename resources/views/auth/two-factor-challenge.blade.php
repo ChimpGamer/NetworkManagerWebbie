@@ -27,7 +27,7 @@
                                 <label for="code" class="col-lg-4 col-form-label text-lg-end">Authentication Code</label>
 
                                 <div class="col-lg-8">
-                                    <input type="text" name="code" class="form-control  @error('code') is-invalid @enderror" autofocus>
+                                    <input type="text" name="code" placeholder="6-digit code" class="form-control @error('code') is-invalid @enderror" autocomplete="one-time-code" autofocus>
                                 </div>
                             </div>
 
