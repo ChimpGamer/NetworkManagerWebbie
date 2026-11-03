@@ -33,7 +33,7 @@ final class PunishmentsTable extends PowerGridComponent
     {
         return Punishment::query()
             ->with('player', fn ($query) => $query->select('uuid', 'username'))
-            ->select(['id', 'type', 'uuid', 'punisher', 'time', 'end', 'reason', 'active']);
+            ->select(['id', 'type', 'uuid', 'punisher', 'time', 'end', 'reason', 'active', 'unbanner', 'unbanreason']);
     }
 
     public function relationSearch(): array
@@ -75,7 +75,9 @@ final class PunishmentsTable extends PowerGridComponent
                 }
             })
             ->add('expires', fn ($item) => $item->expires())
-            ->add('reason');
+            ->add('reason')
+            ->add('unbanner', fn ($item) => $item->getUnbannerName())
+            ->add('unbanreason');
     }
 
     public function columns(): array
@@ -114,6 +116,16 @@ final class PunishmentsTable extends PowerGridComponent
             Column::make('Reason', 'reason')
                 ->sortable()
                 ->searchable(),
+
+            Column::make('Unbanner', 'unbanner')
+                ->sortable()
+                ->searchable()
+                ->hidden(true, false),
+
+            Column::make('Unban Reason', 'unbanreason')
+                ->sortable()
+                ->searchable()
+                ->hidden(true, false),
 
             Column::action('Action')
                 ->headerAttribute('text-center'),
